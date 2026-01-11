@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import { Heart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Property, formatPrice } from '@/lib/mockData';
-import { SeasonBadge } from './SeasonBadge';
+import { SeasonBadge } from '@/components/SeasonBadge';
 import { Button } from '@/components/ui/button';
 
 interface PropertyCardProps {

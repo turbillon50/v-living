@@ -9,7 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { SearchBar } from './SearchBar';
+import { SearchBar } from '@/components/SearchBar';
+import logoImage from '@assets/icon-192_1768122106997.png';
 
 export function Header() {
   const [location] = useLocation();
@@ -22,13 +23,14 @@ export function Header() {
         <div className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20">
           <div className="flex items-center justify-between h-20">
             <Link href="/" data-testid="link-home">
-              <div className="flex items-center gap-2 cursor-pointer">
-                <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">AL</span>
+              <div className="flex items-center gap-3 cursor-pointer">
+                <img src={logoImage} alt="VanDefi" className="w-10 h-10 rounded-lg object-cover" />
+                <div className="hidden sm:block">
+                  <span className="text-xl font-semibold text-foreground tracking-tight">
+                    VanDefi
+                  </span>
+                  <p className="text-[10px] text-muted-foreground -mt-0.5">All Global Holding LLC</p>
                 </div>
-                <span className="text-xl font-semibold text-primary hidden sm:block">
-                  all living
-                </span>
               </div>
             </Link>
 
