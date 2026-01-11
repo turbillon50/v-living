@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SearchBar } from '@/components/SearchBar';
-import logoImage from '@assets/icon-192_1768122106997.png';
+import logoImage from '@assets/download_1768122419192.jpg';
 
 export function Header() {
   const [location] = useLocation();
