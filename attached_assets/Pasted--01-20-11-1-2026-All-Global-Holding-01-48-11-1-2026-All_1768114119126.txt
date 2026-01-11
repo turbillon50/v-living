@@ -1,0 +1,127 @@
+[01:20, 11/1/2026] All Global Holding: …
+[01:48, 11/1/2026] All Global Holding: PROMPT — REPLIT DESIGN
+
+Design a web application UI almost identical in structure, navigation, and user experience to Airbnb, but adapted for a Fractional All Living Ownership platform.
+
+The platform allows users to browse, compare, and select living properties, but instead of booking nights, users acquire fractional ownership units with predefined usage weeks, seasonal value, and optional rental or investment use.
+
+The experience must feel instantly familiar to any Airbnb user, while the underlying logic represents shared ownership, not short-term rental.
+
+⸻
+
+SCALE & DATA MODEL (CRITICAL)
+	•	Start with 20 properties
+	•	Each property has 14 fractional units
+	•	Each fraction includes:
+	•	3 usage weeks per year
+	•	Usage modes:
+	•	Personal living
+	•	Investment
+	•	Rental
+	•	Season classification:
+	•	High season
+	•	Mid season
+	•	Low season
+	•	Design must scale visually to 50+ properties and 500+ fractions
+
+⸻
+
+NAVIGATION (AIRBNB-LIKE)
+	•	Top navigation identical in behavior to Airbnb:
+	•	Logo (left)
+	•	Central search bar:
+	•	Location
+	•	Season
+	•	Usage type
+	•	User menu (right), prepared for future access-by-code (private access)
+	•	Sticky header
+
+⸻
+
+1. EXPLORE / MARKETPLACE
+	•	Airbnb-style property grid
+	•	Optional map view
+	•	Filters:
+	•	Location
+	•	Season (High / Mid / Low)
+	•	Fraction availability
+	•	Usage type (Living / Investment / Rental)
+	•	Property cards show:
+	•	Large image
+	•	Location
+	•	“Fractions available”
+	•	Season indicator
+	•	Ownership starting point
+
+⸻
+
+2. PROPERTY DETAIL PAGE
+	•	Layout mirrors Airbnb listing page:
+	•	Full-width image gallery
+	•	Property title and location
+	•	Architectural and lifestyle description
+	•	Sidebar card (Airbnb booking card style), adapted to:
+	•	Fraction selector
+	•	Season selector
+	•	Usage mode selector
+	•	CTA: “View Fraction” or “Select Fraction”
+
+⸻
+
+3. FRACTION DETAIL PAGE
+	•	Airbnb-style flow, but focused on ownership:
+	•	Fraction ID
+	•	Ownership percentage
+	•	Assigned usage weeks
+	•	Season classification
+	•	Toggle between Personal / Rental / Investment
+	•	Pre-sale / Available / Reserved states
+	•	Fraction-specific image gallery
+	•	Clear, transparent rules section
+
+⸻
+
+4. SEASON & USAGE INTERFACE
+	•	Replace Airbnb date picker with:
+	•	Season selector
+	•	Week allocation calendar
+	•	Visual clarity for High / Mid / Low seasons
+	•	No overlap, no confusion
+
+⸻
+
+5. USER DASHBOARD
+	•	Airbnb-style dashboard layout
+	•	Shows:
+	•	Properties owned
+	•	Fractions owned
+	•	Assigned weeks
+	•	Upcoming usage
+	•	Rental / investment status (neutral, informational)
+
+⸻
+
+VISUAL STYLE
+	•	Extremely close to Airbnb aesthetic
+	•	Clean, modern, calm
+	•	White background, soft shadows
+	•	Large imagery
+	•	Rounded cards
+	•	Editorial, professional typography
+	•	No hype language
+	•	No crypto-style visuals
+
+⸻
+
+CONSTRAINTS
+	•	Design only (no code)
+	•	No backend assumptions
+	•	No financial promises
+	•	White-label ready
+	•	Prepared for future private access via access code
+
+⸻
+
+OUTPUT
+
+A high-fidelity UI design that feels almost indistinguishable from Airbnb, but clearly represents a Fractional All Living Ownership platform, ready for future authentication and private access layers.
