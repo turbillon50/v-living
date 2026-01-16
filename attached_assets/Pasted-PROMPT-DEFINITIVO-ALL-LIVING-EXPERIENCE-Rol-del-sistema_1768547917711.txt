@@ -1,0 +1,180 @@
+PROMPT DEFINITIVO — ALL LIVING EXPERIENCE
+
+Rol del sistema:
+Eres un arquitecto de producto Web3 + UX senior. Vas a transformar la aplicación actual “Analyzer” en el producto definitivo de ventas y experiencia de All Living dentro del ecosistema de All Global Holding.
+
+⸻
+
+1️⃣ IDENTIDAD Y RENOMBRE
+	•	Renombrar la aplicación a:
+All Living Experience
+(nombre corto visible: All Living)
+	•	Subtítulo fijo del producto:
+Fractional Experience
+	•	Esta aplicación es:
+	•	La experiencia principal tipo Airbnb
+	•	El módulo comercial y de ventas
+	•	El punto donde vive la experiencia real (no discurso)
+
+⸻
+
+2️⃣ LOGO (OBLIGATORIO DESDE EL INICIO)
+
+Generar y aplicar un logo Web3 minimalista con estas reglas:
+	•	Nombre: All Living
+	•	Concepto visual:
+	•	Un solo aro
+	•	Un círculo limpio que represente infinito
+	•	Sin cortes, sin doble líneas, sin íconos adicionales
+	•	Estilo:
+	•	Web3 / institucional / premium
+	•	Minimalista absoluto
+	•	Colores:
+	•	Preferente: monocromático (negro / blanco)
+	•	Debe funcionar en dark y light mode
+	•	Tipografía:
+	•	Sans serif moderna, limpia
+	•	El logo debe:
+	•	Verse al descargar la app
+	•	Verse en header
+	•	Verse como ícono de aplicación
+	•	Ser escalable
+
+⸻
+
+3️⃣ LIMPIEZA TOTAL (CRÍTICO)
+
+Eliminar completamente:
+	•	Textos genéricos
+	•	Secciones basura
+	•	Placeholders
+	•	Copy técnico innecesario
+	•	Todo lo que no venda experiencia
+
+Esta app no explica el holding, no explica cripto, no explica tokens.
+Eso vive en otros lados.
+
+⸻
+
+4️⃣ ESTRUCTURA PRINCIPAL (TIPO AIRBNB)
+
+Homepage con cards visuales grandes, táctiles, estilo Airbnb:
+
+Secciones iniciales (cards):
+	•	Villas
+	•	Yates
+	•	Experiencias
+	•	Comercial
+	•	Rewards & Benefits
+	•	Last Minute Access
+
+Cada card:
+	•	Imagen grande
+	•	Título claro
+	•	Sin texto largo
+	•	Click = profundiza
+
+⸻
+
+5️⃣ PROPIEDADES / EXPERIENCIAS (DINÁMICO)
+
+Modo CREADOR obligatorio:
+
+El creador puede subir contenido:
+	•	Arrastrando imágenes
+	•	Escribiendo:
+	•	Título
+	•	Ubicación
+	•	Descripción corta
+	•	Condiciones
+	•	Sin tocar código
+
+Cada propiedad / experiencia debe mostrar:
+	•	Galería visual
+	•	Ubicación
+	•	Tipo (villa, yate, comercial, etc.)
+	•	Botón: Seleccionar experiencia
+
+⸻
+
+6️⃣ FLUJO DE PRE-APARTADO (SIN PAGO)
+
+Cuando el usuario selecciona una experiencia:
+	1.	Mostrar calendario de 52 semanas
+	•	Semana 1 a Semana 52
+	2.	Reglas claras:
+	•	Elegir exactamente 3 semanas
+	•	No más, no menos
+	3.	Campo único:
+	•	Correo electrónico
+	4.	Confirmar pre-apartado
+
+Condiciones del pre-apartado:
+	•	Vigencia automática: 5 días
+	•	Sin pago
+	•	Sin wallet
+	•	Sin token
+	•	Sin compromiso
+
+Backend:
+	•	Registrar correo, semanas, timestamp
+	•	Liberación automática al día 5
+
+⸻
+
+7️⃣ COMUNICACIÓN (CLAVE)
+
+Después del pre-apartado:
+	•	El sistema prepara contacto humano
+	•	No explica procesos técnicos
+	•	El cierre siempre pasa por asesor
+
+Canales listos para integrar:
+	•	WhatsApp API
+	•	Asesor humano
+	•	Inteligencia Artificial (Alex) en modo guía
+
+⸻
+
+8️⃣ INTELIGENCIA ARTIFICIAL (ALEX)
+
+Alex vive aquí como:
+	•	Asistente contextual
+	•	Guía de experiencia
+	•	Respuesta clara, no ambigua
+
+Alex no:
+	•	Promete rendimientos
+	•	Da asesoría legal
+	•	Satura información
+
+⸻
+
+9️⃣ FILOSOFÍA DEL PRODUCTO
+
+All Living Experience:
+	•	No vende humo
+	•	No vende tokens
+	•	No vende discurso
+	•	Vende experiencia real
+	•	Ordena intención humana
+	•	Prepara conversaciones reales
+
+⸻
+
+10️⃣ RESULTADO FINAL ESPERADO
+
+Una aplicación:
+	•	Limpia
+	•	Elegante
+	•	Táctil
+	•	Tipo Airbnb
+	•	Fácil de escalar
+	•	Con modo creador
+	•	Con identidad clara
+	•	Con logo definitivo
+	•	Lista para crecer en capas
+
+⸻
+
+Fin del prompt.
