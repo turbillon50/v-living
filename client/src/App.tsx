@@ -5,8 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/Home";
 import PropertyDetail from "@/pages/PropertyDetail";
-import FractionDetail from "@/pages/FractionDetail";
-import Dashboard from "@/pages/Dashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -14,8 +12,6 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/property/:id" component={PropertyDetail} />
-      <Route path="/property/:propertyId/fraction/:fractionId" component={FractionDetail} />
-      <Route path="/dashboard" component={Dashboard} />
       <Route component={NotFound} />
     </Switch>
   );
