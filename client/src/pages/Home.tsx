@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { ChevronRight, Plus, X, Upload } from 'lucide-react';
+import { ChevronRight, Plus, X, Upload, Loader2 } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,16 +20,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { categories, properties as initialProperties, Property, Category } from '@/lib/mockData';
+import { categories, Category } from '@/lib/mockData';
+import { Property, InsertProperty } from '@shared/schema';
+import { getProperties, createProperty } from '@/lib/api';
 import { AlexAssistant } from '@/components/AlexAssistant';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Home() {
-  const [properties, setProperties] = useState<Property[]>(initialProperties);
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
   const [selectedCategory, setSelectedCategory] = useState<Category | 'All'>('All');
   const [showCreator, setShowCreator] = useState(false);
   
+  // Fetch properties from API
+  const { data: properties = [], isLoading } = useQuery({
+    queryKey: ['properties'],
+    queryFn: getProperties,
+  });
+
   // Creator Form State
-  const [newProp, setNewProp] = useState<Partial<Property>>({
+  const [newProp, setNewProp] = useState<Partial<InsertProperty>>({
     title: '',
     location: '',
     description: '',
@@ -37,27 +48,63 @@ export default function Home() {
     images: []
   });
 
+  // Create property mutation
+  const createMutation = useMutation({
+    mutationFn: createProperty,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['properties'] });
+      setShowCreator(false);
+      setNewProp({ title: '', location: '', description: '', conditions: [], category: 'Villas', images: [] });
+      toast({
+        title: "Success",
+        description: "Property created successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to create property",
+        variant: "destructive"
+      });
+    }
+  });
+
   const handleAddProperty = () => {
-    if (!newProp.title || !newProp.location) return;
+    if (!newProp.title || !newProp.location) {
+      toast({
+        title: "Missing fields",
+        description: "Please fill in title and location",
+        variant: "destructive"
+      });
+      return;
+    }
     
-    const property: Property = {
-      id: `custom-${Date.now()}`,
-      title: newProp.title || '',
-      location: newProp.location || '',
+    const propertyData: InsertProperty = {
+      title: newProp.title,
+      location: newProp.location,
       description: newProp.description || '',
-      conditions: newProp.conditions || ['Standard Terms'],
-      category: (newProp.category as Category) || 'Villas',
-      images: ['https://images.unsplash.com/photo-1600596542815-e32870110274?auto=format&fit=crop&w=1600&q=80'] // Placeholder for demo
+      conditions: newProp.conditions || [],
+      category: newProp.category || 'Villas',
+      images: ['https://images.unsplash.com/photo-1600596542815-e32870110274?auto=format&fit=crop&w=1600&q=80']
     };
 
-    setProperties([property, ...properties]);
-    setShowCreator(false);
-    setNewProp({ title: '', location: '', description: '', conditions: [], category: 'Villas' });
+    createMutation.mutate(propertyData);
   };
 
   const filteredProperties = selectedCategory === 'All' 
     ? properties 
     : properties.filter(p => p.category === selectedCategory);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="flex items-center justify-center h-[60vh]">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -149,7 +196,11 @@ export default function Home() {
                     <Upload className="w-8 h-8 mb-2" />
                     <span className="text-sm">Drag images to upload</span>
                   </div>
-                  <Button onClick={handleAddProperty} className="w-full">Create Experience</Button>
+                  <Button onClick={handleAddProperty} className="w-full" disabled={createMutation.isPending}>
+                    {createMutation.isPending ? (
+                      <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Creating...</>
+                    ) : 'Create Experience'}
+                  </Button>
                 </div>
               </DialogContent>
             </Dialog>

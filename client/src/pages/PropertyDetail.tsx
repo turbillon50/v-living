@@ -1,29 +1,86 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams, Link } from 'wouter';
-import { ChevronLeft, Share, Check, Calendar as CalendarIcon, ArrowRight } from 'lucide-react';
+import { ChevronLeft, Share, Check, Calendar as CalendarIcon, Loader2 } from 'lucide-react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { getPropertyById, generateWeeks } from '@/lib/mockData';
+import { getPropertyById, getBookedWeeks, createPreBooking } from '@/lib/api';
 import { AlexAssistant } from '@/components/AlexAssistant';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 
 export default function PropertyDetail() {
   const { id } = useParams<{ id: string }>();
-  const property = getPropertyById(id || '');
   const { toast } = useToast();
   
   const [selectedWeeks, setSelectedWeeks] = useState<number[]>([]);
   const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const weeks = generateWeeks();
+  // Fetch property
+  const { data: property, isLoading: propertyLoading } = useQuery({
+    queryKey: ['property', id],
+    queryFn: () => getPropertyById(id!),
+    enabled: !!id,
+  });
 
-  if (!property) return null;
+  // Fetch booked weeks
+  const { data: bookedWeeks = [] } = useQuery({
+    queryKey: ['bookings', id],
+    queryFn: () => getBookedWeeks(id!),
+    enabled: !!id,
+  });
+
+  // Generate weeks with availability
+  const weeks = useMemo(() => {
+    return Array.from({ length: 52 }, (_, i) => ({
+      weekNumber: i + 1,
+      available: !bookedWeeks.includes(i + 1)
+    }));
+  }, [bookedWeeks]);
+
+  // Pre-booking mutation
+  const bookingMutation = useMutation({
+    mutationFn: createPreBooking,
+    onSuccess: () => {
+      setShowSuccess(true);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Booking Failed",
+        description: error.message || "Failed to create pre-booking",
+        variant: "destructive"
+      });
+    }
+  });
+
+  if (propertyLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="flex items-center justify-center h-[60vh]">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!property) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20 py-12">
+          <p className="text-center text-muted-foreground">Property not found</p>
+          <Link href="/">
+            <Button variant="outline" className="mx-auto mt-4 block">Back to Explore</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const toggleWeek = (weekNum: number) => {
     if (selectedWeeks.includes(weekNum)) {
@@ -59,13 +116,11 @@ export default function PropertyDetail() {
       return;
     }
 
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setShowSuccess(true);
-    }, 1500);
+    bookingMutation.mutate({
+      propertyId: id!,
+      email,
+      selectedWeeks,
+    });
   };
 
   return (
@@ -176,9 +231,11 @@ export default function PropertyDetail() {
                 <Button 
                   className="w-full h-12 text-lg" 
                   onClick={handlePreBook}
-                  disabled={isSubmitting}
+                  disabled={bookingMutation.isPending}
                 >
-                  {isSubmitting ? "Processing..." : "Confirm Pre-Booking"}
+                  {bookingMutation.isPending ? (
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing...</>
+                  ) : "Confirm Pre-Booking"}
                 </Button>
 
                 <p className="text-xs text-center text-muted-foreground mt-4">
