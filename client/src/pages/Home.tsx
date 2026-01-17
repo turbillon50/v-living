@@ -23,7 +23,7 @@ import {
 import { categories, Category } from '@/lib/mockData';
 import { Property, InsertProperty } from '@shared/schema';
 import { getProperties, createProperty } from '@/lib/api';
-import { AlexAssistant } from '@/components/AlexAssistant';
+import { FloatingButtons } from '@/components/FloatingButtons';
 import { useToast } from '@/hooks/use-toast';
 
 const CREATOR_PASSWORD = 'lumamijuvisado';
@@ -290,7 +290,7 @@ export default function Home() {
         </section>
       </main>
 
-      <AlexAssistant />
+      <FloatingButtons />
 
       <footer className="border-t border-border mt-20">
         <div className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20 py-8">

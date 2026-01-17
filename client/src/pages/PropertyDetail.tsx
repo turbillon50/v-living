@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { getPropertyById, getBookedWeeks, createPreBooking } from '@/lib/api';
-import { AlexAssistant } from '@/components/AlexAssistant';
+import { FloatingButtons } from '@/components/FloatingButtons';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 
@@ -247,7 +247,7 @@ export default function PropertyDetail() {
         </div>
       </main>
 
-      <AlexAssistant />
+      <FloatingButtons />
 
       {/* Success Dialog */}
       <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
