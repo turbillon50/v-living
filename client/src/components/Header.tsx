@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { Search, Globe, Menu, User, X } from 'lucide-react';
+import { Globe, Menu, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -9,10 +8,43 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 import logoImage from '@assets/generated_images/minimalist_single_ring_logo_for_all_living.png';
 
 export function Header() {
   const [location] = useLocation();
+  const { toast } = useToast();
+  const [showRegister, setShowRegister] = useState(false);
+  const [registerEmail, setRegisterEmail] = useState('');
+
+  const handleRegister = () => {
+    if (!registerEmail) {
+      toast({
+        title: "Email requerido",
+        description: "Por favor ingresa tu email",
+        variant: "destructive"
+      });
+      return;
+    }
+    toast({
+      title: "¡Registrado!",
+      description: "Te contactaremos pronto con más información",
+    });
+    setShowRegister(false);
+    setRegisterEmail('');
+  };
+
+  const openWhatsApp = () => {
+    window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fraccional%20All%20Living', '_blank');
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border/60">
@@ -58,17 +90,45 @@ export function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem data-testid="menu-item-login">
-                  <span className="font-medium">Log in</span>
+                <DropdownMenuItem data-testid="menu-item-login" onClick={() => setShowRegister(true)}>
+                  <span className="font-medium">Iniciar Sesión</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem data-testid="menu-item-signup">Sign up</DropdownMenuItem>
+                <DropdownMenuItem data-testid="menu-item-signup" onClick={() => setShowRegister(true)}>
+                  Registrarse
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem data-testid="menu-item-help">Help Center</DropdownMenuItem>
+                <DropdownMenuItem data-testid="menu-item-help" onClick={openWhatsApp}>
+                  Centro de Ayuda
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </div>
       </div>
+
+      {/* Register Dialog */}
+      <Dialog open={showRegister} onOpenChange={setShowRegister}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle>Únete a Fraccional All Living</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-sm text-muted-foreground">
+              Ingresa tu email para recibir información exclusiva sobre nuestras propiedades fraccionadas.
+            </p>
+            <Input 
+              type="email"
+              placeholder="tu@email.com" 
+              value={registerEmail}
+              onChange={e => setRegisterEmail(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleRegister()}
+            />
+            <Button onClick={handleRegister} className="w-full">
+              Registrarme
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 }
