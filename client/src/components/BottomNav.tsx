@@ -1,17 +1,19 @@
 import { Link, useLocation } from 'wouter';
 import { Building2, Sparkles, Zap, User, Home as HomeIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-const navItems = [
-  { href: '/fractional', label: 'Fracciones', icon: Building2 },
-  { href: '/experiences', label: 'Experiencias', icon: Sparkles },
-  { href: '/last-minute', label: 'Last Minute', icon: Zap },
-  { href: '/perfil-asociado', label: 'Perfil', icon: User },
-  { href: '/property-asociado', label: 'Property', icon: HomeIcon },
-];
+import { useLanguage } from '@/lib/LanguageContext';
 
 export function BottomNav() {
   const [location] = useLocation();
+  const { t } = useLanguage();
+
+  const navItems = [
+    { href: '/fractional', label: t('fractions'), icon: Building2 },
+    { href: '/experiences', label: t('experiences'), icon: Sparkles },
+    { href: '/last-minute', label: t('lastMinute'), icon: Zap },
+    { href: '/perfil-asociado', label: t('profile'), icon: User },
+    { href: '/property-asociado', label: t('property'), icon: HomeIcon },
+  ];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-sm border-t border-border safe-area-bottom">

@@ -9,8 +9,9 @@ import { Input } from '@/components/ui/input';
 import { getProperties, createPreBooking } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/lib/LanguageContext';
 
-function getWeekDates(weekNumber: number): { start: string; end: string } {
+function getWeekDates(weekNumber: number, lang: 'es' | 'en'): { start: string; end: string } {
   const year = 2026;
   const firstMonday = new Date(year, 0, 5);
   while (firstMonday.getDay() !== 1) {
@@ -23,7 +24,9 @@ function getWeekDates(weekNumber: number): { start: string; end: string } {
   const endDate = new Date(startDate);
   endDate.setDate(endDate.getDate() + 6);
   
-  const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+  const monthsEs = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+  const monthsEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = lang === 'es' ? monthsEs : monthsEn;
   
   return {
     start: `${startDate.getDate()} ${months[startDate.getMonth()]}`,
@@ -31,9 +34,9 @@ function getWeekDates(weekNumber: number): { start: string; end: string } {
   };
 }
 
-const weeks = Array.from({ length: 56 }, (_, i) => ({
+const getWeeks = (lang: 'es' | 'en') => Array.from({ length: 56 }, (_, i) => ({
   weekNumber: i + 1,
-  ...getWeekDates(i + 1)
+  ...getWeekDates(i + 1, lang)
 }));
 
 interface PropertyCardProps {
@@ -44,14 +47,16 @@ interface PropertyCardProps {
 
 function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
   const { toast } = useToast();
+  const { language, formatPrice, t } = useLanguage();
   const [selectedWeeks, setSelectedWeeks] = useState<number[]>([]);
   const [email, setEmail] = useState('');
   const [bookingType, setBookingType] = useState<'fraction' | 'vacation'>('fraction');
+  const weeks = getWeeks(language);
 
   const sendWhatsAppAlert = (userEmail: string, weeksSelected: number[], type: 'fraction' | 'vacation') => {
     const weekDetails = weeksSelected.sort((a,b) => a-b).map(w => {
-      const week = getWeekDates(w);
-      return `Semana ${w}: ${week.start} - ${week.end}`;
+      const week = getWeekDates(w, language);
+      return `${t('week')} ${w}: ${week.start} - ${week.end}`;
     }).join('\n');
     
     const typeLabel = type === 'fraction' ? '💎 COMPRA DE FRACCIÓN' : '🏖️ RESERVA VACACIONAL';
@@ -132,7 +137,7 @@ function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
             <MapPin className="w-3 h-3" />
             {property.location || 'Caribe Mexicano'}
           </p>
-          <p className="text-lg font-semibold text-primary mt-1">$650,000 MXN</p>
+          <p className="text-lg font-semibold text-primary mt-1">{formatPrice(650000)}</p>
         </div>
         <div className="flex-shrink-0">
           {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -142,7 +147,9 @@ function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
       {isExpanded && (
         <div className="border-t border-border p-4 bg-muted/30">
           <p className="text-sm text-muted-foreground mb-4">
-            {property.description || 'Fracción inmobiliaria real, legal y heredable. Incluye 3 semanas de uso anual.'}
+            {property.description || (language === 'es' 
+              ? 'Fracción inmobiliaria real, legal y heredable. Incluye 3 semanas de uso anual.' 
+              : 'Real, legal and inheritable fractional property. Includes 3 weeks of annual use.')}
           </p>
 
           <div className="flex gap-2 mb-4">
@@ -155,7 +162,7 @@ function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
                   : "bg-white text-muted-foreground border border-border"
               )}
             >
-              💎 Comprar Fracción
+              💎 {t('buyFraction')}
             </button>
             <button
               onClick={() => { setBookingType('vacation'); setSelectedWeeks([]); }}
@@ -166,22 +173,22 @@ function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
                   : "bg-white text-muted-foreground border border-border"
               )}
             >
-              🏖️ Vacacionar
-              <span className="absolute -top-2 -right-2 text-[9px] bg-amber-500 text-white px-1 py-0.5 rounded-full">Pronto</span>
+              🏖️ {t('vacation')}
+              <span className="absolute -top-2 -right-2 text-[9px] bg-amber-500 text-white px-1 py-0.5 rounded-full">{t('soon')}</span>
             </button>
           </div>
 
           {bookingType === 'vacation' && (
             <div className="mb-4 p-3 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl">
-              <p className="text-amber-800 font-bold text-center text-sm">🚀 Lanzamiento: 21 de Marzo</p>
-              <p className="text-amber-700 text-xs text-center">Regístrate para bonos exclusivos</p>
+              <p className="text-amber-800 font-bold text-center text-sm">🚀 {t('launch')}</p>
+              <p className="text-amber-700 text-xs text-center">{t('launchBonus')}</p>
             </div>
           )}
 
           {bookingType === 'fraction' && (
             <>
               <p className="text-sm font-medium mb-2">
-                Selecciona 3 semanas ({selectedWeeks.length}/3)
+                {t('selectWeeks')} ({selectedWeeks.length}/3)
               </p>
               <div className="grid grid-cols-4 gap-1 max-h-[200px] overflow-y-auto mb-4">
                 {weeks.map((week) => (
@@ -216,7 +223,7 @@ function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
 
           <Input
             type="email"
-            placeholder="Tu correo electrónico"
+            placeholder={t('email')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="mb-3"
@@ -233,11 +240,13 @@ function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
             )}
           >
             {bookingMutation.isPending ? (
-              <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Enviando...</>
+              <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> {language === 'es' ? 'Enviando...' : 'Sending...'}</>
             ) : bookingType === 'fraction' ? (
-              selectedWeeks.length === 3 ? '¡Reservar Fracción!' : `Selecciona ${3 - selectedWeeks.length} más`
+              selectedWeeks.length === 3 
+                ? (language === 'es' ? '¡Reservar Fracción!' : 'Reserve Fraction!') 
+                : (language === 'es' ? `Selecciona ${3 - selectedWeeks.length} más` : `Select ${3 - selectedWeeks.length} more`)
             ) : (
-              '¡Registrarme para Lanzamiento!'
+              t('registerLaunch')
             )}
           </Button>
         </div>
@@ -248,6 +257,7 @@ function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
 
 export default function Fractional() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const { language, t } = useLanguage();
   
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ['properties'],
@@ -258,8 +268,8 @@ export default function Fractional() {
     ? properties 
     : Array.from({ length: 10 }, (_, i) => ({
         id: `placeholder-${i}`,
-        title: `Fracción ${i + 1}`,
-        location: 'Caribe Mexicano',
+        title: language === 'es' ? `Fracción ${i + 1}` : `Fraction ${i + 1}`,
+        location: language === 'es' ? 'Caribe Mexicano' : 'Mexican Caribbean',
         description: '',
         images: [],
         category: 'Propiedades'
@@ -283,10 +293,10 @@ export default function Fractional() {
       <main className="max-w-2xl mx-auto px-4 pt-6">
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-medium mb-2 bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
-            Fracciones Disponibles
+            {language === 'es' ? 'Fracciones Disponibles' : 'Available Fractions'}
           </h1>
           <p className="text-sm text-muted-foreground">
-            Propiedad real, legal y heredable en el Caribe
+            {t('realProperty')}
           </p>
         </div>
 
@@ -303,7 +313,7 @@ export default function Fractional() {
 
         <div className="mt-8 p-4 bg-gradient-to-r from-cyan-100 to-blue-100 rounded-2xl text-center">
           <p className="text-sm text-cyan-800">
-            💡 ¿Tienes preguntas? Contacta a un asesor por WhatsApp
+            💡 {language === 'es' ? '¿Tienes preguntas? Contacta a un asesor por WhatsApp' : 'Have questions? Contact an advisor via WhatsApp'}
           </p>
           <Button
             variant="outline"
@@ -311,7 +321,7 @@ export default function Fractional() {
             className="mt-2"
             onClick={() => window.open('https://wa.me/529984292748', '_blank')}
           >
-            Contactar Asesor
+            {t('contactAdvisor')}
           </Button>
         </div>
       </main>
