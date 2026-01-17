@@ -10,6 +10,7 @@ import Fractional from "@/pages/Fractional";
 import Experiences from "@/pages/Experiences";
 import Lobby from "@/pages/Lobby";
 import AIAssistant from "@/pages/AIAssistant";
+import CreatorDashboard from "@/pages/CreatorDashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/experiences" component={Experiences} />
       <Route path="/lobby" component={Lobby} />
       <Route path="/ai" component={AIAssistant} />
+      <Route path="/creator" component={CreatorDashboard} />
       <Route component={NotFound} />
     </Switch>
   );

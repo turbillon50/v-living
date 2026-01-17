@@ -19,7 +19,22 @@ export const preBookings = pgTable("pre_bookings", {
   propertyId: varchar("property_id").notNull().references(() => properties.id, { onDelete: 'cascade' }),
   email: text("email").notNull(),
   selectedWeeks: jsonb("selected_weeks").$type<number[]>().notNull(),
+  bookingType: text("booking_type").default("fraction"),
   expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const announcements = pgTable("announcements", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  message: text("message").notNull(),
+  type: text("type").notNull().default("news"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const subscribers = pgTable("subscribers", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull().unique(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -33,7 +48,21 @@ export const insertPreBookingSchema = createInsertSchema(preBookings).omit({
   createdAt: true,
 });
 
+export const insertAnnouncementSchema = createInsertSchema(announcements).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertSubscriberSchema = createInsertSchema(subscribers).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertProperty = z.infer<typeof insertPropertySchema>;
 export type Property = typeof properties.$inferSelect;
 export type InsertPreBooking = z.infer<typeof insertPreBookingSchema>;
 export type PreBooking = typeof preBookings.$inferSelect;
+export type InsertAnnouncement = z.infer<typeof insertAnnouncementSchema>;
+export type Announcement = typeof announcements.$inferSelect;
+export type InsertSubscriber = z.infer<typeof insertSubscriberSchema>;
+export type Subscriber = typeof subscribers.$inferSelect;

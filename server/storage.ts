@@ -6,7 +6,11 @@ import type {
   Property, 
   InsertProperty,
   PreBooking,
-  InsertPreBooking 
+  InsertPreBooking,
+  Announcement,
+  InsertAnnouncement,
+  Subscriber,
+  InsertSubscriber
 } from "@shared/schema";
 
 const { Pool } = pg;
@@ -26,9 +30,18 @@ export interface IStorage {
   
   // Pre-bookings
   createPreBooking(preBooking: InsertPreBooking): Promise<PreBooking>;
+  getAllPreBookings(): Promise<PreBooking[]>;
   getActivePreBookings(propertyId: string): Promise<PreBooking[]>;
   getPreBookingsByEmail(email: string): Promise<PreBooking[]>;
   cleanExpiredBookings(): Promise<void>;
+
+  // Announcements
+  getAnnouncements(): Promise<Announcement[]>;
+  createAnnouncement(announcement: InsertAnnouncement): Promise<Announcement>;
+
+  // Subscribers
+  getSubscribers(): Promise<Subscriber[]>;
+  createSubscriber(subscriber: InsertSubscriber): Promise<Subscriber>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -98,6 +111,36 @@ export class DatabaseStorage implements IStorage {
     await db
       .delete(schema.preBookings)
       .where(lt(schema.preBookings.expiresAt, new Date()));
+  }
+
+  async getAllPreBookings(): Promise<PreBooking[]> {
+    return db.select().from(schema.preBookings);
+  }
+
+  // Announcements
+  async getAnnouncements(): Promise<Announcement[]> {
+    return db.select().from(schema.announcements);
+  }
+
+  async createAnnouncement(announcement: InsertAnnouncement): Promise<Announcement> {
+    const results = await db
+      .insert(schema.announcements)
+      .values([announcement])
+      .returning();
+    return results[0];
+  }
+
+  // Subscribers
+  async getSubscribers(): Promise<Subscriber[]> {
+    return db.select().from(schema.subscribers);
+  }
+
+  async createSubscriber(subscriber: InsertSubscriber): Promise<Subscriber> {
+    const results = await db
+      .insert(schema.subscribers)
+      .values([subscriber])
+      .returning();
+    return results[0];
   }
 }
 
