@@ -3,6 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { LanguageProvider } from "@/lib/LanguageContext";
 import Welcome from "@/pages/Welcome";
 import Home from "@/pages/Home";
 import PropertyDetail from "@/pages/PropertyDetail";
@@ -11,6 +12,9 @@ import Experiences from "@/pages/Experiences";
 import Lobby from "@/pages/Lobby";
 import AIAssistant from "@/pages/AIAssistant";
 import CreatorDashboard from "@/pages/CreatorDashboard";
+import LastMinute from "@/pages/LastMinute";
+import PerfilAsociado from "@/pages/PerfilAsociado";
+import PropertyAsociado from "@/pages/PropertyAsociado";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -25,6 +29,9 @@ function Router() {
       <Route path="/lobby" component={Lobby} />
       <Route path="/ai" component={AIAssistant} />
       <Route path="/creator" component={CreatorDashboard} />
+      <Route path="/last-minute" component={LastMinute} />
+      <Route path="/perfil-asociado" component={PerfilAsociado} />
+      <Route path="/property-asociado" component={PropertyAsociado} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -33,10 +40,12 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
+      <LanguageProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </LanguageProvider>
     </QueryClientProvider>
   );
 }

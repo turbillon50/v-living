@@ -10,7 +10,9 @@ import type {
   Announcement,
   InsertAnnouncement,
   Subscriber,
-  InsertSubscriber
+  InsertSubscriber,
+  NavButton,
+  InsertNavButton
 } from "@shared/schema";
 
 const { Pool } = pg;
@@ -42,6 +44,13 @@ export interface IStorage {
   // Subscribers
   getSubscribers(): Promise<Subscriber[]>;
   createSubscriber(subscriber: InsertSubscriber): Promise<Subscriber>;
+
+  // Nav Buttons
+  getNavButtons(): Promise<NavButton[]>;
+  getNavButtonsByType(type: string): Promise<NavButton[]>;
+  createNavButton(button: InsertNavButton): Promise<NavButton>;
+  updateNavButton(id: string, button: Partial<InsertNavButton>): Promise<NavButton | undefined>;
+  deleteNavButton(id: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -141,6 +150,29 @@ export class DatabaseStorage implements IStorage {
       .values([subscriber])
       .returning();
     return results[0];
+  }
+
+  // Nav Buttons
+  async getNavButtons(): Promise<NavButton[]> {
+    return db.select().from(schema.navButtons);
+  }
+
+  async getNavButtonsByType(type: string): Promise<NavButton[]> {
+    return db.select().from(schema.navButtons).where(eq(schema.navButtons.type, type));
+  }
+
+  async createNavButton(button: InsertNavButton): Promise<NavButton> {
+    const results = await db.insert(schema.navButtons).values([button]).returning();
+    return results[0];
+  }
+
+  async updateNavButton(id: string, button: Partial<InsertNavButton>): Promise<NavButton | undefined> {
+    const results = await db.update(schema.navButtons).set(button).where(eq(schema.navButtons.id, id)).returning();
+    return results[0];
+  }
+
+  async deleteNavButton(id: string): Promise<void> {
+    await db.delete(schema.navButtons).where(eq(schema.navButtons.id, id));
   }
 }
 

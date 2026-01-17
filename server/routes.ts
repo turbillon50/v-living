@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema, insertSubscriberSchema } from "@shared/schema";
+import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema, insertSubscriberSchema, insertNavButtonSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(
@@ -222,6 +222,63 @@ export async function registerRoutes(
       }
       console.error("Error creating subscriber:", error);
       res.status(500).json({ error: "Failed to create subscriber" });
+    }
+  });
+
+  // Nav Buttons
+  app.get("/api/nav-buttons", async (req, res) => {
+    try {
+      const buttons = await storage.getNavButtons();
+      res.json(buttons);
+    } catch (error) {
+      console.error("Error fetching nav buttons:", error);
+      res.status(500).json({ error: "Failed to fetch nav buttons" });
+    }
+  });
+
+  app.post("/api/nav-buttons", async (req, res) => {
+    try {
+      const validated = insertNavButtonSchema.parse(req.body);
+      const button = await storage.createNavButton(validated);
+      res.status(201).json(button);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid button data", details: error.errors });
+      }
+      console.error("Error creating nav button:", error);
+      res.status(500).json({ error: "Failed to create nav button" });
+    }
+  });
+
+  app.put("/api/nav-buttons/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const button = await storage.updateNavButton(id, req.body);
+      res.json(button);
+    } catch (error) {
+      console.error("Error updating nav button:", error);
+      res.status(500).json({ error: "Failed to update nav button" });
+    }
+  });
+
+  app.delete("/api/nav-buttons/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteNavButton(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting nav button:", error);
+      res.status(500).json({ error: "Failed to delete nav button" });
+    }
+  });
+
+  // Exchange rate endpoint
+  app.get("/api/exchange-rate", async (req, res) => {
+    try {
+      const rate = 17.5; // Default rate MXN to USD
+      res.json({ rate, currency: "USD" });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get exchange rate" });
     }
   });
 

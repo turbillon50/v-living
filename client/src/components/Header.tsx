@@ -17,14 +17,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/lib/LanguageContext';
 import logoImage from '@assets/generated_images/minimalist_single_ring_logo_for_all_living.png';
 
 export function Header() {
   const [location] = useLocation();
   const { toast } = useToast();
+  const { language, setLanguage } = useLanguage();
   const [showRegister, setShowRegister] = useState(false);
   const [registerEmail, setRegisterEmail] = useState('');
-  const [language, setLanguage] = useState<'ES' | 'EN'>('ES');
 
   const handleRegister = () => {
     if (!registerEmail) {
@@ -85,12 +86,12 @@ export function Header() {
             <Button 
               variant="ghost" 
               size="sm" 
-              className="hidden md:flex text-sm font-medium" 
+              className="flex text-sm font-medium" 
               data-testid="button-language"
-              onClick={() => setLanguage(lang => lang === 'ES' ? 'EN' : 'ES')}
+              onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
             >
               <Globe className="w-4 h-4 mr-1" />
-              {language}
+              {language === 'es' ? 'ES' : 'EN'}
             </Button>
 
             <DropdownMenu>

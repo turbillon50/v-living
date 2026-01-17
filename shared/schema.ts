@@ -38,6 +38,16 @@ export const subscribers = pgTable("subscribers", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const navButtons = pgTable("nav_buttons", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  position: integer("position").notNull(),
+  type: text("type").notNull().default("main"),
+  name: text("name").notNull(),
+  link: text("link").notNull(),
+  image: text("image"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const insertPropertySchema = createInsertSchema(properties).omit({
   id: true,
   createdAt: true,
@@ -58,6 +68,11 @@ export const insertSubscriberSchema = createInsertSchema(subscribers).omit({
   createdAt: true,
 });
 
+export const insertNavButtonSchema = createInsertSchema(navButtons).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertProperty = z.infer<typeof insertPropertySchema>;
 export type Property = typeof properties.$inferSelect;
 export type InsertPreBooking = z.infer<typeof insertPreBookingSchema>;
@@ -66,3 +81,5 @@ export type InsertAnnouncement = z.infer<typeof insertAnnouncementSchema>;
 export type Announcement = typeof announcements.$inferSelect;
 export type InsertSubscriber = z.infer<typeof insertSubscriberSchema>;
 export type Subscriber = typeof subscribers.$inferSelect;
+export type InsertNavButton = z.infer<typeof insertNavButtonSchema>;
+export type NavButton = typeof navButtons.$inferSelect;

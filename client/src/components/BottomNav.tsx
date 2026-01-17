@@ -1,12 +1,13 @@
 import { Link, useLocation } from 'wouter';
-import { Building2, Sparkles, LayoutGrid, Home } from 'lucide-react';
+import { Building2, Sparkles, Zap, User, Home as HomeIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { href: '/home', label: 'Inicio', icon: Home },
   { href: '/fractional', label: 'Fracciones', icon: Building2 },
   { href: '/experiences', label: 'Experiencias', icon: Sparkles },
-  { href: '/lobby', label: 'Lobby', icon: LayoutGrid },
+  { href: '/last-minute', label: 'Last Minute', icon: Zap },
+  { href: '/perfil-asociado', label: 'Perfil', icon: User },
+  { href: '/property-asociado', label: 'Property', icon: HomeIcon },
 ];
 
 export function BottomNav() {
