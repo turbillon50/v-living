@@ -1,367 +1,63 @@
-import { useState } from 'react';
 import { Link } from 'wouter';
-import { ChevronRight, Plus, X, Upload, Loader2, ArrowRight } from 'lucide-react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { categories, Category } from '@/lib/mockData';
-import { Property, InsertProperty } from '@shared/schema';
-import { getProperties, createProperty } from '@/lib/api';
 import { FloatingButtons } from '@/components/FloatingButtons';
-import { useToast } from '@/hooks/use-toast';
-
-const CREATOR_PASSWORD = 'lumamijuvisado';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/lib/LanguageContext';
 
 export default function Home() {
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
-  const [selectedCategory, setSelectedCategory] = useState<Category | 'All'>('All');
-  const [showCreator, setShowCreator] = useState(false);
-  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
-  const [creatorPassword, setCreatorPassword] = useState('');
-  const [isCreatorUnlocked, setIsCreatorUnlocked] = useState(false);
-  
-  // Fetch properties from API
-  const { data: properties = [], isLoading } = useQuery({
-    queryKey: ['properties'],
-    queryFn: getProperties,
-  });
-
-  // Creator Form State
-  const [newProp, setNewProp] = useState<Partial<InsertProperty>>({
-    title: '',
-    location: '',
-    description: '',
-    conditions: [],
-    category: 'Propiedades',
-    images: []
-  });
-
-  const handleCreatorAccess = () => {
-    if (isCreatorUnlocked) {
-      setShowCreator(true);
-    } else {
-      setShowPasswordDialog(true);
-    }
-  };
-
-  const verifyPassword = () => {
-    if (creatorPassword === CREATOR_PASSWORD) {
-      setIsCreatorUnlocked(true);
-      setShowPasswordDialog(false);
-      setShowCreator(true);
-      setCreatorPassword('');
-      toast({
-        title: "Modo Creador Activado",
-        description: "Ahora puedes crear y editar experiencias",
-      });
-    } else {
-      toast({
-        title: "Contraseña Incorrecta",
-        description: "Por favor, intenta de nuevo",
-        variant: "destructive"
-      });
-    }
-  };
-
-  // Create property mutation
-  const createMutation = useMutation({
-    mutationFn: createProperty,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['properties'] });
-      setShowCreator(false);
-      setNewProp({ title: '', location: '', description: '', conditions: [], category: 'Propiedades', images: [] });
-      toast({
-        title: "Success",
-        description: "Property created successfully",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to create property",
-        variant: "destructive"
-      });
-    }
-  });
-
-  const handleAddProperty = () => {
-    if (!newProp.title || !newProp.location) {
-      toast({
-        title: "Missing fields",
-        description: "Please fill in title and location",
-        variant: "destructive"
-      });
-      return;
-    }
-    
-    const propertyData: InsertProperty = {
-      title: newProp.title,
-      location: newProp.location,
-      description: newProp.description || '',
-      conditions: newProp.conditions || [],
-      category: newProp.category || 'Propiedades',
-      images: ['https://images.unsplash.com/photo-1600596542815-e32870110274?auto=format&fit=crop&w=1600&q=80']
-    };
-
-    createMutation.mutate(propertyData);
-  };
-
-  const filteredProperties = selectedCategory === 'All' 
-    ? properties 
-    : properties.filter(p => p.category === selectedCategory);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="flex items-center justify-center h-[60vh]">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-        </div>
-      </div>
-    );
-  }
+  const { language } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-white to-cyan-50/30 pb-24">
       <Header />
 
-      <main className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20 pt-8">
-        
-        {/* Hero Story Section */}
-        <section className="mb-16 max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-light mb-6 tracking-tight leading-tight">
-            La Evolución de la Propiedad
+      <main className="max-w-2xl mx-auto px-4 pt-12">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl md:text-4xl font-light mb-4 bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
+            {language === 'es' ? 'Bienvenido a' : 'Welcome to'}
           </h1>
-          <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-            Fractional Living representa la evolución natural del mercado inmobiliario. 
-            Tomamos lo mejor de los modelos tradicionales y lo llevamos al siguiente nivel.
+          <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-6">
+            FRACTIONAL LIVING
+          </h2>
+          <p className="text-muted-foreground max-w-md mx-auto">
+            {language === 'es' 
+              ? 'Vive, invierte y construye patrimonio en el Caribe bajo un modelo fractional real, legal y heredable.'
+              : 'Live, invest and build wealth in the Caribbean under a real, legal and inheritable fractional model.'}
           </p>
+        </div>
+
+        <div className="flex flex-col gap-4 max-w-sm mx-auto">
+          <Link href="/fractional">
+            <Button size="lg" className="w-full gap-2 h-14 text-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 rounded-full">
+              {language === 'es' ? 'Ver Fracciones' : 'View Fractions'}
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          </Link>
           
-          <div className="bg-gradient-to-br from-muted/50 to-muted/30 rounded-2xl p-8 mb-8 border border-border">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <ArrowRight className="w-5 h-5 text-primary" />
-              </div>
-              <h3 className="text-xl font-medium">De donde venimos → A donde vamos</h3>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="p-5 bg-white/80 rounded-xl border border-border">
-                <h4 className="font-medium text-muted-foreground mb-3 text-sm uppercase tracking-wide">Modelo Tradicional</h4>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-start gap-2">
-                    <span className="text-muted-foreground">→</span>
-                    <span>Tiempo vacacional compartido</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-muted-foreground">→</span>
-                    <span>Derecho de uso limitado</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-muted-foreground">→</span>
-                    <span>Valor estático</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="p-5 bg-primary/5 rounded-xl border-2 border-primary/20">
-                <h4 className="font-medium text-primary mb-3 text-sm uppercase tracking-wide">Fractional Living</h4>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary">✦</span>
-                    <span><strong>Propiedad real</strong> — Eres dueño de una fracción inmobiliaria</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary">✦</span>
-                    <span><strong>Activo heredable</strong> — Con plusvalía y valor patrimonial</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary">✦</span>
-                    <span><strong>Libertad total</strong> — Úsala, réntala o revéndela</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-4">
-            <Link href="/fractional">
-              <Button size="lg" className="gap-2 text-lg px-8 h-14">
-                Ver Fracciones Disponibles
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="gap-2 h-14 px-6"
-              onClick={() => window.open('https://wa.me/529984292748?text=Hola,%20quiero%20integrar%20mi%20propiedad', '_blank')}
-            >
-              Integrar Mi Propiedad
+          <Link href="/experiences">
+            <Button size="lg" variant="outline" className="w-full gap-2 h-14 text-lg rounded-full">
+              {language === 'es' ? 'Experiencias' : 'Experiences'}
+              <ArrowRight className="w-5 h-5" />
             </Button>
-          </div>
-        </section>
+          </Link>
 
-        {/* Categories Grid */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-light mb-8 tracking-tight">Explora por Categoría</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-            {categories.map((cat) => (
-              <div 
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id === selectedCategory ? 'All' : cat.id)}
-                className={`group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ${selectedCategory === cat.id ? 'ring-2 ring-black' : 'hover:shadow-lg'}`}
-              >
-                <img 
-                  src={cat.image} 
-                  alt={cat.label} 
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
-                <div className="absolute bottom-0 left-0 p-6">
-                  <h3 className="text-white text-xl font-medium tracking-wide">{cat.label}</h3>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+          <Button 
+            size="lg" 
+            variant="ghost" 
+            className="w-full gap-2 h-14"
+            onClick={() => window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living', '_blank')}
+          >
+            {language === 'es' ? 'Hablar con un Asesor' : 'Talk to an Advisor'}
+          </Button>
+        </div>
 
-        {/* Creator Mode & Properties List */}
-        <section>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-light tracking-tight">
-              {selectedCategory === 'All' ? 'Curated Collection' : `${selectedCategory} Collection`}
-            </h2>
-            {/* Password Dialog */}
-            <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
-              <DialogContent className="sm:max-w-[400px]">
-                <DialogHeader>
-                  <DialogTitle>Acceso Modo Creador</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4 py-4">
-                  <div className="grid w-full gap-2">
-                    <label className="text-sm font-medium">Contraseña</label>
-                    <Input 
-                      type="password"
-                      placeholder="Ingresa la contraseña" 
-                      value={creatorPassword}
-                      onChange={e => setCreatorPassword(e.target.value)}
-                      onKeyDown={e => e.key === 'Enter' && verifyPassword()}
-                    />
-                  </div>
-                  <Button onClick={verifyPassword} className="w-full">
-                    Acceder
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-
-            <Button variant="outline" className="gap-2" onClick={handleCreatorAccess}>
-              <Plus className="w-4 h-4" />
-              {isCreatorUnlocked ? 'Modo Creador' : 'Creator Mode'}
-            </Button>
-
-            <Dialog open={showCreator} onOpenChange={setShowCreator}>
-              <DialogContent className="sm:max-w-[500px]">
-                <DialogHeader>
-                  <DialogTitle>Add New Experience</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4 py-4">
-                  <div className="grid w-full gap-2">
-                    <label className="text-sm font-medium">Category</label>
-                    <Select 
-                      value={newProp.category} 
-                      onValueChange={(val) => setNewProp({...newProp, category: val as Category})}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {categories.map(c => <SelectItem key={c.id} value={c.id}>{c.label}</SelectItem>)}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="grid w-full gap-2">
-                    <label className="text-sm font-medium">Title</label>
-                    <Input 
-                      placeholder="e.g. Sunset Villa" 
-                      value={newProp.title}
-                      onChange={e => setNewProp({...newProp, title: e.target.value})}
-                    />
-                  </div>
-                  <div className="grid w-full gap-2">
-                    <label className="text-sm font-medium">Location</label>
-                    <Input 
-                      placeholder="e.g. Amalfi Coast, Italy" 
-                      value={newProp.location}
-                      onChange={e => setNewProp({...newProp, location: e.target.value})}
-                    />
-                  </div>
-                  <div className="grid w-full gap-2">
-                    <label className="text-sm font-medium">Description</label>
-                    <Textarea 
-                      placeholder="Short description of the experience..." 
-                      value={newProp.description}
-                      onChange={e => setNewProp({...newProp, description: e.target.value})}
-                    />
-                  </div>
-                  <div className="border-2 border-dashed border-border rounded-lg p-8 flex flex-col items-center justify-center text-muted-foreground cursor-pointer hover:bg-muted/50 transition-colors">
-                    <Upload className="w-8 h-8 mb-2" />
-                    <span className="text-sm">Drag images to upload</span>
-                  </div>
-                  <Button onClick={handleAddProperty} className="w-full" disabled={createMutation.isPending}>
-                    {createMutation.isPending ? (
-                      <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Creating...</>
-                    ) : 'Create Experience'}
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProperties.map((property) => (
-              <Link key={property.id} href={`/property/${property.id}`}>
-                <div className="group cursor-pointer space-y-4">
-                  <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
-                    <img 
-                      src={property.images[0]} 
-                      alt={property.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div>
-                    <div className="flex justify-between items-start mb-1">
-                      <h3 className="text-lg font-medium tracking-tight group-hover:text-primary transition-colors">
-                        {property.title}
-                      </h3>
-                      <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground border border-border px-2 py-0.5 rounded-full">
-                        {property.category}
-                      </span>
-                    </div>
-                    <p className="text-muted-foreground">{property.location}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        <div className="mt-16 text-center">
+          <p className="text-xs text-muted-foreground uppercase tracking-widest">
+            All Global Holding LLC
+          </p>
+        </div>
       </main>
 
       <FloatingButtons />

@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/lib/LanguageContext';
-import logoImage from '@assets/generated_images/minimalist_single_ring_logo_for_all_living.png';
+import logoImage from '@assets/generated_images/fractional_living_luxury_logo.png';
 
 export function Header() {
   const [location] = useLocation();
