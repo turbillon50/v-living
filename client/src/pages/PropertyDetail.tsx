@@ -175,16 +175,30 @@ export default function PropertyDetail() {
     );
   };
 
+  // Send WhatsApp alert to advisor
+  const sendAdvisorAlert = (userEmail: string, weeks: number[]) => {
+    const weekDetails = weeks.sort((a,b) => a-b).map(w => {
+      const week = weeks ? getWeekDates(w) : null;
+      return week ? `Semana ${w}: ${week.start} - ${week.end}` : `Semana ${w}`;
+    }).join('\n');
+    
+    const message = `🔔 NUEVA PRE-RESERVA\n\nEmail: ${userEmail}\nPropiedad: ${property?.title || 'Sin nombre'}\n\nSemanas seleccionadas:\n${weekDetails}\n\n¡Contactar de inmediato!`;
+    
+    const whatsappUrl = `https://wa.me/529984292748?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   // Pre-booking mutation
   const bookingMutation = useMutation({
     mutationFn: createPreBooking,
     onSuccess: () => {
       setShowSuccess(true);
+      sendAdvisorAlert(email, selectedWeeks);
     },
     onError: (error: any) => {
       toast({
-        title: "Booking Failed",
-        description: error.message || "Failed to create pre-booking",
+        title: "Error en la reserva",
+        description: error.message || "No se pudo crear la pre-reserva",
         variant: "destructive"
       });
     }
@@ -423,13 +437,27 @@ export default function PropertyDetail() {
                 </div>
                 
                 {selectedWeeks.length > 0 && (
-                  <div className="text-xs text-muted-foreground space-y-1">
+                  <div className="text-xs text-muted-foreground space-y-1 p-3 bg-muted/50 rounded-lg">
                     {selectedWeeks.sort((a,b) => a-b).map(w => {
                       const week = weeks.find(wk => wk.weekNumber === w);
                       return week && (
-                        <p key={w}>• Semana {w}: {week.start} - {week.end}</p>
+                        <p key={w} className="flex items-center gap-2">
+                          <Check className="w-3 h-3 text-green-500" />
+                          Semana {w}: {week.start} - {week.end}
+                        </p>
                       );
                     })}
+                  </div>
+                )}
+
+                {selectedWeeks.length === 3 && (
+                  <div className="p-4 bg-green-50 border-2 border-green-200 rounded-xl animate-pulse">
+                    <p className="text-green-800 font-medium text-center text-sm mb-2">
+                      ¡Excelente elección!
+                    </p>
+                    <p className="text-green-700 text-xs text-center">
+                      Ingresa tu correo para reservar estas semanas
+                    </p>
                   </div>
                 )}
                 
@@ -443,17 +471,24 @@ export default function PropertyDetail() {
                 />
 
                 <Button 
-                  className="w-full h-12 text-lg" 
+                  className={cn(
+                    "w-full h-14 text-lg font-medium transition-all",
+                    selectedWeeks.length === 3 && email && "bg-green-600 hover:bg-green-700 animate-pulse"
+                  )}
                   onClick={handlePreBook}
-                  disabled={bookingMutation.isPending}
+                  disabled={bookingMutation.isPending || selectedWeeks.length !== 3}
                 >
                   {bookingMutation.isPending ? (
                     <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Procesando...</>
-                  ) : "Confirmar Pre-Reserva"}
+                  ) : selectedWeeks.length === 3 ? (
+                    "¡Reservar Ahora!"
+                  ) : (
+                    `Selecciona ${3 - selectedWeeks.length} semana${3 - selectedWeeks.length !== 1 ? 's' : ''} más`
+                  )}
                 </Button>
 
-                <p className="text-xs text-center text-muted-foreground mt-4">
-                  Hold gratuito por 5 días. Sin pago hoy.
+                <p className="text-xs text-center text-muted-foreground">
+                  Hold gratuito por 5 días. Un asesor te contactará por WhatsApp.
                 </p>
               </div>
             </div>
