@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter';
-import { Globe, Menu, User, ArrowLeft } from 'lucide-react';
+import { Globe, Menu, User, ArrowLeft, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -90,6 +90,16 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <Link href="/creator">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="w-8 h-8"
+                title="Modo Creador"
+              >
+                <Lock className="w-4 h-4" />
+              </Button>
+            </Link>
             <Button 
               variant="ghost" 
               size="sm" 
