@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { Loader2, ChevronDown, ChevronUp, MapPin, Check, Calendar } from 'lucide-react';
+import { Loader2, ChevronDown, ChevronUp, MapPin, Check, Calendar, Calculator, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
 import { FloatingButtons } from '@/components/FloatingButtons';
@@ -10,6 +10,95 @@ import { getProperties, createPreBooking } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/lib/LanguageContext';
+
+function PaymentCalculator({ language, formatPrice }: { language: 'es' | 'en', formatPrice: (n: number) => string }) {
+  const [months, setMonths] = useState(12);
+  const totalPrice = 650000;
+  const downPayment = totalPrice * 0.3;
+  const remaining = totalPrice - downPayment;
+  const monthlyPayment = remaining / months;
+
+  return (
+    <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-2xl p-4 mb-6">
+      <div className="flex items-center gap-2 mb-3">
+        <Calculator className="w-5 h-5 text-cyan-600" />
+        <h3 className="font-medium text-cyan-800">
+          {language === 'es' ? 'Calculadora de Pagos' : 'Payment Calculator'}
+        </h3>
+      </div>
+      <div className="grid grid-cols-2 gap-3 text-sm mb-3">
+        <div className="bg-white rounded-lg p-3">
+          <p className="text-muted-foreground text-xs">{language === 'es' ? 'Precio Total' : 'Total Price'}</p>
+          <p className="font-bold text-lg">{formatPrice(totalPrice)}</p>
+        </div>
+        <div className="bg-white rounded-lg p-3">
+          <p className="text-muted-foreground text-xs">{language === 'es' ? 'Enganche (30%)' : 'Down Payment (30%)'}</p>
+          <p className="font-bold text-lg">{formatPrice(downPayment)}</p>
+        </div>
+      </div>
+      <div className="bg-white rounded-lg p-3">
+        <p className="text-muted-foreground text-xs mb-2">{language === 'es' ? 'Meses a pagar' : 'Months to pay'}</p>
+        <div className="flex gap-2 mb-2">
+          {[6, 12, 18, 24].map(m => (
+            <button
+              key={m}
+              onClick={() => setMonths(m)}
+              className={cn(
+                "flex-1 py-1 rounded text-sm font-medium transition-all",
+                months === m ? "bg-cyan-500 text-white" : "bg-muted"
+              )}
+            >
+              {m}
+            </button>
+          ))}
+        </div>
+        <div className="text-center pt-2 border-t">
+          <p className="text-xs text-muted-foreground">{language === 'es' ? 'Pago mensual' : 'Monthly payment'}</p>
+          <p className="text-2xl font-bold text-cyan-600">{formatPrice(monthlyPayment)}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ImageGallery({ images }: { images: string[] }) {
+  const [current, setCurrent] = useState(0);
+  
+  if (!images || images.length === 0) {
+    return (
+      <div className="w-full h-48 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-xl flex items-center justify-center mb-4">
+        <Calendar className="w-12 h-12 text-cyan-500" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative w-full h-48 rounded-xl overflow-hidden mb-4">
+      <img src={images[current]} alt="Property" className="w-full h-full object-cover" />
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={(e) => { e.stopPropagation(); setCurrent(c => c === 0 ? images.length - 1 : c - 1); }}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/50 text-white rounded-full flex items-center justify-center"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); setCurrent(c => c === images.length - 1 ? 0 : c + 1); }}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/50 text-white rounded-full flex items-center justify-center"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+            {images.map((_, i) => (
+              <div key={i} className={cn("w-2 h-2 rounded-full", i === current ? "bg-white" : "bg-white/50")} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
 function getWeekDates(weekNumber: number, lang: 'es' | 'en'): { start: string; end: string } {
   const year = 2026;
@@ -146,6 +235,8 @@ function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
 
       {isExpanded && (
         <div className="border-t border-border p-4 bg-muted/30">
+          <ImageGallery images={property.images || []} />
+          
           <p className="text-sm text-muted-foreground mb-4">
             {property.description || (language === 'es' 
               ? 'Fracción inmobiliaria real, legal y heredable. Incluye 3 semanas de uso anual.' 
@@ -258,7 +349,7 @@ function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
 export default function Fractional() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
-  const { language, t } = useLanguage();
+  const { language, t, formatPrice } = useLanguage();
   
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ['properties'],
@@ -298,10 +389,17 @@ export default function Fractional() {
           <h1 className="text-2xl font-medium mb-2 bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
             {language === 'es' ? 'Fracciones Disponibles' : 'Available Fractions'}
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground mb-4">
             {t('realProperty')}
           </p>
+          <p className="text-xs text-muted-foreground max-w-md mx-auto">
+            {language === 'es' 
+              ? 'Adquiere una fracción de propiedad en el Caribe. Cada fracción incluye 3 semanas de uso al año, escritura a tu nombre y es 100% heredable.'
+              : 'Acquire a fraction of property in the Caribbean. Each fraction includes 3 weeks of use per year, deed in your name, and is 100% inheritable.'}
+          </p>
         </div>
+
+        <PaymentCalculator language={language} formatPrice={formatPrice} />
 
         <div className="space-y-4">
           {visibleProperties.map((property) => (
