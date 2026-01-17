@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useParams, Link } from 'wouter';
-import { ChevronLeft, Share, Check, Calendar as CalendarIcon, Loader2, Calculator } from 'lucide-react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { ChevronLeft, Share, Check, Calendar as CalendarIcon, Loader2, Calculator, Lock, Unlock, Settings } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,34 @@ import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 
 const FRACTION_PRICE = 650000;
+const CREATOR_PASSWORD = 'lumamijuvisado';
+const BASE_YEAR = 2026;
+
+function getWeekDates(weekNumber: number, year: number = BASE_YEAR) {
+  const janFirst = new Date(year, 0, 1);
+  const dayOfWeek = janFirst.getDay();
+  const daysToFirstMonday = dayOfWeek === 0 ? 1 : (dayOfWeek === 1 ? 0 : 8 - dayOfWeek);
+  
+  const firstMonday = new Date(year, 0, 1 + daysToFirstMonday);
+  const weekStart = new Date(firstMonday);
+  weekStart.setDate(firstMonday.getDate() + (weekNumber - 1) * 7);
+  
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate() + 6);
+  
+  const formatDate = (date: Date) => {
+    const day = date.getDate();
+    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    return `${day} ${months[date.getMonth()]}`;
+  };
+  
+  return {
+    start: formatDate(weekStart),
+    end: formatDate(weekEnd),
+    startDate: weekStart,
+    endDate: weekEnd
+  };
+}
 
 function FinancialCalculator() {
   const [downPayment, setDownPayment] = useState(20);
@@ -80,10 +108,16 @@ function FinancialCalculator() {
 export default function PropertyDetail() {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   
   const [selectedWeeks, setSelectedWeeks] = useState<number[]>([]);
   const [email, setEmail] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isCreatorMode, setIsCreatorMode] = useState(false);
+  const [showCreatorDialog, setShowCreatorDialog] = useState(false);
+  const [creatorPassword, setCreatorPassword] = useState('');
+  const [blockedWeeks, setBlockedWeeks] = useState<number[]>([]);
+  const [selectedWeekDetail, setSelectedWeekDetail] = useState<number | null>(null);
 
   // Fetch property
   const { data: property, isLoading: propertyLoading } = useQuery({
@@ -99,13 +133,47 @@ export default function PropertyDetail() {
     enabled: !!id,
   });
 
-  // Generate weeks with availability (56 weeks)
+  // Generate weeks with availability and dates (56 weeks)
   const weeks = useMemo(() => {
-    return Array.from({ length: 56 }, (_, i) => ({
-      weekNumber: i + 1,
-      available: !bookedWeeks.includes(i + 1)
-    }));
-  }, [bookedWeeks]);
+    return Array.from({ length: 56 }, (_, i) => {
+      const weekNum = i + 1;
+      const dates = getWeekDates(weekNum);
+      return {
+        weekNumber: weekNum,
+        available: !bookedWeeks.includes(weekNum) && !blockedWeeks.includes(weekNum),
+        isBlocked: blockedWeeks.includes(weekNum),
+        isBooked: bookedWeeks.includes(weekNum),
+        ...dates
+      };
+    });
+  }, [bookedWeeks, blockedWeeks]);
+
+  const handleCreatorAccess = () => {
+    if (isCreatorMode) {
+      setIsCreatorMode(false);
+      return;
+    }
+    setShowCreatorDialog(true);
+  };
+
+  const verifyCreatorPassword = () => {
+    if (creatorPassword === CREATOR_PASSWORD) {
+      setIsCreatorMode(true);
+      setShowCreatorDialog(false);
+      setCreatorPassword('');
+      toast({ title: "Modo Creador activado", description: "Ahora puedes bloquear semanas" });
+    } else {
+      toast({ title: "Contraseña incorrecta", variant: "destructive" });
+    }
+  };
+
+  const toggleBlockWeek = (weekNumber: number) => {
+    setBlockedWeeks(prev => 
+      prev.includes(weekNumber) 
+        ? prev.filter(w => w !== weekNumber)
+        : [...prev, weekNumber]
+    );
+  };
 
   // Pre-booking mutation
   const bookingMutation = useMutation({
@@ -277,42 +345,98 @@ export default function PropertyDetail() {
           {/* Booking Column */}
           <div className="lg:col-span-1">
             <div className="sticky top-28 bg-white border border-border rounded-2xl p-6 shadow-xl shadow-black/5">
-              <div className="mb-6">
-                <h3 className="text-xl font-medium mb-2">Select Your Experience</h3>
-                <p className="text-sm text-muted-foreground">
-                  Select exactly 3 weeks for your annual fractional ownership.
-                </p>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-medium">Selecciona tus Semanas</h3>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleCreatorAccess}
+                  className={cn(isCreatorMode && "text-primary")}
+                >
+                  <Settings className="w-4 h-4" />
+                </Button>
               </div>
+              
+              {isCreatorMode && (
+                <div className="mb-4 p-3 bg-primary/10 rounded-lg border border-primary/20">
+                  <p className="text-xs text-primary font-medium">Modo Creador: Toca una semana para bloquear/desbloquear</p>
+                </div>
+              )}
+              
+              <p className="text-sm text-muted-foreground mb-4">
+                Selecciona exactamente 3 semanas para tu fracción.
+              </p>
 
-              {/* Weeks Grid */}
-              <div className="grid grid-cols-7 gap-1 mb-6">
+              {/* Weeks List with Dates */}
+              <div className="max-h-[400px] overflow-y-auto space-y-2 mb-6 pr-2">
                 {weeks.map((week) => (
                   <button
                     key={week.weekNumber}
-                    onClick={() => toggleWeek(week.weekNumber)}
-                    disabled={!week.available}
+                    onClick={() => {
+                      if (isCreatorMode) {
+                        toggleBlockWeek(week.weekNumber);
+                      } else if (week.available) {
+                        toggleWeek(week.weekNumber);
+                      }
+                    }}
+                    disabled={!isCreatorMode && !week.available}
                     className={cn(
-                      "aspect-square rounded-md text-xs font-medium transition-all flex items-center justify-center",
-                      !week.available && "bg-muted text-muted-foreground opacity-30 cursor-not-allowed",
-                      week.available && !selectedWeeks.includes(week.weekNumber) && "bg-muted/50 hover:bg-muted text-foreground",
-                      selectedWeeks.includes(week.weekNumber) && "bg-black text-white shadow-md scale-105"
+                      "w-full p-3 rounded-lg text-left transition-all flex items-center justify-between",
+                      week.isBlocked && "bg-red-50 border border-red-200 text-red-700",
+                      week.isBooked && !week.isBlocked && "bg-muted text-muted-foreground opacity-50 cursor-not-allowed",
+                      week.available && !selectedWeeks.includes(week.weekNumber) && "bg-muted/30 hover:bg-muted border border-transparent hover:border-border",
+                      selectedWeeks.includes(week.weekNumber) && "bg-black text-white shadow-md",
+                      isCreatorMode && "cursor-pointer hover:ring-2 hover:ring-primary/50"
                     )}
                   >
-                    {week.weekNumber}
+                    <div className="flex items-center gap-3">
+                      <span className={cn(
+                        "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold",
+                        selectedWeeks.includes(week.weekNumber) ? "bg-white/20" : "bg-black/10",
+                        week.isBlocked && "bg-red-200"
+                      )}>
+                        {week.weekNumber}
+                      </span>
+                      <div>
+                        <p className="text-sm font-medium">{week.start} - {week.end}</p>
+                        <p className={cn(
+                          "text-xs",
+                          selectedWeeks.includes(week.weekNumber) ? "text-white/70" : "text-muted-foreground"
+                        )}>
+                          Semana {week.weekNumber}
+                        </p>
+                      </div>
+                    </div>
+                    <div>
+                      {week.isBlocked && <Lock className="w-4 h-4 text-red-500" />}
+                      {week.isBooked && !week.isBlocked && <span className="text-xs">Reservada</span>}
+                      {selectedWeeks.includes(week.weekNumber) && <Check className="w-4 h-4" />}
+                    </div>
                   </button>
                 ))}
               </div>
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span>Selected Weeks</span>
+                  <span>Semanas seleccionadas</span>
                   <span className="font-medium">{selectedWeeks.length} / 3</span>
                 </div>
+                
+                {selectedWeeks.length > 0 && (
+                  <div className="text-xs text-muted-foreground space-y-1">
+                    {selectedWeeks.sort((a,b) => a-b).map(w => {
+                      const week = weeks.find(wk => wk.weekNumber === w);
+                      return week && (
+                        <p key={w}>• Semana {w}: {week.start} - {week.end}</p>
+                      );
+                    })}
+                  </div>
+                )}
                 
                 <Separator />
                 
                 <Input 
-                  placeholder="Enter your email address" 
+                  placeholder="Tu correo electrónico" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="h-12"
@@ -324,18 +448,39 @@ export default function PropertyDetail() {
                   disabled={bookingMutation.isPending}
                 >
                   {bookingMutation.isPending ? (
-                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing...</>
-                  ) : "Confirm Pre-Booking"}
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Procesando...</>
+                  ) : "Confirmar Pre-Reserva"}
                 </Button>
 
                 <p className="text-xs text-center text-muted-foreground mt-4">
-                  Free 5-day hold. No wallet required. No payment today.
+                  Hold gratuito por 5 días. Sin pago hoy.
                 </p>
               </div>
             </div>
           </div>
         </div>
       </main>
+
+      {/* Creator Mode Password Dialog */}
+      <Dialog open={showCreatorDialog} onOpenChange={setShowCreatorDialog}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle>Acceso Modo Creador</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <Input 
+              type="password"
+              placeholder="Contraseña"
+              value={creatorPassword}
+              onChange={e => setCreatorPassword(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && verifyCreatorPassword()}
+            />
+            <Button onClick={verifyCreatorPassword} className="w-full">
+              Acceder
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <FloatingButtons />
       <BottomNav />
