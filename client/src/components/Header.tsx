@@ -24,6 +24,7 @@ export function Header() {
   const { toast } = useToast();
   const [showRegister, setShowRegister] = useState(false);
   const [registerEmail, setRegisterEmail] = useState('');
+  const [language, setLanguage] = useState<'ES' | 'EN'>('ES');
 
   const handleRegister = () => {
     if (!registerEmail) {
@@ -43,7 +44,7 @@ export function Header() {
   };
 
   const openWhatsApp = () => {
-    window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fraccional%20All%20Living', '_blank');
+    window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living', '_blank');
   };
 
   return (
@@ -71,9 +72,15 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" className="hidden md:flex text-sm font-medium" data-testid="button-language">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="hidden md:flex text-sm font-medium" 
+              data-testid="button-language"
+              onClick={() => setLanguage(lang => lang === 'ES' ? 'EN' : 'ES')}
+            >
               <Globe className="w-4 h-4 mr-1" />
-              EN
+              {language}
             </Button>
 
             <DropdownMenu>
@@ -110,7 +117,7 @@ export function Header() {
       <Dialog open={showRegister} onOpenChange={setShowRegister}>
         <DialogContent className="sm:max-w-[400px]">
           <DialogHeader>
-            <DialogTitle>Únete a Fraccional All Living</DialogTitle>
+            <DialogTitle>Únete a Fractional Living</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <p className="text-sm text-muted-foreground">

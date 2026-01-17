@@ -1,10 +1,13 @@
-# Fraccional All Living
+# Fractional Living
 
 ## Overview
 
-Fraccional All Living es una plataforma de propiedad fraccionada inspirada en la experiencia de usuario de Airbnb. En lugar de reservar alquileres a corto plazo, los usuarios exploran y adquieren unidades de propiedad fraccionada en propiedades de lujo incluyendo propiedades, yates, espacios comerciales y experiencias exclusivas.
+**FRACTIONAL LIVING** - All Global Holding LLC
 
-La plataforma cuenta con un sistema de pre-reserva basado en semanas donde los usuarios pueden reservar semanas específicas del año para su propiedad fraccionada.
+Plataforma de fracciones inmobiliarias de lujo que conecta propiedad, uso y valor en un solo activo.
+Vive, invierte y construye patrimonio en el Caribe bajo un modelo fractional real, legal y heredable.
+
+La plataforma cuenta con un sistema de pre-reserva basado en semanas (56 semanas) donde los usuarios pueden seleccionar exactamente 3 semanas para su fracción.
 
 ## Funcionalidades Completas de la App
 

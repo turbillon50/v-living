@@ -5,12 +5,12 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 const WHATSAPP_NUMBER = '+529984292748';
-const WHATSAPP_MESSAGE = 'Hola, me interesa saber más sobre Fraccional All Living';
+const WHATSAPP_MESSAGE = 'Hola, estoy listo para invertir en Fractional Living';
 
 export function FloatingButtons() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{role: 'user' | 'alex', text: string}[]>([
-    { role: 'alex', text: '¡Hola! Soy Alex, tu asistente de Fraccional All Living. ¿En qué puedo ayudarte hoy?' }
+  const [messages, setMessages] = useState<{role: 'user' | 'alix', text: string}[]>([
+    { role: 'alix', text: '¡Hola! Soy ALIX 2.4, tu asistente de inteligencia artificial de Fractional Living. ¿En qué puedo ayudarte hoy?' }
   ]);
   const [input, setInput] = useState('');
 
@@ -22,8 +22,8 @@ export function FloatingButtons() {
 
     setTimeout(() => {
       setMessages(prev => [...prev, { 
-        role: 'alex', 
-        text: "Puedo ayudarte a entender nuestro modelo de propiedad fraccionada o guiarte a la propiedad perfecta. ¿Te gustaría explorar nuestras Propiedades o Yachts?" 
+        role: 'alix', 
+        text: "Puedo ayudarte con información sobre nuestras fracciones inmobiliarias, el proceso de compra, financiamiento con Last Minute Capital, o conectarte con un asesor. ¿Qué te gustaría saber?" 
       }]);
     }, 1000);
   };
@@ -34,13 +34,13 @@ export function FloatingButtons() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <div className="fixed bottom-24 right-6 z-50 flex flex-col items-end gap-3">
       {isOpen && (
         <div className="bg-white border border-border rounded-2xl shadow-2xl w-80 mb-2 overflow-hidden animate-in slide-in-from-bottom-5 fade-in duration-300">
           <div className="bg-black text-white p-4 flex justify-between items-center">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="font-medium">Alex AI</span>
+              <span className="font-medium">ALIX 2.4</span>
             </div>
             <button onClick={() => setIsOpen(false)} className="text-white/70 hover:text-white">
               <X className="w-4 h-4" />
@@ -53,7 +53,7 @@ export function FloatingButtons() {
                 key={i} 
                 className={cn(
                   "max-w-[85%] p-3 rounded-2xl text-sm",
-                  msg.role === 'alex' 
+                  msg.role === 'alix' 
                     ? "bg-white border border-border rounded-tl-none self-start mr-auto" 
                     : "bg-black text-white rounded-tr-none self-end ml-auto"
                 )}
@@ -65,7 +65,7 @@ export function FloatingButtons() {
 
           <div className="p-3 border-t bg-white flex gap-2">
             <Input 
-              placeholder="Pregúntale a Alex..." 
+              placeholder="Pregunta a ALIX..." 
               className="border-0 bg-muted/50 focus-visible:ring-0 focus-visible:bg-muted"
               value={input}
               onChange={e => setInput(e.target.value)}
