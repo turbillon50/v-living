@@ -77,7 +77,7 @@ export default function Welcome() {
 
           {showContent && (
             <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-              <Link href="/">
+              <Link href="/home">
                 <Button size="lg" className="bg-white text-black hover:bg-white/90 gap-2 h-14 px-8 text-lg rounded-full">
                   Explorar Plataforma
                   <ArrowRight className="w-5 h-5" />
