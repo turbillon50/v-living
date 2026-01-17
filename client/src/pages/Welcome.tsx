@@ -18,10 +18,10 @@ export default function Welcome() {
     <div className="min-h-screen bg-black text-white overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-900 to-black" />
       
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/30 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/30 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/30 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-emerald-500/20 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-teal-500/20 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
       <div className="relative z-10 min-h-screen flex flex-col">
@@ -55,7 +55,7 @@ export default function Welcome() {
             
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6">
               FRACTIONAL
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-400 to-emerald-400">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-teal-400">
                 LIVING
               </span>
             </h1>
@@ -143,7 +143,7 @@ export default function Welcome() {
               </div>
             </section>
 
-            <section className="bg-gradient-to-r from-purple-900/50 via-blue-900/50 to-emerald-900/50 py-12">
+            <section className="bg-gradient-to-r from-cyan-900/50 via-blue-900/50 to-teal-900/50 py-12">
               <div className="max-w-4xl mx-auto px-6 text-center">
                 <h3 className="text-xl md:text-2xl font-light mb-4">
                   ¿Tienes una propiedad?
@@ -186,7 +186,7 @@ function FeatureCard({ icon: Icon, label, sublabel }: { icon: any; label: string
 function InfoCard({ title, description, icon: Icon }: { title: string; description: string; icon: any }) {
   return (
     <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-colors">
-      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center mb-4">
+      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center mb-4">
         <Icon className="w-6 h-6 text-white/80" />
       </div>
       <h3 className="font-medium text-lg mb-2">{title}</h3>

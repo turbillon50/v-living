@@ -118,6 +118,7 @@ export default function PropertyDetail() {
   const [creatorPassword, setCreatorPassword] = useState('');
   const [blockedWeeks, setBlockedWeeks] = useState<number[]>([]);
   const [selectedWeekDetail, setSelectedWeekDetail] = useState<number | null>(null);
+  const [bookingType, setBookingType] = useState<'fraction' | 'vacation'>('fraction');
 
   // Fetch property
   const { data: property, isLoading: propertyLoading } = useQuery({
@@ -176,13 +177,14 @@ export default function PropertyDetail() {
   };
 
   // Send WhatsApp alert to advisor
-  const sendAdvisorAlert = (userEmail: string, weeks: number[]) => {
+  const sendAdvisorAlert = (userEmail: string, weeks: number[], type: 'fraction' | 'vacation') => {
     const weekDetails = weeks.sort((a,b) => a-b).map(w => {
-      const week = weeks ? getWeekDates(w) : null;
-      return week ? `Semana ${w}: ${week.start} - ${week.end}` : `Semana ${w}`;
+      const week = getWeekDates(w);
+      return `Semana ${w}: ${week.start} - ${week.end}`;
     }).join('\n');
     
-    const message = `🔔 NUEVA PRE-RESERVA\n\nEmail: ${userEmail}\nPropiedad: ${property?.title || 'Sin nombre'}\n\nSemanas seleccionadas:\n${weekDetails}\n\n¡Contactar de inmediato!`;
+    const typeLabel = type === 'fraction' ? '💎 COMPRA DE FRACCIÓN' : '🏖️ RESERVA VACACIONAL';
+    const message = `🔔 NUEVA SOLICITUD\n\n${typeLabel}\n\nEmail: ${userEmail}\nPropiedad: ${property?.title || 'Sin nombre'}\n\nSemanas seleccionadas:\n${weekDetails}\n\n¡Contactar de inmediato!`;
     
     const whatsappUrl = `https://wa.me/529984292748?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
@@ -193,7 +195,7 @@ export default function PropertyDetail() {
     mutationFn: createPreBooking,
     onSuccess: () => {
       setShowSuccess(true);
-      sendAdvisorAlert(email, selectedWeeks);
+      sendAdvisorAlert(email, selectedWeeks, bookingType);
     },
     onError: (error: any) => {
       toast({
@@ -370,6 +372,32 @@ export default function PropertyDetail() {
                   <Settings className="w-4 h-4" />
                 </Button>
               </div>
+
+              {/* Booking Type Toggle */}
+              <div className="flex gap-2 mb-4">
+                <button
+                  onClick={() => setBookingType('fraction')}
+                  className={cn(
+                    "flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all",
+                    bookingType === 'fraction' 
+                      ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white" 
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  )}
+                >
+                  Comprar Fracción
+                </button>
+                <button
+                  onClick={() => setBookingType('vacation')}
+                  className={cn(
+                    "flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all",
+                    bookingType === 'vacation' 
+                      ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white" 
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  )}
+                >
+                  Solo Vacacionar
+                </button>
+              </div>
               
               {isCreatorMode && (
                 <div className="mb-4 p-3 bg-primary/10 rounded-lg border border-primary/20">
@@ -378,7 +406,10 @@ export default function PropertyDetail() {
               )}
               
               <p className="text-sm text-muted-foreground mb-4">
-                Selecciona exactamente 3 semanas para tu fracción.
+                {bookingType === 'fraction' 
+                  ? "Selecciona exactamente 3 semanas para tu fracción."
+                  : "Selecciona las semanas que deseas para vacacionar."
+                }
               </p>
 
               {/* Weeks List with Dates */}
@@ -450,13 +481,24 @@ export default function PropertyDetail() {
                   </div>
                 )}
 
-                {selectedWeeks.length === 3 && (
-                  <div className="p-4 bg-green-50 border-2 border-green-200 rounded-xl animate-pulse">
-                    <p className="text-green-800 font-medium text-center text-sm mb-2">
-                      ¡Excelente elección!
+                {((bookingType === 'fraction' && selectedWeeks.length === 3) || (bookingType === 'vacation' && selectedWeeks.length > 0)) && (
+                  <div className={cn(
+                    "p-4 rounded-xl border-2",
+                    bookingType === 'fraction' 
+                      ? "bg-gradient-to-r from-cyan-50 to-blue-50 border-cyan-200" 
+                      : "bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200"
+                  )}>
+                    <p className={cn(
+                      "font-medium text-center text-sm mb-2",
+                      bookingType === 'fraction' ? "text-cyan-800" : "text-emerald-800"
+                    )}>
+                      {bookingType === 'fraction' ? '¡Excelente inversión!' : '¡Vacaciones perfectas!'}
                     </p>
-                    <p className="text-green-700 text-xs text-center">
-                      Ingresa tu correo para reservar estas semanas
+                    <p className={cn(
+                      "text-xs text-center",
+                      bookingType === 'fraction' ? "text-cyan-700" : "text-emerald-700"
+                    )}>
+                      Ingresa tu correo para {bookingType === 'fraction' ? 'reservar tu fracción' : 'apartar tus fechas'}
                     </p>
                   </div>
                 )}
@@ -473,17 +515,18 @@ export default function PropertyDetail() {
                 <Button 
                   className={cn(
                     "w-full h-14 text-lg font-medium transition-all",
-                    selectedWeeks.length === 3 && email && "bg-green-600 hover:bg-green-700 animate-pulse"
+                    bookingType === 'fraction' && selectedWeeks.length === 3 && email && "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700",
+                    bookingType === 'vacation' && selectedWeeks.length > 0 && email && "bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
                   )}
                   onClick={handlePreBook}
-                  disabled={bookingMutation.isPending || selectedWeeks.length !== 3}
+                  disabled={bookingMutation.isPending || (bookingType === 'fraction' ? selectedWeeks.length !== 3 : selectedWeeks.length === 0)}
                 >
                   {bookingMutation.isPending ? (
                     <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Procesando...</>
-                  ) : selectedWeeks.length === 3 ? (
-                    "¡Reservar Ahora!"
+                  ) : bookingType === 'fraction' ? (
+                    selectedWeeks.length === 3 ? "¡Invertir Ahora!" : `Selecciona ${3 - selectedWeeks.length} semana${3 - selectedWeeks.length !== 1 ? 's' : ''} más`
                   ) : (
-                    `Selecciona ${3 - selectedWeeks.length} semana${3 - selectedWeeks.length !== 1 ? 's' : ''} más`
+                    selectedWeeks.length > 0 ? `¡Reservar ${selectedWeeks.length} semana${selectedWeeks.length !== 1 ? 's' : ''}!` : "Selecciona tus fechas"
                   )}
                 </Button>
 
