@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter';
-import { Globe, Menu, User } from 'lucide-react';
+import { Globe, Menu, User, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -52,17 +52,24 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-white border-b border-border/60">
       <div className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20">
         <div className="flex items-center justify-between h-20">
-          <Link href="/" data-testid="link-home">
-            <div className="flex items-center gap-3 cursor-pointer">
-              <img src={logoImage} alt="Fractional Living" className="w-10 h-10 object-contain" />
-              <div className="hidden sm:block">
-                <span className="text-lg font-semibold text-foreground tracking-tight block leading-none">
-                  FRACTIONAL LIVING
-                </span>
-                <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">All Global Holding LLC</p>
+          <div className="flex items-center gap-2">
+            <Link href="/" data-testid="link-back-lobby">
+              <button className="p-2 rounded-full hover:bg-muted transition-colors" title={language === 'es' ? 'Volver al Lobby' : 'Back to Lobby'}>
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+            </Link>
+            <Link href="/" data-testid="link-home">
+              <div className="flex items-center gap-3 cursor-pointer">
+                <img src={logoImage} alt="Fractional Living" className="w-10 h-10 object-contain" />
+                <div className="hidden sm:block">
+                  <span className="text-lg font-semibold text-foreground tracking-tight block leading-none">
+                    FRACTIONAL LIVING
+                  </span>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">All Global Holding LLC</p>
+                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
 
           <nav className="hidden lg:flex items-center gap-6">
             <Link href="/fractional" data-testid="link-fractional">
