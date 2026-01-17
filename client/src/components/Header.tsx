@@ -20,12 +20,12 @@ export function Header() {
         <div className="flex items-center justify-between h-20">
           <Link href="/" data-testid="link-home">
             <div className="flex items-center gap-3 cursor-pointer">
-              <img src={logoImage} alt="Republica" className="w-10 h-10 object-contain" />
+              <img src={logoImage} alt="Fraccional All Living" className="w-10 h-10 object-contain" />
               <div className="hidden sm:block">
-                <span className="text-xl font-semibold text-foreground tracking-tight block leading-none">
-                  Republica
+                <span className="text-lg font-semibold text-foreground tracking-tight block leading-none">
+                  FRACCIONAL
                 </span>
-                <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">Fractional Experience</p>
+                <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">All Living</p>
               </div>
             </div>
           </Link>

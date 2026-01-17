@@ -12,7 +12,7 @@ import commercial2 from '@assets/stock_images/modern_luxury_office_b44ff32f.jpg'
 import experience1 from '@assets/stock_images/luxury_lifestyle_exp_660e1875.jpg';
 import experience2 from '@assets/stock_images/luxury_lifestyle_exp_d4974d66.jpg';
 
-export type Category = 'Villas' | 'Yachts' | 'Experiences' | 'Commercial' | 'Rewards' | 'LastMinute';
+export type Category = 'Propiedades' | 'Yachts' | 'Experiences' | 'Commercial' | 'Rewards' | 'LastMinute';
 
 export interface Property {
   id: string;
@@ -25,7 +25,7 @@ export interface Property {
 }
 
 export const categories: { id: Category; label: string; image: string }[] = [
-  { id: 'Villas', label: 'Villas', image: villa1 },
+  { id: 'Propiedades', label: 'Propiedades', image: villa1 },
   { id: 'Yachts', label: 'Yachts', image: yacht1 },
   { id: 'Experiences', label: 'Experiences', image: experience1 },
   { id: 'Commercial', label: 'Commercial', image: commercial1 },
@@ -36,7 +36,7 @@ export const categories: { id: Category; label: string; image: string }[] = [
 export const properties: Property[] = [
   {
     id: '1',
-    category: 'Villas',
+    category: 'Propiedades',
     title: 'Casa Infinity',
     location: 'Marbella, Spain',
     description: 'A masterpiece of modern design overlooking the Mediterranean. Experience the pinnacle of coastal living with infinity pools and private beach access.',

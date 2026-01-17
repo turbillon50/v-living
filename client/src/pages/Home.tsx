@@ -26,11 +26,16 @@ import { getProperties, createProperty } from '@/lib/api';
 import { AlexAssistant } from '@/components/AlexAssistant';
 import { useToast } from '@/hooks/use-toast';
 
+const CREATOR_PASSWORD = 'lumamijuvisado';
+
 export default function Home() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const [selectedCategory, setSelectedCategory] = useState<Category | 'All'>('All');
   const [showCreator, setShowCreator] = useState(false);
+  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
+  const [creatorPassword, setCreatorPassword] = useState('');
+  const [isCreatorUnlocked, setIsCreatorUnlocked] = useState(false);
   
   // Fetch properties from API
   const { data: properties = [], isLoading } = useQuery({
@@ -44,9 +49,36 @@ export default function Home() {
     location: '',
     description: '',
     conditions: [],
-    category: 'Villas',
+    category: 'Propiedades',
     images: []
   });
+
+  const handleCreatorAccess = () => {
+    if (isCreatorUnlocked) {
+      setShowCreator(true);
+    } else {
+      setShowPasswordDialog(true);
+    }
+  };
+
+  const verifyPassword = () => {
+    if (creatorPassword === CREATOR_PASSWORD) {
+      setIsCreatorUnlocked(true);
+      setShowPasswordDialog(false);
+      setShowCreator(true);
+      setCreatorPassword('');
+      toast({
+        title: "Modo Creador Activado",
+        description: "Ahora puedes crear y editar experiencias",
+      });
+    } else {
+      toast({
+        title: "Contraseña Incorrecta",
+        description: "Por favor, intenta de nuevo",
+        variant: "destructive"
+      });
+    }
+  };
 
   // Create property mutation
   const createMutation = useMutation({
@@ -54,7 +86,7 @@ export default function Home() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['properties'] });
       setShowCreator(false);
-      setNewProp({ title: '', location: '', description: '', conditions: [], category: 'Villas', images: [] });
+      setNewProp({ title: '', location: '', description: '', conditions: [], category: 'Propiedades', images: [] });
       toast({
         title: "Success",
         description: "Property created successfully",
@@ -84,7 +116,7 @@ export default function Home() {
       location: newProp.location,
       description: newProp.description || '',
       conditions: newProp.conditions || [],
-      category: newProp.category || 'Villas',
+      category: newProp.category || 'Propiedades',
       images: ['https://images.unsplash.com/photo-1600596542815-e32870110274?auto=format&fit=crop&w=1600&q=80']
     };
 
@@ -142,13 +174,36 @@ export default function Home() {
             <h2 className="text-2xl font-light tracking-tight">
               {selectedCategory === 'All' ? 'Curated Collection' : `${selectedCategory} Collection`}
             </h2>
+            {/* Password Dialog */}
+            <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
+              <DialogContent className="sm:max-w-[400px]">
+                <DialogHeader>
+                  <DialogTitle>Acceso Modo Creador</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="grid w-full gap-2">
+                    <label className="text-sm font-medium">Contraseña</label>
+                    <Input 
+                      type="password"
+                      placeholder="Ingresa la contraseña" 
+                      value={creatorPassword}
+                      onChange={e => setCreatorPassword(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && verifyPassword()}
+                    />
+                  </div>
+                  <Button onClick={verifyPassword} className="w-full">
+                    Acceder
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            <Button variant="outline" className="gap-2" onClick={handleCreatorAccess}>
+              <Plus className="w-4 h-4" />
+              {isCreatorUnlocked ? 'Modo Creador' : 'Creator Mode'}
+            </Button>
+
             <Dialog open={showCreator} onOpenChange={setShowCreator}>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
-                  <Plus className="w-4 h-4" />
-                  Creator Mode
-                </Button>
-              </DialogTrigger>
               <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
                   <DialogTitle>Add New Experience</DialogTitle>
@@ -241,7 +296,7 @@ export default function Home() {
         <div className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">
-              © 2026 Republica. Fractional Experience.
+              © 2026 Fraccional All Living. Experiencia Fraccionada.
             </p>
             <div className="flex items-center gap-6">
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
