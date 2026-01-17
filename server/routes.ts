@@ -165,7 +165,7 @@ export async function registerRoutes(
         vacationBookings: vacationBookings.length,
         totalSubscribers: subscribers.length,
         totalAnnouncements: announcements.length,
-        uniqueEmails: [...new Set(bookings.map(b => b.email))].length,
+        uniqueEmails: Array.from(new Set(bookings.map(b => b.email))).length,
       });
     } catch (error) {
       console.error("Error fetching analytics:", error);

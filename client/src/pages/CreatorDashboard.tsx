@@ -394,7 +394,7 @@ export default function CreatorDashboard() {
                 <div className="p-4 bg-white/5 rounded-lg">
                   <h4 className="font-medium text-white mb-2">Emails registrados</h4>
                   <div className="space-y-2 max-h-[200px] overflow-y-auto">
-                    {bookings && [...new Set(bookings.map(b => b.email))].map((email) => (
+                    {bookings && Array.from(new Set(bookings.map(b => b.email))).map((email) => (
                       <div key={email} className="flex items-center gap-2 text-sm text-white/70">
                         <Mail className="w-4 h-4" />
                         {email}
