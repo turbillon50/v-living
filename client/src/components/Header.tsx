@@ -64,9 +64,19 @@ export function Header() {
           </Link>
 
           <nav className="hidden lg:flex items-center gap-6">
-            <Link href="/" data-testid="link-explore">
-              <span className={`text-sm font-medium cursor-pointer transition-colors ${location === '/' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
-                Experience
+            <Link href="/fractional" data-testid="link-fractional">
+              <span className={`text-sm font-medium cursor-pointer transition-colors ${location.startsWith('/fractional') ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
+                Fracciones
+              </span>
+            </Link>
+            <Link href="/experiences" data-testid="link-experiences">
+              <span className={`text-sm font-medium cursor-pointer transition-colors ${location === '/experiences' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
+                Experiencias
+              </span>
+            </Link>
+            <Link href="/lobby" data-testid="link-lobby">
+              <span className={`text-sm font-medium cursor-pointer transition-colors ${location === '/lobby' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
+                Lobby
               </span>
             </Link>
           </nav>

@@ -147,45 +147,75 @@ export default function Home() {
         {/* Hero Story Section */}
         <section className="mb-16 max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-light mb-6 tracking-tight leading-tight">
-            Fractional Living
+            La Evolución de la Propiedad
           </h1>
           <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-            Plataforma de fracciones inmobiliarias de lujo que conecta propiedad, uso y valor en un solo activo.
-            Vive, invierte y construye patrimonio en el Caribe bajo un modelo fractional real, legal y heredable.
+            Fractional Living representa la evolución natural del mercado inmobiliario. 
+            Tomamos lo mejor de los modelos tradicionales y lo llevamos al siguiente nivel.
           </p>
           
-          <div className="bg-muted/50 rounded-2xl p-8 mb-8">
-            <p className="text-lg mb-6 font-medium">
-              Fractional Living nace para resolver lo que el tiempo compartido nunca pudo: 
-              propiedad real, valor patrimonial y libertad de uso.
-            </p>
+          <div className="bg-gradient-to-br from-muted/50 to-muted/30 rounded-2xl p-8 mb-8 border border-border">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <ArrowRight className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="text-xl font-medium">De donde venimos → A donde vamos</h3>
+            </div>
             
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="p-4 bg-white rounded-xl border border-border">
-                <h4 className="font-medium text-red-600 mb-3">❌ Tiempo compartido:</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• Compras solo tiempo vacacional</li>
-                  <li>• Sin propiedad real</li>
-                  <li>• Sin valor de reventa</li>
+              <div className="p-5 bg-white/80 rounded-xl border border-border">
+                <h4 className="font-medium text-muted-foreground mb-3 text-sm uppercase tracking-wide">Modelo Tradicional</h4>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="text-muted-foreground">→</span>
+                    <span>Tiempo vacacional compartido</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-muted-foreground">→</span>
+                    <span>Derecho de uso limitado</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-muted-foreground">→</span>
+                    <span>Valor estático</span>
+                  </li>
                 </ul>
               </div>
-              <div className="p-4 bg-white rounded-xl border border-primary/30">
-                <h4 className="font-medium text-primary mb-3">✅ Fractional:</h4>
+              <div className="p-5 bg-primary/5 rounded-xl border-2 border-primary/20">
+                <h4 className="font-medium text-primary mb-3 text-sm uppercase tracking-wide">Fractional Living</h4>
                 <ul className="space-y-2 text-sm">
-                  <li>• Eres dueño de una fracción inmobiliaria real</li>
-                  <li>• Activo legal, heredable y con plusvalía</li>
-                  <li>• Puedes usarla, rentarla o revenderla</li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">✦</span>
+                    <span><strong>Propiedad real</strong> — Eres dueño de una fracción inmobiliaria</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">✦</span>
+                    <span><strong>Activo heredable</strong> — Con plusvalía y valor patrimonial</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">✦</span>
+                    <span><strong>Libertad total</strong> — Úsala, réntala o revéndela</span>
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
 
-          <Link href="/fractional">
-            <Button size="lg" className="gap-2 text-lg px-8 h-14">
-              Ver Fracciones Disponibles
-              <ArrowRight className="w-5 h-5" />
+          <div className="flex flex-wrap gap-4">
+            <Link href="/fractional">
+              <Button size="lg" className="gap-2 text-lg px-8 h-14">
+                Ver Fracciones Disponibles
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="gap-2 h-14 px-6"
+              onClick={() => window.open('https://wa.me/529984292748?text=Hola,%20quiero%20integrar%20mi%20propiedad', '_blank')}
+            >
+              Integrar Mi Propiedad
             </Button>
-          </Link>
+          </div>
         </section>
 
         {/* Categories Grid */}

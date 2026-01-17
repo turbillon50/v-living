@@ -1,8 +1,9 @@
 import { Link, useLocation } from 'wouter';
-import { Building2, Sparkles, LayoutGrid } from 'lucide-react';
+import { Building2, Sparkles, LayoutGrid, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
+  { href: '/home', label: 'Inicio', icon: Home },
   { href: '/fractional', label: 'Fracciones', icon: Building2 },
   { href: '/experiences', label: 'Experiencias', icon: Sparkles },
   { href: '/lobby', label: 'Lobby', icon: LayoutGrid },
