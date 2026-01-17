@@ -1,18 +1,16 @@
 import { Link, useLocation } from 'wouter';
-import { Building2, Sparkles, Zap, User, Home as HomeIcon } from 'lucide-react';
+import { Building2, Home as HomeIcon, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/lib/LanguageContext';
 
 export function BottomNav() {
   const [location] = useLocation();
-  const { t } = useLanguage();
+  const { language } = useLanguage();
 
   const navItems = [
-    { href: '/fractional', label: t('fractions'), icon: Building2 },
-    { href: '/experiences', label: t('experiences'), icon: Sparkles },
-    { href: '/last-minute', label: t('lastMinute'), icon: Zap },
-    { href: '/perfil-asociado', label: t('profile'), icon: User },
-    { href: '/property-asociado', label: t('property'), icon: HomeIcon },
+    { href: '/', label: 'Lobby', icon: HomeIcon },
+    { href: '/fractional', label: language === 'es' ? 'Fracciones' : 'Fractions', icon: Building2 },
+    { href: '/experiences', label: language === 'es' ? 'Experiencias' : 'Experiences', icon: Sparkles },
   ];
 
   return (
@@ -27,15 +25,12 @@ export function BottomNav() {
             return (
               <Link key={item.href} href={item.href}>
                 <div className={cn(
-                  "flex flex-col items-center gap-1 px-6 py-2 rounded-xl transition-all cursor-pointer",
+                  "flex flex-col items-center gap-1 px-8 py-2 rounded-xl transition-all cursor-pointer",
                   isActive 
                     ? "text-primary" 
                     : "text-muted-foreground hover:text-foreground"
                 )}>
-                  <Icon className={cn(
-                    "w-6 h-6 transition-transform",
-                    !isActive && "animate-[pulse_2s_ease-in-out_infinite]"
-                  )} />
+                  <Icon className="w-6 h-6" />
                   <span className="text-xs font-medium">{item.label}</span>
                 </div>
               </Link>

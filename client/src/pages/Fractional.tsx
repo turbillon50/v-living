@@ -212,7 +212,7 @@ function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
                 <div className="mb-4 p-2 bg-cyan-50 rounded-lg">
                   <p className="text-xs text-cyan-700">
                     {selectedWeeks.sort((a,b) => a-b).map(w => {
-                      const week = getWeekDates(w);
+                      const week = getWeekDates(w, language);
                       return `S${w}: ${week.start}`;
                     }).join(' • ')}
                   </p>
@@ -257,6 +257,7 @@ function PropertyCard({ property, isExpanded, onToggle }: PropertyCardProps) {
 
 export default function Fractional() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [showAll, setShowAll] = useState(false);
   const { language, t } = useLanguage();
   
   const { data: properties = [], isLoading } = useQuery({
@@ -266,7 +267,7 @@ export default function Fractional() {
 
   const displayProperties = properties.length > 0 
     ? properties 
-    : Array.from({ length: 10 }, (_, i) => ({
+    : Array.from({ length: 30 }, (_, i) => ({
         id: `placeholder-${i}`,
         title: language === 'es' ? `Fracción ${i + 1}` : `Fraction ${i + 1}`,
         location: language === 'es' ? 'Caribe Mexicano' : 'Mexican Caribbean',
@@ -274,6 +275,8 @@ export default function Fractional() {
         images: [],
         category: 'Propiedades'
       }));
+  
+  const visibleProperties = showAll ? displayProperties : displayProperties.slice(0, 4);
 
   if (isLoading) {
     return (
@@ -301,7 +304,7 @@ export default function Fractional() {
         </div>
 
         <div className="space-y-4">
-          {displayProperties.slice(0, 10).map((property) => (
+          {visibleProperties.map((property) => (
             <PropertyCard
               key={property.id}
               property={property}
@@ -311,19 +314,29 @@ export default function Fractional() {
           ))}
         </div>
 
-        <div className="mt-8 p-4 bg-gradient-to-r from-cyan-100 to-blue-100 rounded-2xl text-center">
-          <p className="text-sm text-cyan-800">
-            💡 {language === 'es' ? '¿Tienes preguntas? Contacta a un asesor por WhatsApp' : 'Have questions? Contact an advisor via WhatsApp'}
-          </p>
-          <Button
-            variant="outline"
-            size="sm"
-            className="mt-2"
-            onClick={() => window.open('https://wa.me/529984292748', '_blank')}
-          >
-            {t('contactAdvisor')}
-          </Button>
-        </div>
+        {!showAll && displayProperties.length > 4 && (
+          <div className="mt-6 text-center">
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white px-8 rounded-full"
+              onClick={() => setShowAll(true)}
+            >
+              {language === 'es' ? `Explorar Más (${displayProperties.length - 4} más)` : `Explore More (${displayProperties.length - 4} more)`}
+            </Button>
+          </div>
+        )}
+
+        {showAll && (
+          <div className="mt-6 text-center">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowAll(false)}
+            >
+              {language === 'es' ? 'Ver menos' : 'Show less'}
+            </Button>
+          </div>
+        )}
       </main>
 
       <FloatingButtons />
