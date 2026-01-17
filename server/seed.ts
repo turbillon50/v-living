@@ -2,7 +2,7 @@ import { storage } from "./storage";
 
 const seedProperties = [
   {
-    category: "Villas",
+    category: "Propiedades",
     title: "Casa Infinity",
     location: "Marbella, Spain",
     description: "A masterpiece of modern design overlooking the Mediterranean. Experience the pinnacle of coastal living with infinity pools and private beach access.",
