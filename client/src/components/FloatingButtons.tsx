@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Bot, X, Send, MessageCircle } from 'lucide-react';
+import { Bot, X, Send, MessageCircle, Home } from 'lucide-react';
+import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -79,6 +80,17 @@ export function FloatingButtons() {
       )}
 
       <div className="flex flex-col gap-3">
+        {/* Lobby Button */}
+        <Link href="/">
+          <Button 
+            size="lg" 
+            className="rounded-full h-14 w-14 shadow-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white"
+            data-testid="button-lobby"
+          >
+            <Home className="w-6 h-6" />
+          </Button>
+        </Link>
+
         {/* WhatsApp Button */}
         <Button 
           size="lg" 

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { ArrowRight, Wallet, Building2, Shield, Bot, Users, Coins, Globe, ChevronDown } from 'lucide-react';
+import { ArrowRight, Wallet, Building2, Shield, Bot, Users, Coins, Globe, ChevronDown, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+
+const WHATSAPP_NUMBER = '529984292748';
 
 export default function Welcome() {
   const [isVisible, setIsVisible] = useState(false);
@@ -168,6 +170,24 @@ export default function Welcome() {
             </footer>
           </div>
         )}
+
+        {/* Floating WhatsApp & ALIX buttons */}
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+          <Button 
+            size="lg" 
+            className="rounded-full h-14 w-14 shadow-xl bg-[#25D366] hover:bg-[#20BD5A] text-white"
+            onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, me interesa Fractional Living')}`, '_blank')}
+          >
+            <MessageCircle className="w-6 h-6" />
+          </Button>
+          <Button 
+            size="lg" 
+            className="rounded-full h-14 w-14 shadow-xl bg-white/10 hover:bg-white/20 text-white border border-white/20"
+            onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola ALIX, necesito información sobre Fractional Living')}`, '_blank')}
+          >
+            <Bot className="w-6 h-6" />
+          </Button>
+        </div>
       </div>
     </div>
   );
