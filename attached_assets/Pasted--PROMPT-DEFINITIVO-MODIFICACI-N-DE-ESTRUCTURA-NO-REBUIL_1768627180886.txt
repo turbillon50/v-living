@@ -1,0 +1,211 @@
+
+PROMPT DEFINITIVO — MODIFICACIÓN DE ESTRUCTURA (NO REBUILD)
+
+Contexto obligatorio (léelo y cúmplelo):
+Esta app YA EXISTE y está montada sobre una base llamada Text Analyzer.
+NO reconstruyas desde cero. NO descargues ni regeneres la app base.
+Solo modifica la estructura existente, componentes, textos, jerarquía y navegación.
+No subas imágenes. Todos los contenedores visuales deben quedar vacíos y editables desde Modo Creador móvil.
+
+⸻
+
+1. IDENTIDAD Y MARCA (HEADER GLOBAL)
+	•	Nombre principal visible:
+FRACTIONAL LIVING
+	•	Subtítulo:
+All Global Holding LLC
+	•	Descripción corta editable:
+Plataforma de fracciones inmobiliarias de lujo que conecta propiedad, uso y valor en un solo activo.
+Vive, invierte y construye patrimonio en el Caribe bajo un modelo fractional real, legal y heredable.
+
+Todo el texto debe ser editable desde modo creador.
+
+⸻
+
+2. DEFINICIÓN CLARA DE RUTAS (ESTO ES CRÍTICO)
+
+Define estas rutas exactas y mantenlas visibles:
+	•	/ → Home / Fractional Living
+	•	/fractional → Fracciones
+	•	/experiences → Experiencias
+	•	/lobby → Lobby All Global Holding
+	•	/ai → ALIX – IA
+	•	/contact → WhatsApp / Contacto
+
+El Lobby es /lobby.
+No lo infieras, defínelo explícitamente.
+
+⸻
+
+3. NAVEGACIÓN Y BOTONES FIJOS (SIEMPRE VISIBLES)
+
+En toda la app:
+	•	Botón flotante ALIX (IA)
+Texto:
+Pregunta a nuestra inteligencia artificial ALIX 2.4
+	•	Botón flotante WhatsApp
+Texto:
+Habla con un asesor si estás listo para invertir
+	•	Barra inferior fija con 3 botones latentes (call to action animado suave):
+	1.	Fracciones
+	2.	Experiencias
+	3.	Lobby All Global Holding
+
+Los botones deben:
+	•	Tener efecto “latido” sutil
+	•	Ser jerárquicos
+	•	Reordenables desde modo creador
+
+⸻
+
+4. HOME (HISTORIA + CTA)
+
+Estructura del Home (sin imágenes):
+
+Bloque 1 – Historia (editable):
+
+Fractional Living nace para resolver lo que el tiempo compartido nunca pudo:
+propiedad real, valor patrimonial y libertad de uso.
+
+Bloque 2 – Diferencia clave (editable):
+
+Tiempo compartido:
+	•	Compras solo tiempo vacacional
+	•	Sin propiedad real
+	•	Sin valor de reventa
+
+Fractional:
+	•	Eres dueño de una fracción inmobiliaria real
+	•	Activo legal, heredable y con plusvalía
+	•	Puedes usarla, rentarla o revenderla
+
+Texto elegante, institucional, sin lenguaje agresivo.
+
+CTA grande:
+👉 Ver Fracciones Disponibles
+
+⸻
+
+5. SECCIÓN FRACTIONAL (/fractional)
+
+Catálogo tipo Airbnb, solo estructura.
+
+Parámetros base (editables):
+	•	10 propiedades iniciales
+	•	Cada propiedad: 14 fracciones
+	•	Precio base sugerido: $650,000 MXN por fracción
+	•	Todo modificable desde modo creador
+
+Cada tarjeta de fracción debe incluir:
+	•	Título editable
+	•	Descripción editable
+	•	Precio editable
+	•	Botón “Ver detalle”
+
+⸻
+
+6. DETALLE DE FRACCIÓN (PLANTILLA BASE)
+
+Estructura fija, contenido editable:
+
+A. Información
+	•	Precio
+	•	Ubicación
+	•	Descripción
+
+B. Calendario
+	•	56 semanas visibles
+	•	Selector: elige 3 semanas
+	•	Estado abierto (sin bloqueo por ahora)
+	•	Editable a futuro
+
+C. Calculadora financiera
+	•	Enganche: 10% – 30%
+	•	Opciones:
+	•	12 meses sin intereses
+	•	24 meses con 6% anual
+	•	36 meses con 9% anual
+	•	Cálculo automático
+
+D. Texto legal editable (Legacy):
+
+Cada fracción representa un derecho inmobiliario real, legal y heredable.
+Puedes ocuparla, rentarla o solicitar apoyo para su operación o reventa.
+
+Botón:
+👉 Habla con un asesor legal
+
+⸻
+
+7. EXPERIENCIAS (/experiences)
+
+No priorizar yates visualmente.
+Texto base editable:
+
+Todas las experiencias de lujo a tu alcance:
+renta de autos, yates, restaurantes, eventos, conserjería 24/7, choferes, niñeras, experiencias privadas y beneficios exclusivos.
+
+Cada experiencia:
+	•	Contenedor vacío
+	•	Editable
+	•	Puede llevar imagen o video (subido manualmente)
+
+⸻
+
+8. LOBBY ALL GLOBAL HOLDING (/lobby)
+
+Definición clara:
+
+El Lobby es el punto central del ecosistema All Global Holding.
+Desde aquí accedes a inversión, servicios, educación y capital estratégico.
+
+Botones editables:
+	•	Fractional Living
+	•	Last Minute Capital
+	•	Hablar con ALIX
+	•	WhatsApp
+
+⸻
+
+9. LAST MINUTE CAPITAL (MENCIÓN CTA)
+
+Texto editable que debe aparecer en Home y Fractional:
+
+Pregunta por nuestra campaña de Last Minute Capital, diseñada para procesos de escrituración y adquisición inmobiliaria.
+
+⸻
+
+10. MODO CREADOR (REQUERIMIENTOS TÉCNICOS)
+
+Desde móvil el creador debe poder:
+	•	Agregar / eliminar propiedades
+	•	Editar textos
+	•	Editar precios
+	•	Reordenar secciones por drag & drop
+	•	Subir carruseles de imágenes
+	•	Editar leyendas
+	•	Activar / desactivar botones
+
+La app NO debe auto-insertar imágenes.
+
+⸻
+
+11. IDIOMAS
+	•	Español / Inglés
+	•	Selector visible
+	•	Todo el contenido traducible
+
+⸻
+
+12. REGLAS FINALES
+	•	No reconstruir
+	•	No generar assets
+	•	No asumir contenido
+	•	No inventar imágenes
+	•	Todo editable
+	•	Todo orientado a venta
+
+⸻
+
+Resultado esperado:
+Una tienda institucional de fracciones inmobiliarias, limpia, jerárquica, editable en tiempo real, con CTAs claros, ALIX activo y el Lobby correctamente definido.

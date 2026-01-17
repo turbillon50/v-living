@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { ChevronRight, Plus, X, Upload, Loader2 } from 'lucide-react';
+import { ChevronRight, Plus, X, Upload, Loader2, ArrowRight } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
+import { BottomNav } from '@/components/BottomNav';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -11,7 +12,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Select,
@@ -139,14 +139,58 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background pb-24">
       <Header />
 
       <main className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20 pt-8">
         
+        {/* Hero Story Section */}
+        <section className="mb-16 max-w-4xl">
+          <h1 className="text-4xl md:text-5xl font-light mb-6 tracking-tight leading-tight">
+            Fractional Living
+          </h1>
+          <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+            Plataforma de fracciones inmobiliarias de lujo que conecta propiedad, uso y valor en un solo activo.
+            Vive, invierte y construye patrimonio en el Caribe bajo un modelo fractional real, legal y heredable.
+          </p>
+          
+          <div className="bg-muted/50 rounded-2xl p-8 mb-8">
+            <p className="text-lg mb-6 font-medium">
+              Fractional Living nace para resolver lo que el tiempo compartido nunca pudo: 
+              propiedad real, valor patrimonial y libertad de uso.
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-4 bg-white rounded-xl border border-border">
+                <h4 className="font-medium text-red-600 mb-3">❌ Tiempo compartido:</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• Compras solo tiempo vacacional</li>
+                  <li>• Sin propiedad real</li>
+                  <li>• Sin valor de reventa</li>
+                </ul>
+              </div>
+              <div className="p-4 bg-white rounded-xl border border-primary/30">
+                <h4 className="font-medium text-primary mb-3">✅ Fractional:</h4>
+                <ul className="space-y-2 text-sm">
+                  <li>• Eres dueño de una fracción inmobiliaria real</li>
+                  <li>• Activo legal, heredable y con plusvalía</li>
+                  <li>• Puedes usarla, rentarla o revenderla</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <Link href="/fractional">
+            <Button size="lg" className="gap-2 text-lg px-8 h-14">
+              Ver Fracciones Disponibles
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          </Link>
+        </section>
+
         {/* Categories Grid */}
         <section className="mb-16">
-          <h1 className="text-3xl font-light mb-8 tracking-tight">Discover Experiences</h1>
+          <h2 className="text-2xl font-light mb-8 tracking-tight">Explora por Categoría</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
             {categories.map((cat) => (
               <div 
@@ -291,27 +335,7 @@ export default function Home() {
       </main>
 
       <FloatingButtons />
-
-      <footer className="border-t border-border mt-20">
-        <div className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20 py-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-muted-foreground">
-              © 2026 Fraccional All Living. Experiencia Fraccionada.
-            </p>
-            <div className="flex items-center gap-6">
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Privacy
-              </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Terms
-              </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Contact
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <BottomNav />
     </div>
   );
 }

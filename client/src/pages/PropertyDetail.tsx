@@ -1,8 +1,9 @@
 import { useState, useMemo } from 'react';
 import { useParams, Link } from 'wouter';
-import { ChevronLeft, Share, Check, Calendar as CalendarIcon, Loader2 } from 'lucide-react';
+import { ChevronLeft, Share, Check, Calendar as CalendarIcon, Loader2, Calculator } from 'lucide-react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
+import { BottomNav } from '@/components/BottomNav';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -11,6 +12,70 @@ import { getPropertyById, getBookedWeeks, createPreBooking } from '@/lib/api';
 import { FloatingButtons } from '@/components/FloatingButtons';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+
+const FRACTION_PRICE = 650000;
+
+function FinancialCalculator() {
+  const [downPayment, setDownPayment] = useState(20);
+  const [term, setTerm] = useState<12 | 24 | 36>(12);
+
+  const rates = { 12: 0, 24: 6, 36: 9 };
+  const downPaymentAmount = (FRACTION_PRICE * downPayment) / 100;
+  const financeAmount = FRACTION_PRICE - downPaymentAmount;
+  const annualRate = rates[term] / 100;
+  const monthlyRate = annualRate / 12;
+  
+  const monthlyPayment = monthlyRate === 0 
+    ? financeAmount / term 
+    : (financeAmount * monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
+
+  return (
+    <div className="bg-muted/50 rounded-xl p-6 space-y-4">
+      <div className="flex items-center gap-2 mb-4">
+        <Calculator className="w-5 h-5 text-primary" />
+        <h4 className="font-medium">Calculadora Financiera</h4>
+      </div>
+
+      <div>
+        <label className="text-sm text-muted-foreground mb-2 block">
+          Enganche: {downPayment}% (${downPaymentAmount.toLocaleString()} MXN)
+        </label>
+        <input
+          type="range"
+          min="10"
+          max="30"
+          value={downPayment}
+          onChange={(e) => setDownPayment(Number(e.target.value))}
+          className="w-full"
+        />
+      </div>
+
+      <div className="grid grid-cols-3 gap-2">
+        {([12, 24, 36] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTerm(t)}
+            className={cn(
+              "py-2 px-3 rounded-lg text-sm font-medium transition-colors",
+              term === t 
+                ? "bg-primary text-primary-foreground" 
+                : "bg-white border border-border hover:bg-muted"
+            )}
+          >
+            {t} meses {rates[t] > 0 && `(${rates[t]}%)`}
+          </button>
+        ))}
+      </div>
+
+      <div className="pt-4 border-t border-border">
+        <p className="text-sm text-muted-foreground">Pago mensual estimado:</p>
+        <p className="text-2xl font-semibold text-primary">
+          ${Math.round(monthlyPayment).toLocaleString()} MXN
+        </p>
+      </div>
+    </div>
+  );
+}
 
 export default function PropertyDetail() {
   const { id } = useParams<{ id: string }>();
@@ -34,9 +99,9 @@ export default function PropertyDetail() {
     enabled: !!id,
   });
 
-  // Generate weeks with availability
+  // Generate weeks with availability (56 weeks)
   const weeks = useMemo(() => {
-    return Array.from({ length: 52 }, (_, i) => ({
+    return Array.from({ length: 56 }, (_, i) => ({
       weekNumber: i + 1,
       available: !bookedWeeks.includes(i + 1)
     }));
@@ -163,7 +228,11 @@ export default function PropertyDetail() {
           {/* Details Column */}
           <div className="lg:col-span-2 space-y-10">
             <div>
-              <h2 className="text-2xl font-light mb-4">About this experience</h2>
+              <div className="mb-4">
+                <span className="text-3xl font-semibold">$650,000 MXN</span>
+                <span className="text-muted-foreground ml-2">por fracción</span>
+              </div>
+              <h2 className="text-2xl font-light mb-4">Acerca de esta propiedad</h2>
               <p className="text-muted-foreground leading-relaxed text-lg">
                 {property.description}
               </p>
@@ -172,7 +241,7 @@ export default function PropertyDetail() {
             <Separator />
 
             <div>
-              <h2 className="text-2xl font-light mb-6">Experience Conditions</h2>
+              <h2 className="text-2xl font-light mb-6">Condiciones</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {property.conditions.map((condition, idx) => (
                   <div key={idx} className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
@@ -181,6 +250,27 @@ export default function PropertyDetail() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            <Separator />
+
+            <FinancialCalculator />
+
+            <Separator />
+
+            <div className="p-6 bg-muted/30 rounded-xl">
+              <h3 className="font-medium mb-3">Información Legal (Legacy)</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Cada fracción representa un derecho inmobiliario real, legal y heredable.
+                Puedes ocuparla, rentarla o solicitar apoyo para su operación o reventa.
+              </p>
+              <Button 
+                variant="outline" 
+                className="mt-4"
+                onClick={() => window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20hablar%20con%20un%20asesor%20legal', '_blank')}
+              >
+                Habla con un asesor legal
+              </Button>
             </div>
           </div>
 
@@ -248,6 +338,7 @@ export default function PropertyDetail() {
       </main>
 
       <FloatingButtons />
+      <BottomNav />
 
       {/* Success Dialog */}
       <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
