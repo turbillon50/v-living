@@ -389,13 +389,14 @@ export default function PropertyDetail() {
                 <button
                   onClick={() => setBookingType('vacation')}
                   className={cn(
-                    "flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all",
+                    "flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all relative",
                     bookingType === 'vacation' 
                       ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white" 
                       : "bg-muted text-muted-foreground hover:bg-muted/80"
                   )}
                 >
                   Solo Vacacionar
+                  <span className="absolute -top-2 -right-2 text-[10px] bg-amber-500 text-white px-1.5 py-0.5 rounded-full">Pronto</span>
                 </button>
               </div>
               
@@ -408,9 +409,20 @@ export default function PropertyDetail() {
               <p className="text-sm text-muted-foreground mb-4">
                 {bookingType === 'fraction' 
                   ? "Selecciona exactamente 3 semanas para tu fracción."
-                  : "Selecciona las semanas que deseas para vacacionar."
+                  : "Próximamente disponible. ¡Regístrate para el lanzamiento!"
                 }
               </p>
+
+              {bookingType === 'vacation' && (
+                <div className="mb-4 p-4 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200 rounded-xl">
+                  <p className="text-amber-800 font-bold text-center text-sm mb-1">
+                    🚀 Lanzamiento: 21 de Marzo
+                  </p>
+                  <p className="text-amber-700 text-xs text-center">
+                    Regístrate y obtén bonos y descuentos inimaginables por lanzamiento
+                  </p>
+                </div>
+              )}
 
               {/* Weeks List with Dates */}
               <div className="max-h-[400px] overflow-y-auto space-y-2 mb-6 pr-2">
@@ -516,17 +528,17 @@ export default function PropertyDetail() {
                   className={cn(
                     "w-full h-14 text-lg font-medium transition-all",
                     bookingType === 'fraction' && selectedWeeks.length === 3 && email && "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700",
-                    bookingType === 'vacation' && selectedWeeks.length > 0 && email && "bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
+                    bookingType === 'vacation' && email && "bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700"
                   )}
                   onClick={handlePreBook}
-                  disabled={bookingMutation.isPending || (bookingType === 'fraction' ? selectedWeeks.length !== 3 : selectedWeeks.length === 0)}
+                  disabled={bookingMutation.isPending || (bookingType === 'fraction' ? selectedWeeks.length !== 3 : !email)}
                 >
                   {bookingMutation.isPending ? (
                     <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Procesando...</>
                   ) : bookingType === 'fraction' ? (
                     selectedWeeks.length === 3 ? "¡Invertir Ahora!" : `Selecciona ${3 - selectedWeeks.length} semana${3 - selectedWeeks.length !== 1 ? 's' : ''} más`
                   ) : (
-                    selectedWeeks.length > 0 ? `¡Reservar ${selectedWeeks.length} semana${selectedWeeks.length !== 1 ? 's' : ''}!` : "Selecciona tus fechas"
+                    "¡Registrarme para el Lanzamiento!"
                   )}
                 </Button>
 
