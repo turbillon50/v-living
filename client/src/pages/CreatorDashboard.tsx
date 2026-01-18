@@ -594,94 +594,95 @@ export default function CreatorDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-14">
-            <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon" onClick={() => setLocation('/')}>
+    <div className="min-h-screen bg-[#0f0f0f]">
+      <header className="bg-[#1a1a1a] border-b border-white/10 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4">
+          <div className="flex items-center justify-between h-12 sm:h-14">
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" onClick={() => setLocation('/')} className="text-white hover:bg-white/10 h-9 w-9">
                 <ArrowLeft className="w-5 h-5" />
               </Button>
-              <h1 className="text-base font-semibold">Modo Creador</h1>
+              <h1 className="text-sm sm:text-base font-semibold text-white">Modo Creador</h1>
             </div>
           </div>
-          <div className="flex overflow-x-auto pb-2 -mx-4 px-4 gap-1">
+          <div className="flex overflow-x-auto pb-3 -mx-3 px-3 gap-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {[
-              { id: 'properties', label: 'Propiedades', icon: Building },
-              { id: 'navigation', label: 'Navegación', icon: Navigation },
-              { id: 'content', label: 'Contenido', icon: FileText },
+              { id: 'properties', label: 'Props', icon: Building },
+              { id: 'navigation', label: 'Nav', icon: Navigation },
+              { id: 'content', label: 'Textos', icon: FileText },
               { id: 'bookings', label: 'Reservas', icon: Calendar },
-              { id: 'stats', label: 'Analytics', icon: BarChart3 }
+              { id: 'stats', label: 'Stats', icon: BarChart3 }
             ].map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
                 onClick={() => setActiveTab(id as any)}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap",
-                  activeTab === id ? "bg-gray-900 text-white" : "text-gray-500 hover:bg-gray-100"
+                  "flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap flex-shrink-0",
+                  activeTab === id ? "bg-teal-500 text-white" : "bg-white/10 text-white/70 hover:bg-white/20"
                 )}
               >
                 <Icon className="w-4 h-4" />
-                {label}
+                <span className="hidden sm:inline">{label}</span>
+                <span className="sm:hidden">{label}</span>
               </button>
             ))}
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
         {/* PROPERTIES TAB */}
         {activeTab === 'properties' && (
           <div>
             {!isCreating ? (
               <>
                 <div className="flex items-center justify-between mb-4">
-                  <p className="text-sm text-gray-500">{properties.length} propiedades</p>
-                  <Button onClick={() => setIsCreating(true)} size="sm" className="bg-gray-900">
+                  <p className="text-sm text-white/50">{properties.length} propiedades</p>
+                  <Button onClick={() => setIsCreating(true)} size="sm" className="bg-teal-500 hover:bg-teal-600">
                     <Plus className="w-4 h-4 mr-1" /> Nueva
                   </Button>
                 </div>
 
                 {loadingProperties ? (
                   <div className="flex justify-center py-20">
-                    <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+                    <Loader2 className="w-8 h-8 animate-spin text-teal-400" />
                   </div>
                 ) : properties.length === 0 ? (
-                  <div className="bg-white rounded-xl border-2 border-dashed p-12 text-center">
-                    <Building className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                    <p className="text-gray-500">No hay propiedades</p>
-                    <Button onClick={() => setIsCreating(true)} className="mt-4" size="sm">
+                  <div className="bg-white/5 rounded-xl border border-white/10 border-dashed p-12 text-center">
+                    <Building className="w-12 h-12 mx-auto mb-4 text-white/30" />
+                    <p className="text-white/50">No hay propiedades</p>
+                    <Button onClick={() => setIsCreating(true)} className="mt-4 bg-teal-500" size="sm">
                       <Plus className="w-4 h-4 mr-1" /> Crear
                     </Button>
                   </div>
                 ) : (
                   <div className="space-y-3">
                     {properties.map((property) => (
-                      <div key={property.id} className="bg-white rounded-xl border p-3">
+                      <div key={property.id} className="bg-white/5 rounded-xl border border-white/10 p-3">
                         <div className="flex gap-3">
-                          <div className="w-20 h-16 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+                          <div className="w-16 sm:w-20 h-14 sm:h-16 rounded-lg bg-white/10 overflow-hidden flex-shrink-0">
                             {property.images?.[0] ? (
                               <img src={property.images[0]} alt="" className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
-                                <Image className="w-6 h-6 text-gray-300" />
+                                <Image className="w-5 h-5 text-white/30" />
                               </div>
                             )}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-medium text-sm truncate">{property.title}</h3>
-                            <p className="text-xs text-gray-500 truncate">{property.location}</p>
-                            <p className="text-xs text-gray-400 mt-1">{property.viewCount || 0} vistas</p>
+                            <h3 className="font-medium text-sm text-white truncate">{property.title}</h3>
+                            <p className="text-xs text-white/50 truncate">{property.location}</p>
+                            <p className="text-xs text-white/30 mt-1">{property.viewCount || 0} vistas</p>
                           </div>
-                          <div className="flex flex-col gap-1">
-                            <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handleEdit(property)}>
-                              <Edit className="w-3.5 h-3.5" />
+                          <div className="flex gap-1">
+                            <Button variant="ghost" size="icon" className="h-9 w-9 text-white/70 hover:bg-white/10" onClick={() => handleEdit(property)}>
+                              <Edit className="w-4 h-4" />
                             </Button>
-                            <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => duplicateMutation.mutate(property.id)}>
-                              <Copy className="w-3.5 h-3.5" />
+                            <Button variant="ghost" size="icon" className="h-9 w-9 text-white/70 hover:bg-white/10" onClick={() => duplicateMutation.mutate(property.id)}>
+                              <Copy className="w-4 h-4" />
                             </Button>
-                            <Button variant="outline" size="icon" className="h-8 w-8 text-red-500" onClick={() => deleteMutation.mutate(property.id)}>
-                              <Trash2 className="w-3.5 h-3.5" />
+                            <Button variant="ghost" size="icon" className="h-9 w-9 text-red-400 hover:bg-red-500/20" onClick={() => deleteMutation.mutate(property.id)}>
+                              <Trash2 className="w-4 h-4" />
                             </Button>
                           </div>
                         </div>
@@ -693,74 +694,74 @@ export default function CreatorDashboard() {
             ) : (
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-semibold">{editingProperty ? 'Editar' : 'Nueva'} Propiedad</h2>
+                  <h2 className="font-semibold text-white">{editingProperty ? 'Editar' : 'Nueva'} Propiedad</h2>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={() => setShowPreview(true)}>
-                      <Eye className="w-4 h-4 mr-1" /> Vista Previa
+                    <Button variant="outline" size="sm" onClick={() => setShowPreview(true)} className="border-white/20 text-white hover:bg-white/10">
+                      <Eye className="w-4 h-4 mr-1" /> Vista
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={resetForm}>
+                    <Button variant="ghost" size="sm" onClick={resetForm} className="text-white hover:bg-white/10">
                       <X className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="bg-white rounded-xl border p-4 space-y-4">
-                    <Input placeholder="Título" value={formData.title} onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))} />
-                    <Input placeholder="Ubicación" value={formData.location} onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))} />
-                    <Textarea placeholder="Descripción" value={formData.description} onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))} rows={3} />
-                    <div className="grid grid-cols-2 gap-3">
-                      <select value={formData.category} onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))} className="h-10 px-3 border rounded-lg text-sm">
-                        {allCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                <div className="space-y-3">
+                  <div className="bg-white/5 rounded-xl border border-white/10 p-4 space-y-3">
+                    <Input placeholder="Título" value={formData.title} onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                    <Input placeholder="Ubicación" value={formData.location} onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                    <Textarea placeholder="Descripción" value={formData.description} onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))} rows={3} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                    <div className="grid grid-cols-2 gap-2">
+                      <select value={formData.category} onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))} className="h-10 px-3 bg-white/10 border border-white/20 rounded-lg text-sm text-white">
+                        {allCategories.map(cat => <option key={cat} value={cat} className="bg-[#1a1a1a]">{cat}</option>)}
                       </select>
-                      <select value={formData.tag} onChange={(e) => setFormData(prev => ({ ...prev, tag: e.target.value }))} className="h-10 px-3 border rounded-lg text-sm">
-                        {PROPERTY_TAGS.map(tag => <option key={tag.value} value={tag.value}>{tag.label}</option>)}
+                      <select value={formData.tag} onChange={(e) => setFormData(prev => ({ ...prev, tag: e.target.value }))} className="h-10 px-3 bg-white/10 border border-white/20 rounded-lg text-sm text-white">
+                        {PROPERTY_TAGS.map(tag => <option key={tag.value} value={tag.value} className="bg-[#1a1a1a]">{tag.label}</option>)}
                       </select>
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-xl border p-4">
-                    <h3 className="font-medium text-sm mb-3">Precio</h3>
-                    <Input type="number" placeholder="Precio USD" value={formData.price} onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))} className="mb-3" />
+                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+                    <h3 className="font-medium text-sm text-white mb-3">Precio</h3>
+                    <Input type="number" placeholder="Precio USD" value={formData.price} onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))} className="mb-3 bg-white/10 border-white/20 text-white" />
                     <div className="grid grid-cols-3 gap-2">
                       <div>
-                        <label className="text-xs text-red-500">Alta</label>
-                        <Input type="number" placeholder="0" value={formData.priceHighSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceHighSeason: e.target.value ? Number(e.target.value) : null }))} />
+                        <label className="text-xs text-red-400">Alta</label>
+                        <Input type="number" placeholder="0" value={formData.priceHighSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceHighSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-white/10 border-white/20 text-white" />
                       </div>
                       <div>
-                        <label className="text-xs text-yellow-500">Media</label>
-                        <Input type="number" placeholder="0" value={formData.priceMidSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceMidSeason: e.target.value ? Number(e.target.value) : null }))} />
+                        <label className="text-xs text-yellow-400">Media</label>
+                        <Input type="number" placeholder="0" value={formData.priceMidSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceMidSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-white/10 border-white/20 text-white" />
                       </div>
                       <div>
-                        <label className="text-xs text-green-500">Baja</label>
-                        <Input type="number" placeholder="0" value={formData.priceLowSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceLowSeason: e.target.value ? Number(e.target.value) : null }))} />
+                        <label className="text-xs text-green-400">Baja</label>
+                        <Input type="number" placeholder="0" value={formData.priceLowSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceLowSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-white/10 border-white/20 text-white" />
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-xl border p-4">
-                    <h3 className="font-medium text-sm mb-3">Detalles</h3>
-                    <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+                    <h3 className="font-medium text-sm text-white mb-3">Detalles</h3>
+                    <div className="grid grid-cols-3 gap-2">
                       <div>
-                        <label className="text-xs text-gray-500 flex items-center gap-1"><Bed className="w-3 h-3" /> Hab</label>
-                        <Input type="number" value={formData.bedrooms} onChange={(e) => setFormData(prev => ({ ...prev, bedrooms: Number(e.target.value) }))} />
+                        <label className="text-xs text-white/50 flex items-center gap-1"><Bed className="w-3 h-3" /> Hab</label>
+                        <Input type="number" value={formData.bedrooms} onChange={(e) => setFormData(prev => ({ ...prev, bedrooms: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
                       </div>
                       <div>
-                        <label className="text-xs text-gray-500 flex items-center gap-1"><Bath className="w-3 h-3" /> Baños</label>
-                        <Input type="number" value={formData.bathrooms} onChange={(e) => setFormData(prev => ({ ...prev, bathrooms: Number(e.target.value) }))} />
+                        <label className="text-xs text-white/50 flex items-center gap-1"><Bath className="w-3 h-3" /> Baños</label>
+                        <Input type="number" value={formData.bathrooms} onChange={(e) => setFormData(prev => ({ ...prev, bathrooms: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
                       </div>
                       <div>
-                        <label className="text-xs text-gray-500 flex items-center gap-1"><Users className="w-3 h-3" /> Huésp</label>
-                        <Input type="number" value={formData.maxGuests} onChange={(e) => setFormData(prev => ({ ...prev, maxGuests: Number(e.target.value) }))} />
+                        <label className="text-xs text-white/50 flex items-center gap-1"><Users className="w-3 h-3" /> Huésp</label>
+                        <Input type="number" value={formData.maxGuests} onChange={(e) => setFormData(prev => ({ ...prev, maxGuests: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-xl border p-4">
-                    <h3 className="font-medium text-sm mb-3">Imágenes</h3>
+                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+                    <h3 className="font-medium text-sm text-white mb-3">Imágenes</h3>
                     <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
-                    <button onClick={() => fileInputRef.current?.click()} disabled={uploadingImage} className="w-full border-2 border-dashed rounded-lg p-6 text-center hover:bg-gray-50">
-                      {uploadingImage ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : <><Upload className="w-6 h-6 mx-auto mb-1 text-gray-400" /><p className="text-xs text-gray-500">Subir imágenes</p></>}
+                    <button onClick={() => fileInputRef.current?.click()} disabled={uploadingImage} className="w-full border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:bg-white/5">
+                      {uploadingImage ? <Loader2 className="w-6 h-6 animate-spin mx-auto text-teal-400" /> : <><Upload className="w-6 h-6 mx-auto mb-1 text-white/40" /><p className="text-xs text-white/50">Subir imágenes</p></>}
                     </button>
                     {formData.images.length > 0 && (
                       <div className="grid grid-cols-4 gap-2 mt-3">
@@ -776,16 +777,16 @@ export default function CreatorDashboard() {
                     )}
                   </div>
 
-                  <div className="bg-white rounded-xl border p-4">
-                    <h3 className="font-medium text-sm mb-3">Videos</h3>
+                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+                    <h3 className="font-medium text-sm text-white mb-3">Videos</h3>
                     <input ref={videoInputRef} type="file" accept="video/*" multiple onChange={handleVideoUpload} className="hidden" />
-                    <button onClick={() => videoInputRef.current?.click()} disabled={uploadingVideo} className="w-full border-2 border-dashed rounded-lg p-4 text-center hover:bg-gray-50">
-                      {uploadingVideo ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : <><Video className="w-5 h-5 mx-auto mb-1 text-gray-400" /><p className="text-xs text-gray-500">Subir videos</p></>}
+                    <button onClick={() => videoInputRef.current?.click()} disabled={uploadingVideo} className="w-full border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:bg-white/5">
+                      {uploadingVideo ? <Loader2 className="w-5 h-5 animate-spin mx-auto text-teal-400" /> : <><Video className="w-5 h-5 mx-auto mb-1 text-white/40" /><p className="text-xs text-white/50">Subir videos</p></>}
                     </button>
                     {formData.videos.length > 0 && (
                       <div className="grid grid-cols-2 gap-2 mt-3">
                         {formData.videos.map((vid, i) => (
-                          <div key={i} className="relative aspect-video rounded overflow-hidden bg-gray-900">
+                          <div key={i} className="relative aspect-video rounded overflow-hidden bg-black">
                             <video src={vid} className="w-full h-full object-cover" />
                             <button onClick={() => removeVideo(i)} className="absolute top-1 right-1 w-5 h-5 bg-black/60 rounded-full flex items-center justify-center">
                               <X className="w-3 h-3 text-white" />
@@ -796,17 +797,17 @@ export default function CreatorDashboard() {
                     )}
                   </div>
 
-                  <div className="bg-white rounded-xl border p-4">
+                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-medium text-sm">Bloquear Semanas</h3>
-                      <Button variant="outline" size="sm" onClick={() => setShowWeekBlocker(!showWeekBlocker)}>
+                      <h3 className="font-medium text-sm text-white">Bloquear Semanas</h3>
+                      <Button variant="outline" size="sm" onClick={() => setShowWeekBlocker(!showWeekBlocker)} className="border-white/20 text-white hover:bg-white/10">
                         <CalendarOff className="w-3.5 h-3.5 mr-1" /> {formData.blockedWeeks.length}
                       </Button>
                     </div>
                     {showWeekBlocker && (
                       <div className="grid grid-cols-13 gap-1">
                         {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
-                          <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-red-500 text-white" : "bg-gray-100 text-gray-600")}>
+                          <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-red-500 text-white" : "bg-white/10 text-white/60")}>
                             {week}
                           </button>
                         ))}
@@ -814,18 +815,18 @@ export default function CreatorDashboard() {
                     )}
                   </div>
 
-                  <div className="bg-white rounded-xl border p-4">
-                    <h3 className="font-medium text-sm mb-3">Amenidades</h3>
+                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+                    <h3 className="font-medium text-sm text-white mb-3">Amenidades</h3>
                     <div className="flex flex-wrap gap-2">
                       {AMENITIES_LIST.map((amenity) => (
-                        <button key={amenity} onClick={() => toggleAmenity(amenity)} className={cn("px-3 py-1.5 rounded-full text-xs font-medium border", formData.amenities.includes(amenity) ? "bg-gray-900 text-white border-gray-900" : "bg-white border-gray-200")}>
+                        <button key={amenity} onClick={() => toggleAmenity(amenity)} className={cn("px-3 py-1.5 rounded-full text-xs font-medium border", formData.amenities.includes(amenity) ? "bg-teal-500 text-white border-teal-500" : "bg-white/5 border-white/20 text-white/70")}>
                           {formData.amenities.includes(amenity) && <Check className="w-3 h-3 inline mr-1" />}{amenity}
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  <Button onClick={handleSubmit} disabled={createMutation.isPending || updateMutation.isPending} className="w-full h-12 bg-gray-900">
+                  <Button onClick={handleSubmit} disabled={createMutation.isPending || updateMutation.isPending} className="w-full h-12 bg-teal-500 hover:bg-teal-600">
                     {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Save className="w-4 h-4 mr-2" />{editingProperty ? 'Guardar' : 'Publicar'}</>}
                   </Button>
                 </div>
@@ -837,52 +838,52 @@ export default function CreatorDashboard() {
         {/* NAVIGATION TAB */}
         {activeTab === 'navigation' && (
           <div className="space-y-4">
-            <div className="bg-white rounded-xl border p-4">
-              <h3 className="font-semibold mb-4">Botones de Navegación</h3>
-              <p className="text-xs text-gray-500 mb-4">Estos botones aparecen en la página de inicio con imagen</p>
+            <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+              <h3 className="font-semibold text-white mb-4">Botones de Navegación</h3>
+              <p className="text-xs text-white/50 mb-4">Estos botones aparecen en la página de inicio</p>
               
               <div className="space-y-3 mb-4">
-                <Input placeholder="Nombre (ES)" value={navForm.name} onChange={(e) => setNavForm(prev => ({ ...prev, name: e.target.value }))} />
-                <Input placeholder="Nombre (EN)" value={navForm.nameEn} onChange={(e) => setNavForm(prev => ({ ...prev, nameEn: e.target.value }))} />
-                <Input placeholder="Link (ej: /last-minute-capital)" value={navForm.link} onChange={(e) => setNavForm(prev => ({ ...prev, link: e.target.value }))} />
-                <Input type="number" placeholder="Posición" value={navForm.position} onChange={(e) => setNavForm(prev => ({ ...prev, position: Number(e.target.value) }))} />
+                <Input placeholder="Nombre (ES)" value={navForm.name} onChange={(e) => setNavForm(prev => ({ ...prev, name: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                <Input placeholder="Nombre (EN)" value={navForm.nameEn} onChange={(e) => setNavForm(prev => ({ ...prev, nameEn: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                <Input placeholder="Link (ej: /last-minute-capital)" value={navForm.link} onChange={(e) => setNavForm(prev => ({ ...prev, link: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                <Input type="number" placeholder="Posición" value={navForm.position} onChange={(e) => setNavForm(prev => ({ ...prev, position: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
                 
                 <input ref={navImageRef} type="file" accept="image/*" onChange={handleNavImageUpload} className="hidden" />
-                <button onClick={() => navImageRef.current?.click()} disabled={uploadingNavImage} className="w-full border-2 border-dashed rounded-lg p-4 text-center hover:bg-gray-50">
-                  {uploadingNavImage ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : navForm.image ? (
+                <button onClick={() => navImageRef.current?.click()} disabled={uploadingNavImage} className="w-full border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:bg-white/5">
+                  {uploadingNavImage ? <Loader2 className="w-5 h-5 animate-spin mx-auto text-teal-400" /> : navForm.image ? (
                     <img src={navForm.image} alt="" className="h-20 mx-auto object-cover rounded" />
                   ) : (
-                    <><Image className="w-5 h-5 mx-auto mb-1 text-gray-400" /><p className="text-xs text-gray-500">Subir imagen del botón</p></>
+                    <><Image className="w-5 h-5 mx-auto mb-1 text-white/40" /><p className="text-xs text-white/50">Subir imagen</p></>
                   )}
                 </button>
 
-                <Button onClick={() => saveNavMutation.mutate({ ...navForm, isActive: true })} disabled={!navForm.name || !navForm.link} className="w-full">
-                  <Plus className="w-4 h-4 mr-1" /> {editingNavButton ? 'Actualizar' : 'Agregar'} Botón
+                <Button onClick={() => saveNavMutation.mutate({ ...navForm, isActive: true })} disabled={!navForm.name || !navForm.link} className="w-full bg-teal-500 hover:bg-teal-600">
+                  <Plus className="w-4 h-4 mr-1" /> {editingNavButton ? 'Actualizar' : 'Agregar'}
                 </Button>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl border divide-y">
+            <div className="bg-white/5 rounded-xl border border-white/10 divide-y divide-white/10">
               {navButtons.length === 0 ? (
-                <div className="p-8 text-center text-gray-500">
-                  <Navigation className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                  <p className="text-sm">No hay botones de navegación</p>
+                <div className="p-8 text-center">
+                  <Navigation className="w-8 h-8 mx-auto mb-2 text-white/30" />
+                  <p className="text-sm text-white/50">No hay botones</p>
                 </div>
               ) : (
                 navButtons.sort((a, b) => a.position - b.position).map(btn => (
                   <div key={btn.id} className="p-3 flex items-center gap-3">
-                    <div className="w-16 h-12 rounded bg-gray-100 overflow-hidden flex-shrink-0">
-                      {btn.image ? <img src={btn.image} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-gray-300"><Image className="w-5 h-5" /></div>}
+                    <div className="w-14 h-10 rounded bg-white/10 overflow-hidden flex-shrink-0">
+                      {btn.image ? <img src={btn.image} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-white/30"><Image className="w-4 h-4" /></div>}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate">{btn.name}</p>
-                      <p className="text-xs text-gray-500 truncate">{btn.link}</p>
+                      <p className="font-medium text-sm text-white truncate">{btn.name}</p>
+                      <p className="text-xs text-white/50 truncate">{btn.link}</p>
                     </div>
-                    <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => { setEditingNavButton(btn); setNavForm({ name: btn.name, nameEn: btn.nameEn || '', link: btn.link, image: btn.image || '', position: btn.position }); }}>
-                      <Edit className="w-3.5 h-3.5" />
+                    <Button variant="ghost" size="icon" className="h-9 w-9 text-white/70 hover:bg-white/10" onClick={() => { setEditingNavButton(btn); setNavForm({ name: btn.name, nameEn: btn.nameEn || '', link: btn.link, image: btn.image || '', position: btn.position }); }}>
+                      <Edit className="w-4 h-4" />
                     </Button>
-                    <Button variant="outline" size="icon" className="h-8 w-8 text-red-500" onClick={() => deleteNavMutation.mutate(btn.id)}>
-                      <Trash2 className="w-3.5 h-3.5" />
+                    <Button variant="ghost" size="icon" className="h-9 w-9 text-red-400 hover:bg-red-500/20" onClick={() => deleteNavMutation.mutate(btn.id)}>
+                      <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
                 ))
@@ -894,22 +895,22 @@ export default function CreatorDashboard() {
         {/* CONTENT TAB */}
         {activeTab === 'content' && (
           <div className="space-y-4">
-            <div className="bg-white rounded-xl border p-4">
-              <h3 className="font-semibold mb-4">Textos del Sitio</h3>
-              <p className="text-xs text-gray-500 mb-4">Edita todos los textos que aparecen en la app</p>
+            <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+              <h3 className="font-semibold text-white mb-4">Textos del Sitio</h3>
+              <p className="text-xs text-white/50 mb-4">Edita todos los textos de la app</p>
               
               <div className="space-y-4">
                 {DEFAULT_TEXTS.map(({ key, label, default: defaultVal }) => (
                   <div key={key}>
-                    <label className="text-xs text-gray-500 mb-1 block">{label}</label>
+                    <label className="text-xs text-white/50 mb-1 block">{label}</label>
                     <div className="flex gap-2">
                       <Input
                         value={textValues[key] ?? defaultVal}
                         onChange={(e) => setTextValues(prev => ({ ...prev, [key]: e.target.value }))}
                         placeholder={defaultVal}
-                        className="flex-1"
+                        className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/40"
                       />
-                      <Button size="sm" variant="outline" onClick={() => saveTextMutation.mutate({ key, value: textValues[key] ?? defaultVal })}>
+                      <Button size="sm" variant="outline" onClick={() => saveTextMutation.mutate({ key, value: textValues[key] ?? defaultVal })} className="border-white/20 text-white hover:bg-white/10">
                         <Save className="w-3.5 h-3.5" />
                       </Button>
                     </div>
@@ -923,12 +924,12 @@ export default function CreatorDashboard() {
         {/* BOOKINGS TAB */}
         {activeTab === 'bookings' && (
           <div>
-            <p className="text-sm text-gray-500 mb-4">{bookings.length} reservas</p>
+            <p className="text-sm text-white/50 mb-4">{bookings.length} reservas</p>
             
             {bookings.length === 0 ? (
-              <div className="bg-white rounded-xl border-2 border-dashed p-12 text-center">
-                <Calendar className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                <p className="text-gray-500">Sin reservas</p>
+              <div className="bg-white/5 rounded-xl border border-white/10 border-dashed p-12 text-center">
+                <Calendar className="w-12 h-12 mx-auto mb-4 text-white/30" />
+                <p className="text-white/50">Sin reservas</p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -938,25 +939,25 @@ export default function CreatorDashboard() {
                   const isExpired = expiresAt < new Date();
                   
                   return (
-                    <div key={booking.id} className={cn("bg-white rounded-xl border p-4", isExpired && "opacity-50")}>
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h3 className="font-medium text-sm">{property?.title || 'Propiedad'}</h3>
-                          <p className="text-xs text-gray-500">{booking.email}</p>
-                          {booking.name && <p className="text-xs text-gray-600">{booking.name}</p>}
+                    <div key={booking.id} className={cn("bg-white/5 rounded-xl border border-white/10 p-4", isExpired && "opacity-50")}>
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-medium text-sm text-white truncate">{property?.title || 'Propiedad'}</h3>
+                          <p className="text-xs text-white/50 truncate">{booking.email}</p>
+                          {booking.name && <p className="text-xs text-white/60">{booking.name}</p>}
                           <div className="flex flex-wrap gap-1 mt-2">
                             {booking.selectedWeeks.map(w => (
-                              <span key={w} className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded text-xs">Sem {w}</span>
+                              <span key={w} className="bg-white/10 text-white/70 px-2 py-0.5 rounded text-xs">Sem {w}</span>
                             ))}
                           </div>
                         </div>
-                        <div className="flex flex-col items-end gap-2">
-                          <span className={cn("px-2 py-1 rounded-full text-xs font-medium", isExpired ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700")}>
+                        <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                          <span className={cn("px-2 py-1 rounded-full text-xs font-medium", isExpired ? "bg-red-500/20 text-red-400" : "bg-green-500/20 text-green-400")}>
                             {isExpired ? 'Expirada' : 'Activa'}
                           </span>
                           {!isExpired && (
-                            <Button variant="outline" size="sm" onClick={() => sendWhatsAppNotification(booking)} className="text-green-600">
-                              <MessageCircle className="w-3.5 h-3.5 mr-1" /> WhatsApp
+                            <Button size="sm" onClick={() => sendWhatsAppNotification(booking)} className="bg-green-600 hover:bg-green-700 text-xs h-8">
+                              <MessageCircle className="w-3.5 h-3.5 mr-1" /> WA
                             </Button>
                           )}
                         </div>
@@ -973,64 +974,64 @@ export default function CreatorDashboard() {
         {activeTab === 'stats' && (
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-white rounded-xl border p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Building className="w-5 h-5 text-blue-600" />
+              <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Building className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                   </div>
-                  <div>
-                    <p className="text-xl font-bold">{properties.length}</p>
-                    <p className="text-xs text-gray-500">Propiedades</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white rounded-xl border p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <Calendar className="w-5 h-5 text-green-600" />
-                  </div>
-                  <div>
-                    <p className="text-xl font-bold">{bookings.filter(b => new Date(b.expiresAt) > new Date()).length}</p>
-                    <p className="text-xs text-gray-500">Reservas</p>
+                  <div className="min-w-0">
+                    <p className="text-lg sm:text-xl font-bold text-white">{properties.length}</p>
+                    <p className="text-[10px] sm:text-xs text-white/50">Propiedades</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-white rounded-xl border p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <Eye className="w-5 h-5 text-purple-600" />
+              <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
                   </div>
-                  <div>
-                    <p className="text-xl font-bold">{totalViews.toLocaleString()}</p>
-                    <p className="text-xs text-gray-500">Vistas</p>
+                  <div className="min-w-0">
+                    <p className="text-lg sm:text-xl font-bold text-white">{bookings.filter(b => new Date(b.expiresAt) > new Date()).length}</p>
+                    <p className="text-[10px] sm:text-xs text-white/50">Reservas</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-white rounded-xl border p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
-                    <DollarSign className="w-5 h-5 text-teal-600" />
+              <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
                   </div>
-                  <div>
-                    <p className="text-xl font-bold">${(properties.reduce((sum, p) => sum + (p.price || 650000), 0) / 1000).toFixed(0)}K</p>
-                    <p className="text-xs text-gray-500">Valor</p>
+                  <div className="min-w-0">
+                    <p className="text-lg sm:text-xl font-bold text-white">{totalViews.toLocaleString()}</p>
+                    <p className="text-[10px] sm:text-xs text-white/50">Vistas</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-teal-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-teal-400" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-lg sm:text-xl font-bold text-white">${(properties.reduce((sum, p) => sum + (p.price || 650000), 0) / 1000).toFixed(0)}K</p>
+                    <p className="text-[10px] sm:text-xs text-white/50">Valor</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl border p-4">
-              <h3 className="font-semibold mb-4">Vistas por Propiedad</h3>
+            <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+              <h3 className="font-semibold text-white mb-4">Vistas por Propiedad</h3>
               <div className="space-y-3">
                 {properties.sort((a, b) => (b.viewCount || 0) - (a.viewCount || 0)).map(property => (
                   <div key={property.id} className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded bg-gray-100 overflow-hidden flex-shrink-0">
-                      {property.images?.[0] ? <img src={property.images[0]} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><Image className="w-4 h-4 text-gray-300" /></div>}
+                    <div className="w-10 h-10 rounded bg-white/10 overflow-hidden flex-shrink-0">
+                      {property.images?.[0] ? <img src={property.images[0]} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><Image className="w-4 h-4 text-white/30" /></div>}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate">{property.title}</p>
+                      <p className="font-medium text-sm text-white truncate">{property.title}</p>
                     </div>
-                    <p className="font-bold text-sm">{(property.viewCount || 0).toLocaleString()}</p>
+                    <p className="font-bold text-sm text-teal-400">{(property.viewCount || 0).toLocaleString()}</p>
                   </div>
                 ))}
               </div>
