@@ -421,20 +421,52 @@ export async function registerRoutes(
     }
   });
 
-  // WhatsApp notification helper (used internally)
-  const sendWhatsAppNotification = async (booking: any, property: any) => {
-    const phone = "+529984292748";
-    const message = encodeURIComponent(
-      `Nueva Pre-Reserva en Fractional Living\n\n` +
-      `Propiedad: ${property?.title || 'N/A'}\n` +
-      `Email: ${booking.email}\n` +
-      `Nombre: ${booking.name || 'N/A'}\n` +
-      `Teléfono: ${booking.phone || 'N/A'}\n` +
-      `Semanas: ${booking.selectedWeeks?.join(', ') || 'N/A'}\n` +
-      `Tipo: ${booking.bookingType === 'vacation' ? 'Vacacional' : 'Fracción'}`
-    );
-    return `https://wa.me/${phone.replace('+', '')}?text=${message}`;
-  };
+  // Site Settings (CMS texts)
+  app.get("/api/site-settings", async (req, res) => {
+    try {
+      const settings = await storage.getSiteSettings();
+      res.json(settings);
+    } catch (error) {
+      console.error("Error fetching site settings:", error);
+      res.status(500).json({ error: "Failed to fetch site settings" });
+    }
+  });
+
+  app.get("/api/site-settings/:key", async (req, res) => {
+    try {
+      const { key } = req.params;
+      const setting = await storage.getSiteSetting(key);
+      res.json(setting || { key, value: '' });
+    } catch (error) {
+      console.error("Error fetching site setting:", error);
+      res.status(500).json({ error: "Failed to fetch site setting" });
+    }
+  });
+
+  app.post("/api/site-settings", verifyCreatorToken, async (req, res) => {
+    try {
+      const { key, value } = req.body;
+      if (!key) {
+        return res.status(400).json({ error: "Key is required" });
+      }
+      const setting = await storage.upsertSiteSetting(key, value || '');
+      res.json(setting);
+    } catch (error) {
+      console.error("Error saving site setting:", error);
+      res.status(500).json({ error: "Failed to save site setting" });
+    }
+  });
+
+  app.delete("/api/site-settings/:key", verifyCreatorToken, async (req, res) => {
+    try {
+      const { key } = req.params;
+      await storage.deleteSiteSetting(key);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting site setting:", error);
+      res.status(500).json({ error: "Failed to delete site setting" });
+    }
+  });
 
   return httpServer;
 }

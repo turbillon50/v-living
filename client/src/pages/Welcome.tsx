@@ -1,23 +1,29 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { Globe, ArrowRight, Building2, Compass, Ship, Calendar, Calculator, Zap, Settings } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { Globe, ArrowRight, Settings } from 'lucide-react';
 import heroImg from '@/assets/hero-cover.png';
+
+interface NavButton {
+  id: string;
+  name: string;
+  nameEn: string | null;
+  link: string;
+  image: string | null;
+  isActive: boolean;
+}
 
 export default function Welcome() {
   const [lang, setLang] = useState<'es' | 'en'>('es');
 
-  const sections = [
-    { id: 'propiedades', icon: Building2, title: lang === 'es' ? 'Propiedades' : 'Properties', link: '/fractional' },
-    { id: 'experiencias', icon: Compass, title: lang === 'es' ? 'Experiencias' : 'Experiences', link: '/experiences' },
-    { id: 'invertir', icon: Calculator, title: lang === 'es' ? 'Invertir' : 'Invest', link: '/invest' },
-    { id: 'yachts', icon: Ship, title: 'Yachts', link: '/fractional' },
-    { id: 'calendario', icon: Calendar, title: lang === 'es' ? 'Calendario' : 'Calendar', link: '/invest' },
-    { id: 'ofertas', icon: Zap, title: 'Last Minute', link: '/last-minute' },
-  ];
+  const { data: navButtons = [] } = useQuery<NavButton[]>({
+    queryKey: ['/api/nav-buttons'],
+  });
+
+  const mainButtons = navButtons.filter(b => b.isActive).slice(0, 3);
 
   return (
     <div className="min-h-screen bg-[#1a1a1a] flex flex-col">
-      {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-50 flex items-center justify-end px-6 md:px-12 py-4">
         <div className="flex items-center gap-4">
           <Link href="/creator">
@@ -36,7 +42,6 @@ export default function Welcome() {
         </div>
       </header>
 
-      {/* Hero Image - Elegant and Centered */}
       <div className="flex items-center justify-center pt-16 pb-8 px-6">
         <img 
           src={heroImg} 
@@ -46,41 +51,71 @@ export default function Welcome() {
         />
       </div>
 
-      {/* Content Section */}
       <div className="flex-1 bg-[#1a1a1a] px-6 py-10">
-        {/* Company */}
         <p className="text-center text-white/40 text-xs tracking-[0.3em] uppercase mb-6">
           All Global Holding LLC
         </p>
 
-        {/* Tagline */}
-        <p className="text-center text-white/70 text-lg md:text-xl font-extralight max-w-lg mx-auto mb-8">
+        <p className="text-center text-white/70 text-lg md:text-xl font-extralight max-w-lg mx-auto mb-10">
           {lang === 'es' 
             ? 'Propiedad fraccionada de lujo en el Caribe' 
             : 'Luxury fractional ownership in the Caribbean'}
         </p>
 
-        {/* Stats */}
-        <div className="flex justify-center gap-10 md:gap-16 mb-10">
-          <div className="text-center">
-            <p className="text-2xl font-extralight text-[#4db6ac]">$65K</p>
-            <p className="text-[10px] text-white/40 uppercase tracking-wider mt-1">
-              {lang === 'es' ? 'Por fracción' : 'Per fraction'}
-            </p>
+        {mainButtons.length > 0 ? (
+          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            {mainButtons.map((btn) => (
+              <Link key={btn.id} href={btn.link}>
+                <div 
+                  className="relative aspect-[16/9] bg-white/5 overflow-hidden cursor-pointer group hover:bg-white/10 transition-all"
+                  data-testid={`nav-button-${btn.id}`}
+                >
+                  {btn.image ? (
+                    <img 
+                      src={btn.image} 
+                      alt={btn.name} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="text-4xl font-extralight text-white/20">{btn.name.charAt(0)}</span>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <p className="text-white font-medium text-sm tracking-wide">
+                      {lang === 'es' ? btn.name : (btn.nameEn || btn.name)}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
-          <div className="text-center">
-            <p className="text-2xl font-extralight text-[#4db6ac]">3</p>
-            <p className="text-[10px] text-white/40 uppercase tracking-wider mt-1">
-              {lang === 'es' ? 'Semanas' : 'Weeks'}
-            </p>
+        ) : (
+          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            {[
+              { name: 'Last Minute Capital', link: '/last-minute-capital' },
+              { name: 'Perfil Asociado', link: '/perfil-asociado' },
+              { name: 'Modelo de Negocios', link: '/modelo-negocios' }
+            ].map((btn, i) => (
+              <Link key={i} href={btn.link}>
+                <div 
+                  className="relative aspect-[16/9] bg-white/5 overflow-hidden cursor-pointer group hover:bg-white/10 transition-all border border-white/10"
+                  data-testid={`nav-button-default-${i}`}
+                >
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-4xl font-extralight text-white/20">{btn.name.charAt(0)}</span>
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <p className="text-white font-medium text-sm tracking-wide">{btn.name}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
-          <div className="text-center">
-            <p className="text-2xl font-extralight text-[#4db6ac]">100%</p>
-            <p className="text-[10px] text-white/40 uppercase tracking-wider mt-1">Legal</p>
-          </div>
-        </div>
+        )}
 
-        {/* CTA */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
           <Link href="/home">
             <span 
@@ -102,24 +137,6 @@ export default function Welcome() {
           </a>
         </div>
 
-        {/* Navigation */}
-        <div className="max-w-2xl mx-auto grid grid-cols-3 md:grid-cols-6 gap-px bg-white/10">
-          {sections.map((section) => (
-            <Link key={section.id} href={section.link}>
-              <div 
-                className="bg-[#1a1a1a] p-4 hover:bg-white/5 transition-all cursor-pointer text-center group"
-                data-testid={`section-${section.id}`}
-              >
-                <section.icon className="w-4 h-4 text-white/40 group-hover:text-[#4db6ac] mx-auto mb-2 transition-colors" />
-                <p className="text-[10px] text-white/50 group-hover:text-white font-medium tracking-wide transition-colors">
-                  {section.title}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Footer */}
         <p className="text-center text-[10px] text-white/30 mt-10">
           © 2024 All Global Holding LLC
         </p>

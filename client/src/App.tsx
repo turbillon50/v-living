@@ -16,6 +16,8 @@ import CreatorDashboard from "@/pages/CreatorDashboard";
 import LastMinute from "@/pages/LastMinute";
 import PerfilAsociado from "@/pages/PerfilAsociado";
 import PropertyAsociado from "@/pages/PropertyAsociado";
+import LastMinuteCapital from "@/pages/LastMinuteCapital";
+import ModeloNegocios from "@/pages/ModeloNegocios";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -33,8 +35,10 @@ function Router() {
       <Route path="/ai" component={AIAssistant} />
       <Route path="/creator" component={CreatorDashboard} />
       <Route path="/last-minute" component={LastMinute} />
+      <Route path="/last-minute-capital" component={LastMinuteCapital} />
       <Route path="/perfil-asociado" component={PerfilAsociado} />
       <Route path="/property-asociado" component={PropertyAsociado} />
+      <Route path="/modelo-negocios" component={ModeloNegocios} />
       <Route component={NotFound} />
     </Switch>
   );

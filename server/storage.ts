@@ -18,7 +18,8 @@ import type {
   Service,
   InsertService,
   Category,
-  InsertCategory
+  InsertCategory,
+  SiteSetting
 } from "@shared/schema";
 
 const { Pool } = pg;
@@ -79,6 +80,12 @@ export interface IStorage {
   createNavButton(button: InsertNavButton): Promise<NavButton>;
   updateNavButton(id: string, button: Partial<InsertNavButton>): Promise<NavButton | undefined>;
   deleteNavButton(id: string): Promise<void>;
+  
+  // Site Settings (CMS texts)
+  getSiteSettings(): Promise<SiteSetting[]>;
+  getSiteSetting(key: string): Promise<SiteSetting | undefined>;
+  upsertSiteSetting(key: string, value: string): Promise<SiteSetting>;
+  deleteSiteSetting(key: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -305,6 +312,36 @@ export class DatabaseStorage implements IStorage {
 
   async deleteNavButton(id: string): Promise<void> {
     await db.delete(schema.navButtons).where(eq(schema.navButtons.id, id));
+  }
+
+  // Site Settings
+  async getSiteSettings(): Promise<SiteSetting[]> {
+    return db.select().from(schema.siteSettings);
+  }
+
+  async getSiteSetting(key: string): Promise<SiteSetting | undefined> {
+    const results = await db.select().from(schema.siteSettings).where(eq(schema.siteSettings.key, key)).limit(1);
+    return results[0];
+  }
+
+  async upsertSiteSetting(key: string, value: string): Promise<SiteSetting> {
+    const existing = await this.getSiteSetting(key);
+    if (existing) {
+      const results = await db.update(schema.siteSettings)
+        .set({ value, updatedAt: new Date() })
+        .where(eq(schema.siteSettings.key, key))
+        .returning();
+      return results[0];
+    } else {
+      const results = await db.insert(schema.siteSettings)
+        .values({ key, value })
+        .returning();
+      return results[0];
+    }
+  }
+
+  async deleteSiteSetting(key: string): Promise<void> {
+    await db.delete(schema.siteSettings).where(eq(schema.siteSettings.key, key));
   }
 }
 
