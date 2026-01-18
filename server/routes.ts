@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema, insertSubscriberSchema, insertNavButtonSchema } from "@shared/schema";
+import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema, insertSubscriberSchema, insertNavButtonSchema, insertCategorySchema } from "@shared/schema";
 import { z } from "zod";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 
@@ -346,6 +346,95 @@ export async function registerRoutes(
       res.status(500).json({ error: "Failed to get exchange rate" });
     }
   });
+
+  // Duplicate property (Creator Mode)
+  app.post("/api/properties/:id/duplicate", verifyCreatorToken, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const duplicated = await storage.duplicateProperty(id);
+      if (!duplicated) {
+        return res.status(404).json({ error: "Property not found" });
+      }
+      res.status(201).json(duplicated);
+    } catch (error) {
+      console.error("Error duplicating property:", error);
+      res.status(500).json({ error: "Failed to duplicate property" });
+    }
+  });
+
+  // Increment view count (public)
+  app.post("/api/properties/:id/view", async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.incrementViewCount(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error incrementing view:", error);
+      res.status(500).json({ error: "Failed to increment view" });
+    }
+  });
+
+  // Categories CRUD
+  app.get("/api/categories", async (req, res) => {
+    try {
+      const categories = await storage.getCategories();
+      res.json(categories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      res.status(500).json({ error: "Failed to fetch categories" });
+    }
+  });
+
+  app.post("/api/categories", verifyCreatorToken, async (req, res) => {
+    try {
+      const validated = insertCategorySchema.parse(req.body);
+      const category = await storage.createCategory(validated);
+      res.status(201).json(category);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid category data", details: error.errors });
+      }
+      console.error("Error creating category:", error);
+      res.status(500).json({ error: "Failed to create category" });
+    }
+  });
+
+  app.put("/api/categories/:id", verifyCreatorToken, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const category = await storage.updateCategory(id, req.body);
+      res.json(category);
+    } catch (error) {
+      console.error("Error updating category:", error);
+      res.status(500).json({ error: "Failed to update category" });
+    }
+  });
+
+  app.delete("/api/categories/:id", verifyCreatorToken, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteCategory(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      res.status(500).json({ error: "Failed to delete category" });
+    }
+  });
+
+  // WhatsApp notification helper (used internally)
+  const sendWhatsAppNotification = async (booking: any, property: any) => {
+    const phone = "+529984292748";
+    const message = encodeURIComponent(
+      `Nueva Pre-Reserva en Fractional Living\n\n` +
+      `Propiedad: ${property?.title || 'N/A'}\n` +
+      `Email: ${booking.email}\n` +
+      `Nombre: ${booking.name || 'N/A'}\n` +
+      `Teléfono: ${booking.phone || 'N/A'}\n` +
+      `Semanas: ${booking.selectedWeeks?.join(', ') || 'N/A'}\n` +
+      `Tipo: ${booking.bookingType === 'vacation' ? 'Vacacional' : 'Fracción'}`
+    );
+    return `https://wa.me/${phone.replace('+', '')}?text=${message}`;
+  };
 
   return httpServer;
 }

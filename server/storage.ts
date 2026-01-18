@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import pg from "pg";
-import { eq, and, gte, lt } from "drizzle-orm";
+import { eq, and, gte, lt, sql } from "drizzle-orm";
 import * as schema from "@shared/schema";
 import type { 
   Property, 
@@ -16,7 +16,9 @@ import type {
   Experience,
   InsertExperience,
   Service,
-  InsertService
+  InsertService,
+  Category,
+  InsertCategory
 } from "@shared/schema";
 
 const { Pool } = pg;
@@ -35,6 +37,14 @@ export interface IStorage {
   createProperty(property: InsertProperty): Promise<Property>;
   updateProperty(id: string, property: Partial<InsertProperty>): Promise<Property | undefined>;
   deleteProperty(id: string): Promise<void>;
+  incrementViewCount(id: string): Promise<void>;
+  duplicateProperty(id: string): Promise<Property | undefined>;
+  
+  // Categories
+  getCategories(): Promise<Category[]>;
+  createCategory(category: InsertCategory): Promise<Category>;
+  updateCategory(id: string, category: Partial<InsertCategory>): Promise<Category | undefined>;
+  deleteCategory(id: string): Promise<void>;
   
   // Experiences
   getExperiences(): Promise<Experience[]>;
@@ -112,6 +122,45 @@ export class DatabaseStorage implements IStorage {
 
   async deleteProperty(id: string): Promise<void> {
     await db.delete(schema.properties).where(eq(schema.properties.id, id));
+  }
+
+  async incrementViewCount(id: string): Promise<void> {
+    await db
+      .update(schema.properties)
+      .set({ viewCount: sql`COALESCE(${schema.properties.viewCount}, 0) + 1` })
+      .where(eq(schema.properties.id, id));
+  }
+
+  async duplicateProperty(id: string): Promise<Property | undefined> {
+    const original = await this.getPropertyById(id);
+    if (!original) return undefined;
+    
+    const { id: _, createdAt, ...propertyData } = original;
+    const duplicated = await this.createProperty({
+      ...propertyData,
+      title: `${original.title} (Copia)`,
+      viewCount: 0,
+    } as InsertProperty);
+    return duplicated;
+  }
+
+  // Categories
+  async getCategories(): Promise<Category[]> {
+    return db.select().from(schema.categories);
+  }
+
+  async createCategory(category: InsertCategory): Promise<Category> {
+    const results = await db.insert(schema.categories).values(category as any).returning();
+    return results[0];
+  }
+
+  async updateCategory(id: string, category: Partial<InsertCategory>): Promise<Category | undefined> {
+    const results = await db.update(schema.categories).set(category as any).where(eq(schema.categories.id, id)).returning();
+    return results[0];
+  }
+
+  async deleteCategory(id: string): Promise<void> {
+    await db.delete(schema.categories).where(eq(schema.categories.id, id));
   }
 
   // Experiences
