@@ -36,12 +36,12 @@ export default function Welcome() {
         </div>
       </header>
 
-      {/* Hero Image - Full and Complete */}
-      <div className="w-full">
+      {/* Hero Image - Elegant and Centered */}
+      <div className="flex items-center justify-center pt-16 pb-8 px-6">
         <img 
           src={heroImg} 
           alt="Fractional Living" 
-          className="w-full h-auto object-contain"
+          className="max-w-md md:max-w-lg lg:max-w-xl h-auto shadow-2xl"
           data-testid="hero-image"
         />
       </div>
