@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
 import { useLanguage } from '@/lib/LanguageContext';
 import { Property } from '@shared/schema';
-import { ChevronRight, Star, MapPin, Bed, Bath, Users } from 'lucide-react';
+import { ChevronRight, MapPin, Bed, Bath, Users } from 'lucide-react';
 import logoImg from '@/assets/logo.png';
 
 export default function Home() {
@@ -16,32 +16,32 @@ export default function Home() {
   const featuredProperties = properties.slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-[#f8f7f4]">
+    <div className="min-h-screen bg-white">
       <Header />
       
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center justify-center bg-white">
-        <div className="max-w-6xl mx-auto px-6 py-20 text-center">
+      <section className="relative bg-[#1a1a1a] py-24 md:py-32">
+        <div className="max-w-6xl mx-auto px-6 text-center">
           {/* Logo */}
-          <div className="mb-10">
+          <div className="mb-12 inline-block bg-white p-10 md:p-12 shadow-2xl">
             <img 
               src={logoImg} 
               alt="Fractional Living" 
-              className="h-36 md:h-48 w-auto mx-auto"
+              className="h-28 md:h-40 w-auto mx-auto"
               data-testid="hero-logo"
             />
           </div>
           
-          <p className="text-lg md:text-xl text-stone-500 font-light max-w-2xl mx-auto mb-12 leading-relaxed">
+          <p className="text-lg md:text-xl text-white/50 font-extralight max-w-2xl mx-auto mb-10">
             {language === 'es' 
-              ? 'Propiedad fraccionada de lujo en el Caribe. Vive, invierte y construye patrimonio con 3 semanas de uso anual.'
-              : 'Luxury fractional ownership in the Caribbean. Live, invest, and build wealth with 3 weeks of annual use.'}
+              ? 'Propiedad fraccionada de lujo en el Caribe'
+              : 'Luxury fractional ownership in the Caribbean'}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/fractional">
-              <span className="inline-flex items-center gap-2 px-8 py-4 bg-[#2d3a3a] text-white text-sm tracking-wide hover:bg-[#3d4a4a] transition-colors cursor-pointer" data-testid="button-explore">
-                {language === 'es' ? 'Explorar Propiedades' : 'Explore Properties'}
+              <span className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#1a1a1a] text-sm font-medium tracking-wide hover:bg-white/90 transition-colors cursor-pointer" data-testid="button-explore">
+                {language === 'es' ? 'VER PROPIEDADES' : 'VIEW PROPERTIES'}
                 <ChevronRight className="w-4 h-4" />
               </span>
             </Link>
@@ -49,19 +49,19 @@ export default function Home() {
               href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-stone-300 text-stone-700 text-sm tracking-wide hover:border-[#4db6ac] transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/30 text-white text-sm font-medium tracking-wide hover:bg-white/10 transition-colors"
               data-testid="button-contact"
             >
-              {language === 'es' ? 'Contactar Asesor' : 'Contact Advisor'}
+              {language === 'es' ? 'CONTACTAR' : 'CONTACT'}
             </a>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Stats */}
       <section className="py-16 bg-[#f8f7f4] border-y border-stone-200">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-4 gap-8">
             {[
               { value: '$65K', label: language === 'es' ? 'Por fracción' : 'Per fraction' },
               { value: '3', label: language === 'es' ? 'Semanas/año' : 'Weeks/year' },
@@ -69,28 +69,28 @@ export default function Home() {
               { value: '∞', label: language === 'es' ? 'Heredable' : 'Inheritable' },
             ].map((stat, i) => (
               <div key={i} className="text-center">
-                <p className="text-3xl md:text-4xl font-light text-[#2d3a3a] mb-1">{stat.value}</p>
-                <p className="text-sm text-stone-500">{stat.label}</p>
+                <p className="text-2xl md:text-3xl font-extralight text-[#1a1a1a]">{stat.value}</p>
+                <p className="text-xs text-stone-500 uppercase tracking-wider mt-1">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Properties Section */}
+      {/* Properties */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <p className="text-sm text-[#4db6ac] uppercase tracking-widest mb-2">
+              <p className="text-xs text-[#4db6ac] uppercase tracking-[0.2em] mb-2 font-medium">
                 {language === 'es' ? 'Portafolio' : 'Portfolio'}
               </p>
-              <h2 className="text-3xl md:text-4xl font-light text-[#2d3a3a]">
-                {language === 'es' ? 'Propiedades Disponibles' : 'Available Properties'}
+              <h2 className="text-3xl font-extralight text-[#1a1a1a]">
+                {language === 'es' ? 'Propiedades' : 'Properties'}
               </h2>
             </div>
             <Link href="/fractional">
-              <span className="text-sm text-stone-500 hover:text-[#4db6ac] transition-colors flex items-center gap-1 cursor-pointer" data-testid="link-view-all">
+              <span className="text-sm text-stone-500 hover:text-[#1a1a1a] flex items-center gap-1 cursor-pointer">
                 {language === 'es' ? 'Ver todas' : 'View all'}
                 <ChevronRight className="w-4 h-4" />
               </span>
@@ -101,8 +101,8 @@ export default function Home() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredProperties.map((property) => (
                 <Link key={property.id} href={`/property/${property.id}`}>
-                  <article className="group cursor-pointer bg-[#f8f7f4] border border-stone-200 hover:border-[#4db6ac] transition-all" data-testid={`card-property-${property.id}`}>
-                    <div className="aspect-[4/3] bg-stone-100 overflow-hidden">
+                  <article className="group cursor-pointer" data-testid={`card-property-${property.id}`}>
+                    <div className="aspect-[4/3] bg-[#f0f0f0] mb-4 overflow-hidden">
                       {property.images?.[0] ? (
                         <img 
                           src={property.images[0]} 
@@ -110,164 +110,99 @@ export default function Home() {
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-stone-100 to-stone-200">
-                          <span className="text-5xl font-light text-stone-300">
+                        <div className="w-full h-full flex items-center justify-center">
+                          <span className="text-6xl font-extralight text-stone-300">
                             {property.title.charAt(0)}
                           </span>
                         </div>
                       )}
                     </div>
                     
-                    <div className="p-5">
-                      <div className="flex items-start justify-between gap-2 mb-2">
-                        <h3 className="text-lg font-medium text-[#2d3a3a] group-hover:text-[#4db6ac] transition-colors">
-                          {property.title}
-                        </h3>
-                        {property.rating && (
-                          <div className="flex items-center gap-1 text-sm text-stone-600">
-                            <Star className="w-3.5 h-3.5 fill-[#4db6ac] text-[#4db6ac]" />
-                            <span>{property.rating}</span>
-                          </div>
-                        )}
-                      </div>
-                      
-                      <p className="flex items-center gap-1 text-sm text-stone-500 mb-3">
-                        <MapPin className="w-3.5 h-3.5" />
-                        {property.location}
-                      </p>
+                    <h3 className="text-lg font-medium text-[#1a1a1a] group-hover:text-[#4db6ac] transition-colors mb-1">
+                      {property.title}
+                    </h3>
+                    
+                    <p className="flex items-center gap-1 text-sm text-stone-500 mb-2">
+                      <MapPin className="w-3.5 h-3.5" />
+                      {property.location}
+                    </p>
 
-                      <div className="flex items-center gap-4 text-xs text-stone-500 mb-4">
-                        {property.bedrooms && (
-                          <span className="flex items-center gap-1">
-                            <Bed className="w-3.5 h-3.5" />
-                            {property.bedrooms}
-                          </span>
-                        )}
-                        {property.bathrooms && (
-                          <span className="flex items-center gap-1">
-                            <Bath className="w-3.5 h-3.5" />
-                            {property.bathrooms}
-                          </span>
-                        )}
-                        {property.maxGuests && (
-                          <span className="flex items-center gap-1">
-                            <Users className="w-3.5 h-3.5" />
-                            {property.maxGuests}
-                          </span>
-                        )}
-                      </div>
-                      
-                      <div className="pt-3 border-t border-stone-200">
-                        <span className="text-lg font-medium text-[#2d3a3a]">
-                          ${(property.fractionPrice || 65000).toLocaleString()}
+                    <div className="flex items-center gap-4 text-xs text-stone-400 mb-3">
+                      {property.bedrooms && (
+                        <span className="flex items-center gap-1">
+                          <Bed className="w-3.5 h-3.5" /> {property.bedrooms}
                         </span>
-                        <span className="text-stone-500 text-sm"> / {language === 'es' ? 'fracción' : 'fraction'}</span>
-                      </div>
+                      )}
+                      {property.bathrooms && (
+                        <span className="flex items-center gap-1">
+                          <Bath className="w-3.5 h-3.5" /> {property.bathrooms}
+                        </span>
+                      )}
+                      {property.maxGuests && (
+                        <span className="flex items-center gap-1">
+                          <Users className="w-3.5 h-3.5" /> {property.maxGuests}
+                        </span>
+                      )}
                     </div>
+                    
+                    <p className="text-[#1a1a1a]">
+                      <span className="text-lg font-medium">${(property.fractionPrice || 65000).toLocaleString()}</span>
+                      <span className="text-stone-500 text-sm"> / {language === 'es' ? 'fracción' : 'fraction'}</span>
+                    </p>
                   </article>
                 </Link>
               ))}
             </div>
           ) : (
-            <div className="text-center py-16 text-stone-500">
-              <p>{language === 'es' ? 'Próximamente más propiedades' : 'More properties coming soon'}</p>
+            <div className="text-center py-20 bg-[#f8f7f4]">
+              <p className="text-stone-400 text-lg font-light">
+                {language === 'es' ? 'Agrega propiedades en Modo Creador' : 'Add properties in Creator Mode'}
+              </p>
+              <Link href="/creator">
+                <span className="inline-block mt-4 text-sm text-[#4db6ac] hover:underline cursor-pointer">
+                  {language === 'es' ? 'Ir a Modo Creador →' : 'Go to Creator Mode →'}
+                </span>
+              </Link>
             </div>
           )}
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="py-20 bg-[#2d3a3a] text-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="text-sm text-[#4db6ac] uppercase tracking-widest mb-2">
-            {language === 'es' ? 'Servicios' : 'Services'}
-          </p>
-          <h2 className="text-3xl md:text-4xl font-light mb-12">
-            {language === 'es' ? 'Más que propiedad' : 'More than property'}
-          </h2>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { 
-                title: language === 'es' ? 'Fracciones' : 'Fractions', 
-                desc: language === 'es' ? 'Propiedad legal de bienes raíces de lujo' : 'Legal ownership of luxury real estate',
-                link: '/fractional'
-              },
-              { 
-                title: language === 'es' ? 'Experiencias' : 'Experiences', 
-                desc: language === 'es' ? 'Aventuras exclusivas en el Caribe' : 'Exclusive Caribbean adventures',
-                link: '/experiences'
-              },
-              { 
-                title: language === 'es' ? 'Rentas' : 'Rentals', 
-                desc: language === 'es' ? 'Alquiler por temporada' : 'Seasonal rentals',
-                link: '/fractional'
-              },
-              { 
-                title: language === 'es' ? 'Concierge' : 'Concierge', 
-                desc: language === 'es' ? 'Atención 24/7' : '24/7 attention',
-                link: '/experiences'
-              },
-            ].map((item, i) => (
-              <Link key={i} href={item.link}>
-                <div className="border border-white/20 p-6 hover:border-[#4db6ac] hover:bg-white/5 transition-all cursor-pointer h-full" data-testid={`service-${i}`}>
-                  <h3 className="text-lg font-medium mb-2 text-white">
-                    {item.title}
-                  </h3>
-                  <p className="text-white/60 text-sm">
-                    {item.desc}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-[#1a1a1a]">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-2xl md:text-3xl font-light text-[#2d3a3a] mb-4">
-            {language === 'es' 
-              ? '¿Listo para invertir en tu futuro?'
-              : 'Ready to invest in your future?'}
+          <h2 className="text-2xl md:text-3xl font-extralight text-white mb-4">
+            {language === 'es' ? '¿Listo para invertir?' : 'Ready to invest?'}
           </h2>
-          <p className="text-stone-500 mb-8 font-light">
-            {language === 'es'
-              ? 'Agenda una llamada con nuestro equipo.'
-              : 'Schedule a call with our team.'}
+          <p className="text-white/50 mb-8 font-light">
+            {language === 'es' ? 'Agenda una llamada con nuestro equipo.' : 'Schedule a call with our team.'}
           </p>
           <a 
             href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[#2d3a3a] text-white text-sm tracking-wide hover:bg-[#3d4a4a] transition-colors"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#1a1a1a] text-sm font-medium tracking-wide hover:bg-white/90 transition-colors"
             data-testid="cta-contact"
           >
-            {language === 'es' ? 'Contactar Asesor' : 'Contact Advisor'}
+            {language === 'es' ? 'CONTACTAR ASESOR' : 'CONTACT ADVISOR'}
             <ChevronRight className="w-4 h-4" />
           </a>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 bg-[#f8f7f4] border-t border-stone-200">
+      <footer className="py-12 bg-white border-t border-stone-200">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div>
-              <img src={logoImg} alt="Fractional Living" className="h-12 w-auto mb-2" />
-              <p className="text-sm text-stone-500">All Global Holding LLC</p>
-            </div>
-            <div className="flex flex-wrap gap-8 text-sm text-stone-500">
-              <Link href="/fractional"><span className="hover:text-[#4db6ac] transition-colors cursor-pointer">{language === 'es' ? 'Propiedades' : 'Properties'}</span></Link>
-              <Link href="/experiences"><span className="hover:text-[#4db6ac] transition-colors cursor-pointer">{language === 'es' ? 'Experiencias' : 'Experiences'}</span></Link>
-              <a href="https://wa.me/529984292748" target="_blank" rel="noopener noreferrer" className="hover:text-[#4db6ac] transition-colors">{language === 'es' ? 'Contacto' : 'Contact'}</a>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <img src={logoImg} alt="Fractional Living" className="h-12 w-auto" />
+            <div className="flex gap-8 text-sm text-stone-500">
+              <Link href="/fractional"><span className="hover:text-[#1a1a1a] cursor-pointer">{language === 'es' ? 'Propiedades' : 'Properties'}</span></Link>
+              <Link href="/experiences"><span className="hover:text-[#1a1a1a] cursor-pointer">{language === 'es' ? 'Experiencias' : 'Experiences'}</span></Link>
+              <Link href="/invest"><span className="hover:text-[#1a1a1a] cursor-pointer">{language === 'es' ? 'Invertir' : 'Invest'}</span></Link>
             </div>
           </div>
-          <div className="mt-8 pt-6 border-t border-stone-200">
-            <p className="text-xs text-stone-400">
-              © 2024 All Global Holding LLC. {language === 'es' ? 'Todos los derechos reservados.' : 'All rights reserved.'}
-            </p>
+          <div className="mt-8 pt-8 border-t border-stone-200 text-center">
+            <p className="text-xs text-stone-400">© 2024 All Global Holding LLC</p>
           </div>
         </div>
       </footer>
