@@ -314,15 +314,20 @@ export default function CreatorDashboard() {
     setUploadingImage(true);
     try {
       for (const file of Array.from(files)) {
-        const urlRes = await fetch(`/api/object-storage/presigned-url?filename=${encodeURIComponent(file.name)}&contentType=${encodeURIComponent(file.type)}`);
+        const urlRes = await fetch('/api/uploads/request-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type })
+        });
         if (!urlRes.ok) throw new Error('Failed to get upload URL');
-        const { url, objectKey, publicUrl } = await urlRes.json();
+        const { uploadURL, objectPath } = await urlRes.json();
 
-        await fetch(url, { method: 'PUT', body: file, headers: { 'Content-Type': file.type } });
-        setFormData(prev => ({ ...prev, images: [...prev.images, publicUrl] }));
+        await fetch(uploadURL, { method: 'PUT', body: file, headers: { 'Content-Type': file.type } });
+        setFormData(prev => ({ ...prev, images: [...prev.images, objectPath] }));
       }
       toast({ title: 'Imágenes subidas' });
     } catch (err) {
+      console.error('Upload error:', err);
       toast({ title: 'Error subiendo imágenes', variant: 'destructive' });
     } finally {
       setUploadingImage(false);
@@ -337,15 +342,20 @@ export default function CreatorDashboard() {
     setUploadingVideo(true);
     try {
       for (const file of Array.from(files)) {
-        const urlRes = await fetch(`/api/object-storage/presigned-url?filename=${encodeURIComponent(file.name)}&contentType=${encodeURIComponent(file.type)}`);
+        const urlRes = await fetch('/api/uploads/request-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type })
+        });
         if (!urlRes.ok) throw new Error('Failed to get upload URL');
-        const { url, publicUrl } = await urlRes.json();
+        const { uploadURL, objectPath } = await urlRes.json();
 
-        await fetch(url, { method: 'PUT', body: file, headers: { 'Content-Type': file.type } });
-        setFormData(prev => ({ ...prev, videos: [...prev.videos, publicUrl] }));
+        await fetch(uploadURL, { method: 'PUT', body: file, headers: { 'Content-Type': file.type } });
+        setFormData(prev => ({ ...prev, videos: [...prev.videos, objectPath] }));
       }
       toast({ title: 'Videos subidos' });
     } catch (err) {
+      console.error('Upload error:', err);
       toast({ title: 'Error subiendo videos', variant: 'destructive' });
     } finally {
       setUploadingVideo(false);
