@@ -9,6 +9,7 @@ import Home from "@/pages/Home";
 import PropertyDetail from "@/pages/PropertyDetail";
 import Fractional from "@/pages/Fractional";
 import Experiences from "@/pages/Experiences";
+import Invest from "@/pages/Invest";
 import Lobby from "@/pages/Lobby";
 import AIAssistant from "@/pages/AIAssistant";
 import CreatorDashboard from "@/pages/CreatorDashboard";
@@ -26,6 +27,8 @@ function Router() {
       <Route path="/fractional/:id" component={PropertyDetail} />
       <Route path="/property/:id" component={PropertyDetail} />
       <Route path="/experiences" component={Experiences} />
+      <Route path="/invest" component={Invest} />
+      <Route path="/calendar" component={Invest} />
       <Route path="/lobby" component={Lobby} />
       <Route path="/ai" component={AIAssistant} />
       <Route path="/creator" component={CreatorDashboard} />

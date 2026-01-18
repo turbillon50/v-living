@@ -64,6 +64,11 @@ export function Header() {
                 {language === 'es' ? 'Experiencias' : 'Experiences'}
               </span>
             </Link>
+            <Link href="/invest" data-testid="link-invest">
+              <span className={`text-sm cursor-pointer transition-colors ${location === '/invest' ? 'text-[#2d3a3a] font-medium' : 'text-stone-500 hover:text-[#2d3a3a]'}`}>
+                {language === 'es' ? 'Invertir' : 'Invest'}
+              </span>
+            </Link>
           </nav>
 
           <div className="flex items-center gap-3">
