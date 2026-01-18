@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'wouter';
-import { Loader2, MapPin, Bed, Bath, Users, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { Loader2, MapPin, Bed, Bath, Users, ChevronLeft, ChevronRight, Search, Heart, Star } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
 import { FloatingButtons } from '@/components/FloatingButtons';
@@ -10,42 +10,123 @@ import { getProperties } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/lib/LanguageContext';
 
-function ImageGallery({ images }: { images: string[] }) {
-  const [current, setCurrent] = useState(0);
+function PropertyCard({ property }: { property: Property }) {
+  const [currentImage, setCurrentImage] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const { formatPrice } = useLanguage();
+  const images = property.images?.filter(Boolean) || [];
   
-  if (!images || images.length === 0) {
-    return (
-      <div className="w-full aspect-[4/3] bg-gradient-to-br from-cyan-100 to-blue-100 rounded-xl flex items-center justify-center">
-        <div className="text-cyan-500 text-4xl">🏠</div>
-      </div>
-    );
-  }
+  const nextImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentImage(c => (c + 1) % images.length);
+  };
+  
+  const prevImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentImage(c => c === 0 ? images.length - 1 : c - 1);
+  };
+  
+  const toggleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setLiked(!liked);
+  };
 
   return (
-    <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden group">
-      <img src={images[current]} alt="Property" className="w-full h-full object-cover transition-transform group-hover:scale-105" />
-      {images.length > 1 && (
-        <>
+    <Link href={`/property/${property.id}`}>
+      <div className="group cursor-pointer" data-testid={`property-card-${property.id}`}>
+        <div className="relative aspect-square rounded-xl overflow-hidden mb-3">
+          {images.length > 0 ? (
+            <img 
+              src={images[currentImage]} 
+              alt={property.title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+              <div className="text-gray-300 text-6xl">🏠</div>
+            </div>
+          )}
+          
           <button
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCurrent(c => c === 0 ? images.length - 1 : c - 1); }}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={toggleLike}
+            className="absolute top-3 right-3 z-10"
+            data-testid={`like-btn-${property.id}`}
           >
-            <ChevronLeft className="w-5 h-5" />
+            <Heart 
+              className={cn(
+                "w-6 h-6 drop-shadow-md transition-all",
+                liked ? "fill-red-500 text-red-500" : "text-white fill-black/20 hover:scale-110"
+              )} 
+            />
           </button>
-          <button
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCurrent(c => c === images.length - 1 ? 0 : c + 1); }}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-            {images.slice(0, 5).map((_, i) => (
-              <div key={i} className={cn("w-1.5 h-1.5 rounded-full transition-all", i === current ? "bg-white w-3" : "bg-white/60")} />
-            ))}
+          
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={prevImage}
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:scale-105"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={nextImage}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:scale-105"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+              
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                {images.slice(0, 5).map((_, i) => (
+                  <div 
+                    key={i} 
+                    className={cn(
+                      "w-1.5 h-1.5 rounded-full transition-all",
+                      i === currentImage ? "bg-white" : "bg-white/50"
+                    )} 
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+        
+        <div className="space-y-1">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="font-medium text-[15px] text-gray-900 leading-tight">
+              {property.title}
+            </h3>
+            <div className="flex items-center gap-1 flex-shrink-0">
+              <Star className="w-3.5 h-3.5 fill-current" />
+              <span className="text-sm">5.0</span>
+            </div>
           </div>
-        </>
-      )}
-    </div>
+          
+          <p className="text-gray-500 text-[15px]">{property.location}</p>
+          
+          <div className="flex items-center gap-3 text-gray-500 text-sm">
+            {property.bedrooms && (
+              <span>{property.bedrooms} {property.bedrooms === 1 ? 'hab' : 'habs'}</span>
+            )}
+            {property.bathrooms && (
+              <span>{property.bathrooms} {property.bathrooms === 1 ? 'baño' : 'baños'}</span>
+            )}
+            {property.maxGuests && (
+              <span>{property.maxGuests} huéspedes</span>
+            )}
+          </div>
+          
+          <div className="pt-1">
+            <span className="font-semibold text-gray-900">
+              {formatPrice(property.price || 650000)}
+            </span>
+            <span className="text-gray-500 text-[15px]"> fracción</span>
+          </div>
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -66,7 +147,6 @@ interface Property {
 export default function Fractional() {
   const { language, formatPrice } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
-  const [showAll, setShowAll] = useState(false);
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['properties'],
@@ -80,134 +160,42 @@ export default function Fractional() {
     p.location?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const displayedProperties = showAll ? filteredProperties : filteredProperties.slice(0, 6);
-
   return (
     <div className="min-h-screen bg-white pb-24">
       <Header />
 
-      <main className="max-w-7xl mx-auto px-4 md:px-8 pt-6 pb-8">
-        <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-2">
-            {language === 'es' ? 'Fracciones Disponibles' : 'Available Fractions'}
-          </h1>
-          <p className="text-slate-500">
-            {language === 'es' 
-              ? 'Propiedades fraccionadas reales, legales y heredables en el Caribe mexicano'
-              : 'Real, legal and inheritable fractional properties in the Mexican Caribbean'}
-          </p>
-        </div>
-
-        <div className="mb-8">
+      <main className="max-w-[2520px] mx-auto px-6 sm:px-8 md:px-10 lg:px-20 pt-6">
+        <div className="mb-6">
           <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-            <Input
-              placeholder={language === 'es' ? 'Buscar por nombre o ubicación...' : 'Search by name or location...'}
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder={language === 'es' ? 'Buscar propiedades...' : 'Search properties...'}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-12 rounded-full border-slate-200"
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              data-testid="search-input"
             />
           </div>
         </div>
 
         {isLoading ? (
           <div className="flex justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
+            <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
           </div>
         ) : filteredProperties.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-slate-500">{language === 'es' ? 'No se encontraron propiedades' : 'No properties found'}</p>
+            <p className="text-gray-500">
+              {language === 'es' ? 'No se encontraron propiedades' : 'No properties found'}
+            </p>
           </div>
         ) : (
-          <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {displayedProperties.map((property) => (
-                <Link key={property.id} href={`/property/${property.id}`}>
-                  <div className="group cursor-pointer">
-                    <ImageGallery images={property.images || []} />
-                    
-                    <div className="mt-3">
-                      <div className="flex items-start justify-between gap-2">
-                        <h3 className="font-medium text-lg leading-tight group-hover:text-cyan-600 transition-colors">
-                          {property.title}
-                        </h3>
-                      </div>
-                      
-                      <p className="text-slate-500 text-sm flex items-center gap-1 mt-1">
-                        <MapPin className="w-3.5 h-3.5" />
-                        {property.location}
-                      </p>
-
-                      <div className="flex items-center gap-3 mt-2 text-sm text-slate-500">
-                        {(property.bedrooms ?? 0) > 0 && (
-                          <span className="flex items-center gap-1">
-                            <Bed className="w-4 h-4" /> {property.bedrooms}
-                          </span>
-                        )}
-                        {(property.bathrooms ?? 0) > 0 && (
-                          <span className="flex items-center gap-1">
-                            <Bath className="w-4 h-4" /> {property.bathrooms}
-                          </span>
-                        )}
-                        {(property.maxGuests ?? 0) > 0 && (
-                          <span className="flex items-center gap-1">
-                            <Users className="w-4 h-4" /> {property.maxGuests}
-                          </span>
-                        )}
-                      </div>
-
-                      <p className="mt-2">
-                        <span className="font-semibold text-lg">{formatPrice(property.price || 650000)}</span>
-                        <span className="text-slate-500 text-sm ml-1">
-                          {language === 'es' ? 'por fracción' : 'per fraction'}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {filteredProperties.length > 6 && !showAll && (
-              <div className="text-center mt-10">
-                <button
-                  onClick={() => setShowAll(true)}
-                  className="px-8 py-3 bg-slate-900 text-white rounded-full font-medium hover:bg-slate-800 transition-colors"
-                >
-                  {language === 'es' ? `Ver todas (${filteredProperties.length})` : `Show all (${filteredProperties.length})`}
-                </button>
-              </div>
-            )}
-
-            {showAll && filteredProperties.length > 6 && (
-              <div className="text-center mt-10">
-                <button
-                  onClick={() => setShowAll(false)}
-                  className="text-slate-500 hover:text-slate-800 text-sm"
-                >
-                  {language === 'es' ? 'Ver menos' : 'Show less'}
-                </button>
-              </div>
-            )}
-          </>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
+            {filteredProperties.map((property) => (
+              <PropertyCard key={property.id} property={property} />
+            ))}
+          </div>
         )}
-
-        <div className="mt-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl p-8 text-white">
-          <h2 className="text-2xl font-semibold mb-3">
-            {language === 'es' ? '¿Necesitas ayuda?' : 'Need help?'}
-          </h2>
-          <p className="opacity-90 mb-6">
-            {language === 'es' 
-              ? 'Nuestros asesores están listos para ayudarte a encontrar la fracción perfecta para ti.'
-              : 'Our advisors are ready to help you find the perfect fraction for you.'}
-          </p>
-          <button
-            onClick={() => window.open('https://wa.me/529984292748?text=Hola,%20me%20interesan%20las%20fracciones', '_blank')}
-            className="px-6 py-3 bg-white text-cyan-600 rounded-full font-medium hover:bg-slate-100 transition-colors"
-          >
-            {language === 'es' ? 'Hablar con un asesor' : 'Talk to an advisor'}
-          </button>
-        </div>
       </main>
 
       <FloatingButtons />

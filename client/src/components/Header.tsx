@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter';
-import { Globe, Menu, User, ArrowLeft, Lock } from 'lucide-react';
+import { Globe, Menu, User, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -18,7 +18,6 @@ import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/lib/LanguageContext';
-import logoImage from '@assets/generated_images/fractional_living_luxury_logo.png';
 
 export function Header() {
   const [location] = useLocation();
@@ -29,17 +28,10 @@ export function Header() {
 
   const handleRegister = () => {
     if (!registerEmail) {
-      toast({
-        title: "Email requerido",
-        description: "Por favor ingresa tu email",
-        variant: "destructive"
-      });
+      toast({ title: "Email requerido", variant: "destructive" });
       return;
     }
-    toast({
-      title: "¡Registrado!",
-      description: "Te contactaremos pronto con más información",
-    });
+    toast({ title: "¡Registrado!", description: "Te contactaremos pronto" });
     setShowRegister(false);
     setRegisterEmail('');
   };
@@ -49,65 +41,48 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-border/60">
-      <div className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20">
-        <div className="flex items-center justify-between h-20">
-          <div className="flex items-center gap-2">
-            <Link href="/" data-testid="link-back-lobby">
-              <button className="p-2 rounded-full hover:bg-muted transition-colors" title={language === 'es' ? 'Volver al Lobby' : 'Back to Lobby'}>
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-            </Link>
-            <Link href="/" data-testid="link-home">
-              <div className="flex items-center gap-3 cursor-pointer">
-                <img src={logoImage} alt="Fractional Living" className="w-10 h-10 object-contain" />
-                <div className="hidden sm:block">
-                  <span className="text-lg font-semibold text-foreground tracking-tight block leading-none">
-                    FRACTIONAL LIVING
-                  </span>
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">All Global Holding LLC</p>
-                </div>
+    <header className="sticky top-0 z-50 bg-white border-b">
+      <div className="max-w-[2520px] mx-auto px-6 sm:px-8 md:px-10 lg:px-20">
+        <div className="flex items-center justify-between h-16">
+          <Link href="/" data-testid="link-home">
+            <div className="flex items-center gap-2 cursor-pointer">
+              <div className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">FL</span>
               </div>
-            </Link>
-          </div>
+              <div className="hidden sm:block">
+                <span className="font-semibold text-gray-900">FRACTIONAL LIVING</span>
+              </div>
+            </div>
+          </Link>
 
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-6">
             <Link href="/fractional" data-testid="link-fractional">
-              <span className={`text-sm font-medium cursor-pointer transition-colors ${location.startsWith('/fractional') ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
-                Fracciones
+              <span className={`text-sm font-medium cursor-pointer transition-colors ${location.startsWith('/fractional') || location.startsWith('/property') ? 'text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}>
+                {language === 'es' ? 'Propiedades' : 'Properties'}
               </span>
             </Link>
             <Link href="/experiences" data-testid="link-experiences">
-              <span className={`text-sm font-medium cursor-pointer transition-colors ${location === '/experiences' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
-                Experiencias
-              </span>
-            </Link>
-            <Link href="/lobby" data-testid="link-lobby">
-              <span className={`text-sm font-medium cursor-pointer transition-colors ${location === '/lobby' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
-                Lobby
+              <span className={`text-sm font-medium cursor-pointer transition-colors ${location === '/experiences' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}>
+                {language === 'es' ? 'Experiencias' : 'Experiences'}
               </span>
             </Link>
           </nav>
 
           <div className="flex items-center gap-2">
             <Link href="/creator">
-              <Button 
-                variant="ghost" 
-                size="icon"
-                className="w-8 h-8"
-                title="Modo Creador"
-              >
+              <Button variant="ghost" size="icon" className="w-9 h-9" title="Admin">
                 <Lock className="w-4 h-4" />
               </Button>
             </Link>
+            
             <Button 
               variant="ghost" 
               size="sm" 
-              className="flex text-sm font-medium" 
+              className="text-sm font-medium px-3" 
               data-testid="button-language"
               onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
             >
-              <Globe className="w-4 h-4 mr-1" />
+              <Globe className="w-4 h-4 mr-1.5" />
               {language === 'es' ? 'ES' : 'EN'}
             </Button>
 
@@ -115,25 +90,25 @@ export function Header() {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 rounded-full px-3 py-2 h-auto border-border hover:shadow-md transition-shadow"
+                  className="flex items-center gap-2 rounded-full px-2 py-1.5 h-auto border-gray-200 hover:shadow-md transition-shadow"
                   data-testid="button-user-menu"
                 >
                   <Menu className="w-4 h-4" />
-                  <div className="w-7 h-7 rounded-full bg-black flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-full bg-gray-500 flex items-center justify-center">
                     <User className="w-4 h-4 text-white" />
                   </div>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem data-testid="menu-item-login" onClick={() => setShowRegister(true)}>
-                  <span className="font-medium">Iniciar Sesión</span>
+                <DropdownMenuItem onClick={() => setShowRegister(true)}>
+                  <span className="font-medium">{language === 'es' ? 'Registrarse' : 'Sign up'}</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem data-testid="menu-item-signup" onClick={() => setShowRegister(true)}>
-                  Registrarse
+                <DropdownMenuItem onClick={() => setShowRegister(true)}>
+                  {language === 'es' ? 'Iniciar Sesión' : 'Log in'}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem data-testid="menu-item-help" onClick={openWhatsApp}>
-                  Centro de Ayuda
+                <DropdownMenuItem onClick={openWhatsApp}>
+                  {language === 'es' ? 'Centro de Ayuda' : 'Help Center'}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -141,15 +116,16 @@ export function Header() {
         </div>
       </div>
 
-      {/* Register Dialog */}
       <Dialog open={showRegister} onOpenChange={setShowRegister}>
-        <DialogContent className="sm:max-w-[400px]">
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Únete a Fractional Living</DialogTitle>
+            <DialogTitle>{language === 'es' ? 'Únete a Fractional Living' : 'Join Fractional Living'}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <p className="text-sm text-muted-foreground">
-              Ingresa tu email para recibir información exclusiva sobre nuestras propiedades fraccionadas.
+            <p className="text-sm text-gray-500">
+              {language === 'es' 
+                ? 'Ingresa tu email para recibir información exclusiva sobre nuestras propiedades.'
+                : 'Enter your email to receive exclusive information about our properties.'}
             </p>
             <Input 
               type="email"
@@ -157,9 +133,10 @@ export function Header() {
               value={registerEmail}
               onChange={e => setRegisterEmail(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleRegister()}
+              className="h-12"
             />
-            <Button onClick={handleRegister} className="w-full">
-              Registrarme
+            <Button onClick={handleRegister} className="w-full h-12">
+              {language === 'es' ? 'Registrarme' : 'Sign up'}
             </Button>
           </div>
         </DialogContent>
