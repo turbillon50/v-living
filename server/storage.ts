@@ -29,6 +29,8 @@ export interface IStorage {
   getPropertyById(id: string): Promise<Property | undefined>;
   getPropertiesByCategory(category: string): Promise<Property[]>;
   createProperty(property: InsertProperty): Promise<Property>;
+  updateProperty(id: string, property: Partial<InsertProperty>): Promise<Property | undefined>;
+  deleteProperty(id: string): Promise<void>;
   
   // Pre-bookings
   createPreBooking(preBooking: InsertPreBooking): Promise<PreBooking>;
@@ -81,6 +83,19 @@ export class DatabaseStorage implements IStorage {
       .values([property])
       .returning();
     return results[0];
+  }
+
+  async updateProperty(id: string, property: Partial<InsertProperty>): Promise<Property | undefined> {
+    const results = await db
+      .update(schema.properties)
+      .set(property)
+      .where(eq(schema.properties.id, id))
+      .returning();
+    return results[0];
+  }
+
+  async deleteProperty(id: string): Promise<void> {
+    await db.delete(schema.properties).where(eq(schema.properties.id, id));
   }
 
   // Pre-bookings

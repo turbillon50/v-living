@@ -5,33 +5,43 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { 
   ArrowLeft, 
   BarChart3, 
-  Users, 
   Building, 
   Calendar,
-  Megaphone,
-  Send,
-  Bell,
-  Mail,
-  MessageSquare,
+  Plus,
+  Trash2,
+  Edit,
   Loader2,
-  Lock
+  Lock,
+  Image,
+  Video,
+  MapPin,
+  Bed,
+  Bath,
+  Users,
+  DollarSign,
+  Save,
+  X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface Analytics {
-  totalProperties: number;
-  totalBookings: number;
-  activeBookings: number;
-  fractionBookings: number;
-  vacationBookings: number;
-  totalSubscribers: number;
-  totalAnnouncements: number;
-  uniqueEmails: number;
+interface Property {
+  id: string;
+  title: string;
+  category: string;
+  location: string;
+  description: string;
+  images: string[];
+  amenities: string[];
+  price: number;
+  videoUrl: string | null;
+  mapUrl: string | null;
+  bedrooms: number;
+  bathrooms: number;
+  maxGuests: number;
 }
 
 interface Booking {
@@ -44,22 +54,11 @@ interface Booking {
   createdAt: string;
 }
 
-interface Property {
-  id: string;
-  title: string;
-  category: string;
-  location: string;
-}
-
-interface Announcement {
-  id: string;
-  title: string;
-  message: string;
-  type: string;
-  createdAt: string;
-}
-
-const CREATOR_PASSWORD = 'lumamijuvisado';
+const AMENITIES_LIST = [
+  'WiFi', 'Alberca', 'Cocina', 'Aire Acondicionado', 'Estacionamiento',
+  'Gimnasio', 'Vista al Mar', 'Terraza', 'BBQ', 'Lavadora',
+  'TV', 'Jacuzzi', 'Seguridad 24/7', 'Playa Privada', 'Concierge'
+];
 
 export default function CreatorDashboard() {
   const [, setLocation] = useLocation();
@@ -67,81 +66,224 @@ export default function CreatorDashboard() {
   const queryClient = useQueryClient();
   
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const [creatorToken, setCreatorToken] = useState('');
   const [password, setPassword] = useState('');
-  const [activeTab, setActiveTab] = useState<'analytics' | 'bookings' | 'announcements' | 'notifications'>('analytics');
-  
-  const [newAnnouncement, setNewAnnouncement] = useState({ title: '', message: '', type: 'news' });
+  const [activeTab, setActiveTab] = useState<'properties' | 'bookings' | 'stats'>('properties');
+  const [editingProperty, setEditingProperty] = useState<Property | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
 
-  const { data: analytics } = useQuery<Analytics>({
-    queryKey: ['admin-analytics'],
-    queryFn: async () => {
-      const res = await fetch('/api/admin/analytics');
-      if (!res.ok) throw new Error('Failed to fetch analytics');
-      return res.json();
-    },
-    enabled: isUnlocked
+  const [formData, setFormData] = useState({
+    title: '',
+    location: '',
+    description: '',
+    category: 'Propiedades',
+    images: [''],
+    amenities: [] as string[],
+    price: 650000,
+    videoUrl: '',
+    mapUrl: '',
+    bedrooms: 2,
+    bathrooms: 2,
+    maxGuests: 6
   });
 
-  const { data: bookings } = useQuery<Booking[]>({
-    queryKey: ['admin-bookings'],
-    queryFn: async () => {
-      const res = await fetch('/api/admin/pre-bookings');
-      if (!res.ok) throw new Error('Failed to fetch bookings');
-      return res.json();
-    },
-    enabled: isUnlocked
-  });
-
-  const { data: properties } = useQuery<Property[]>({
+  const { data: properties = [], isLoading: loadingProperties } = useQuery<Property[]>({
     queryKey: ['properties'],
     queryFn: async () => {
       const res = await fetch('/api/properties');
-      if (!res.ok) throw new Error('Failed to fetch properties');
+      if (!res.ok) throw new Error('Failed');
       return res.json();
     },
     enabled: isUnlocked
   });
 
-  const { data: announcements } = useQuery<Announcement[]>({
-    queryKey: ['announcements'],
+  const { data: bookings = [] } = useQuery<Booking[]>({
+    queryKey: ['admin-bookings', creatorToken],
     queryFn: async () => {
-      const res = await fetch('/api/announcements');
-      if (!res.ok) throw new Error('Failed to fetch announcements');
+      const res = await fetch('/api/admin/pre-bookings', {
+        headers: { 'X-Creator-Token': creatorToken }
+      });
+      if (!res.ok) throw new Error('Failed');
       return res.json();
     },
-    enabled: isUnlocked
+    enabled: isUnlocked && !!creatorToken
   });
 
-  const createAnnouncementMutation = useMutation({
-    mutationFn: async (data: { title: string; message: string; type: string }) => {
-      const res = await fetch('/api/announcements', {
+  const createMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const res = await fetch('/api/properties', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-Creator-Token': creatorToken
+        },
         body: JSON.stringify(data)
       });
-      if (!res.ok) throw new Error('Failed to create announcement');
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Failed');
+      }
       return res.json();
     },
     onSuccess: () => {
-      toast({ title: 'Anuncio creado', description: 'El anuncio se ha publicado correctamente' });
-      setNewAnnouncement({ title: '', message: '', type: 'news' });
-      queryClient.invalidateQueries({ queryKey: ['announcements'] });
+      toast({ title: 'Propiedad creada' });
+      queryClient.invalidateQueries({ queryKey: ['properties'] });
+      resetForm();
+    },
+    onError: (err: Error) => {
+      toast({ title: 'Error', description: err.message, variant: 'destructive' });
     }
   });
 
-  const handleUnlock = () => {
-    if (password === CREATOR_PASSWORD) {
-      setIsUnlocked(true);
-      toast({ title: 'Modo Creador', description: 'Acceso concedido' });
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: any }) => {
+      const res = await fetch(`/api/properties/${id}`, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-Creator-Token': creatorToken
+        },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Failed');
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: 'Propiedad actualizada' });
+      queryClient.invalidateQueries({ queryKey: ['properties'] });
+      resetForm();
+    },
+    onError: (err: Error) => {
+      toast({ title: 'Error', description: err.message, variant: 'destructive' });
+    }
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`/api/properties/${id}`, { 
+        method: 'DELETE',
+        headers: { 'X-Creator-Token': creatorToken }
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Failed');
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: 'Propiedad eliminada' });
+      queryClient.invalidateQueries({ queryKey: ['properties'] });
+    },
+    onError: (err: Error) => {
+      toast({ title: 'Error', description: err.message, variant: 'destructive' });
+    }
+  });
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      location: '',
+      description: '',
+      category: 'Propiedades',
+      images: [''],
+      amenities: [],
+      price: 650000,
+      videoUrl: '',
+      mapUrl: '',
+      bedrooms: 2,
+      bathrooms: 2,
+      maxGuests: 6
+    });
+    setEditingProperty(null);
+    setIsCreating(false);
+  };
+
+  const handleEdit = (property: Property) => {
+    setEditingProperty(property);
+    setFormData({
+      title: property.title,
+      location: property.location,
+      description: property.description,
+      category: property.category,
+      images: property.images.length > 0 ? property.images : [''],
+      amenities: property.amenities || [],
+      price: property.price || 650000,
+      videoUrl: property.videoUrl || '',
+      mapUrl: property.mapUrl || '',
+      bedrooms: property.bedrooms || 2,
+      bathrooms: property.bathrooms || 2,
+      maxGuests: property.maxGuests || 6
+    });
+    setIsCreating(true);
+  };
+
+  const handleSubmit = () => {
+    if (!formData.title || !formData.location) {
+      toast({ title: 'Completa título y ubicación', variant: 'destructive' });
+      return;
+    }
+
+    const data = {
+      ...formData,
+      images: formData.images.filter(img => img.trim() !== ''),
+      conditions: []
+    };
+
+    if (editingProperty) {
+      updateMutation.mutate({ id: editingProperty.id, data });
     } else {
-      toast({ title: 'Error', description: 'Contraseña incorrecta', variant: 'destructive' });
+      createMutation.mutate(data);
     }
   };
 
-  const sendWhatsAppNotification = (emails: string[], message: string) => {
-    const text = `📢 ANUNCIO FRACTIONAL LIVING\n\n${message}\n\nPara: ${emails.length} usuarios registrados`;
-    const whatsappUrl = `https://wa.me/529984292748?text=${encodeURIComponent(text)}`;
-    window.open(whatsappUrl, '_blank');
+  const addImageField = () => {
+    setFormData(prev => ({ ...prev, images: [...prev.images, ''] }));
+  };
+
+  const updateImage = (index: number, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images.map((img, i) => i === index ? value : img)
+    }));
+  };
+
+  const removeImage = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index)
+    }));
+  };
+
+  const toggleAmenity = (amenity: string) => {
+    setFormData(prev => ({
+      ...prev,
+      amenities: prev.amenities.includes(amenity)
+        ? prev.amenities.filter(a => a !== amenity)
+        : [...prev.amenities, amenity]
+    }));
+  };
+
+  const handleUnlock = async () => {
+    try {
+      const res = await fetch('/api/creator/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if (res.ok && data.token) {
+        setCreatorToken(data.token);
+        setIsUnlocked(true);
+        toast({ title: 'Modo Creador Activado' });
+      } else {
+        toast({ title: 'Contraseña incorrecta', variant: 'destructive' });
+      }
+    } catch {
+      toast({ title: 'Error de conexión', variant: 'destructive' });
+    }
   };
 
   if (!isUnlocked) {
@@ -165,7 +307,7 @@ export default function CreatorDashboard() {
             <Button onClick={handleUnlock} className="w-full bg-cyan-500 hover:bg-cyan-600">
               Acceder
             </Button>
-            <Button variant="ghost" onClick={() => setLocation('/home')} className="w-full text-white/60">
+            <Button variant="ghost" onClick={() => setLocation('/')} className="w-full text-white/60">
               Volver
             </Button>
           </CardContent>
@@ -175,263 +317,344 @@ export default function CreatorDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
-      <header className="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-lg border-b border-white/10 px-4 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <div className="min-h-screen bg-slate-900 text-white">
+      <header className="bg-slate-800 border-b border-slate-700 p-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => setLocation('/home')} className="text-white">
+            <Button variant="ghost" size="icon" onClick={() => setLocation('/')}>
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                Centro de Control
-              </h1>
-              <p className="text-xs text-white/60">Modo Creador Activo</p>
-            </div>
+            <h1 className="text-xl font-medium">Modo Creador</h1>
+          </div>
+          <div className="flex gap-2">
+            {['properties', 'bookings', 'stats'].map((tab) => (
+              <Button
+                key={tab}
+                variant={activeTab === tab ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setActiveTab(tab as any)}
+                className={activeTab === tab ? 'bg-cyan-500' : ''}
+              >
+                {tab === 'properties' && <Building className="w-4 h-4 mr-2" />}
+                {tab === 'bookings' && <Calendar className="w-4 h-4 mr-2" />}
+                {tab === 'stats' && <BarChart3 className="w-4 h-4 mr-2" />}
+                {tab === 'properties' ? 'Propiedades' : tab === 'bookings' ? 'Reservas' : 'Estadísticas'}
+              </Button>
+            ))}
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto p-4 md:p-6">
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-          {[
-            { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-            { id: 'bookings', label: 'Reservas', icon: Calendar },
-            { id: 'announcements', label: 'Anuncios', icon: Megaphone },
-            { id: 'notifications', label: 'Notificar', icon: Bell },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as typeof activeTab)}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all",
-                activeTab === tab.id 
-                  ? "bg-cyan-500 text-white" 
-                  : "bg-white/10 text-white/70 hover:bg-white/20"
-              )}
-            >
-              <tab.icon className="w-4 h-4" />
-              {tab.label}
-            </button>
-          ))}
-        </div>
+      <main className="max-w-6xl mx-auto p-4">
+        {activeTab === 'properties' && (
+          <div className="space-y-6">
+            {!isCreating ? (
+              <>
+                <div className="flex justify-between items-center">
+                  <h2 className="text-lg font-medium">Mis Propiedades ({properties.length})</h2>
+                  <Button onClick={() => setIsCreating(true)} className="bg-cyan-500 hover:bg-cyan-600">
+                    <Plus className="w-4 h-4 mr-2" /> Nueva Propiedad
+                  </Button>
+                </div>
 
-        {activeTab === 'analytics' && analytics && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <StatCard icon={Building} label="Propiedades" value={analytics.totalProperties} color="cyan" />
-            <StatCard icon={Calendar} label="Pre-reservas" value={analytics.totalBookings} color="blue" />
-            <StatCard icon={Calendar} label="Activas" value={analytics.activeBookings} color="green" />
-            <StatCard icon={Users} label="Emails únicos" value={analytics.uniqueEmails} color="purple" />
-            <StatCard icon={Building} label="Fracciones" value={analytics.fractionBookings} color="cyan" />
-            <StatCard icon={Calendar} label="Vacaciones" value={analytics.vacationBookings} color="emerald" />
-            <StatCard icon={Users} label="Suscriptores" value={analytics.totalSubscribers} color="amber" />
-            <StatCard icon={Megaphone} label="Anuncios" value={analytics.totalAnnouncements} color="rose" />
+                {loadingProperties ? (
+                  <div className="flex justify-center py-12">
+                    <Loader2 className="w-8 h-8 animate-spin" />
+                  </div>
+                ) : properties.length === 0 ? (
+                  <Card className="bg-slate-800 border-slate-700">
+                    <CardContent className="py-12 text-center">
+                      <Building className="w-12 h-12 mx-auto mb-4 text-slate-500" />
+                      <p className="text-slate-400">No hay propiedades. Crea la primera.</p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid gap-4">
+                    {properties.map((property) => (
+                      <Card key={property.id} className="bg-slate-800 border-slate-700">
+                        <CardContent className="p-4">
+                          <div className="flex gap-4">
+                            <div className="w-24 h-24 rounded-lg bg-slate-700 overflow-hidden flex-shrink-0">
+                              {property.images?.[0] ? (
+                                <img src={property.images[0]} alt="" className="w-full h-full object-cover" />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center">
+                                  <Image className="w-8 h-8 text-slate-500" />
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-medium truncate">{property.title}</h3>
+                              <p className="text-sm text-slate-400 flex items-center gap-1">
+                                <MapPin className="w-3 h-3" /> {property.location}
+                              </p>
+                              <div className="flex gap-4 mt-2 text-xs text-slate-400">
+                                <span className="flex items-center gap-1"><Bed className="w-3 h-3" /> {property.bedrooms || 0}</span>
+                                <span className="flex items-center gap-1"><Bath className="w-3 h-3" /> {property.bathrooms || 0}</span>
+                                <span className="flex items-center gap-1"><Users className="w-3 h-3" /> {property.maxGuests || 0}</span>
+                                <span className="flex items-center gap-1"><DollarSign className="w-3 h-3" /> ${(property.price || 650000).toLocaleString()}</span>
+                              </div>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button variant="ghost" size="icon" onClick={() => handleEdit(property)}>
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button variant="ghost" size="icon" className="text-red-400" onClick={() => deleteMutation.mutate(property.id)}>
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-lg font-medium">{editingProperty ? 'Editar Propiedad' : 'Nueva Propiedad'}</h2>
+                  <Button variant="ghost" onClick={resetForm}>
+                    <X className="w-4 h-4 mr-2" /> Cancelar
+                  </Button>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <Card className="bg-slate-800 border-slate-700">
+                    <CardHeader>
+                      <CardTitle className="text-base">Información Básica</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <label className="text-sm text-slate-400">Título</label>
+                        <Input
+                          value={formData.title}
+                          onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                          placeholder="Ej: Villa Paraíso Caribe"
+                          className="bg-slate-700 border-slate-600"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sm text-slate-400">Ubicación</label>
+                        <Input
+                          value={formData.location}
+                          onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
+                          placeholder="Ej: Cancún, Quintana Roo"
+                          className="bg-slate-700 border-slate-600"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sm text-slate-400">Descripción</label>
+                        <Textarea
+                          value={formData.description}
+                          onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                          placeholder="Describe la propiedad..."
+                          className="bg-slate-700 border-slate-600 min-h-[100px]"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sm text-slate-400">Precio (MXN)</label>
+                        <Input
+                          type="number"
+                          value={formData.price}
+                          onChange={(e) => setFormData(prev => ({ ...prev, price: parseInt(e.target.value) || 0 }))}
+                          className="bg-slate-700 border-slate-600"
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 gap-3">
+                        <div>
+                          <label className="text-sm text-slate-400">Recámaras</label>
+                          <Input
+                            type="number"
+                            value={formData.bedrooms}
+                            onChange={(e) => setFormData(prev => ({ ...prev, bedrooms: parseInt(e.target.value) || 0 }))}
+                            className="bg-slate-700 border-slate-600"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm text-slate-400">Baños</label>
+                          <Input
+                            type="number"
+                            value={formData.bathrooms}
+                            onChange={(e) => setFormData(prev => ({ ...prev, bathrooms: parseInt(e.target.value) || 0 }))}
+                            className="bg-slate-700 border-slate-600"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm text-slate-400">Huéspedes</label>
+                          <Input
+                            type="number"
+                            value={formData.maxGuests}
+                            onChange={(e) => setFormData(prev => ({ ...prev, maxGuests: parseInt(e.target.value) || 0 }))}
+                            className="bg-slate-700 border-slate-600"
+                          />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-slate-800 border-slate-700">
+                    <CardHeader>
+                      <CardTitle className="text-base flex items-center gap-2">
+                        <Image className="w-4 h-4" /> Imágenes
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      {formData.images.map((img, i) => (
+                        <div key={i} className="flex gap-2">
+                          <Input
+                            value={img}
+                            onChange={(e) => updateImage(i, e.target.value)}
+                            placeholder="URL de imagen..."
+                            className="bg-slate-700 border-slate-600"
+                          />
+                          <Button variant="ghost" size="icon" onClick={() => removeImage(i)} className="text-red-400">
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      ))}
+                      <Button variant="outline" size="sm" onClick={addImageField} className="w-full border-dashed">
+                        <Plus className="w-4 h-4 mr-2" /> Agregar Imagen
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-slate-800 border-slate-700">
+                    <CardHeader>
+                      <CardTitle className="text-base flex items-center gap-2">
+                        <Video className="w-4 h-4" /> Video y Mapa
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <label className="text-sm text-slate-400">URL de Video (YouTube/Vimeo)</label>
+                        <Input
+                          value={formData.videoUrl}
+                          onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))}
+                          placeholder="https://youtube.com/..."
+                          className="bg-slate-700 border-slate-600"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sm text-slate-400">URL de Google Maps</label>
+                        <Input
+                          value={formData.mapUrl}
+                          onChange={(e) => setFormData(prev => ({ ...prev, mapUrl: e.target.value }))}
+                          placeholder="https://maps.google.com/..."
+                          className="bg-slate-700 border-slate-600"
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-slate-800 border-slate-700">
+                    <CardHeader>
+                      <CardTitle className="text-base">Amenidades</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex flex-wrap gap-2">
+                        {AMENITIES_LIST.map((amenity) => (
+                          <button
+                            key={amenity}
+                            onClick={() => toggleAmenity(amenity)}
+                            className={cn(
+                              "px-3 py-1 rounded-full text-sm transition-all",
+                              formData.amenities.includes(amenity)
+                                ? "bg-cyan-500 text-white"
+                                : "bg-slate-700 text-slate-300 hover:bg-slate-600"
+                            )}
+                          >
+                            {amenity}
+                          </button>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Button
+                  onClick={handleSubmit}
+                  disabled={createMutation.isPending || updateMutation.isPending}
+                  className="w-full bg-cyan-500 hover:bg-cyan-600 h-12"
+                >
+                  {(createMutation.isPending || updateMutation.isPending) ? (
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Guardando...</>
+                  ) : (
+                    <><Save className="w-4 h-4 mr-2" /> {editingProperty ? 'Actualizar Propiedad' : 'Crear Propiedad'}</>
+                  )}
+                </Button>
+              </div>
+            )}
           </div>
         )}
 
         {activeTab === 'bookings' && (
           <div className="space-y-4">
-            <h2 className="text-lg font-medium">Pre-reservas Recibidas</h2>
-            {bookings && bookings.length > 0 ? (
-              <div className="space-y-3">
-                {bookings.map((booking) => {
-                  const property = properties?.find(p => p.id === booking.propertyId);
-                  const isExpired = new Date(booking.expiresAt) < new Date();
-                  return (
-                    <Card key={booking.id} className={cn("bg-white/10 border-white/20", isExpired && "opacity-50")}>
-                      <CardContent className="p-4">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <p className="font-medium text-white">{booking.email}</p>
-                            <p className="text-sm text-white/60">{property?.title || 'Propiedad'}</p>
-                            <p className="text-xs text-white/40 mt-1">
-                              Semanas: {(booking.selectedWeeks || []).join(', ')}
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <span className={cn(
-                              "px-2 py-1 rounded text-xs font-medium",
-                              booking.bookingType === 'vacation' 
-                                ? "bg-emerald-500/20 text-emerald-400" 
-                                : "bg-cyan-500/20 text-cyan-400"
-                            )}>
-                              {booking.bookingType === 'vacation' ? '🏖️ Vacaciones' : '💎 Fracción'}
-                            </span>
-                            <p className={cn("text-xs mt-1", isExpired ? "text-red-400" : "text-green-400")}>
-                              {isExpired ? 'Expirado' : 'Activo'}
-                            </p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
+            <h2 className="text-lg font-medium">Reservas ({bookings.length})</h2>
+            {bookings.length === 0 ? (
+              <Card className="bg-slate-800 border-slate-700">
+                <CardContent className="py-12 text-center">
+                  <Calendar className="w-12 h-12 mx-auto mb-4 text-slate-500" />
+                  <p className="text-slate-400">No hay reservas aún</p>
+                </CardContent>
+              </Card>
             ) : (
-              <p className="text-white/60 text-center py-8">No hay pre-reservas aún</p>
-            )}
-          </div>
-        )}
-
-        {activeTab === 'announcements' && (
-          <div className="space-y-6">
-            <Card className="bg-white/10 border-white/20">
-              <CardHeader>
-                <CardTitle className="text-white">Nuevo Anuncio</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex gap-2">
-                  {['news', 'opportunity', 'alert'].map((type) => (
-                    <button
-                      key={type}
-                      onClick={() => setNewAnnouncement(prev => ({ ...prev, type }))}
-                      className={cn(
-                        "px-3 py-1 rounded-full text-sm",
-                        newAnnouncement.type === type 
-                          ? "bg-cyan-500 text-white" 
-                          : "bg-white/10 text-white/70"
-                      )}
-                    >
-                      {type === 'news' ? '📰 Noticia' : type === 'opportunity' ? '💎 Oportunidad' : '🔔 Alerta'}
-                    </button>
-                  ))}
-                </div>
-                <Input
-                  placeholder="Título del anuncio"
-                  value={newAnnouncement.title}
-                  onChange={(e) => setNewAnnouncement(prev => ({ ...prev, title: e.target.value }))}
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
-                />
-                <Textarea
-                  placeholder="Mensaje..."
-                  value={newAnnouncement.message}
-                  onChange={(e) => setNewAnnouncement(prev => ({ ...prev, message: e.target.value }))}
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/40 min-h-[100px]"
-                />
-                <Button 
-                  onClick={() => createAnnouncementMutation.mutate(newAnnouncement)}
-                  disabled={!newAnnouncement.title || !newAnnouncement.message || createAnnouncementMutation.isPending}
-                  className="w-full bg-cyan-500 hover:bg-cyan-600"
-                >
-                  {createAnnouncementMutation.isPending ? (
-                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Publicando...</>
-                  ) : (
-                    <>Publicar Anuncio</>
-                  )}
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Separator className="bg-white/20" />
-
-            <h3 className="font-medium">Anuncios Publicados</h3>
-            {announcements && announcements.length > 0 ? (
-              <div className="space-y-3">
-                {announcements.map((ann) => (
-                  <Card key={ann.id} className="bg-white/10 border-white/20">
+              <div className="grid gap-4">
+                {bookings.map((booking) => (
+                  <Card key={booking.id} className="bg-slate-800 border-slate-700">
                     <CardContent className="p-4">
-                      <div className="flex items-start gap-3">
-                        <span className="text-2xl">
-                          {ann.type === 'news' ? '📰' : ann.type === 'opportunity' ? '💎' : '🔔'}
-                        </span>
+                      <div className="flex justify-between items-start">
                         <div>
-                          <h4 className="font-medium text-white">{ann.title}</h4>
-                          <p className="text-sm text-white/70 mt-1">{ann.message}</p>
-                          <p className="text-xs text-white/40 mt-2">
-                            {new Date(ann.createdAt).toLocaleDateString('es-MX')}
+                          <p className="font-medium">{booking.email}</p>
+                          <p className="text-sm text-slate-400">
+                            Semanas: {booking.selectedWeeks?.join(', ') || 'N/A'}
+                          </p>
+                          <p className="text-xs text-slate-500">
+                            Tipo: {booking.bookingType} | Expira: {new Date(booking.expiresAt).toLocaleDateString()}
                           </p>
                         </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => window.open(`https://wa.me/529984292748?text=Seguimiento reserva: ${booking.email}`, '_blank')}
+                        >
+                          WhatsApp
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
                 ))}
               </div>
-            ) : (
-              <p className="text-white/60 text-center py-8">No hay anuncios aún</p>
             )}
           </div>
         )}
 
-        {activeTab === 'notifications' && (
-          <div className="space-y-6">
-            <Card className="bg-white/10 border-white/20">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5" />
-                  Notificar por WhatsApp
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-white/60 text-sm">
-                  Envía notificaciones a todos los usuarios que han hecho pre-reservas.
-                </p>
-                
-                <div className="grid grid-cols-2 gap-3">
-                  <Button
-                    onClick={() => {
-                      const emails = bookings?.map(b => b.email) || [];
-                      sendWhatsAppNotification(emails, '¡Nueva oportunidad de inversión disponible!');
-                    }}
-                    className="bg-gradient-to-r from-cyan-500 to-blue-600"
-                  >
-                    <Send className="w-4 h-4 mr-2" />
-                    Oportunidad
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      const emails = bookings?.map(b => b.email) || [];
-                      sendWhatsAppNotification(emails, '¡Últimas semanas disponibles - reserva ahora!');
-                    }}
-                    className="bg-gradient-to-r from-amber-500 to-orange-600"
-                  >
-                    <Bell className="w-4 h-4 mr-2" />
-                    Urgente
-                  </Button>
-                </div>
-
-                <Separator className="bg-white/20" />
-
-                <div className="p-4 bg-white/5 rounded-lg">
-                  <h4 className="font-medium text-white mb-2">Emails registrados</h4>
-                  <div className="space-y-2 max-h-[200px] overflow-y-auto">
-                    {bookings && Array.from(new Set(bookings.map(b => b.email))).map((email) => (
-                      <div key={email} className="flex items-center gap-2 text-sm text-white/70">
-                        <Mail className="w-4 h-4" />
-                        {email}
-                      </div>
-                    ))}
-                    {(!bookings || bookings.length === 0) && (
-                      <p className="text-white/50 text-sm">No hay emails registrados</p>
-                    )}
-                  </div>
-                </div>
+        {activeTab === 'stats' && (
+          <div className="grid md:grid-cols-3 gap-4">
+            <Card className="bg-slate-800 border-slate-700">
+              <CardContent className="p-6 text-center">
+                <Building className="w-8 h-8 mx-auto mb-2 text-cyan-400" />
+                <p className="text-3xl font-bold">{properties.length}</p>
+                <p className="text-slate-400 text-sm">Propiedades</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-slate-800 border-slate-700">
+              <CardContent className="p-6 text-center">
+                <Calendar className="w-8 h-8 mx-auto mb-2 text-green-400" />
+                <p className="text-3xl font-bold">{bookings.length}</p>
+                <p className="text-slate-400 text-sm">Reservas</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-slate-800 border-slate-700">
+              <CardContent className="p-6 text-center">
+                <Users className="w-8 h-8 mx-auto mb-2 text-purple-400" />
+                <p className="text-3xl font-bold">{new Set(bookings.map(b => b.email)).size}</p>
+                <p className="text-slate-400 text-sm">Usuarios Únicos</p>
               </CardContent>
             </Card>
           </div>
         )}
-      </div>
+      </main>
     </div>
-  );
-}
-
-function StatCard({ icon: Icon, label, value, color }: { icon: any; label: string; value: number; color: string }) {
-  const colorClasses: Record<string, string> = {
-    cyan: 'from-cyan-500/20 to-cyan-600/20 text-cyan-400',
-    blue: 'from-blue-500/20 to-blue-600/20 text-blue-400',
-    green: 'from-green-500/20 to-green-600/20 text-green-400',
-    purple: 'from-purple-500/20 to-purple-600/20 text-purple-400',
-    emerald: 'from-emerald-500/20 to-emerald-600/20 text-emerald-400',
-    amber: 'from-amber-500/20 to-amber-600/20 text-amber-400',
-    rose: 'from-rose-500/20 to-rose-600/20 text-rose-400',
-  };
-
-  return (
-    <Card className={cn("bg-gradient-to-br border-white/10", colorClasses[color])}>
-      <CardContent className="p-4">
-        <Icon className="w-6 h-6 mb-2" />
-        <p className="text-2xl font-bold text-white">{value}</p>
-        <p className="text-xs text-white/60">{label}</p>
-      </CardContent>
-    </Card>
   );
 }

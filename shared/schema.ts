@@ -11,6 +11,13 @@ export const properties = pgTable("properties", {
   description: text("description").notNull(),
   images: jsonb("images").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
   conditions: jsonb("conditions").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+  amenities: jsonb("amenities").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+  price: integer("price").default(650000),
+  videoUrl: text("video_url"),
+  mapUrl: text("map_url"),
+  bedrooms: integer("bedrooms").default(0),
+  bathrooms: integer("bathrooms").default(0),
+  maxGuests: integer("max_guests").default(0),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

@@ -1,9 +1,13 @@
 import { useState, useMemo } from 'react';
 import { useParams, Link } from 'wouter';
-import { ChevronLeft, Share, Check, Calendar as CalendarIcon, Loader2, Calculator, Lock, Unlock, Settings } from 'lucide-react';
+import { 
+  ChevronLeft, Share, Check, Loader2, Calculator, Lock, Settings,
+  Wifi, Waves, Utensils, Wind, Car, Dumbbell, Mountain, Home,
+  Flame, WashingMachine, Tv, Sparkles, Shield, UmbrellaOff, Phone,
+  Bed, Bath, Users, MapPin, Play, X, ChevronRight, Image
+} from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
-import { BottomNav } from '@/components/BottomNav';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -17,15 +21,31 @@ const FRACTION_PRICE = 650000;
 const CREATOR_PASSWORD = 'lumamijuvisado';
 const BASE_YEAR = 2026;
 
+const AMENITY_ICONS: Record<string, any> = {
+  'WiFi': Wifi,
+  'Alberca': Waves,
+  'Cocina': Utensils,
+  'Aire Acondicionado': Wind,
+  'Estacionamiento': Car,
+  'Gimnasio': Dumbbell,
+  'Vista al Mar': Mountain,
+  'Terraza': Home,
+  'BBQ': Flame,
+  'Lavadora': WashingMachine,
+  'TV': Tv,
+  'Jacuzzi': Sparkles,
+  'Seguridad 24/7': Shield,
+  'Playa Privada': UmbrellaOff,
+  'Concierge': Phone
+};
+
 function getWeekDates(weekNumber: number, year: number = BASE_YEAR) {
   const janFirst = new Date(year, 0, 1);
   const dayOfWeek = janFirst.getDay();
   const daysToFirstMonday = dayOfWeek === 0 ? 1 : (dayOfWeek === 1 ? 0 : 8 - dayOfWeek);
-  
   const firstMonday = new Date(year, 0, 1 + daysToFirstMonday);
   const weekStart = new Date(firstMonday);
   weekStart.setDate(firstMonday.getDate() + (weekNumber - 1) * 7);
-  
   const weekEnd = new Date(weekStart);
   weekEnd.setDate(weekStart.getDate() + 6);
   
@@ -35,71 +55,43 @@ function getWeekDates(weekNumber: number, year: number = BASE_YEAR) {
     return `${day} ${months[date.getMonth()]}`;
   };
   
-  return {
-    start: formatDate(weekStart),
-    end: formatDate(weekEnd),
-    startDate: weekStart,
-    endDate: weekEnd
-  };
+  return { start: formatDate(weekStart), end: formatDate(weekEnd) };
 }
 
 function FinancialCalculator() {
   const [downPayment, setDownPayment] = useState(20);
   const [term, setTerm] = useState<12 | 24 | 36>(12);
-
   const rates = { 12: 0, 24: 6, 36: 9 };
   const downPaymentAmount = (FRACTION_PRICE * downPayment) / 100;
   const financeAmount = FRACTION_PRICE - downPaymentAmount;
   const annualRate = rates[term] / 100;
   const monthlyRate = annualRate / 12;
-  
   const monthlyPayment = monthlyRate === 0 
     ? financeAmount / term 
     : (financeAmount * monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
 
   return (
-    <div className="bg-muted/50 rounded-xl p-6 space-y-4">
+    <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 space-y-4 border border-cyan-100">
       <div className="flex items-center gap-2 mb-4">
-        <Calculator className="w-5 h-5 text-primary" />
-        <h4 className="font-medium">Calculadora Financiera</h4>
+        <Calculator className="w-5 h-5 text-cyan-600" />
+        <h4 className="font-semibold text-lg">Calculadora de Pagos</h4>
       </div>
-
       <div>
-        <label className="text-sm text-muted-foreground mb-2 block">
+        <label className="text-sm text-slate-600 mb-2 block">
           Enganche: {downPayment}% (${downPaymentAmount.toLocaleString()} MXN)
         </label>
-        <input
-          type="range"
-          min="10"
-          max="30"
-          value={downPayment}
-          onChange={(e) => setDownPayment(Number(e.target.value))}
-          className="w-full"
-        />
+        <input type="range" min="10" max="30" value={downPayment} onChange={(e) => setDownPayment(Number(e.target.value))} className="w-full accent-cyan-500" />
       </div>
-
       <div className="grid grid-cols-3 gap-2">
         {([12, 24, 36] as const).map((t) => (
-          <button
-            key={t}
-            onClick={() => setTerm(t)}
-            className={cn(
-              "py-2 px-3 rounded-lg text-sm font-medium transition-colors",
-              term === t 
-                ? "bg-primary text-primary-foreground" 
-                : "bg-white border border-border hover:bg-muted"
-            )}
-          >
+          <button key={t} onClick={() => setTerm(t)} className={cn("py-2 px-3 rounded-lg text-sm font-medium transition-colors", term === t ? "bg-cyan-500 text-white" : "bg-white border hover:bg-slate-50")}>
             {t} meses {rates[t] > 0 && `(${rates[t]}%)`}
           </button>
         ))}
       </div>
-
-      <div className="pt-4 border-t border-border">
-        <p className="text-sm text-muted-foreground">Pago mensual estimado:</p>
-        <p className="text-2xl font-semibold text-primary">
-          ${Math.round(monthlyPayment).toLocaleString()} MXN
-        </p>
+      <div className="pt-4 border-t border-cyan-200">
+        <p className="text-sm text-slate-600">Pago mensual estimado:</p>
+        <p className="text-3xl font-bold text-cyan-600">${Math.round(monthlyPayment).toLocaleString()} MXN</p>
       </div>
     </div>
   );
@@ -117,24 +109,23 @@ export default function PropertyDetail() {
   const [showCreatorDialog, setShowCreatorDialog] = useState(false);
   const [creatorPassword, setCreatorPassword] = useState('');
   const [blockedWeeks, setBlockedWeeks] = useState<number[]>([]);
-  const [selectedWeekDetail, setSelectedWeekDetail] = useState<number | null>(null);
   const [bookingType, setBookingType] = useState<'fraction' | 'vacation'>('fraction');
+  const [showGallery, setShowGallery] = useState(false);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+  const [showVideo, setShowVideo] = useState(false);
 
-  // Fetch property
-  const { data: property, isLoading: propertyLoading } = useQuery({
+  const { data: property, isLoading } = useQuery({
     queryKey: ['property', id],
     queryFn: () => getPropertyById(id!),
     enabled: !!id,
   });
 
-  // Fetch booked weeks
   const { data: bookedWeeks = [] } = useQuery({
     queryKey: ['bookings', id],
     queryFn: () => getBookedWeeks(id!),
     enabled: !!id,
   });
 
-  // Generate weeks with availability and dates (56 weeks)
   const weeks = useMemo(() => {
     return Array.from({ length: 56 }, (_, i) => {
       const weekNum = i + 1;
@@ -149,11 +140,24 @@ export default function PropertyDetail() {
     });
   }, [bookedWeeks, blockedWeeks]);
 
-  const handleCreatorAccess = () => {
-    if (isCreatorMode) {
-      setIsCreatorMode(false);
-      return;
+  const bookingMutation = useMutation({
+    mutationFn: (data: { propertyId: string; email: string; selectedWeeks: number[] }) =>
+      createPreBooking({ ...data, bookingType }),
+    onSuccess: () => {
+      setShowSuccess(true);
+      setSelectedWeeks([]);
+      setEmail('');
+      queryClient.invalidateQueries({ queryKey: ['bookings', id] });
+      const msg = `Nueva Pre-Reserva FRACTIONAL LIVING\n\nPropiedad: ${property?.title}\nEmail: ${email}\nSemanas: ${selectedWeeks.join(', ')}\nTipo: ${bookingType === 'fraction' ? 'Fracción' : 'Vacaciones'}`;
+      window.open(`https://wa.me/529984292748?text=${encodeURIComponent(msg)}`, '_blank');
+    },
+    onError: () => {
+      toast({ title: "Error al reservar", variant: "destructive" });
     }
+  });
+
+  const handleCreatorAccess = () => {
+    if (isCreatorMode) { setIsCreatorMode(false); return; }
     setShowCreatorDialog(true);
   };
 
@@ -162,441 +166,318 @@ export default function PropertyDetail() {
       setIsCreatorMode(true);
       setShowCreatorDialog(false);
       setCreatorPassword('');
-      toast({ title: "Modo Creador activado", description: "Ahora puedes bloquear semanas" });
+      toast({ title: "Modo Creador activado" });
     } else {
       toast({ title: "Contraseña incorrecta", variant: "destructive" });
     }
   };
 
   const toggleBlockWeek = (weekNumber: number) => {
-    setBlockedWeeks(prev => 
-      prev.includes(weekNumber) 
-        ? prev.filter(w => w !== weekNumber)
-        : [...prev, weekNumber]
-    );
+    setBlockedWeeks(prev => prev.includes(weekNumber) ? prev.filter(w => w !== weekNumber) : [...prev, weekNumber]);
   };
 
-  // Send WhatsApp alert to advisor
-  const sendAdvisorAlert = (userEmail: string, weeks: number[], type: 'fraction' | 'vacation') => {
-    const weekDetails = weeks.sort((a,b) => a-b).map(w => {
-      const week = getWeekDates(w);
-      return `Semana ${w}: ${week.start} - ${week.end}`;
-    }).join('\n');
-    
-    const typeLabel = type === 'fraction' ? '💎 COMPRA DE FRACCIÓN' : '🏖️ RESERVA VACACIONAL';
-    const message = `🔔 NUEVA SOLICITUD\n\n${typeLabel}\n\nEmail: ${userEmail}\nPropiedad: ${property?.title || 'Sin nombre'}\n\nSemanas seleccionadas:\n${weekDetails}\n\n¡Contactar de inmediato!`;
-    
-    const whatsappUrl = `https://wa.me/529984292748?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-  };
-
-  // Pre-booking mutation
-  const bookingMutation = useMutation({
-    mutationFn: createPreBooking,
-    onSuccess: () => {
-      setShowSuccess(true);
-      sendAdvisorAlert(email, selectedWeeks, bookingType);
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error en la reserva",
-        description: error.message || "No se pudo crear la pre-reserva",
-        variant: "destructive"
-      });
+  const toggleWeek = (weekNumber: number) => {
+    if (bookingType === 'fraction') {
+      if (selectedWeeks.includes(weekNumber)) {
+        setSelectedWeeks(prev => prev.filter(w => w !== weekNumber));
+      } else if (selectedWeeks.length < 3) {
+        setSelectedWeeks(prev => [...prev, weekNumber]);
+      }
+    } else {
+      setSelectedWeeks(prev => prev.includes(weekNumber) ? prev.filter(w => w !== weekNumber) : [...prev, weekNumber]);
     }
-  });
+  };
 
-  if (propertyLoading) {
+  const handleSubmit = () => {
+    if (bookingType === 'fraction' && selectedWeeks.length !== 3) {
+      toast({ title: "Selecciona exactamente 3 semanas", variant: "destructive" });
+      return;
+    }
+    if (!email) {
+      toast({ title: "Ingresa tu email", variant: "destructive" });
+      return;
+    }
+    bookingMutation.mutate({ propertyId: id!, email, selectedWeeks });
+  };
+
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="flex items-center justify-center h-[60vh]">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-        </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
       </div>
     );
   }
 
   if (!property) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20 py-12">
-          <p className="text-center text-muted-foreground">Property not found</p>
-          <Link href="/">
-            <Button variant="outline" className="mx-auto mt-4 block">Back to Explore</Button>
-          </Link>
-        </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Propiedad no encontrada</p>
       </div>
     );
   }
 
-  const toggleWeek = (weekNum: number) => {
-    if (selectedWeeks.includes(weekNum)) {
-      setSelectedWeeks(selectedWeeks.filter(w => w !== weekNum));
-    } else {
-      if (selectedWeeks.length >= 3) {
-        toast({
-          title: "Limit Reached",
-          description: "You must select exactly 3 weeks.",
-          variant: "destructive"
-        });
-        return;
-      }
-      setSelectedWeeks([...selectedWeeks, weekNum].sort((a, b) => a - b));
-    }
-  };
+  const images = property.images?.length > 0 ? property.images : ['https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800'];
+  const amenities = property.amenities || [];
+  const videoUrl = property.videoUrl;
+  const mapUrl = property.mapUrl;
 
-  const handlePreBook = () => {
-    if (selectedWeeks.length !== 3) {
-      toast({
-        title: "Selection Required",
-        description: "Please select exactly 3 weeks to proceed.",
-        variant: "destructive"
-      });
-      return;
-    }
-    if (!email) {
-      toast({
-        title: "Email Required",
-        description: "Please enter your email address.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    bookingMutation.mutate({
-      propertyId: id!,
-      email,
-      selectedWeeks,
-    });
+  const getYoutubeEmbedUrl = (url: string) => {
+    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
+    return match ? `https://www.youtube.com/embed/${match[1]}` : url;
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Header />
 
-      <main className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20 py-8">
-        {/* Navigation & Title */}
-        <div className="mb-8">
-          <Link href="/">
-            <button className="flex items-center text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors">
-              <ChevronLeft className="w-4 h-4 mr-1" />
-              Back to Experience
+      <main className="max-w-7xl mx-auto px-4 md:px-8 py-6">
+        <Link href="/fractional">
+          <button className="flex items-center text-sm text-slate-500 hover:text-slate-800 mb-4">
+            <ChevronLeft className="w-4 h-4 mr-1" /> Volver
+          </button>
+        </Link>
+
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-semibold">{property.title}</h1>
+            <p className="text-slate-500 flex items-center gap-1 mt-1">
+              <MapPin className="w-4 h-4" /> {property.location}
+            </p>
+          </div>
+          <div className="flex gap-4 text-sm text-slate-600">
+            {(property.bedrooms ?? 0) > 0 && <span className="flex items-center gap-1"><Bed className="w-4 h-4" /> {property.bedrooms} Rec</span>}
+            {(property.bathrooms ?? 0) > 0 && <span className="flex items-center gap-1"><Bath className="w-4 h-4" /> {property.bathrooms} Baños</span>}
+            {(property.maxGuests ?? 0) > 0 && <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {property.maxGuests} Huésp</span>}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-4 gap-2 rounded-2xl overflow-hidden mb-8 h-[300px] md:h-[400px]">
+          <div className="col-span-4 md:col-span-2 row-span-2 relative cursor-pointer" onClick={() => { setGalleryIndex(0); setShowGallery(true); }}>
+            <img src={images[0]} alt="" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors" />
+          </div>
+          {images.slice(1, 5).map((img, i) => (
+            <div key={i} className="hidden md:block relative cursor-pointer" onClick={() => { setGalleryIndex(i + 1); setShowGallery(true); }}>
+              <img src={img} alt="" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors" />
+            </div>
+          ))}
+          {images.length > 5 && (
+            <button onClick={() => setShowGallery(true)} className="absolute bottom-4 right-4 bg-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium hover:bg-slate-50">
+              <Image className="w-4 h-4 inline mr-2" /> Ver todas ({images.length})
             </button>
-          </Link>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-2">{property.title}</h1>
-              <p className="text-lg text-muted-foreground flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                {property.location}
-              </p>
-            </div>
-            <Button variant="outline" size="sm" className="gap-2 self-start md:self-auto">
-              <Share className="w-4 h-4" /> Share
-            </Button>
-          </div>
+          )}
         </div>
 
-        {/* Gallery */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 rounded-2xl overflow-hidden h-[50vh] md:h-[60vh] mb-12">
-          <img src={property.images[0]} alt="Main view" className="w-full h-full object-cover" />
-          <div className="hidden md:grid grid-rows-2 gap-2 h-full">
-            <img src={property.images[1]} alt="Detail view" className="w-full h-full object-cover" />
-            <img src={property.images[2]} alt="Interior view" className="w-full h-full object-cover" />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-          {/* Details Column */}
-          <div className="lg:col-span-2 space-y-10">
-            <div>
-              <div className="mb-4">
-                <span className="text-3xl font-semibold">$650,000 MXN</span>
-                <span className="text-muted-foreground ml-2">por fracción</span>
-              </div>
-              <h2 className="text-2xl font-light mb-4">Acerca de esta propiedad</h2>
-              <p className="text-muted-foreground leading-relaxed text-lg">
-                {property.description}
-              </p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-2xl p-6">
+              <p className="text-sm opacity-80">Precio por fracción</p>
+              <p className="text-4xl font-bold">${(property.price || FRACTION_PRICE).toLocaleString()} MXN</p>
+              <p className="text-sm opacity-80 mt-1">~${Math.round((property.price || FRACTION_PRICE) / 17.5).toLocaleString()} USD</p>
             </div>
 
-            <Separator />
-
             <div>
-              <h2 className="text-2xl font-light mb-6">Condiciones</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {property.conditions.map((condition, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
-                    <Check className="w-5 h-5 text-green-600" />
-                    <span>{condition}</span>
+              <h2 className="text-xl font-semibold mb-4">Acerca de esta propiedad</h2>
+              <p className="text-slate-600 leading-relaxed">{property.description}</p>
+            </div>
+
+            {amenities.length > 0 && (
+              <>
+                <Separator />
+                <div>
+                  <h2 className="text-xl font-semibold mb-4">Amenidades</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {amenities.map((amenity: string, i: number) => {
+                      const Icon = AMENITY_ICONS[amenity] || Check;
+                      return (
+                        <div key={i} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                          <Icon className="w-5 h-5 text-cyan-600" />
+                          <span className="text-sm">{amenity}</span>
+                        </div>
+                      );
+                    })}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
+              </>
+            )}
+
+            {videoUrl && (
+              <>
+                <Separator />
+                <div>
+                  <h2 className="text-xl font-semibold mb-4">Video</h2>
+                  <button onClick={() => setShowVideo(true)} className="relative w-full aspect-video bg-slate-100 rounded-2xl overflow-hidden group">
+                    <img src={images[0]} alt="" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+                        <Play className="w-8 h-8 text-cyan-600 ml-1" />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </>
+            )}
+
+            {mapUrl && (
+              <>
+                <Separator />
+                <div>
+                  <h2 className="text-xl font-semibold mb-4">Ubicación</h2>
+                  <div className="aspect-video rounded-2xl overflow-hidden">
+                    <iframe src={mapUrl} className="w-full h-full border-0" allowFullScreen loading="lazy" />
+                  </div>
+                </div>
+              </>
+            )}
 
             <Separator />
-
             <FinancialCalculator />
 
-            <Separator />
-
-            <div className="p-6 bg-muted/30 rounded-xl">
-              <h3 className="font-medium mb-3">Información Legal (Legacy)</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Cada fracción representa un derecho inmobiliario real, legal y heredable.
-                Puedes ocuparla, rentarla o solicitar apoyo para su operación o reventa.
-              </p>
-              <Button 
-                variant="outline" 
-                className="mt-4"
-                onClick={() => window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20hablar%20con%20un%20asesor%20legal', '_blank')}
-              >
-                Habla con un asesor legal
+            <div className="bg-slate-50 rounded-2xl p-6">
+              <h3 className="font-semibold mb-3">Propiedad Real y Legal</h3>
+              <p className="text-sm text-slate-600">Cada fracción representa un derecho inmobiliario real, legal y heredable. Puedes ocuparla, rentarla o solicitar apoyo para su operación o reventa.</p>
+              <Button variant="outline" className="mt-4" onClick={() => window.open('https://wa.me/529984292748?text=Hola,%20quiero%20m%C3%A1s%20informaci%C3%B3n%20legal', '_blank')}>
+                Habla con un asesor
               </Button>
             </div>
           </div>
 
-          {/* Booking Column */}
           <div className="lg:col-span-1">
-            <div className="sticky top-28 bg-white border border-border rounded-2xl p-6 shadow-xl shadow-black/5">
+            <div className="sticky top-24 bg-white border rounded-2xl p-6 shadow-xl">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-medium">Selecciona tus Semanas</h3>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={handleCreatorAccess}
-                  className={cn(isCreatorMode && "text-primary")}
-                >
+                <h3 className="text-lg font-semibold">Selecciona tus Semanas</h3>
+                <Button variant="ghost" size="sm" onClick={handleCreatorAccess} className={cn(isCreatorMode && "text-cyan-500")}>
                   <Settings className="w-4 h-4" />
                 </Button>
               </div>
 
-              {/* Booking Type Toggle */}
               <div className="flex gap-2 mb-4">
-                <button
-                  onClick={() => setBookingType('fraction')}
-                  className={cn(
-                    "flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all",
-                    bookingType === 'fraction' 
-                      ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white" 
-                      : "bg-muted text-muted-foreground hover:bg-muted/80"
-                  )}
-                >
+                <button onClick={() => setBookingType('fraction')} className={cn("flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all", bookingType === 'fraction' ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white" : "bg-slate-100 hover:bg-slate-200")}>
                   Comprar Fracción
                 </button>
-                <button
-                  onClick={() => setBookingType('vacation')}
-                  className={cn(
-                    "flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all relative",
-                    bookingType === 'vacation' 
-                      ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white" 
-                      : "bg-muted text-muted-foreground hover:bg-muted/80"
-                  )}
-                >
-                  Solo Vacacionar
+                <button onClick={() => setBookingType('vacation')} className={cn("flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all relative", bookingType === 'vacation' ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white" : "bg-slate-100 hover:bg-slate-200")}>
+                  Vacacionar
                   <span className="absolute -top-2 -right-2 text-[10px] bg-amber-500 text-white px-1.5 py-0.5 rounded-full">Pronto</span>
                 </button>
               </div>
-              
+
               {isCreatorMode && (
-                <div className="mb-4 p-3 bg-primary/10 rounded-lg border border-primary/20">
-                  <p className="text-xs text-primary font-medium">Modo Creador: Toca una semana para bloquear/desbloquear</p>
-                </div>
-              )}
-              
-              <p className="text-sm text-muted-foreground mb-4">
-                {bookingType === 'fraction' 
-                  ? "Selecciona exactamente 3 semanas para tu fracción."
-                  : "Próximamente disponible. ¡Regístrate para el lanzamiento!"
-                }
-              </p>
-
-              {bookingType === 'vacation' && (
-                <div className="mb-4 p-4 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200 rounded-xl">
-                  <p className="text-amber-800 font-bold text-center text-sm mb-1">
-                    🚀 Lanzamiento: 21 de Marzo
-                  </p>
-                  <p className="text-amber-700 text-xs text-center">
-                    Regístrate y obtén bonos y descuentos inimaginables por lanzamiento
-                  </p>
+                <div className="mb-4 p-3 bg-cyan-50 rounded-lg border border-cyan-200">
+                  <p className="text-xs text-cyan-700 font-medium">Modo Creador: Toca para bloquear/desbloquear</p>
                 </div>
               )}
 
-              {/* Weeks List with Dates */}
-              <div className="max-h-[400px] overflow-y-auto space-y-2 mb-6 pr-2">
+              <div className="max-h-[350px] overflow-y-auto space-y-2 mb-4 pr-1">
                 {weeks.map((week) => (
                   <button
                     key={week.weekNumber}
-                    onClick={() => {
-                      if (isCreatorMode) {
-                        toggleBlockWeek(week.weekNumber);
-                      } else if (week.available) {
-                        toggleWeek(week.weekNumber);
-                      }
-                    }}
+                    onClick={() => isCreatorMode ? toggleBlockWeek(week.weekNumber) : week.available && toggleWeek(week.weekNumber)}
                     disabled={!isCreatorMode && !week.available}
                     className={cn(
                       "w-full p-3 rounded-lg text-left transition-all flex items-center justify-between",
                       week.isBlocked && "bg-red-50 border border-red-200 text-red-700",
-                      week.isBooked && !week.isBlocked && "bg-muted text-muted-foreground opacity-50 cursor-not-allowed",
-                      week.available && !selectedWeeks.includes(week.weekNumber) && "bg-muted/30 hover:bg-muted border border-transparent hover:border-border",
-                      selectedWeeks.includes(week.weekNumber) && "bg-black text-white shadow-md",
-                      isCreatorMode && "cursor-pointer hover:ring-2 hover:ring-primary/50"
+                      week.isBooked && !week.isBlocked && "bg-slate-100 opacity-50 cursor-not-allowed",
+                      week.available && !selectedWeeks.includes(week.weekNumber) && "bg-slate-50 hover:bg-slate-100",
+                      selectedWeeks.includes(week.weekNumber) && "bg-cyan-500 text-white"
                     )}
                   >
                     <div className="flex items-center gap-3">
-                      <span className={cn(
-                        "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold",
-                        selectedWeeks.includes(week.weekNumber) ? "bg-white/20" : "bg-black/10",
-                        week.isBlocked && "bg-red-200"
-                      )}>
+                      <span className={cn("w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold", selectedWeeks.includes(week.weekNumber) ? "bg-white/20" : "bg-slate-200")}>
                         {week.weekNumber}
                       </span>
                       <div>
                         <p className="text-sm font-medium">{week.start} - {week.end}</p>
-                        <p className={cn(
-                          "text-xs",
-                          selectedWeeks.includes(week.weekNumber) ? "text-white/70" : "text-muted-foreground"
-                        )}>
-                          Semana {week.weekNumber}
-                        </p>
+                        <p className="text-xs opacity-70">Semana {week.weekNumber}</p>
                       </div>
                     </div>
-                    <div>
-                      {week.isBlocked && <Lock className="w-4 h-4 text-red-500" />}
-                      {week.isBooked && !week.isBlocked && <span className="text-xs">Reservada</span>}
-                      {selectedWeeks.includes(week.weekNumber) && <Check className="w-4 h-4" />}
-                    </div>
+                    {week.isBlocked && <Lock className="w-4 h-4" />}
+                    {week.isBooked && !week.isBlocked && <span className="text-xs">Reservada</span>}
+                    {selectedWeeks.includes(week.weekNumber) && <Check className="w-4 h-4" />}
                   </button>
                 ))}
               </div>
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span>Semanas seleccionadas</span>
+                  <span>Seleccionadas</span>
                   <span className="font-medium">{selectedWeeks.length} / 3</span>
                 </div>
-                
-                {selectedWeeks.length > 0 && (
-                  <div className="text-xs text-muted-foreground space-y-1 p-3 bg-muted/50 rounded-lg">
-                    {selectedWeeks.sort((a,b) => a-b).map(w => {
-                      const week = weeks.find(wk => wk.weekNumber === w);
-                      return week && (
-                        <p key={w} className="flex items-center gap-2">
-                          <Check className="w-3 h-3 text-green-500" />
-                          Semana {w}: {week.start} - {week.end}
-                        </p>
-                      );
-                    })}
-                  </div>
+
+                {selectedWeeks.length === 3 && bookingType === 'fraction' && (
+                  <>
+                    <Input type="email" placeholder="Tu email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <Button onClick={handleSubmit} disabled={bookingMutation.isPending} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700">
+                      {bookingMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Pre-Reservar (5 días hold)"}
+                    </Button>
+                  </>
                 )}
-
-                {((bookingType === 'fraction' && selectedWeeks.length === 3) || (bookingType === 'vacation' && selectedWeeks.length > 0)) && (
-                  <div className={cn(
-                    "p-4 rounded-xl border-2",
-                    bookingType === 'fraction' 
-                      ? "bg-gradient-to-r from-cyan-50 to-blue-50 border-cyan-200" 
-                      : "bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200"
-                  )}>
-                    <p className={cn(
-                      "font-medium text-center text-sm mb-2",
-                      bookingType === 'fraction' ? "text-cyan-800" : "text-emerald-800"
-                    )}>
-                      {bookingType === 'fraction' ? '¡Excelente inversión!' : '¡Vacaciones perfectas!'}
-                    </p>
-                    <p className={cn(
-                      "text-xs text-center",
-                      bookingType === 'fraction' ? "text-cyan-700" : "text-emerald-700"
-                    )}>
-                      Ingresa tu correo para {bookingType === 'fraction' ? 'reservar tu fracción' : 'apartar tus fechas'}
-                    </p>
-                  </div>
-                )}
-                
-                <Separator />
-                
-                <Input 
-                  placeholder="Tu correo electrónico" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="h-12"
-                />
-
-                <Button 
-                  className={cn(
-                    "w-full h-14 text-lg font-medium transition-all",
-                    bookingType === 'fraction' && selectedWeeks.length === 3 && email && "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700",
-                    bookingType === 'vacation' && email && "bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700"
-                  )}
-                  onClick={handlePreBook}
-                  disabled={bookingMutation.isPending || (bookingType === 'fraction' ? selectedWeeks.length !== 3 : !email)}
-                >
-                  {bookingMutation.isPending ? (
-                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Procesando...</>
-                  ) : bookingType === 'fraction' ? (
-                    selectedWeeks.length === 3 ? "¡Invertir Ahora!" : `Selecciona ${3 - selectedWeeks.length} semana${3 - selectedWeeks.length !== 1 ? 's' : ''} más`
-                  ) : (
-                    "¡Registrarme para el Lanzamiento!"
-                  )}
-                </Button>
-
-                <p className="text-xs text-center text-muted-foreground">
-                  Hold gratuito por 5 días. Un asesor te contactará por WhatsApp.
-                </p>
               </div>
             </div>
           </div>
         </div>
       </main>
 
-      {/* Creator Mode Password Dialog */}
+      <Dialog open={showGallery} onOpenChange={setShowGallery}>
+        <DialogContent className="max-w-4xl p-0 bg-black">
+          <div className="relative">
+            <img src={images[galleryIndex]} alt="" className="w-full h-auto max-h-[80vh] object-contain" />
+            <button onClick={() => setShowGallery(false)} className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 rounded-full p-2">
+              <X className="w-6 h-6 text-white" />
+            </button>
+            {images.length > 1 && (
+              <>
+                <button onClick={() => setGalleryIndex((galleryIndex - 1 + images.length) % images.length)} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 rounded-full p-2">
+                  <ChevronLeft className="w-6 h-6 text-white" />
+                </button>
+                <button onClick={() => setGalleryIndex((galleryIndex + 1) % images.length)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 rounded-full p-2">
+                  <ChevronRight className="w-6 h-6 text-white" />
+                </button>
+              </>
+            )}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 px-4 py-2 rounded-full">
+              <span className="text-white text-sm">{galleryIndex + 1} / {images.length}</span>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showVideo} onOpenChange={setShowVideo}>
+        <DialogContent className="max-w-4xl p-0">
+          {videoUrl && (
+            <div className="aspect-video">
+              <iframe src={getYoutubeEmbedUrl(videoUrl)} className="w-full h-full" allowFullScreen />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
       <Dialog open={showCreatorDialog} onOpenChange={setShowCreatorDialog}>
-        <DialogContent className="sm:max-w-[400px]">
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle>Acceso Modo Creador</DialogTitle>
+            <DialogTitle>Modo Creador</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 py-4">
-            <Input 
-              type="password"
-              placeholder="Contraseña"
-              value={creatorPassword}
-              onChange={e => setCreatorPassword(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && verifyCreatorPassword()}
-            />
-            <Button onClick={verifyCreatorPassword} className="w-full">
-              Acceder
-            </Button>
+          <div className="space-y-4">
+            <Input type="password" placeholder="Contraseña" value={creatorPassword} onChange={(e) => setCreatorPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && verifyCreatorPassword()} />
+            <Button onClick={verifyCreatorPassword} className="w-full">Acceder</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
+        <DialogContent>
+          <div className="text-center py-6">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Check className="w-8 h-8 text-green-600" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">Pre-Reserva Confirmada</h3>
+            <p className="text-slate-600 mb-4">Tienes 5 días para completar tu reserva. Un asesor te contactará pronto.</p>
+            <Button onClick={() => setShowSuccess(false)}>Entendido</Button>
           </div>
         </DialogContent>
       </Dialog>
 
       <FloatingButtons />
-      <BottomNav />
-
-      {/* Success Dialog */}
-      <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-center text-2xl font-light pt-4">Pre-Booking Confirmed</DialogTitle>
-          </DialogHeader>
-          <div className="flex flex-col items-center py-6 text-center space-y-4">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-2">
-              <Check className="w-8 h-8 text-green-600" />
-            </div>
-            <p className="text-muted-foreground">
-              Your 3 weeks have been reserved for 5 days.
-            </p>
-            <p className="text-sm">
-              An advisor will contact you at <span className="font-medium text-foreground">{email}</span> shortly to finalize your experience.
-            </p>
-            <Button onClick={() => setShowSuccess(false)} className="w-full mt-4">
-              Return to Experience
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

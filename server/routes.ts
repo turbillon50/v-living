@@ -49,8 +49,34 @@ export async function registerRoutes(
     }
   });
 
-  // Create property (Creator Mode)
-  app.post("/api/properties", async (req, res) => {
+  // Creator Mode authentication
+  const CREATOR_PASSWORD = process.env.CREATOR_PASSWORD || 'lumamijuvisado';
+
+  // Creator login endpoint - returns a session token
+  const CREATOR_TOKEN = 'creator_session_' + Date.now().toString(36);
+  let activeCreatorToken = '';
+  
+  app.post("/api/creator/login", (req, res) => {
+    const { password } = req.body;
+    if (password === CREATOR_PASSWORD) {
+      activeCreatorToken = CREATOR_TOKEN + '_' + Math.random().toString(36).slice(2);
+      res.json({ success: true, token: activeCreatorToken });
+    } else {
+      res.status(401).json({ error: "Invalid password" });
+    }
+  });
+
+  // Update verifyCreator to check active token
+  const verifyCreatorToken = (req: any, res: any, next: any) => {
+    const authHeader = req.headers['x-creator-token'];
+    if (!activeCreatorToken || authHeader !== activeCreatorToken) {
+      return res.status(401).json({ error: "Unauthorized - Creator access required" });
+    }
+    next();
+  };
+
+  // Create property (Creator Mode - Protected)
+  app.post("/api/properties", verifyCreatorToken, async (req, res) => {
     try {
       const validated = insertPropertySchema.parse(req.body);
       const property = await storage.createProperty(validated);
@@ -61,6 +87,41 @@ export async function registerRoutes(
       }
       console.error("Error creating property:", error);
       res.status(500).json({ error: "Failed to create property" });
+    }
+  });
+
+  // Update property (Creator Mode - Protected)
+  app.put("/api/properties/:id", verifyCreatorToken, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const validated = insertPropertySchema.partial().parse(req.body);
+      const property = await storage.updateProperty(id, validated);
+      if (!property) {
+        return res.status(404).json({ error: "Property not found" });
+      }
+      res.json(property);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid property data", details: error.errors });
+      }
+      console.error("Error updating property:", error);
+      res.status(500).json({ error: "Failed to update property" });
+    }
+  });
+
+  // Delete property (Creator Mode - Protected)
+  app.delete("/api/properties/:id", verifyCreatorToken, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const property = await storage.getPropertyById(id);
+      if (!property) {
+        return res.status(404).json({ error: "Property not found" });
+      }
+      await storage.deleteProperty(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting property:", error);
+      res.status(500).json({ error: "Failed to delete property" });
     }
   });
 
@@ -132,10 +193,10 @@ export async function registerRoutes(
     }
   });
 
-  // === CREATOR MODE ROUTES ===
+  // === CREATOR MODE ROUTES (Protected) ===
 
   // Get all pre-bookings (admin)
-  app.get("/api/admin/pre-bookings", async (req, res) => {
+  app.get("/api/admin/pre-bookings", verifyCreatorToken, async (req, res) => {
     try {
       const bookings = await storage.getAllPreBookings();
       res.json(bookings);
@@ -146,7 +207,7 @@ export async function registerRoutes(
   });
 
   // Get analytics
-  app.get("/api/admin/analytics", async (req, res) => {
+  app.get("/api/admin/analytics", verifyCreatorToken, async (req, res) => {
     try {
       const properties = await storage.getProperties();
       const bookings = await storage.getAllPreBookings();
@@ -184,8 +245,8 @@ export async function registerRoutes(
     }
   });
 
-  // Create announcement
-  app.post("/api/announcements", async (req, res) => {
+  // Create announcement (Protected)
+  app.post("/api/announcements", verifyCreatorToken, async (req, res) => {
     try {
       const validated = insertAnnouncementSchema.parse(req.body);
       const announcement = await storage.createAnnouncement(validated);
@@ -211,7 +272,7 @@ export async function registerRoutes(
   });
 
   // Create subscriber
-  app.post("/api/subscribers", async (req, res) => {
+  app.post("/api/subscribers", verifyCreatorToken, async (req, res) => {
     try {
       const validated = insertSubscriberSchema.parse(req.body);
       const subscriber = await storage.createSubscriber(validated);
@@ -236,7 +297,7 @@ export async function registerRoutes(
     }
   });
 
-  app.post("/api/nav-buttons", async (req, res) => {
+  app.post("/api/nav-buttons", verifyCreatorToken, async (req, res) => {
     try {
       const validated = insertNavButtonSchema.parse(req.body);
       const button = await storage.createNavButton(validated);
@@ -250,7 +311,7 @@ export async function registerRoutes(
     }
   });
 
-  app.put("/api/nav-buttons/:id", async (req, res) => {
+  app.put("/api/nav-buttons/:id", verifyCreatorToken, async (req, res) => {
     try {
       const { id } = req.params;
       const button = await storage.updateNavButton(id, req.body);
@@ -261,7 +322,7 @@ export async function registerRoutes(
     }
   });
 
-  app.delete("/api/nav-buttons/:id", async (req, res) => {
+  app.delete("/api/nav-buttons/:id", verifyCreatorToken, async (req, res) => {
     try {
       const { id } = req.params;
       await storage.deleteNavButton(id);
