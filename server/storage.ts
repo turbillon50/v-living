@@ -12,7 +12,11 @@ import type {
   Subscriber,
   InsertSubscriber,
   NavButton,
-  InsertNavButton
+  InsertNavButton,
+  Experience,
+  InsertExperience,
+  Service,
+  InsertService
 } from "@shared/schema";
 
 const { Pool } = pg;
@@ -31,6 +35,18 @@ export interface IStorage {
   createProperty(property: InsertProperty): Promise<Property>;
   updateProperty(id: string, property: Partial<InsertProperty>): Promise<Property | undefined>;
   deleteProperty(id: string): Promise<void>;
+  
+  // Experiences
+  getExperiences(): Promise<Experience[]>;
+  getExperienceById(id: string): Promise<Experience | undefined>;
+  createExperience(experience: InsertExperience): Promise<Experience>;
+  updateExperience(id: string, experience: Partial<InsertExperience>): Promise<Experience | undefined>;
+  deleteExperience(id: string): Promise<void>;
+  
+  // Services
+  getServices(): Promise<Service[]>;
+  createService(service: InsertService): Promise<Service>;
+  deleteService(id: string): Promise<void>;
   
   // Pre-bookings
   createPreBooking(preBooking: InsertPreBooking): Promise<PreBooking>;
@@ -80,7 +96,7 @@ export class DatabaseStorage implements IStorage {
   async createProperty(property: InsertProperty): Promise<Property> {
     const results = await db
       .insert(schema.properties)
-      .values([property])
+      .values(property as any)
       .returning();
     return results[0];
   }
@@ -88,7 +104,7 @@ export class DatabaseStorage implements IStorage {
   async updateProperty(id: string, property: Partial<InsertProperty>): Promise<Property | undefined> {
     const results = await db
       .update(schema.properties)
-      .set(property)
+      .set(property as any)
       .where(eq(schema.properties.id, id))
       .returning();
     return results[0];
@@ -98,11 +114,63 @@ export class DatabaseStorage implements IStorage {
     await db.delete(schema.properties).where(eq(schema.properties.id, id));
   }
 
+  // Experiences
+  async getExperiences(): Promise<Experience[]> {
+    return db.select().from(schema.experiences);
+  }
+
+  async getExperienceById(id: string): Promise<Experience | undefined> {
+    const results = await db
+      .select()
+      .from(schema.experiences)
+      .where(eq(schema.experiences.id, id))
+      .limit(1);
+    return results[0];
+  }
+
+  async createExperience(experience: InsertExperience): Promise<Experience> {
+    const results = await db
+      .insert(schema.experiences)
+      .values(experience as any)
+      .returning();
+    return results[0];
+  }
+
+  async updateExperience(id: string, experience: Partial<InsertExperience>): Promise<Experience | undefined> {
+    const results = await db
+      .update(schema.experiences)
+      .set(experience as any)
+      .where(eq(schema.experiences.id, id))
+      .returning();
+    return results[0];
+  }
+
+  async deleteExperience(id: string): Promise<void> {
+    await db.delete(schema.experiences).where(eq(schema.experiences.id, id));
+  }
+
+  // Services
+  async getServices(): Promise<Service[]> {
+    return db.select().from(schema.services);
+  }
+
+  async createService(service: InsertService): Promise<Service> {
+    const results = await db
+      .insert(schema.services)
+      .values(service as any)
+      .returning();
+    return results[0];
+  }
+
+  async deleteService(id: string): Promise<void> {
+    await db.delete(schema.services).where(eq(schema.services.id, id));
+  }
+
   // Pre-bookings
   async createPreBooking(preBooking: InsertPreBooking): Promise<PreBooking> {
     const results = await db
       .insert(schema.preBookings)
-      .values([preBooking])
+      .values(preBooking as any)
       .returning();
     return results[0];
   }
@@ -149,7 +217,7 @@ export class DatabaseStorage implements IStorage {
   async createAnnouncement(announcement: InsertAnnouncement): Promise<Announcement> {
     const results = await db
       .insert(schema.announcements)
-      .values([announcement])
+      .values(announcement as any)
       .returning();
     return results[0];
   }
@@ -162,7 +230,7 @@ export class DatabaseStorage implements IStorage {
   async createSubscriber(subscriber: InsertSubscriber): Promise<Subscriber> {
     const results = await db
       .insert(schema.subscribers)
-      .values([subscriber])
+      .values(subscriber as any)
       .returning();
     return results[0];
   }
@@ -177,12 +245,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createNavButton(button: InsertNavButton): Promise<NavButton> {
-    const results = await db.insert(schema.navButtons).values([button]).returning();
+    const results = await db.insert(schema.navButtons).values(button as any).returning();
     return results[0];
   }
 
   async updateNavButton(id: string, button: Partial<InsertNavButton>): Promise<NavButton | undefined> {
-    const results = await db.update(schema.navButtons).set(button).where(eq(schema.navButtons.id, id)).returning();
+    const results = await db.update(schema.navButtons).set(button as any).where(eq(schema.navButtons.id, id)).returning();
     return results[0];
   }
 
