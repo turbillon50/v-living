@@ -1,80 +1,114 @@
-import { Header } from '@/components/Header';
-import { BottomNav } from '@/components/BottomNav';
-import { FloatingButtons } from '@/components/FloatingButtons';
-import { Button } from '@/components/ui/button';
-import { User, Star, Gift, TrendingUp } from 'lucide-react';
+import { useLanguage } from '@/lib/LanguageContext';
+import { Link } from 'wouter';
+import { ArrowLeft, Users, Star, Gift, TrendingUp, Award, DollarSign, Briefcase, Target } from 'lucide-react';
 
 export default function PerfilAsociado() {
+  const { language } = useLanguage();
+
+  const benefits = language === 'es' ? [
+    { icon: DollarSign, title: 'Comisiones Atractivas', desc: 'Hasta 5% por cada fracción vendida a través de tu referencia' },
+    { icon: Gift, title: 'Bonos por Metas', desc: 'Bonificaciones adicionales al alcanzar objetivos de ventas' },
+    { icon: Briefcase, title: 'Material de Ventas', desc: 'Acceso a presentaciones, catálogos y herramientas digitales' },
+    { icon: Target, title: 'Capacitación', desc: 'Entrenamientos mensuales sobre producto y técnicas de venta' }
+  ] : [
+    { icon: DollarSign, title: 'Attractive Commissions', desc: 'Up to 5% for each fraction sold through your referral' },
+    { icon: Gift, title: 'Goal Bonuses', desc: 'Additional bonuses when reaching sales targets' },
+    { icon: Briefcase, title: 'Sales Materials', desc: 'Access to presentations, catalogs and digital tools' },
+    { icon: Target, title: 'Training', desc: 'Monthly training on product and sales techniques' }
+  ];
+
+  const levels = language === 'es' ? [
+    { name: 'Asociado', sales: '1-3 fracciones', commission: '3%' },
+    { name: 'Asociado Premium', sales: '4-10 fracciones', commission: '4%' },
+    { name: 'Embajador', sales: '11+ fracciones', commission: '5%' }
+  ] : [
+    { name: 'Associate', sales: '1-3 fractions', commission: '3%' },
+    { name: 'Premium Associate', sales: '4-10 fractions', commission: '4%' },
+    { name: 'Ambassador', sales: '11+ fractions', commission: '5%' }
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-purple-50/30 pb-24">
-      <Header />
+    <div className="min-h-screen bg-[#0f0f0f] text-white">
+      <header className="px-6 py-4 flex items-center gap-4 border-b border-white/10">
+        <Link href="/home">
+          <span className="p-2 hover:bg-white/5 rounded-full transition-colors cursor-pointer" data-testid="button-back">
+            <ArrowLeft className="w-5 h-5" />
+          </span>
+        </Link>
+        <h1 className="text-lg font-light tracking-wide">
+          {language === 'es' ? 'Perfil Asociado' : 'Associate Profile'}
+        </h1>
+      </header>
 
-      <main className="max-w-2xl mx-auto px-4 pt-6">
-        <div className="mb-8 text-center">
-          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full flex items-center justify-center">
-            <User className="w-8 h-8 text-white" />
+      <main className="px-6 py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center">
+              <Users className="w-10 h-10 text-white" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-extralight mb-4" data-testid="text-title">
+              {language === 'es' ? 'Únete a Nuestra Red' : 'Join Our Network'}
+            </h2>
+            <p className="text-white/50 font-light max-w-xl mx-auto">
+              {language === 'es' 
+                ? 'Genera ingresos pasivos referiendo clientes a Fractional Living. Sin inversión inicial.'
+                : 'Generate passive income by referring clients to Fractional Living. No initial investment.'}
+            </p>
           </div>
-          <h1 className="text-2xl font-medium mb-2 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-            Perfil Asociado
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Únete a nuestra red de asociados y genera ingresos
-          </p>
-        </div>
 
-        <div className="space-y-4 mb-8">
-          <div className="p-6 bg-white border border-border rounded-2xl shadow-sm">
-            <div className="flex items-start gap-4">
-              <Star className="w-6 h-6 text-purple-500 flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="font-medium mb-1">Programa de Referidos</h3>
-                <p className="text-sm text-muted-foreground">
-                  Gana comisiones por cada fracción vendida a través de tu referencia
-                </p>
+          <div className="grid md:grid-cols-2 gap-4 mb-12">
+            {benefits.map((benefit, i) => (
+              <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-5" data-testid={`benefit-${i}`}>
+                <div className="flex items-start gap-4">
+                  <div className="p-2 bg-teal-500/20 rounded-lg">
+                    <benefit.icon className="w-5 h-5 text-teal-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-1">{benefit.title}</h3>
+                    <p className="text-sm text-white/50">{benefit.desc}</p>
+                  </div>
+                </div>
               </div>
+            ))}
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <Award className="w-6 h-6 text-teal-400" />
+              <h3 className="text-lg font-medium">
+                {language === 'es' ? 'Niveles de Asociado' : 'Associate Levels'}
+              </h3>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              {levels.map((level, i) => (
+                <div key={i} className={`p-4 rounded-xl text-center ${i === 2 ? 'bg-gradient-to-br from-teal-500/20 to-cyan-500/20 border border-teal-500/30' : 'bg-white/5'}`} data-testid={`level-${i}`}>
+                  <Star className={`w-6 h-6 mx-auto mb-2 ${i === 2 ? 'text-teal-400' : 'text-white/40'}`} />
+                  <p className="font-medium mb-1">{level.name}</p>
+                  <p className="text-xs text-white/50 mb-2">{level.sales}</p>
+                  <p className="text-xl font-bold text-teal-400">{level.commission}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="p-6 bg-white border border-border rounded-2xl shadow-sm">
-            <div className="flex items-start gap-4">
-              <Gift className="w-6 h-6 text-purple-500 flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="font-medium mb-1">Beneficios Exclusivos</h3>
-                <p className="text-sm text-muted-foreground">
-                  Acceso a eventos, capacitaciones y material de ventas
-                </p>
-              </div>
-            </div>
+          <div className="bg-gradient-to-r from-teal-500/20 to-cyan-500/20 border border-teal-500/30 rounded-2xl p-6 text-center">
+            <TrendingUp className="w-8 h-8 mx-auto mb-4 text-teal-400" />
+            <h3 className="text-xl font-medium mb-2">
+              {language === 'es' ? '¿Listo para empezar?' : 'Ready to start?'}
+            </h3>
+            <p className="text-white/60 mb-4">
+              {language === 'es' 
+                ? 'Habla con Alix para aplicar al programa de asociados'
+                : 'Talk to Alix to apply to the associate program'}
+            </p>
+            <p className="text-sm text-white/40">
+              {language === 'es' 
+                ? 'Usa el botón de chat en la esquina inferior derecha'
+                : 'Use the chat button in the bottom right corner'}
+            </p>
           </div>
-
-          <div className="p-6 bg-white border border-border rounded-2xl shadow-sm">
-            <div className="flex items-start gap-4">
-              <TrendingUp className="w-6 h-6 text-purple-500 flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="font-medium mb-1">Crecimiento</h3>
-                <p className="text-sm text-muted-foreground">
-                  Construye tu red y escala tus ingresos pasivos
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="p-6 bg-gradient-to-r from-purple-100 to-indigo-100 rounded-2xl text-center">
-          <p className="text-purple-800 font-medium mb-3">
-            ¿Quieres ser asociado?
-          </p>
-          <Button
-            className="bg-gradient-to-r from-purple-500 to-indigo-600"
-            onClick={() => window.open('https://wa.me/529984292748?text=Hola,%20quiero%20ser%20asociado', '_blank')}
-          >
-            Aplicar Ahora
-          </Button>
         </div>
       </main>
-
-      <FloatingButtons />
-      <BottomNav />
     </div>
   );
 }
