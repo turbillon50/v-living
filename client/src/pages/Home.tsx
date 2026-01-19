@@ -38,22 +38,13 @@ export default function Home() {
               : 'Luxury fractional ownership in the Caribbean'}
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <Link href="/fractional">
-              <span className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#1a1a1a] text-sm font-medium tracking-wide hover:bg-white/90 transition-colors cursor-pointer" data-testid="button-explore">
+              <span className="inline-flex items-center gap-2 px-10 py-4 bg-white text-[#1a1a1a] text-sm font-medium tracking-wide hover:bg-white/90 transition-colors cursor-pointer" data-testid="button-explore">
                 {language === 'es' ? 'VER PROPIEDADES' : 'VIEW PROPERTIES'}
                 <ChevronRight className="w-4 h-4" />
               </span>
             </Link>
-            <a 
-              href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/30 text-white text-sm font-medium tracking-wide hover:bg-white/10 transition-colors"
-              data-testid="button-contact"
-            >
-              {language === 'es' ? 'CONTACTAR' : 'CONTACT'}
-            </a>
           </div>
         </div>
       </section>
@@ -172,21 +163,14 @@ export default function Home() {
       <section className="py-20 bg-[#1a1a1a]">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-2xl md:text-3xl font-extralight text-white mb-4">
-            {language === 'es' ? '¿Listo para invertir?' : 'Ready to invest?'}
+            {language === 'es' ? '¿Tienes preguntas?' : 'Have questions?'}
           </h2>
-          <p className="text-white/50 mb-8 font-light">
-            {language === 'es' ? 'Agenda una llamada con nuestro equipo.' : 'Schedule a call with our team.'}
+          <p className="text-white/50 mb-4 font-light">
+            {language === 'es' ? 'Habla con Alix, nuestra asesora virtual disponible 24/7' : 'Talk to Alix, our virtual advisor available 24/7'}
           </p>
-          <a 
-            href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#1a1a1a] text-sm font-medium tracking-wide hover:bg-white/90 transition-colors"
-            data-testid="cta-contact"
-          >
-            {language === 'es' ? 'CONTACTAR ASESOR' : 'CONTACT ADVISOR'}
-            <ChevronRight className="w-4 h-4" />
-          </a>
+          <p className="text-white/30 text-sm">
+            {language === 'es' ? 'Usa el botón de chat en la esquina inferior derecha' : 'Use the chat button in the bottom right corner'}
+          </p>
         </div>
       </section>
 

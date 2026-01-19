@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/lib/LanguageContext";
+import { FloatingAI } from "@/components/FloatingAI";
 import Welcome from "@/pages/Welcome";
 import Home from "@/pages/Home";
 import PropertyDetail from "@/pages/PropertyDetail";
@@ -51,6 +52,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <FloatingAI />
         </TooltipProvider>
       </LanguageProvider>
     </QueryClientProvider>

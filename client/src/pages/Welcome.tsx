@@ -116,25 +116,16 @@ export default function Welcome() {
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
+        <div className="flex justify-center mb-10">
           <Link href="/home">
             <span 
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[#1a1a1a] text-sm font-medium tracking-wide hover:bg-white/90 transition-all cursor-pointer w-full sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-white text-[#1a1a1a] text-sm font-medium tracking-wide hover:bg-white/90 transition-all cursor-pointer"
               data-testid="button-explore"
             >
               {lang === 'es' ? 'EXPLORAR' : 'EXPLORE'}
               <ArrowRight className="w-4 h-4" />
             </span>
           </Link>
-          <a 
-            href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/30 text-white text-sm font-medium tracking-wide hover:bg-white/10 transition-all"
-            data-testid="button-contact"
-          >
-            {lang === 'es' ? 'CONTACTAR' : 'CONTACT'}
-          </a>
         </div>
 
         <p className="text-center text-[10px] text-white/30 mt-10">
