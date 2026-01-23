@@ -54,7 +54,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid grid-cols-4 gap-8">
             {[
-              { value: '$65K', label: language === 'es' ? 'Por fracción' : 'Per fraction' },
+              { value: '$650K', label: language === 'es' ? 'MXN/fracción' : 'MXN/fraction' },
               { value: '3', label: language === 'es' ? 'Semanas/año' : 'Weeks/year' },
               { value: '100%', label: language === 'es' ? 'Legal' : 'Legal' },
               { value: '∞', label: language === 'es' ? 'Heredable' : 'Inheritable' },
