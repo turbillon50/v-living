@@ -47,12 +47,12 @@ export default function ModeloNegocios() {
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-2xl p-6 md:p-8 mb-8">
+          <div className="bg-white/5 border border-white/20 rounded-2xl p-6 md:p-8 mb-8">
             <div className="flex items-center gap-4 mb-6">
-              <div className="p-3 bg-amber-500/20 rounded-xl">
-                <TrendingUp className="w-8 h-8 text-amber-400" />
+              <div className="p-3 bg-white/10 rounded-xl">
+                <TrendingUp className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-light text-amber-400">El punto de quiebre</h3>
+              <h3 className="text-2xl font-light text-white">Momento de adaptación</h3>
             </div>
             <p className="text-white/70 leading-relaxed mb-4">
               La pandemia cambió las reglas. No solo del mercado inmobiliario, sino del sistema financiero global.
@@ -60,13 +60,13 @@ export default function ModeloNegocios() {
             <p className="text-white/60 leading-relaxed mb-6 text-sm">
               Las tasas de interés subieron, el crédito se encareció, los ciclos de venta se alargaron y los mercados tradicionalmente sólidos —como Quintana Roo, nuestro destino madre— enfrentaron nuevos retos.
             </p>
-            <div className="bg-white/5 rounded-xl p-4 mb-4">
-              <p className="text-amber-400 font-medium mb-2">Entendimos algo fundamental:</p>
+            <div className="bg-white/10 rounded-xl p-4 mb-4">
+              <p className="text-white font-medium mb-2">Entendimos algo fundamental:</p>
               <p className="text-white/70 text-sm">Los activos ya no se venden igual, y quien no se adapta, desaparece.</p>
             </div>
             <p className="text-white/50 text-sm italic text-center">
               La respuesta no era vender más barato ni asumir más riesgo.<br />
-              La respuesta era <span className="text-amber-400">reconfigurar el modelo</span>.
+              La respuesta era <span className="text-white">reconfigurar el modelo</span>.
             </p>
           </div>
 
