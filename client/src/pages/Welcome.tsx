@@ -115,8 +115,23 @@ export default function Welcome() {
       </div>
 
       <div className="px-6 pb-8 text-center">
+        <div className="bg-white/5 border border-white/10 rounded-xl p-4 max-w-md mx-auto mb-4">
+          <p className="text-white/60 text-xs font-medium mb-2">
+            {lang === 'es' ? '📱 Instala la app en tu celular' : '📱 Install the app on your phone'}
+          </p>
+          <p className="text-white/40 text-[10px] leading-relaxed">
+            {lang === 'es' 
+              ? 'iPhone: Abre en Safari → Toca "Compartir" → "Agregar a pantalla de inicio"'
+              : 'iPhone: Open in Safari → Tap "Share" → "Add to Home Screen"'}
+          </p>
+          <p className="text-white/40 text-[10px] leading-relaxed mt-1">
+            {lang === 'es' 
+              ? 'Android: Abre en Chrome → Menú (⋮) → "Añadir a pantalla de inicio"'
+              : 'Android: Open in Chrome → Menu (⋮) → "Add to Home Screen"'}
+          </p>
+        </div>
         <p className="text-white/40 text-xs tracking-wide">
-          {lang === 'es' ? 'Próximamente en iOS y Android' : 'Coming soon to iOS and Android'}
+          {lang === 'es' ? 'Próximamente en iOS App Store y Google Play' : 'Coming soon to iOS App Store and Google Play'}
         </p>
         <p className="text-white/20 text-[10px] mt-3">
           © 2024 All Global Holding LLC

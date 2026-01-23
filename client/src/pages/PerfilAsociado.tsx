@@ -247,11 +247,12 @@ export default function PerfilAsociado() {
             <Users className="w-10 h-10 mx-auto mb-4 text-teal-400" />
             <h3 className="text-lg font-light mb-2">¿Tienes dudas?</h3>
             <p className="text-white/60 text-sm mb-4">
-              Habla con <span className="text-purple-400 font-medium">ALIX</span> o con un asesor para evaluar cuál perfil se alinea mejor contigo.
+              Habla con <span className="text-purple-400 font-medium">ALIX</span>, nuestra inteligencia artificial disponible 24/7, o con un asesor humano para evaluar cuál perfil se alinea mejor contigo.
             </p>
-            <p className="text-white/40 text-xs">
-              Usa el botón morado de ALIX o el botón verde de WhatsApp
-            </p>
+            <div className="flex flex-col gap-2 text-white/50 text-xs">
+              <p>🟣 <span className="text-purple-400">ALIX</span> — Botón morado en la esquina inferior derecha</p>
+              <p>🟢 <span className="text-green-400">WhatsApp</span> — Botón verde en la esquina inferior izquierda</p>
+            </div>
           </div>
 
         </div>
