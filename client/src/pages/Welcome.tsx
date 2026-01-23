@@ -34,7 +34,13 @@ export default function Welcome() {
         </div>
       </header>
 
-      <div className="absolute bottom-12 left-0 right-0 flex justify-center z-10">
+      <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-4 z-10 px-6">
+        <Link href="/last-minute-capital">
+          <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden shadow-2xl cursor-pointer hover:scale-105 transition-transform" data-testid="button-last-minute">
+            <img src="/last-minute-capital.jpg" alt="Last Minute Capital" className="w-full h-full object-cover" />
+          </div>
+        </Link>
+        
         <Link href="/home">
           <span 
             className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-white/90 backdrop-blur-sm text-[#1a1a1a] text-sm font-medium tracking-wide hover:bg-white transition-all cursor-pointer"
@@ -44,6 +50,10 @@ export default function Welcome() {
             <ArrowRight className="w-4 h-4" />
           </span>
         </Link>
+        
+        <p className="text-white/50 text-xs tracking-wide">
+          {lang === 'es' ? 'Próximamente en iOS y Android' : 'Coming soon to iOS and Android'}
+        </p>
       </div>
     </div>
   );
