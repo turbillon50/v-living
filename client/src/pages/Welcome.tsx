@@ -40,8 +40,8 @@ export default function Welcome() {
       <div className="px-6 py-5 text-center border-b border-white/5">
         <p className="text-white/80 text-sm md:text-base leading-relaxed max-w-lg mx-auto italic">
           {lang === 'es' 
-            ? '"Fractional no es tiempo compartido. No es partir una propiedad en pedacitos. Va más allá: es dividir el activo patrimonial del activo financiero, para que tengas un activo real que genera rendimientos en tiempo real."'
-            : '"Fractional is not timeshare. It\'s not splitting a property into pieces. It goes beyond: it\'s separating the patrimonial asset from the financial asset, so you have a real asset that generates returns in real time."'}
+            ? '"Fractional no es tiempo compartido. No es partir una propiedad en pedacitos. Va más allá: es separar el activo patrimonial del financiero, para que seas dueño de algo tangible mientras tu inversión crece."'
+            : '"Fractional is not timeshare. It\'s not splitting a property into pieces. It goes beyond: it\'s separating the patrimonial asset from the financial one, so you own something tangible while your investment grows."'}
         </p>
       </div>
 
