@@ -159,18 +159,49 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Proyecto ATTIK */}
+      <section className="py-16 bg-gradient-to-r from-teal-900 to-cyan-900">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-8">
+            <p className="text-teal-300 text-sm uppercase tracking-widest mb-2">Proyecto Destacado</p>
+            <h2 className="text-3xl md:text-4xl font-extralight text-white mb-2">ATTIK</h2>
+            <p className="text-white/60">{language === 'es' ? 'Entrega Julio 2026' : 'Delivery July 2026'}</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 text-center">
+            <div className="bg-white/10 rounded-xl p-6">
+              <p className="text-2xl font-light text-white mb-2">{language === 'es' ? 'Crédito' : 'Credit'}</p>
+              <p className="text-white/60 text-sm">{language === 'es' ? 'Contamos con Crédito Casa' : 'We have Home Credit'}</p>
+            </div>
+            <div className="bg-white/10 rounded-xl p-6">
+              <p className="text-2xl font-light text-white mb-2">{language === 'es' ? 'Usa • Renta • Revende' : 'Use • Rent • Resell'}</p>
+              <p className="text-white/60 text-sm">{language === 'es' ? 'Tú decides cómo usar tu fracción' : 'You decide how to use your fraction'}</p>
+            </div>
+            <div className="bg-white/10 rounded-xl p-6">
+              <p className="text-2xl font-light text-white mb-2">24/7</p>
+              <p className="text-white/60 text-sm">{language === 'es' ? 'Apoyo constante de nuestro equipo' : 'Constant support from our team'}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="py-20 bg-[#1a1a1a]">
+      <section className="py-16 bg-[#1a1a1a]">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-2xl md:text-3xl font-extralight text-white mb-4">
             {language === 'es' ? '¿Tienes preguntas?' : 'Have questions?'}
           </h2>
-          <p className="text-white/50 mb-4 font-light">
-            {language === 'es' ? 'Habla con Alix, nuestra asesora virtual disponible 24/7' : 'Talk to Alix, our virtual advisor available 24/7'}
+          <p className="text-white/50 mb-6 font-light">
+            {language === 'es' ? 'Habla con Alix o escríbenos por WhatsApp' : 'Talk to Alix or message us on WhatsApp'}
           </p>
-          <p className="text-white/30 text-sm">
-            {language === 'es' ? 'Usa el botón de chat en la esquina inferior derecha' : 'Use the chat button in the bottom right corner'}
-          </p>
+          <a 
+            href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-full transition-colors"
+            data-testid="button-whatsapp"
+          >
+            WhatsApp +52 998 429 2748
+          </a>
         </div>
       </section>
 
