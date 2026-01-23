@@ -7,7 +7,7 @@ export default function Welcome() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
-      <div className="relative h-[60vh]">
+      <div className="relative h-[55vh]">
         <img 
           src="/welcome-bg.jpg" 
           alt="Fractional Living" 
@@ -37,8 +37,8 @@ export default function Welcome() {
         </header>
       </div>
 
-      <div className="px-6 py-6 text-center">
-        <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-md mx-auto mb-4">
+      <div className="px-6 py-5 text-center">
+        <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-md mx-auto mb-3">
           {lang === 'es' 
             ? 'Contamos con ALIX, nuestra asistente de inteligencia artificial disponible 24/7. Búscala en el botón morado para resolver cualquier duda.'
             : 'We have ALIX, our AI assistant available 24/7. Find her on the purple button to resolve any questions.'}
@@ -50,42 +50,51 @@ export default function Welcome() {
         </p>
       </div>
 
-      <div className="px-6 pb-6">
-        <div className="grid grid-cols-3 gap-3 max-w-2xl mx-auto">
+      <div className="px-4 pb-5">
+        <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto">
           <Link href="/last-minute-capital">
             <div className="flex flex-col cursor-pointer hover:scale-[1.02] transition-transform" data-testid="button-last-minute">
-              <div className="aspect-[3/4] rounded-xl overflow-hidden shadow-xl">
+              <div className="aspect-square rounded-xl overflow-hidden shadow-xl">
                 <img src="/last-minute-capital.jpg" alt="Last Minute Capital" className="w-full h-full object-cover" />
               </div>
-              <p className="text-center text-white/80 text-xs mt-2 font-medium">
-                {lang === 'es' ? 'Inversión' : 'Investment'}
-              </p>
+              <div className="text-center mt-2">
+                <p className="text-white text-[10px] md:text-xs font-semibold tracking-wide">LAST MINUTE CAPITAL</p>
+                <p className="text-white/50 text-[9px] md:text-[10px] mt-0.5">
+                  {lang === 'es' ? 'Inversión a corto plazo' : 'Short-term investment'}
+                </p>
+              </div>
             </div>
           </Link>
           <Link href="/perfil-asociado">
             <div className="flex flex-col cursor-pointer hover:scale-[1.02] transition-transform" data-testid="button-perfil-asociado">
-              <div className="aspect-[3/4] rounded-xl overflow-hidden shadow-xl">
-                <img src="/perfil-asociado.jpg" alt="Perfil Asociado" className="w-full h-full object-cover" />
+              <div className="aspect-square rounded-xl overflow-hidden shadow-xl">
+                <img src="/perfil-asociado.jpg" alt="Profile Associate" className="w-full h-full object-cover" />
               </div>
-              <p className="text-center text-white/80 text-xs mt-2 font-medium">
-                {lang === 'es' ? 'Asociados' : 'Associates'}
-              </p>
+              <div className="text-center mt-2">
+                <p className="text-white text-[10px] md:text-xs font-semibold tracking-wide">PROFILE ASSOCIATE</p>
+                <p className="text-white/50 text-[9px] md:text-[10px] mt-0.5 leading-tight">
+                  {lang === 'es' ? 'Invierte con tu buen perfil o asocia tu propiedad' : 'Invest with your good profile or associate your property'}
+                </p>
+              </div>
             </div>
           </Link>
           <Link href="/modelo-negocios">
             <div className="flex flex-col cursor-pointer hover:scale-[1.02] transition-transform" data-testid="button-modelo-negocio">
-              <div className="aspect-[3/4] rounded-xl overflow-hidden shadow-xl">
-                <img src="/modelo-negocio.jpg" alt="Modelo de Negocio" className="w-full h-full object-cover" />
+              <div className="aspect-square rounded-xl overflow-hidden shadow-xl">
+                <img src="/modelo-negocio.jpg" alt="Business Model" className="w-full h-full object-cover" />
               </div>
-              <p className="text-center text-white/80 text-xs mt-2 font-medium">
-                {lang === 'es' ? 'Cómo Funciona' : 'How It Works'}
-              </p>
+              <div className="text-center mt-2">
+                <p className="text-white text-[10px] md:text-xs font-semibold tracking-wide">BUSINESS MODEL</p>
+                <p className="text-white/50 text-[9px] md:text-[10px] mt-0.5">
+                  {lang === 'es' ? 'Cómo funciona todo el ecosistema' : 'How the whole ecosystem works'}
+                </p>
+              </div>
             </div>
           </Link>
         </div>
       </div>
 
-      <div className="px-6 pb-6 flex justify-center">
+      <div className="px-6 pb-5 flex justify-center">
         <Link href="/home">
           <span 
             className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-white text-[#0f0f0f] text-sm font-medium tracking-wide hover:bg-white/90 transition-all cursor-pointer rounded-lg"
@@ -97,11 +106,11 @@ export default function Welcome() {
         </Link>
       </div>
 
-      <div className="px-6 pb-10 text-center">
+      <div className="px-6 pb-8 text-center">
         <p className="text-white/40 text-xs tracking-wide">
           {lang === 'es' ? 'Próximamente en iOS y Android' : 'Coming soon to iOS and Android'}
         </p>
-        <p className="text-white/20 text-[10px] mt-4">
+        <p className="text-white/20 text-[10px] mt-3">
           © 2024 All Global Holding LLC
         </p>
       </div>
