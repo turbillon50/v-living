@@ -1,137 +1,382 @@
-import { useLanguage } from '@/lib/LanguageContext';
 import { Link } from 'wouter';
-import { ArrowLeft, FileText, Scale, Building2, Users, Shield, CheckCircle, Globe, Landmark } from 'lucide-react';
+import { ArrowLeft, Building2, TrendingUp, Globe, Cpu, Wallet, Settings, Layers, Zap, Shield, ExternalLink, CheckCircle, Puzzle } from 'lucide-react';
 
 export default function ModeloNegocios() {
-  const { language } = useLanguage();
-
-  const legalPoints = language === 'es' ? [
-    'Escritura pública ante notario mexicano',
-    'Registro ante el Registro Público de la Propiedad',
-    'Estructura de copropiedad bajo ley mexicana',
-    'Contrato de uso temporal regulado',
-    'Heredable a familiares directos',
-    'Cumplimiento fiscal en México y EE.UU.'
-  ] : [
-    'Public deed before Mexican notary',
-    'Registration with Property Registry',
-    'Co-ownership structure under Mexican law',
-    'Regulated temporary use contract',
-    'Inheritable to direct family',
-    'Tax compliance in Mexico and USA'
-  ];
-
-  const businessPoints = language === 'es' ? [
-    { title: '8 Fracciones por Propiedad', desc: 'Cada propiedad se divide en 8 partes iguales' },
-    { title: '3 Semanas de Uso Anual', desc: 'Cada fracción incluye 3 semanas de uso personal' },
-    { title: '$650,000 MXN por Fracción', desc: 'Precio fijo con opción de financiamiento' },
-    { title: 'Mantenimiento Incluido', desc: 'Cuota anual cubre limpieza, servicios y reparaciones' }
-  ] : [
-    { title: '8 Fractions per Property', desc: 'Each property is divided into 8 equal parts' },
-    { title: '3 Weeks Annual Use', desc: 'Each fraction includes 3 weeks of personal use' },
-    { title: '$650,000 MXN per Fraction', desc: 'Fixed price with financing option' },
-    { title: 'Maintenance Included', desc: 'Annual fee covers cleaning, services and repairs' }
-  ];
-
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-white">
       <header className="px-6 py-4 flex items-center gap-4 border-b border-white/10">
-        <Link href="/home">
+        <Link href="/">
           <span className="p-2 hover:bg-white/5 rounded-full transition-colors cursor-pointer" data-testid="button-back">
             <ArrowLeft className="w-5 h-5" />
           </span>
         </Link>
-        <h1 className="text-lg font-light tracking-wide">
-          {language === 'es' ? 'Modelo de Negocios' : 'Business Model'}
-        </h1>
+        <h1 className="text-lg font-light tracking-wide">Modelo de Negocio</h1>
       </header>
 
       <main className="px-6 py-8">
         <div className="max-w-4xl mx-auto">
+          
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-500/20 text-teal-400 rounded-full text-sm mb-6">
-              <Scale className="w-4 h-4" />
-              {language === 'es' ? 'Transparencia Total' : 'Full Transparency'}
+            <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center">
+              <Layers className="w-10 h-10 text-white" />
             </div>
             <h2 className="text-3xl md:text-4xl font-extralight mb-4" data-testid="text-title">
-              {language === 'es' ? 'Modelo Fractional Real' : 'Real Fractional Model'}
+              Modelo de Negocio
             </h2>
-            <p className="text-white/50 font-light max-w-xl mx-auto">
-              {language === 'es' 
-                ? 'Propiedad legal, uso garantizado y valor patrimonial heredable bajo la ley mexicana.'
-                : 'Legal ownership, guaranteed use and inheritable asset value under Mexican law.'}
+            <p className="text-xl text-white/60 font-light">
+              All Global Holding LLC
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-              <Building2 className="w-8 h-8 text-teal-400 mb-4" />
-              <h3 className="text-xl font-medium mb-4">
-                {language === 'es' ? 'Modelo de Negocio' : 'Business Model'}
-              </h3>
-              <div className="space-y-4">
-                {businessPoints.map((point, i) => (
-                  <div key={i} className="flex gap-3" data-testid={`business-point-${i}`}>
-                    <CheckCircle className="w-5 h-5 text-teal-400 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-medium text-sm">{point.title}</p>
-                      <p className="text-xs text-white/50">{point.desc}</p>
-                    </div>
-                  </div>
-                ))}
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-8">
+            <p className="text-white/70 leading-relaxed mb-6 text-lg italic text-center">
+              Si llegaste hasta aquí, no estás buscando un producto aislado.<br />
+              Estás buscando entender un sistema.
+            </p>
+            <p className="text-white/70 leading-relaxed mb-6">
+              <span className="text-teal-400 font-medium">All Global Holding LLC</span> es una Limited Liability Company constituida en Estados Unidos, creada para diseñar, estructurar y operar modelos de capital vinculados a activos reales, con alcance internacional y ejecución local.
+            </p>
+            <div className="bg-white/5 rounded-xl p-4 mb-6">
+              <p className="text-white/60 text-sm leading-relaxed">
+                No nacimos en el mundo digital.<br />
+                <span className="text-white/80 font-medium">Nacimos en el mundo inmobiliario.</span>
+              </p>
+            </div>
+            <p className="text-white/60 leading-relaxed text-sm">
+              Durante más de una década, nuestra actividad principal fue comprar propiedades, estructurarlas y venderlas. Ese fue el origen. Ese sigue siendo el núcleo.
+            </p>
+          </div>
+
+          <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-2xl p-6 md:p-8 mb-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-3 bg-amber-500/20 rounded-xl">
+                <TrendingUp className="w-8 h-8 text-amber-400" />
+              </div>
+              <h3 className="text-2xl font-light text-amber-400">El punto de quiebre</h3>
+            </div>
+            <p className="text-white/70 leading-relaxed mb-4">
+              La pandemia cambió las reglas. No solo del mercado inmobiliario, sino del sistema financiero global.
+            </p>
+            <p className="text-white/60 leading-relaxed mb-6 text-sm">
+              Las tasas de interés subieron, el crédito se encareció, los ciclos de venta se alargaron y los mercados tradicionalmente sólidos —como Quintana Roo, nuestro destino madre— enfrentaron nuevos retos.
+            </p>
+            <div className="bg-white/5 rounded-xl p-4 mb-4">
+              <p className="text-amber-400 font-medium mb-2">Entendimos algo fundamental:</p>
+              <p className="text-white/70 text-sm">Los activos ya no se venden igual, y quien no se adapta, desaparece.</p>
+            </div>
+            <p className="text-white/50 text-sm italic text-center">
+              La respuesta no era vender más barato ni asumir más riesgo.<br />
+              La respuesta era <span className="text-amber-400">reconfigurar el modelo</span>.
+            </p>
+          </div>
+
+          <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-2xl p-6 md:p-8 mb-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-3 bg-purple-500/20 rounded-xl">
+                <Puzzle className="w-8 h-8 text-purple-400" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-light text-purple-400">El modelo Fractional</h3>
+                <p className="text-white/50 text-sm">(y lo que NO es)</p>
               </div>
             </div>
-
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-              <Landmark className="w-8 h-8 text-teal-400 mb-4" />
-              <h3 className="text-xl font-medium mb-4">
-                {language === 'es' ? 'Marco Legal' : 'Legal Framework'}
-              </h3>
-              <div className="space-y-3">
-                {legalPoints.map((point, i) => (
-                  <div key={i} className="flex gap-3 items-center" data-testid={`legal-point-${i}`}>
-                    <Shield className="w-4 h-4 text-teal-400 flex-shrink-0" />
-                    <p className="text-sm text-white/70">{point}</p>
-                  </div>
-                ))}
+            <p className="text-white/70 leading-relaxed mb-4">
+              El concepto de fraccionar un activo suele malentenderse. Muchos creen que fraccionar es dividir para vender más barato.
+            </p>
+            <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 mb-6">
+              <p className="text-purple-400 font-bold text-center text-lg">No lo es.</p>
+            </div>
+            <p className="text-white/70 leading-relaxed mb-6">
+              Un activo fraccionado no pierde valor, lo redistribuye, lo optimiza y lo hace accesible sin degradarlo.
+            </p>
+            <div className="bg-white/5 rounded-xl p-4 mb-6">
+              <p className="text-white/60 text-sm italic text-center">
+                "Un elefante no corre más rápido por cortarlo en pedazos.<br />
+                Pero puede llegar más lejos si se organiza mejor."
+              </p>
+            </div>
+            <p className="text-white/70 leading-relaxed mb-4">
+              El modelo <span className="text-purple-400 font-medium">Fractional Living</span> nace de esa lógica:
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-white/5 rounded-lg p-3 text-center">
+                <p className="text-purple-400 text-sm font-medium">Dividir la propiedad</p>
+                <p className="text-white/40 text-xs">no el valor</p>
+              </div>
+              <div className="bg-white/5 rounded-lg p-3 text-center">
+                <p className="text-purple-400 text-sm font-medium">Multiplicar los puntos de entrada</p>
+                <p className="text-white/40 text-xs">no reducir la calidad</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-teal-500/10 to-cyan-500/10 border border-teal-500/20 rounded-2xl p-6 mb-8">
-            <div className="flex items-start gap-4">
-              <Globe className="w-8 h-8 text-teal-400 flex-shrink-0" />
-              <div>
-                <h3 className="font-medium mb-2">All Global Holding LLC</h3>
-                <p className="text-sm text-white/70 mb-3">
-                  {language === 'es' 
-                    ? 'Empresa registrada en Estados Unidos con operaciones en México. Respaldo legal binacional para tu inversión.'
-                    : 'US-registered company with operations in Mexico. Binational legal backing for your investment.'}
-                </p>
-                <div className="flex gap-4 text-xs text-white/50">
-                  <span className="flex items-center gap-1">
-                    <FileText className="w-3 h-3" /> Delaware, USA
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Users className="w-3 h-3" /> +50 {language === 'es' ? 'inversores' : 'investors'}
-                  </span>
+          <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-2xl p-6 md:p-8 mb-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-3 bg-blue-500/20 rounded-xl">
+                <Globe className="w-8 h-8 text-blue-400" />
+              </div>
+              <h3 className="text-2xl font-light text-blue-400">De lo local a lo global</h3>
+            </div>
+            <p className="text-white/70 leading-relaxed mb-4">
+              Para operar este modelo de forma internacional, fundamos <span className="text-blue-400 font-medium">All Global Holding LLC</span>.
+            </p>
+            <p className="text-white/60 leading-relaxed text-sm mb-4">La estructura en Estados Unidos nos permitió:</p>
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-3">
+                <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                <span className="text-white/60 text-sm">Abrir mercados</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-3">
+                <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                <span className="text-white/60 text-sm">Vender a públicos internacionales</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-3">
+                <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                <span className="text-white/60 text-sm">Operar con flexibilidad legal</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-3">
+                <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                <span className="text-white/60 text-sm">Integrar tecnología sin fronteras</span>
+              </div>
+            </div>
+            <p className="text-white/50 text-sm text-center italic">
+              Fue en ese proceso donde incursionamos en el mundo digital, no como moda, sino como herramienta.
+            </p>
+          </div>
+
+          <div className="bg-gradient-to-br from-cyan-500/10 to-teal-500/10 border border-cyan-500/20 rounded-2xl p-6 md:p-8 mb-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-3 bg-cyan-500/20 rounded-xl">
+                <Cpu className="w-8 h-8 text-cyan-400" />
+              </div>
+              <h3 className="text-2xl font-light text-cyan-400">Infraestructura digital y tokenización</h3>
+            </div>
+            <div className="bg-white/5 rounded-xl p-4 mb-6">
+              <p className="text-cyan-400 font-medium text-center">La digitalización no es el negocio. Es el vehículo.</p>
+            </div>
+            <p className="text-white/70 leading-relaxed mb-4">
+              Desarrollamos dos tipos de instrumentos digitales claramente diferenciados:
+            </p>
+            <div className="grid md:grid-cols-2 gap-4 mb-6">
+              <div className="bg-white/5 border border-cyan-500/20 rounded-xl p-4">
+                <p className="text-cyan-400 font-medium mb-2">Security Tokens</p>
+                <p className="text-white/50 text-sm">Vinculados a activos reales y estructuras específicas</p>
+              </div>
+              <div className="bg-white/5 border border-cyan-500/20 rounded-xl p-4">
+                <p className="text-cyan-400 font-medium mb-2">Utility Tokens</p>
+                <p className="text-white/50 text-sm">Diseñados para acceso, uso y operación dentro del ecosistema</p>
+              </div>
+            </div>
+            <p className="text-white/60 leading-relaxed text-sm mb-4">Dentro de esta arquitectura nacen:</p>
+            <div className="flex flex-wrap gap-2 justify-center mb-6">
+              <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm">Token ALIX</span>
+              <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm">Token LNC</span>
+              <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">ALIX (IA operativa)</span>
+            </div>
+            <div className="bg-white/5 rounded-xl p-4 text-center">
+              <p className="text-white/50 text-xs mb-2">
+                Como base conceptual, desarrollamos el audiolibro <span className="text-cyan-400">Turbillón</span>, disponible de forma gratuita, donde se explica la lógica de sistemas, redes y comportamiento del capital en la era digital.
+              </p>
+              <p className="text-white/40 text-xs italic">(Próximamente enlace al audiolibro)</p>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-2xl p-6 md:p-8 mb-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-3 bg-green-500/20 rounded-xl">
+                <Wallet className="w-8 h-8 text-green-400" />
+              </div>
+              <h3 className="text-2xl font-light text-green-400">Simplificar para escalar: VanDeFi</h3>
+            </div>
+            <p className="text-white/70 leading-relaxed mb-4">
+              Para que todo este sistema fuera usable, entendimos algo esencial: <span className="text-green-400 font-medium">la gente no quiere complicarse</span>.
+            </p>
+            <p className="text-white/60 leading-relaxed text-sm mb-4">
+              Así nació <span className="text-green-400 font-medium">VanDeFi</span>, una wallet digital que:
+            </p>
+            <div className="space-y-2 mb-6">
+              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-3">
+                <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-white/60 text-sm">Conecta el mundo fiat con el mundo digital</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-3">
+                <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-white/60 text-sm">Facilita pagos, acceso y operación</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-3">
+                <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-white/60 text-sm">Resolvió un problema mayor: remesas internacionales</span>
+              </div>
+            </div>
+            <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
+              <p className="text-green-400 font-medium mb-2">VanDeFi ya está disponible y operando</p>
+              <a 
+                href="https://vandefi.org" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-white/60 hover:text-green-400 text-sm transition-colors"
+              >
+                vandefi.org <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-teal-500/10 to-cyan-500/10 border border-teal-500/20 rounded-2xl p-6 md:p-8 mb-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-3 bg-teal-500/20 rounded-xl">
+                <Settings className="w-8 h-8 text-teal-400" />
+              </div>
+              <h3 className="text-2xl font-light text-teal-400">El modelo operativo</h3>
+            </div>
+            <p className="text-white/70 leading-relaxed mb-6 text-center italic">
+              El modelo de negocio se construye como un engranaje donde cada pieza cumple una función clara:
+            </p>
+            
+            <div className="space-y-4">
+              <div className="bg-white/5 rounded-xl p-4 border-l-4 border-teal-400">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="w-8 h-8 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 font-bold text-sm">1</span>
+                  <p className="text-teal-400 font-medium">Adquisición con crédito hipotecario</p>
+                </div>
+                <p className="text-white/60 text-sm pl-11">Utilizamos el crédito hipotecario, el dinero más barato en México. Para ello existe el <span className="text-blue-400">Perfil Asociado de Crédito</span>.</p>
+              </div>
+
+              <div className="bg-white/5 rounded-xl p-4 border-l-4 border-teal-400">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="w-8 h-8 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 font-bold text-sm">2</span>
+                  <p className="text-teal-400 font-medium">Optimización de capital y tiempos</p>
+                </div>
+                <p className="text-white/60 text-sm pl-11">Para reducir fricción y acelerar cierres, existe <span className="text-amber-400">Last Minute Capital</span>, que entra cuando el proceso ya está avanzado.</p>
+              </div>
+
+              <div className="bg-white/5 rounded-xl p-4 border-l-4 border-teal-400">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="w-8 h-8 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 font-bold text-sm">3</span>
+                  <p className="text-teal-400 font-medium">Selección del activo</p>
+                </div>
+                <p className="text-white/60 text-sm pl-11">El <span className="text-emerald-400">Perfil Asociado Patrimonial</span> integra propiedades al sistema, activándolas bajo el modelo fractional.</p>
+              </div>
+
+              <div className="bg-white/5 rounded-xl p-4 border-l-4 border-teal-400">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="w-8 h-8 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 font-bold text-sm">4</span>
+                  <p className="text-teal-400 font-medium">Estructuración fiduciaria</p>
+                </div>
+                <p className="text-white/60 text-sm pl-11">Una vez consolidado, el activo se integra a fideicomisos y contratos mercantiles, con flujos bancarios formales.</p>
+              </div>
+
+              <div className="bg-white/5 rounded-xl p-4 border-l-4 border-teal-400">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="w-8 h-8 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 font-bold text-sm">5</span>
+                  <p className="text-teal-400 font-medium">Monetización múltiple</p>
+                </div>
+                <p className="text-white/60 text-sm pl-11 mb-3">El activo se explota de manera integral:</p>
+                <div className="flex flex-wrap gap-2 pl-11">
+                  <span className="px-2 py-1 bg-white/5 text-white/50 rounded text-xs">Venta tradicional</span>
+                  <span className="px-2 py-1 bg-white/5 text-white/50 rounded text-xs">Venta digital</span>
+                  <span className="px-2 py-1 bg-white/5 text-white/50 rounded text-xs">Fraccionamiento</span>
+                  <span className="px-2 py-1 bg-white/5 text-white/50 rounded text-xs">Uso vacacional</span>
+                  <span className="px-2 py-1 bg-white/5 text-white/50 rounded text-xs">Ocupación</span>
+                  <span className="px-2 py-1 bg-white/5 text-white/50 rounded text-xs">Reventa</span>
                 </div>
               </div>
             </div>
+
+            <p className="text-teal-400 font-medium text-center mt-6">Nada compite. Todo suma.</p>
           </div>
 
-          <div className="text-center py-8 border-t border-white/10">
-            <p className="text-white/40 text-sm mb-4">
-              {language === 'es' 
-                ? '¿Tienes preguntas sobre el modelo legal o de negocio?'
-                : 'Have questions about the legal or business model?'}
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-8">
+            <div className="flex items-center gap-4 mb-6 justify-center">
+              <Zap className="w-8 h-8 text-teal-400" />
+              <h3 className="text-xl font-light text-teal-400">Lo que hace distinto al modelo</h3>
+            </div>
+            <p className="text-center text-white/60 mb-6">
+              No es solo rendimiento. No es solo experiencia. No es solo plusvalía.
             </p>
-            <p className="text-white/60 text-sm">
-              {language === 'es' 
-                ? 'Habla con Alix, nuestra asesora virtual disponible 24/7'
-                : 'Talk to Alix, our virtual advisor available 24/7'}
+            <p className="text-center text-white/70 mb-6">
+              Es la combinación equilibrada de:
             </p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+              <div className="bg-white/5 rounded-lg p-3 text-center">
+                <p className="text-teal-400 text-sm font-medium">Capital</p>
+              </div>
+              <div className="bg-white/5 rounded-lg p-3 text-center">
+                <p className="text-teal-400 text-sm font-medium">Crédito</p>
+              </div>
+              <div className="bg-white/5 rounded-lg p-3 text-center">
+                <p className="text-teal-400 text-sm font-medium">Tiempo</p>
+              </div>
+              <div className="bg-white/5 rounded-lg p-3 text-center">
+                <p className="text-teal-400 text-sm font-medium">Uso</p>
+              </div>
+              <div className="bg-white/5 rounded-lg p-3 text-center">
+                <p className="text-teal-400 text-sm font-medium">Estructura</p>
+              </div>
+              <div className="bg-white/5 rounded-lg p-3 text-center">
+                <p className="text-teal-400 text-sm font-medium">Tecnología</p>
+              </div>
+            </div>
+            <p className="text-center text-white/60 text-sm">Un modelo que cuida:</p>
+            <div className="grid md:grid-cols-2 gap-3 mt-4">
+              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-3">
+                <Shield className="w-4 h-4 text-teal-400 flex-shrink-0" />
+                <span className="text-white/60 text-sm">El rendimiento del inversionista</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-3">
+                <Shield className="w-4 h-4 text-teal-400 flex-shrink-0" />
+                <span className="text-white/60 text-sm">La liquidez del propietario</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-3">
+                <Shield className="w-4 h-4 text-teal-400 flex-shrink-0" />
+                <span className="text-white/60 text-sm">La experiencia del usuario</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-3">
+                <Shield className="w-4 h-4 text-teal-400 flex-shrink-0" />
+                <span className="text-white/60 text-sm">La estabilidad del sistema</span>
+              </div>
+            </div>
           </div>
+
+          <div className="bg-gradient-to-r from-teal-500/20 to-cyan-500/20 border border-teal-500/30 rounded-2xl p-6 md:p-8 mb-8">
+            <div className="flex items-center gap-4 mb-6 justify-center">
+              <Building2 className="w-8 h-8 text-teal-400" />
+              <h3 className="text-xl font-light text-teal-400">Cierre</h3>
+            </div>
+            <div className="text-center space-y-4">
+              <p className="text-white/70 leading-relaxed">
+                <span className="text-teal-400 font-medium">All Global Holding LLC</span> no vende promesas.<br />
+                <span className="text-white/90">Opera infraestructura.</span>
+              </p>
+              <p className="text-white/70 leading-relaxed">
+                No compite por atención.<br />
+                <span className="text-white/90">Construye sistemas que se descubren.</span>
+              </p>
+              <p className="text-white/60 text-sm leading-relaxed">
+                Sabemos que no existe hoy en el mercado un modelo que cubra tantas aristas, tantos vértices y tantas necesidades de forma integrada y coherente.
+              </p>
+              <div className="pt-4">
+                <p className="text-white/50 italic">
+                  Si llegaste hasta aquí, no fue casualidad.<br />
+                  Estás viendo un modelo pensado para durar, no para impresionar.
+                </p>
+              </div>
+              <p className="text-teal-400 font-medium text-xl pt-4">
+                Bienvenido al sistema.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+            <h3 className="text-lg font-light mb-2">¿Tienes preguntas?</h3>
+            <p className="text-white/60 text-sm mb-4">
+              Habla con <span className="text-purple-400 font-medium">ALIX</span>, nuestra inteligencia artificial, o con un asesor humano.
+            </p>
+            <div className="flex flex-col gap-2 text-white/50 text-xs">
+              <p>🟣 <span className="text-purple-400">ALIX</span> — Botón morado en la esquina inferior derecha</p>
+              <p>🟢 <span className="text-green-400">WhatsApp</span> — Botón verde en la esquina inferior izquierda</p>
+            </div>
+          </div>
+
         </div>
       </main>
     </div>
