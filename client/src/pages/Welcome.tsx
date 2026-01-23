@@ -48,13 +48,13 @@ export default function Welcome() {
       <div className="px-6 py-4 text-center">
         <p className="text-white/60 text-xs md:text-sm leading-relaxed max-w-md mx-auto mb-2">
           {lang === 'es' 
-            ? 'Contamos con ALIX, nuestra asistente IA 24/7. Búscala en el botón morado.'
-            : 'We have ALIX, our 24/7 AI assistant. Find her on the purple button.'}
+            ? 'ALIX es la inteligencia artificial de All Global Holding, diseñada para ti. Mejora tu experiencia y está disponible 24/7 en el botón morado.'
+            : 'ALIX is All Global Holding\'s artificial intelligence, designed for you. It enhances your experience and is available 24/7 on the purple button.'}
         </p>
         <p className="text-white/40 text-xs max-w-md mx-auto">
           {lang === 'es' 
-            ? 'Botón verde = representante humano (respuesta ~1 hora)'
-            : 'Green button = human representative (response ~1 hour)'}
+            ? 'Para hablar con un representante humano, usa el botón verde de WhatsApp.'
+            : 'To speak with a human representative, use the green WhatsApp button.'}
         </p>
       </div>
 
