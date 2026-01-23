@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { Globe, ArrowRight, Settings, MessageCircle } from 'lucide-react';
+import { Globe, ArrowRight, Settings } from 'lucide-react';
 
 export default function Welcome() {
   const [lang, setLang] = useState<'es' | 'en'>('es');
 
-  const whatsappLink = "https://wa.me/529984292748";
-
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
-      <div className="relative h-[70vh]">
+      <div className="relative h-[60vh]">
         <img 
           src="/welcome-bg.jpg" 
           alt="Fractional Living" 
@@ -39,43 +37,49 @@ export default function Welcome() {
         </header>
       </div>
 
-      <div className="px-6 py-8 text-center">
-        <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-md mx-auto mb-6">
+      <div className="px-6 py-6 text-center">
+        <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-md mx-auto mb-4">
           {lang === 'es' 
-            ? 'Funcionamos con inteligencia artificial. Puedes contactar a ALIX 24/7 para resolver tus dudas sobre propiedades, inversiones y más.'
-            : 'We operate with artificial intelligence. You can contact ALIX 24/7 to resolve your questions about properties, investments and more.'}
+            ? 'Contamos con ALIX, nuestra asistente de inteligencia artificial disponible 24/7. Búscala en el botón morado para resolver cualquier duda.'
+            : 'We have ALIX, our AI assistant available 24/7. Find her on the purple button to resolve any questions.'}
         </p>
-        
-        <a 
-          href={whatsappLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 border border-white/20 rounded-full text-white/80 text-sm hover:bg-white/20 transition-colors mb-3"
-          data-testid="button-whatsapp"
-        >
-          <MessageCircle className="w-4 h-4" />
-          {lang === 'es' ? 'WhatsApp' : 'WhatsApp'}
-        </a>
-        <p className="text-white/40 text-xs">
-          {lang === 'es' ? 'Tiempo de respuesta promedio: 1 hora' : 'Average response time: 1 hour'}
+        <p className="text-white/50 text-sm max-w-md mx-auto">
+          {lang === 'es' 
+            ? 'Para hablar con un representante humano, usa el botón verde de WhatsApp. Tiempo de respuesta promedio: 1 hora.'
+            : 'To speak with a human representative, use the green WhatsApp button. Average response time: 1 hour.'}
         </p>
       </div>
 
       <div className="px-6 pb-6">
         <div className="grid grid-cols-3 gap-3 max-w-2xl mx-auto">
           <Link href="/last-minute-capital">
-            <div className="aspect-[3/4] rounded-xl overflow-hidden shadow-xl cursor-pointer hover:scale-[1.02] transition-transform" data-testid="button-last-minute">
-              <img src="/last-minute-capital.jpg" alt="Last Minute Capital" className="w-full h-full object-cover" />
+            <div className="flex flex-col cursor-pointer hover:scale-[1.02] transition-transform" data-testid="button-last-minute">
+              <div className="aspect-[3/4] rounded-xl overflow-hidden shadow-xl">
+                <img src="/last-minute-capital.jpg" alt="Last Minute Capital" className="w-full h-full object-cover" />
+              </div>
+              <p className="text-center text-white/80 text-xs mt-2 font-medium">
+                {lang === 'es' ? 'Inversión' : 'Investment'}
+              </p>
             </div>
           </Link>
           <Link href="/perfil-asociado">
-            <div className="aspect-[3/4] rounded-xl overflow-hidden shadow-xl cursor-pointer hover:scale-[1.02] transition-transform" data-testid="button-perfil-asociado">
-              <img src="/perfil-asociado.jpg" alt="Perfil Asociado" className="w-full h-full object-cover" />
+            <div className="flex flex-col cursor-pointer hover:scale-[1.02] transition-transform" data-testid="button-perfil-asociado">
+              <div className="aspect-[3/4] rounded-xl overflow-hidden shadow-xl">
+                <img src="/perfil-asociado.jpg" alt="Perfil Asociado" className="w-full h-full object-cover" />
+              </div>
+              <p className="text-center text-white/80 text-xs mt-2 font-medium">
+                {lang === 'es' ? 'Asociados' : 'Associates'}
+              </p>
             </div>
           </Link>
           <Link href="/modelo-negocios">
-            <div className="aspect-[3/4] rounded-xl overflow-hidden shadow-xl cursor-pointer hover:scale-[1.02] transition-transform" data-testid="button-modelo-negocio">
-              <img src="/modelo-negocio.jpg" alt="Modelo de Negocio" className="w-full h-full object-cover" />
+            <div className="flex flex-col cursor-pointer hover:scale-[1.02] transition-transform" data-testid="button-modelo-negocio">
+              <div className="aspect-[3/4] rounded-xl overflow-hidden shadow-xl">
+                <img src="/modelo-negocio.jpg" alt="Modelo de Negocio" className="w-full h-full object-cover" />
+              </div>
+              <p className="text-center text-white/80 text-xs mt-2 font-medium">
+                {lang === 'es' ? 'Cómo Funciona' : 'How It Works'}
+              </p>
             </div>
           </Link>
         </div>
