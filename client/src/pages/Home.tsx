@@ -4,8 +4,6 @@ import { Header } from '@/components/Header';
 import { useLanguage } from '@/lib/LanguageContext';
 import { Property } from '@shared/schema';
 import { ChevronRight, MapPin, Bed, Bath, Users } from 'lucide-react';
-import heroImg from '@/assets/hero-cover.png';
-
 export default function Home() {
   const { language } = useLanguage();
   
@@ -22,15 +20,10 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative bg-[#1a1a1a] py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          {/* Hero Image */}
-          <div className="mb-10">
-            <img 
-              src={heroImg} 
-              alt="Fractional Living" 
-              className="h-40 md:h-52 w-auto mx-auto shadow-xl"
-              data-testid="hero-logo"
-            />
-          </div>
+          <h1 className="text-4xl md:text-5xl font-extralight text-white tracking-wide mb-4" data-testid="hero-title">
+            Fractional Living
+          </h1>
+          <p className="text-xs text-white/40 uppercase tracking-[0.3em] mb-8">All Global Holding LLC</p>
           
           <p className="text-lg md:text-xl text-white/50 font-extralight max-w-2xl mx-auto mb-10">
             {language === 'es' 
@@ -209,7 +202,7 @@ export default function Home() {
       <footer className="py-12 bg-white border-t border-stone-200">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <img src={heroImg} alt="Fractional Living" className="h-10 w-auto" />
+            <span className="text-lg font-light tracking-wide text-[#1a1a1a]">FRACTIONAL LIVING</span>
             <div className="flex gap-8 text-sm text-stone-500">
               <Link href="/fractional"><span className="hover:text-[#1a1a1a] cursor-pointer">{language === 'es' ? 'Propiedades' : 'Properties'}</span></Link>
               <Link href="/experiences"><span className="hover:text-[#1a1a1a] cursor-pointer">{language === 'es' ? 'Experiencias' : 'Experiences'}</span></Link>

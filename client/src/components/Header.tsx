@@ -18,8 +18,6 @@ import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/lib/LanguageContext';
-import logoImg from '@/assets/logo.png';
-
 export function Header() {
   const [location] = useLocation();
   const { toast } = useToast();
@@ -46,11 +44,9 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           <Link href="/" data-testid="link-home">
-            <img 
-              src={logoImg} 
-              alt="Fractional Living" 
-              className="h-10 w-auto cursor-pointer"
-            />
+            <span className="text-lg font-light tracking-wide cursor-pointer text-[#1a1a1a]">
+              FRACTIONAL LIVING
+            </span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
