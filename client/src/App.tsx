@@ -19,6 +19,7 @@ import PropertyAsociado from "@/pages/PropertyAsociado";
 import LastMinuteCapital from "@/pages/LastMinuteCapital";
 import ModeloNegocios from "@/pages/ModeloNegocios";
 import NotFound from "@/pages/not-found";
+import { FloatingButtons } from "@/components/FloatingButtons";
 
 function Router() {
   return (
@@ -51,6 +52,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <FloatingButtons />
         </TooltipProvider>
       </LanguageProvider>
     </QueryClientProvider>
