@@ -54,10 +54,10 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid grid-cols-4 gap-8">
             {[
-              { value: '$650K', label: language === 'es' ? 'MXN/fracción' : 'MXN/fraction' },
+              { value: '227', label: language === 'es' ? 'Fracciones' : 'Fractions' },
+              { value: '22', label: language === 'es' ? 'Propiedades' : 'Properties' },
+              { value: '$650K', label: 'MXN' },
               { value: '3', label: language === 'es' ? 'Semanas/año' : 'Weeks/year' },
-              { value: '100%', label: language === 'es' ? 'Legal' : 'Legal' },
-              { value: '∞', label: language === 'es' ? 'Heredable' : 'Inheritable' },
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <p className="text-2xl md:text-3xl font-extralight text-[#1a1a1a]">{stat.value}</p>
