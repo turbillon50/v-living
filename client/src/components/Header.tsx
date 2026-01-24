@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter';
-import { Globe, Menu, User, Lock } from 'lucide-react';
+import { Globe, Menu, User, Lock, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -43,11 +43,20 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-white border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" data-testid="link-home">
-            <span className="text-lg font-light tracking-wide cursor-pointer text-[#1a1a1a]">
-              FRACTIONAL LIVING
-            </span>
-          </Link>
+          <div className="flex items-center gap-3">
+            {(location.startsWith('/property') || location === '/registro' || location === '/creator') && (
+              <Link href="/fractional">
+                <button className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors" data-testid="button-back">
+                  <ArrowLeft className="w-5 h-5 text-gray-600" />
+                </button>
+              </Link>
+            )}
+            <Link href="/" data-testid="link-home">
+              <span className="text-lg font-light tracking-wide cursor-pointer text-[#1a1a1a]">
+                FRACTIONAL LIVING
+              </span>
+            </Link>
+          </div>
 
           <nav className="hidden md:flex items-center gap-8">
             <Link href="/fractional" data-testid="link-fractional">
