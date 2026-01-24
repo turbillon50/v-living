@@ -25,10 +25,13 @@ export default function Home() {
           </h1>
           <p className="text-xs text-white/40 uppercase tracking-[0.3em] mb-8">All Global Holding LLC</p>
           
-          <p className="text-lg md:text-xl text-white/50 font-extralight max-w-2xl mx-auto mb-10">
+          <p className="text-lg md:text-xl text-white/60 font-light max-w-3xl mx-auto mb-4">
             {language === 'es' 
-              ? 'Propiedad fraccionada de lujo en el Caribe'
-              : 'Luxury fractional ownership in the Caribbean'}
+              ? 'Reserva · Compra · Vive · Renta · Vende con plusvalía'
+              : 'Reserve · Buy · Live · Rent · Sell with appreciation'}
+          </p>
+          <p className="text-sm text-teal-400 font-medium mb-10">
+            {language === 'es' ? 'Y vuelve a comenzar' : 'And start again'}
           </p>
 
           <div className="flex justify-center">
