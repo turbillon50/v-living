@@ -343,6 +343,34 @@ export class DatabaseStorage implements IStorage {
   async deleteSiteSetting(key: string): Promise<void> {
     await db.delete(schema.siteSettings).where(eq(schema.siteSettings.key, key));
   }
+
+  // Leads
+  async getLeads(): Promise<schema.Lead[]> {
+    return db.select().from(schema.leads).orderBy(sql`created_at DESC`);
+  }
+
+  async createLead(lead: schema.InsertLead): Promise<schema.Lead> {
+    const results = await db.insert(schema.leads).values(lead).returning();
+    return results[0];
+  }
+
+  async updateLeadStatus(id: string, status: string): Promise<schema.Lead | undefined> {
+    const results = await db.update(schema.leads)
+      .set({ status, updatedAt: new Date() })
+      .where(eq(schema.leads.id, id))
+      .returning();
+    return results[0];
+  }
+
+  async markLeadEmailSent(id: string): Promise<void> {
+    await db.update(schema.leads)
+      .set({ emailSent: true })
+      .where(eq(schema.leads.id, id));
+  }
+
+  async getLeadsByStatus(status: string): Promise<schema.Lead[]> {
+    return db.select().from(schema.leads).where(eq(schema.leads.status, status));
+  }
 }
 
 export const storage = new DatabaseStorage();

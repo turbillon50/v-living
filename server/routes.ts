@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema, insertSubscriberSchema, insertNavButtonSchema, insertCategorySchema } from "@shared/schema";
+import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema, insertSubscriberSchema, insertNavButtonSchema, insertCategorySchema, insertLeadSchema } from "@shared/schema";
 import { z } from "zod";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 
@@ -465,6 +465,50 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error deleting site setting:", error);
       res.status(500).json({ error: "Failed to delete site setting" });
+    }
+  });
+
+  // Leads endpoints
+  app.post("/api/leads", async (req, res) => {
+    try {
+      const data = insertLeadSchema.parse(req.body);
+      const lead = await storage.createLead(data);
+      
+      // TODO: Send confirmation email via Resend when configured
+      
+      res.status(201).json({ 
+        success: true, 
+        message: "Tu solicitud ha sido recibida. En los próximos 5 días recibirás el estatus de tu solicitud.",
+        lead 
+      });
+    } catch (error) {
+      console.error("Error creating lead:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid data", details: error.errors });
+      }
+      res.status(500).json({ error: "Failed to create lead" });
+    }
+  });
+
+  app.get("/api/leads", verifyCreatorToken, async (req, res) => {
+    try {
+      const leads = await storage.getLeads();
+      res.json(leads);
+    } catch (error) {
+      console.error("Error fetching leads:", error);
+      res.status(500).json({ error: "Failed to fetch leads" });
+    }
+  });
+
+  app.patch("/api/leads/:id/status", verifyCreatorToken, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      const lead = await storage.updateLeadStatus(id, status);
+      res.json(lead);
+    } catch (error) {
+      console.error("Error updating lead status:", error);
+      res.status(500).json({ error: "Failed to update lead status" });
     }
   });
 

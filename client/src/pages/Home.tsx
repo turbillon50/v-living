@@ -34,10 +34,16 @@ export default function Home() {
             {language === 'es' ? 'Y vuelve a comenzar' : 'And start again'}
           </p>
 
-          <div className="flex justify-center">
+          <div className="flex flex-col sm:flex-row justify-center gap-3">
             <Link href="/fractional">
-              <span className="inline-flex items-center gap-2 px-10 py-4 bg-white text-[#1a1a1a] text-sm font-medium tracking-wide hover:bg-white/90 transition-colors cursor-pointer" data-testid="button-explore">
+              <span className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-white text-[#1a1a1a] text-sm font-medium tracking-wide hover:bg-white/90 transition-colors cursor-pointer" data-testid="button-explore">
                 {language === 'es' ? 'VER PROPIEDADES' : 'VIEW PROPERTIES'}
+                <ChevronRight className="w-4 h-4" />
+              </span>
+            </Link>
+            <Link href="/registro">
+              <span className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-teal-500 text-white text-sm font-medium tracking-wide hover:bg-teal-600 transition-colors cursor-pointer" data-testid="button-register">
+                {language === 'es' ? 'REGÍSTRATE' : 'REGISTER'}
                 <ChevronRight className="w-4 h-4" />
               </span>
             </Link>

@@ -217,3 +217,22 @@ export type InsertNavButton = z.infer<typeof insertNavButtonSchema>;
 export type NavButton = typeof navButtons.$inferSelect;
 export type InsertSiteSetting = z.infer<typeof insertSiteSettingSchema>;
 export type SiteSetting = typeof siteSettings.$inferSelect;
+
+// Leads - registration form submissions
+export const leads = pgTable("leads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull(),
+  name: text("name"),
+  phone: text("phone"),
+  interest: text("interest").notNull(), // fraccion, vivirla, ganar, broker, lastminute, aportar, vender
+  message: text("message"),
+  status: text("status").default("nuevo"), // nuevo, contactado, en_proceso, cerrado
+  source: text("source").default("web"),
+  emailSent: boolean("email_sent").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertLeadSchema = createInsertSchema(leads).omit({ id: true, createdAt: true, updatedAt: true, emailSent: true });
+export type InsertLead = z.infer<typeof insertLeadSchema>;
+export type Lead = typeof leads.$inferSelect;
