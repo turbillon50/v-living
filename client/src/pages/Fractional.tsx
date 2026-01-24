@@ -12,17 +12,15 @@ export default function Fractional() {
     queryFn: getProperties,
   });
 
-  const attikProperties = properties.filter(p => p.title?.includes('ATTIK'));
-
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    <div className="min-h-screen bg-white pb-24">
       <Header />
 
       {/* Hero compacto */}
       <section className="px-4 pt-4 pb-6">
         <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-2xl p-5 text-center">
-          <h1 className="text-white text-xl font-bold mb-1">ATTIK TULUM</h1>
-          <p className="text-white/90 text-sm">10 propiedades • $650K - $1,050K MXN</p>
+          <h1 className="text-white text-xl font-bold mb-1">Propiedades</h1>
+          <p className="text-white/90 text-sm">{properties.length} propiedades disponibles</p>
           <div className="flex justify-center gap-6 mt-4 text-white/80 text-xs">
             <div className="text-center">
               <p className="text-white text-lg font-bold">14</p>
@@ -46,13 +44,18 @@ export default function Fractional() {
           <div className="flex justify-center py-12">
             <Loader2 className="w-8 h-8 animate-spin text-teal-400" />
           </div>
+        ) : properties.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-400 text-sm mb-2">No hay propiedades aún</p>
+            <p className="text-gray-300 text-xs">Agrega propiedades desde el modo creador</p>
+          </div>
         ) : (
           <div className="grid grid-cols-2 gap-3">
-            {attikProperties.map((property) => (
+            {properties.map((property) => (
               <Link key={property.id} href={`/property/${property.id}`}>
-                <div className="bg-gray-50 rounded-xl overflow-hidden border border-gray-200 shadow-sm active:scale-[0.97] transition-transform" data-testid={`property-card-${property.id}`}>
+                <div className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm active:scale-[0.97] transition-transform" data-testid={`property-card-${property.id}`}>
                   {/* Imagen */}
-                  <div className="aspect-[4/3] relative bg-gray-200">
+                  <div className="aspect-[4/3] relative bg-gray-100">
                     {property.images?.[0] ? (
                       <img 
                         src={property.images[0]} 
@@ -62,7 +65,7 @@ export default function Fractional() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-gray-400 text-sm">ATTIK</span>
+                        <span className="text-gray-300 text-sm">{property.title.split(' ')[0]}</span>
                       </div>
                     )}
                     {property.tag && (
@@ -75,7 +78,7 @@ export default function Fractional() {
                   {/* Info */}
                   <div className="p-3">
                     <h3 className="text-gray-900 font-semibold text-sm truncate">
-                      {property.title.replace('ATTIK ', '')}
+                      {property.title}
                     </h3>
                     
                     <div className="flex items-center gap-2 text-gray-500 text-[11px] mt-1">
@@ -96,6 +99,7 @@ export default function Fractional() {
                     <div className="flex items-center justify-between mt-2">
                       <p className="text-teal-600 font-bold text-sm">
                         ${((property.price || 650000) / 1000).toFixed(0)}K
+                        <span className="text-gray-400 font-normal text-xs ml-1">{property.currency || 'MXN'}</span>
                       </p>
                       <ChevronRight className="w-4 h-4 text-gray-400" />
                     </div>
@@ -110,7 +114,7 @@ export default function Fractional() {
       {/* CTA fijo */}
       <section className="px-4 pb-6">
         <Link href="/registro">
-          <div className="bg-teal-500 rounded-xl p-4 text-center active:scale-[0.98] transition-transform">
+          <div className="bg-teal-600 rounded-xl p-4 text-center active:scale-[0.98] transition-transform">
             <p className="text-white font-bold">Reserva tu fracción</p>
             <p className="text-white/80 text-xs">Te contactamos en 5 días</p>
           </div>
@@ -120,7 +124,7 @@ export default function Fractional() {
       {/* WhatsApp */}
       <section className="px-4 pb-8">
         <a 
-          href="https://wa.me/529984292748?text=Hola,%20me%20interesan%20las%20fracciones%20de%20ATTIK"
+          href="https://wa.me/529984292748?text=Hola,%20me%20interesan%20las%20fracciones"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 w-full py-3 bg-green-600 text-white font-medium rounded-xl text-sm"

@@ -132,15 +132,23 @@ export default function CreatorDashboard() {
 
   const [formData, setFormData] = useState({
     title: '',
+    subtitle: '',
     location: '',
+    country: 'México',
     description: '',
     category: 'Propiedades',
     images: [] as string[],
     videos: [] as string[],
     amenities: [] as string[],
+    conditions: [] as string[],
     blockedWeeks: [] as number[],
     creatorBlockedWeeks: [] as number[],
     price: 650000,
+    fractionPrice: 65000,
+    totalFractions: 14,
+    availableFractions: 14,
+    weeksPerFraction: 3,
+    currency: 'MXN',
     priceHighSeason: null as number | null,
     priceMidSeason: null as number | null,
     priceLowSeason: null as number | null,
@@ -149,8 +157,12 @@ export default function CreatorDashboard() {
     bedrooms: 2,
     bathrooms: 2,
     maxGuests: 6,
-    tag: ''
+    sqMeters: 150,
+    tag: '',
+    isFeatured: false
   });
+  
+  const [newCondition, setNewCondition] = useState('');
 
   const [navForm, setNavForm] = useState({
     name: '',
@@ -359,11 +371,13 @@ export default function CreatorDashboard() {
 
   const resetForm = () => {
     setFormData({
-      title: '', location: '', description: '', category: 'Propiedades',
-      images: [], videos: [], amenities: [], blockedWeeks: [], creatorBlockedWeeks: [],
-      price: 650000, priceHighSeason: null, priceMidSeason: null, priceLowSeason: null,
-      videoUrl: '', mapUrl: '', bedrooms: 2, bathrooms: 2, maxGuests: 6, tag: ''
+      title: '', subtitle: '', location: '', country: 'México', description: '', category: 'Propiedades',
+      images: [], videos: [], amenities: [], conditions: [], blockedWeeks: [], creatorBlockedWeeks: [],
+      price: 650000, fractionPrice: 65000, totalFractions: 14, availableFractions: 14, weeksPerFraction: 3, currency: 'MXN',
+      priceHighSeason: null, priceMidSeason: null, priceLowSeason: null,
+      videoUrl: '', mapUrl: '', bedrooms: 2, bathrooms: 2, maxGuests: 6, sqMeters: 150, tag: '', isFeatured: false
     });
+    setNewCondition('');
     setEditingProperty(null);
     setIsCreating(false);
     setShowPreview(false);
@@ -373,15 +387,23 @@ export default function CreatorDashboard() {
   const handleEdit = (property: Property) => {
     setFormData({
       title: property.title,
+      subtitle: (property as any).subtitle || '',
       location: property.location,
+      country: (property as any).country || 'México',
       description: property.description,
       category: property.category,
       images: property.images || [],
       videos: property.videos || [],
       amenities: property.amenities || [],
+      conditions: (property as any).conditions || [],
       blockedWeeks: property.blockedWeeks || [],
       creatorBlockedWeeks: (property as any).creatorBlockedWeeks || [],
       price: property.price || 650000,
+      fractionPrice: (property as any).fractionPrice || 65000,
+      totalFractions: (property as any).totalFractions || 14,
+      availableFractions: (property as any).availableFractions || 14,
+      weeksPerFraction: (property as any).weeksPerFraction || 3,
+      currency: (property as any).currency || 'MXN',
       priceHighSeason: property.priceHighSeason,
       priceMidSeason: property.priceMidSeason,
       priceLowSeason: property.priceLowSeason,
@@ -390,7 +412,9 @@ export default function CreatorDashboard() {
       bedrooms: property.bedrooms || 2,
       bathrooms: property.bathrooms || 2,
       maxGuests: property.maxGuests || 6,
-      tag: property.tag || ''
+      sqMeters: (property as any).sqMeters || 150,
+      tag: property.tag || '',
+      isFeatured: (property as any).isFeatured || false
     });
     setEditingProperty(property);
     setIsCreating(true);
@@ -719,9 +743,13 @@ export default function CreatorDashboard() {
 
                 <div className="space-y-3">
                   <div className="bg-white/5 rounded-xl border border-white/10 p-4 space-y-3">
-                    <Input placeholder="Título" value={formData.title} onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
-                    <Input placeholder="Ubicación" value={formData.location} onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
-                    <Textarea placeholder="Descripción" value={formData.description} onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))} rows={3} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                    <Input placeholder="Título (ej: ATTIK 01)" value={formData.title} onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                    <Input placeholder="Subtítulo (ej: Departamento de Lujo)" value={formData.subtitle} onChange={(e) => setFormData(prev => ({ ...prev, subtitle: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                    <div className="grid grid-cols-2 gap-2">
+                      <Input placeholder="Ubicación" value={formData.location} onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                      <Input placeholder="País" value={formData.country} onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                    </div>
+                    <Textarea placeholder="Descripción completa de la propiedad..." value={formData.description} onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))} rows={4} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
                     <div className="grid grid-cols-2 gap-2">
                       <select value={formData.category} onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))} className="h-10 px-3 bg-white/10 border border-white/20 rounded-lg text-sm text-white">
                         {allCategories.map(cat => <option key={cat} value={cat} className="bg-[#1a1a1a]">{cat}</option>)}
@@ -730,14 +758,48 @@ export default function CreatorDashboard() {
                         {PROPERTY_TAGS.map(tag => <option key={tag.value} value={tag.value} className="bg-[#1a1a1a]">{tag.label}</option>)}
                       </select>
                     </div>
+                    <label className="flex items-center gap-2 text-sm text-white/70">
+                      <input type="checkbox" checked={formData.isFeatured} onChange={(e) => setFormData(prev => ({ ...prev, isFeatured: e.target.checked }))} className="w-4 h-4 rounded" />
+                      Destacar propiedad
+                    </label>
                   </div>
 
                   <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-                    <h3 className="font-medium text-sm text-white mb-3">Precio Fracción</h3>
-                    <div className="relative">
-                      <Input type="number" placeholder="650000" value={formData.price} onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))} className="mb-3 bg-white/10 border-white/20 text-white pr-14" />
-                      <span className="absolute right-3 top-2.5 text-white/50 text-sm">MXN</span>
+                    <h3 className="font-medium text-sm text-white mb-3">Precios y Fracciones</h3>
+                    <div className="grid grid-cols-2 gap-3 mb-3">
+                      <div>
+                        <label className="text-xs text-white/50">Precio Total</label>
+                        <Input type="number" placeholder="650000" value={formData.price} onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                      </div>
+                      <div>
+                        <label className="text-xs text-white/50">Moneda</label>
+                        <select value={formData.currency} onChange={(e) => setFormData(prev => ({ ...prev, currency: e.target.value }))} className="w-full h-10 px-3 bg-white/10 border border-white/20 rounded-lg text-sm text-white">
+                          <option value="MXN" className="bg-[#1a1a1a]">MXN</option>
+                          <option value="USD" className="bg-[#1a1a1a]">USD</option>
+                        </select>
+                      </div>
                     </div>
+                    <div className="grid grid-cols-2 gap-3 mb-3">
+                      <div>
+                        <label className="text-xs text-teal-400">Enganche / Precio Fracción</label>
+                        <Input type="number" placeholder="65000" value={formData.fractionPrice} onChange={(e) => setFormData(prev => ({ ...prev, fractionPrice: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                      </div>
+                      <div>
+                        <label className="text-xs text-white/50">Semanas por Fracción</label>
+                        <Input type="number" placeholder="3" value={formData.weeksPerFraction} onChange={(e) => setFormData(prev => ({ ...prev, weeksPerFraction: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 mb-3">
+                      <div>
+                        <label className="text-xs text-white/50">Total Fracciones</label>
+                        <Input type="number" placeholder="14" value={formData.totalFractions} onChange={(e) => setFormData(prev => ({ ...prev, totalFractions: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                      </div>
+                      <div>
+                        <label className="text-xs text-white/50">Fracciones Disponibles</label>
+                        <Input type="number" placeholder="14" value={formData.availableFractions} onChange={(e) => setFormData(prev => ({ ...prev, availableFractions: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                      </div>
+                    </div>
+                    <p className="text-xs text-white/30 mb-3">Precios por temporada (opcional)</p>
                     <div className="grid grid-cols-3 gap-2">
                       <div>
                         <label className="text-xs text-red-400">Alta</label>
@@ -755,8 +817,8 @@ export default function CreatorDashboard() {
                   </div>
 
                   <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-                    <h3 className="font-medium text-sm text-white mb-3">Detalles</h3>
-                    <div className="grid grid-cols-3 gap-2">
+                    <h3 className="font-medium text-sm text-white mb-3">Detalles Propiedad</h3>
+                    <div className="grid grid-cols-4 gap-2">
                       <div>
                         <label className="text-xs text-white/50 flex items-center gap-1"><Bed className="w-3 h-3" /> Hab</label>
                         <Input type="number" value={formData.bedrooms} onChange={(e) => setFormData(prev => ({ ...prev, bedrooms: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
@@ -768,6 +830,67 @@ export default function CreatorDashboard() {
                       <div>
                         <label className="text-xs text-white/50 flex items-center gap-1"><Users className="w-3 h-3" /> Huésp</label>
                         <Input type="number" value={formData.maxGuests} onChange={(e) => setFormData(prev => ({ ...prev, maxGuests: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                      </div>
+                      <div>
+                        <label className="text-xs text-white/50">m²</label>
+                        <Input type="number" value={formData.sqMeters} onChange={(e) => setFormData(prev => ({ ...prev, sqMeters: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+                    <h3 className="font-medium text-sm text-white mb-3">Condiciones / Textos Adicionales</h3>
+                    <div className="flex gap-2 mb-3">
+                      <Input 
+                        placeholder="Ej: 30% enganche, 12 meses sin intereses..." 
+                        value={newCondition} 
+                        onChange={(e) => setNewCondition(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && newCondition.trim()) {
+                            setFormData(prev => ({ ...prev, conditions: [...prev.conditions, newCondition.trim()] }));
+                            setNewCondition('');
+                          }
+                        }}
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/40" 
+                      />
+                      <Button 
+                        type="button" 
+                        size="sm" 
+                        onClick={() => {
+                          if (newCondition.trim()) {
+                            setFormData(prev => ({ ...prev, conditions: [...prev.conditions, newCondition.trim()] }));
+                            setNewCondition('');
+                          }
+                        }}
+                        className="bg-teal-500 hover:bg-teal-600"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    {formData.conditions.length > 0 && (
+                      <div className="space-y-2">
+                        {formData.conditions.map((cond, i) => (
+                          <div key={i} className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2">
+                            <span className="text-sm text-white/80 flex-1">{cond}</span>
+                            <button onClick={() => setFormData(prev => ({ ...prev, conditions: prev.conditions.filter((_, idx) => idx !== i) }))} className="text-red-400 hover:text-red-300">
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+                    <h3 className="font-medium text-sm text-white mb-3">Enlaces</h3>
+                    <div className="space-y-2">
+                      <div>
+                        <label className="text-xs text-white/50">URL Video (YouTube/Vimeo)</label>
+                        <Input placeholder="https://..." value={formData.videoUrl} onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                      </div>
+                      <div>
+                        <label className="text-xs text-white/50">URL Mapa (Google Maps)</label>
+                        <Input placeholder="https://..." value={formData.mapUrl} onChange={(e) => setFormData(prev => ({ ...prev, mapUrl: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
                       </div>
                     </div>
                   </div>

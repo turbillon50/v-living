@@ -14,42 +14,47 @@ export default function Home() {
     queryKey: ['/api/properties'],
   });
 
-  const attikProperties = properties.filter(p => p.title.includes('ATTIK'));
+  const featuredProperties = properties.slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-white">
       <Header />
       
       {/* Hero - Compacto para móvil */}
       <section className="pt-6 pb-8 px-5">
         <div className="text-center">
-          <h1 className="text-3xl font-light text-white tracking-wide mb-2" data-testid="hero-title">
+          <img 
+            src="/favicon.png" 
+            alt="Fractional Living" 
+            className="w-16 h-16 mx-auto mb-4 rounded-xl"
+          />
+          <h1 className="text-3xl font-light text-gray-900 tracking-wide mb-2" data-testid="hero-title">
             Fractional Living
           </h1>
-          <p className="text-[10px] text-white/30 uppercase tracking-[0.25em] mb-4">All Global Holding LLC</p>
+          <p className="text-[10px] text-gray-400 uppercase tracking-[0.25em] mb-4">All Global Holding LLC</p>
           
-          <p className="text-base text-white/70 font-light mb-1">
+          <p className="text-base text-gray-600 font-light mb-1">
             {language === 'es' 
               ? 'Reserva · Compra · Vive · Renta · Vende'
               : 'Reserve · Buy · Live · Rent · Sell'}
           </p>
-          <p className="text-sm text-teal-400 font-medium mb-6">
+          <p className="text-sm text-teal-600 font-medium mb-6">
             {language === 'es' ? 'Con plusvalía y vuelve a comenzar' : 'With appreciation and start again'}
           </p>
 
           {/* Stats en línea */}
           <div className="flex justify-center gap-6 mb-6">
             <div className="text-center">
-              <p className="text-2xl font-light text-white">10</p>
-              <p className="text-[10px] text-white/40 uppercase">Props</p>
+              <p className="text-2xl font-light text-gray-900">{properties.length || '—'}</p>
+              <p className="text-[10px] text-gray-400 uppercase">Props</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-light text-teal-400">$650K</p>
-              <p className="text-[10px] text-white/40 uppercase">Desde MXN</p>
+              <p className="text-2xl font-light text-teal-600">$650K</p>
+              <p className="text-[10px] text-gray-400 uppercase">Desde MXN</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-light text-white">3</p>
-              <p className="text-[10px] text-white/40 uppercase">Semanas/año</p>
+              <p className="text-2xl font-light text-gray-900">3</p>
+              <p className="text-[10px] text-gray-400 uppercase">Semanas/año</p>
             </div>
           </div>
         </div>
@@ -71,16 +76,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ATTIK Properties - Scroll Horizontal */}
-      {attikProperties.length > 0 && (
+      {/* Properties - Scroll Horizontal */}
+      {featuredProperties.length > 0 && (
         <section className="pb-8">
           <div className="px-5 mb-4 flex items-end justify-between">
             <div>
-              <p className="text-teal-400 text-xs font-medium uppercase tracking-wider mb-1">Proyecto ATTIK</p>
-              <h2 className="text-xl font-light text-white">Tulum, La Veleta</h2>
+              <p className="text-teal-600 text-xs font-medium uppercase tracking-wider mb-1">Propiedades</p>
+              <h2 className="text-xl font-light text-gray-900">Disponibles</h2>
             </div>
             <Link href="/fractional">
-              <span className="text-xs text-white/50 flex items-center gap-1">
+              <span className="text-xs text-gray-400 flex items-center gap-1">
                 Ver todo <ChevronRight className="w-3 h-3" />
               </span>
             </Link>
@@ -88,10 +93,10 @@ export default function Home() {
           
           <div className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-4 px-5 pb-2" style={{ width: 'max-content' }}>
-              {attikProperties.map((property) => (
+              {featuredProperties.map((property) => (
                 <Link key={property.id} href={`/property/${property.id}`}>
-                  <div className="w-[280px] bg-white/5 rounded-xl overflow-hidden border border-white/10 active:scale-[0.98] transition-transform" data-testid={`card-property-${property.id}`}>
-                    <div className="h-40 bg-gradient-to-br from-teal-900/50 to-cyan-900/50 flex items-center justify-center relative">
+                  <div className="w-[280px] bg-gray-50 rounded-xl overflow-hidden border border-gray-100 active:scale-[0.98] transition-transform" data-testid={`card-property-${property.id}`}>
+                    <div className="h-40 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative">
                       {property.images?.[0] ? (
                         <img 
                           src={property.images[0]} 
@@ -100,8 +105,8 @@ export default function Home() {
                         />
                       ) : (
                         <div className="text-center">
-                          <span className="text-4xl font-extralight text-white/20">ATTIK</span>
-                          <p className="text-white/30 text-xs mt-1">{property.sqMeters}m²</p>
+                          <span className="text-4xl font-extralight text-gray-300">{property.title.split(' ')[0]}</span>
+                          <p className="text-gray-400 text-xs mt-1">{property.sqMeters}m²</p>
                         </div>
                       )}
                       {property.tag && (
@@ -112,11 +117,11 @@ export default function Home() {
                     </div>
                     
                     <div className="p-4">
-                      <h3 className="text-white font-medium text-sm mb-1 truncate">
-                        {property.title.replace('ATTIK ', '')}
+                      <h3 className="text-gray-900 font-medium text-sm mb-1 truncate">
+                        {property.title}
                       </h3>
                       
-                      <div className="flex items-center gap-3 text-[11px] text-white/40 mb-3">
+                      <div className="flex items-center gap-3 text-[11px] text-gray-400 mb-3">
                         <span>{property.sqMeters}m²</span>
                         <span>•</span>
                         <span>{property.bedrooms} rec</span>
@@ -126,13 +131,13 @@ export default function Home() {
                       
                       <div className="flex items-end justify-between">
                         <div>
-                          <p className="text-teal-400 font-semibold text-lg">
+                          <p className="text-teal-600 font-semibold text-lg">
                             ${((property.price || 650000) / 1000).toFixed(0)}K
                           </p>
-                          <p className="text-white/30 text-[10px]">MXN / fracción</p>
+                          <p className="text-gray-400 text-[10px]">{property.currency || 'MXN'} / fracción</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-white/50 text-xs">14 fracciones</p>
+                          <p className="text-gray-500 text-xs">{property.totalFractions || 14} fracciones</p>
                         </div>
                       </div>
                     </div>
@@ -144,30 +149,39 @@ export default function Home() {
         </section>
       )}
 
+      {/* Empty state when no properties */}
+      {properties.length === 0 && (
+        <section className="px-5 pb-8">
+          <div className="bg-gray-50 rounded-xl p-8 text-center border border-gray-100">
+            <p className="text-gray-400 text-sm mb-2">No hay propiedades aún</p>
+            <p className="text-gray-300 text-xs">Agrega propiedades desde el modo creador</p>
+          </div>
+        </section>
+      )}
 
       {/* Por qué invertir - Cards simples */}
       <section className="px-5 pb-8">
-        <h3 className="text-white/60 text-sm font-medium mb-4 text-center">¿Por qué Fractional Living?</h3>
+        <h3 className="text-gray-500 text-sm font-medium mb-4 text-center">¿Por qué Fractional Living?</h3>
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-white/5 rounded-xl p-4 border border-white/5">
-            <TrendingUp className="w-5 h-5 text-teal-400 mb-2" />
-            <p className="text-white text-sm font-medium">Plusvalía Real</p>
-            <p className="text-white/40 text-xs">Tu fracción se valoriza</p>
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+            <TrendingUp className="w-5 h-5 text-teal-600 mb-2" />
+            <p className="text-gray-900 text-sm font-medium">Plusvalía Real</p>
+            <p className="text-gray-400 text-xs">Tu fracción se valoriza</p>
           </div>
-          <div className="bg-white/5 rounded-xl p-4 border border-white/5">
-            <Calendar className="w-5 h-5 text-teal-400 mb-2" />
-            <p className="text-white text-sm font-medium">3 Semanas/Año</p>
-            <p className="text-white/40 text-xs">Uso garantizado</p>
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+            <Calendar className="w-5 h-5 text-teal-600 mb-2" />
+            <p className="text-gray-900 text-sm font-medium">3 Semanas/Año</p>
+            <p className="text-gray-400 text-xs">Uso garantizado</p>
           </div>
-          <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
             <span className="text-xl mb-2 block">💰</span>
-            <p className="text-white text-sm font-medium">Renta tu Fracción</p>
-            <p className="text-white/40 text-xs">Genera ingresos</p>
+            <p className="text-gray-900 text-sm font-medium">Renta tu Fracción</p>
+            <p className="text-gray-400 text-xs">Genera ingresos</p>
           </div>
-          <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
             <span className="text-xl mb-2 block">🔄</span>
-            <p className="text-white text-sm font-medium">Revende</p>
-            <p className="text-white/40 text-xs">Liquida cuando quieras</p>
+            <p className="text-gray-900 text-sm font-medium">Revende</p>
+            <p className="text-gray-400 text-xs">Liquida cuando quieras</p>
           </div>
         </div>
       </section>
@@ -175,12 +189,12 @@ export default function Home() {
       {/* CTA Principal */}
       <section className="px-5 pb-8">
         <Link href="/fractional">
-          <div className="bg-white rounded-xl p-5 text-center active:scale-[0.98] transition-transform" data-testid="button-explore-all">
-            <p className="text-[#0a0a0a] font-semibold text-lg mb-1">
+          <div className="bg-gray-900 rounded-xl p-5 text-center active:scale-[0.98] transition-transform" data-testid="button-explore-all">
+            <p className="text-white font-semibold text-lg mb-1">
               {language === 'es' ? 'Explorar Todas las Propiedades' : 'Explore All Properties'}
             </p>
-            <p className="text-stone-500 text-sm">
-              10 propiedades ATTIK • 140 fracciones
+            <p className="text-gray-400 text-sm">
+              {properties.length} propiedades disponibles
             </p>
           </div>
         </Link>
@@ -188,16 +202,16 @@ export default function Home() {
 
       {/* Registro - Después de explorar */}
       <section className="px-5 pb-8">
-        <div className="bg-gradient-to-br from-teal-900/40 to-cyan-900/40 rounded-xl p-5 border border-teal-500/20">
-          <p className="text-white/60 text-xs uppercase tracking-wider mb-2">¿Te interesa?</p>
-          <h3 className="text-white text-lg font-medium mb-2">
+        <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-5 border border-teal-100">
+          <p className="text-teal-600 text-xs uppercase tracking-wider mb-2">¿Te interesa?</p>
+          <h3 className="text-gray-900 text-lg font-medium mb-2">
             {language === 'es' ? 'Regístrate para más información' : 'Register for more info'}
           </h3>
-          <p className="text-white/50 text-sm mb-4">
+          <p className="text-gray-500 text-sm mb-4">
             Te contactamos en menos de 5 días con opciones personalizadas.
           </p>
           <Link href="/registro">
-            <span className="inline-flex items-center justify-center w-full gap-2 px-6 py-3 bg-teal-500 text-white font-medium rounded-lg" data-testid="button-register">
+            <span className="inline-flex items-center justify-center w-full gap-2 px-6 py-3 bg-teal-600 text-white font-medium rounded-lg" data-testid="button-register">
               Registrarme <ChevronRight className="w-4 h-4" />
             </span>
           </Link>
@@ -222,7 +236,7 @@ export default function Home() {
       <section className="px-5 pb-8">
         <button 
           onClick={() => setShowLegal(!showLegal)}
-          className="w-full flex items-center justify-between py-3 text-white/40 text-sm"
+          className="w-full flex items-center justify-between py-3 text-gray-400 text-sm"
         >
           <span>Marco Legal y Respaldo</span>
           <ChevronDown className={`w-4 h-4 transition-transform ${showLegal ? 'rotate-180' : ''}`} />
@@ -230,25 +244,25 @@ export default function Home() {
         
         {showLegal && (
           <div className="grid grid-cols-2 gap-3 pt-2">
-            <div className="bg-white/5 rounded-lg p-3">
+            <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
               <span className="text-lg mb-1 block">🏛️</span>
-              <p className="text-white/70 text-xs font-medium">Marco Legal</p>
-              <p className="text-white/40 text-[10px]">Cesión de derechos fiduciarios</p>
+              <p className="text-gray-700 text-xs font-medium">Marco Legal</p>
+              <p className="text-gray-400 text-[10px]">Cesión de derechos fiduciarios</p>
             </div>
-            <div className="bg-white/5 rounded-lg p-3">
+            <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
               <span className="text-lg mb-1 block">🔧</span>
-              <p className="text-white/70 text-xs font-medium">Operación 24/7</p>
-              <p className="text-white/40 text-[10px]">Mantenimiento y seguridad</p>
+              <p className="text-gray-700 text-xs font-medium">Operación 24/7</p>
+              <p className="text-gray-400 text-[10px]">Mantenimiento y seguridad</p>
             </div>
-            <div className="bg-white/5 rounded-lg p-3">
+            <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
               <span className="text-lg mb-1 block">💼</span>
-              <p className="text-white/70 text-xs font-medium">Gestión de Rentas</p>
-              <p className="text-white/40 text-[10px]">Comercialización incluida</p>
+              <p className="text-gray-700 text-xs font-medium">Gestión de Rentas</p>
+              <p className="text-gray-400 text-[10px]">Comercialización incluida</p>
             </div>
-            <div className="bg-white/5 rounded-lg p-3">
+            <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
               <span className="text-lg mb-1 block">📊</span>
-              <p className="text-white/70 text-xs font-medium">Respaldo</p>
-              <p className="text-white/40 text-[10px]">VanDeFi Wallet</p>
+              <p className="text-gray-700 text-xs font-medium">Respaldo</p>
+              <p className="text-gray-400 text-[10px]">VanDeFi Wallet</p>
             </div>
           </div>
         )}
@@ -260,7 +274,7 @@ export default function Home() {
           href="https://wa.me/529984292748?text=Hola,%20quiero%20ser%20broker/influencer%20de%20Fractional%20Living"
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full text-center py-3 border border-purple-500/30 rounded-xl text-purple-400 text-sm"
+          className="block w-full text-center py-3 border border-purple-200 rounded-xl text-purple-600 text-sm bg-purple-50"
           data-testid="button-broker"
         >
           💼 ¿Quieres ser Broker? Comisiones 6%+
@@ -268,15 +282,15 @@ export default function Home() {
       </section>
 
       {/* Footer mínimo */}
-      <footer className="py-8 border-t border-white/10">
+      <footer className="py-8 border-t border-gray-100">
         <div className="px-5 text-center">
-          <p className="text-white/30 text-xs mb-4">FRACTIONAL LIVING</p>
-          <div className="flex justify-center gap-6 text-xs text-white/40 mb-4">
+          <p className="text-gray-400 text-xs mb-4">FRACTIONAL LIVING</p>
+          <div className="flex justify-center gap-6 text-xs text-gray-500 mb-4">
             <Link href="/fractional"><span>Propiedades</span></Link>
             <Link href="/invest"><span>Invertir</span></Link>
             <Link href="/registro"><span>Registro</span></Link>
           </div>
-          <p className="text-[10px] text-white/20">© 2024 All Global Holding LLC</p>
+          <p className="text-[10px] text-gray-300">© 2024 All Global Holding LLC</p>
         </div>
       </footer>
     </div>
