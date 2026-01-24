@@ -15,7 +15,7 @@ export default function Fractional() {
   const attikProperties = properties.filter(p => p.title?.includes('ATTIK'));
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50 pb-24">
       <Header />
 
       {/* Hero compacto */}

@@ -21,6 +21,7 @@ import ModeloNegocios from "@/pages/ModeloNegocios";
 import Registro from "@/pages/Registro";
 import NotFound from "@/pages/not-found";
 import { FloatingButtons } from "@/components/FloatingButtons";
+import { BottomNav } from "@/components/BottomNav";
 
 function Router() {
   return (
@@ -54,6 +55,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <BottomNav />
           <FloatingButtons />
         </TooltipProvider>
       </LanguageProvider>
