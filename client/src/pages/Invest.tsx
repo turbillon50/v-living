@@ -100,7 +100,7 @@ export default function Invest() {
                       )}
                     </div>
                     <p className="text-[#4db6ac] font-medium mt-2">
-                      ${(property.fractionPrice || 65000).toLocaleString()}
+                      ${(property.fractionPrice || 650000).toLocaleString()}
                     </p>
                   </div>
                 </div>
@@ -127,8 +127,8 @@ export default function Invest() {
           
           <FractionCalculator 
             propertyTitle={selectedProperty?.title}
-            totalValue={(selectedProperty?.fractionPrice || 65000) * 8}
-            fractionPrice={selectedProperty?.fractionPrice || 65000}
+            totalValue={(selectedProperty?.fractionPrice || 650000) * 8}
+            fractionPrice={selectedProperty?.fractionPrice || 650000}
             onProceedToPayment={handleProceedToPayment}
           />
         </div>

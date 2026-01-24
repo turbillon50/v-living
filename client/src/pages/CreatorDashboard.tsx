@@ -733,8 +733,11 @@ export default function CreatorDashboard() {
                   </div>
 
                   <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-                    <h3 className="font-medium text-sm text-white mb-3">Precio</h3>
-                    <Input type="number" placeholder="Precio USD" value={formData.price} onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))} className="mb-3 bg-white/10 border-white/20 text-white" />
+                    <h3 className="font-medium text-sm text-white mb-3">Precio Fracción</h3>
+                    <div className="relative">
+                      <Input type="number" placeholder="650000" value={formData.price} onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))} className="mb-3 bg-white/10 border-white/20 text-white pr-14" />
+                      <span className="absolute right-3 top-2.5 text-white/50 text-sm">MXN</span>
+                    </div>
                     <div className="grid grid-cols-3 gap-2">
                       <div>
                         <label className="text-xs text-red-400">Alta</label>

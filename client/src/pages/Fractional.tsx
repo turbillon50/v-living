@@ -132,7 +132,7 @@ function PropertyCard({ property }: { property: Property }) {
           
           <div className="pt-1">
             <span className="font-medium text-stone-900">
-              ${(property.fractionPrice || property.price || 65000).toLocaleString()}
+              ${(property.fractionPrice || property.price || 650000).toLocaleString()}
             </span>
             <span className="text-stone-500 text-sm"> / {language === 'es' ? 'fracción' : 'fraction'}</span>
           </div>

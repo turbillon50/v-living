@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calculator, Wallet, CreditCard, CheckCircle, Sparkles } from 'lucide-react';
+import { Calculator, Wallet, CreditCard, CheckCircle, Sparkles, Clock, Percent } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface FinancialCalculatorProps {
@@ -13,6 +13,7 @@ export function FinancialCalculator({
 }: FinancialCalculatorProps) {
   const [useVandefi, setUseVandefi] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [financingOption, setFinancingOption] = useState<'12' | '24' | 'contado'>('12');
 
   const price = useVandefi ? vandefiPrice : basePrice;
   const apartado = 50000;
@@ -20,6 +21,12 @@ export function FinancialCalculator({
   const enganche = Math.round(price * enganchePercent);
   const restante = price - apartado - enganche;
   const savings = basePrice - vandefiPrice;
+
+  // Financing calculations
+  const monthlyPayment12 = Math.round(restante / 12);
+  const interestRate24 = 0.08;
+  const totalWithInterest24 = restante * (1 + interestRate24);
+  const monthlyPayment24 = Math.round(totalWithInterest24 / 24);
 
   return (
     <div className="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-6">
@@ -78,8 +85,8 @@ export function FinancialCalculator({
           <div className="flex items-center gap-3">
             <CreditCard className="w-5 h-5 text-blue-400" />
             <div>
-              <p className="text-white text-sm font-medium">Enganche (30%)</p>
-              <p className="text-white/50 text-xs">Mínimo requerido</p>
+              <p className="text-white text-sm font-medium">Enganche (30% mínimo)</p>
+              <p className="text-white/50 text-xs">Requerido al firmar</p>
             </div>
           </div>
           <p className="text-blue-400 font-bold">${enganche.toLocaleString()} MXN</p>
@@ -89,11 +96,92 @@ export function FinancialCalculator({
           <div className="flex items-center gap-3">
             <CheckCircle className="w-5 h-5 text-white/40" />
             <div>
-              <p className="text-white text-sm font-medium">Restante</p>
-              <p className="text-white/50 text-xs">A financiar o pagar</p>
+              <p className="text-white text-sm font-medium">Saldo a financiar</p>
+              <p className="text-white/50 text-xs">Elige tu plan de pago</p>
             </div>
           </div>
           <p className="text-white font-bold">${restante.toLocaleString()} MXN</p>
+        </div>
+      </div>
+
+      {/* Financing Options */}
+      <div className="mb-6">
+        <p className="text-white/60 text-sm mb-3 flex items-center gap-2">
+          <Clock className="w-4 h-4" />
+          Opciones de Financiamiento
+        </p>
+        <div className="grid grid-cols-3 gap-2">
+          <button
+            onClick={() => setFinancingOption('contado')}
+            className={`p-3 rounded-xl border-2 transition-all text-center ${
+              financingOption === 'contado'
+                ? 'border-green-500 bg-green-500/10'
+                : 'border-white/10 bg-white/5 hover:border-white/20'
+            }`}
+            data-testid="button-financing-contado"
+          >
+            <p className="text-white font-bold text-sm">Contado</p>
+            <p className="text-green-400 text-xs mt-1">5% desc.</p>
+          </button>
+          <button
+            onClick={() => setFinancingOption('12')}
+            className={`p-3 rounded-xl border-2 transition-all text-center ${
+              financingOption === '12'
+                ? 'border-teal-500 bg-teal-500/10'
+                : 'border-white/10 bg-white/5 hover:border-white/20'
+            }`}
+            data-testid="button-financing-12"
+          >
+            <p className="text-white font-bold text-sm">12 Meses</p>
+            <p className="text-teal-400 text-xs mt-1">Sin intereses</p>
+          </button>
+          <button
+            onClick={() => setFinancingOption('24')}
+            className={`p-3 rounded-xl border-2 transition-all text-center ${
+              financingOption === '24'
+                ? 'border-purple-500 bg-purple-500/10'
+                : 'border-white/10 bg-white/5 hover:border-white/20'
+            }`}
+            data-testid="button-financing-24"
+          >
+            <p className="text-white font-bold text-sm">24 Meses</p>
+            <p className="text-purple-400 text-xs mt-1">8% anual</p>
+          </button>
+        </div>
+      </div>
+
+      {/* Monthly Payment Display */}
+      <div className="p-4 bg-gradient-to-r from-teal-500/20 to-blue-500/20 border border-teal-500/30 rounded-xl mb-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-white/60 text-sm">
+              {financingOption === 'contado' 
+                ? 'Pago único del saldo' 
+                : `Mensualidad a ${financingOption} meses`}
+            </p>
+            {financingOption === '24' && (
+              <p className="text-purple-400 text-xs flex items-center gap-1 mt-1">
+                <Percent className="w-3 h-3" />
+                8% anual incluido
+              </p>
+            )}
+            {financingOption === '12' && (
+              <p className="text-teal-400 text-xs mt-1">Sin intereses</p>
+            )}
+            {financingOption === 'contado' && (
+              <p className="text-green-400 text-xs mt-1">Descuento 5% aplicado</p>
+            )}
+          </div>
+          <div className="text-right">
+            <p className="text-white font-bold text-xl">
+              ${financingOption === 'contado' 
+                ? Math.round(restante * 0.95).toLocaleString()
+                : financingOption === '12'
+                  ? monthlyPayment12.toLocaleString()
+                  : monthlyPayment24.toLocaleString()}
+            </p>
+            <p className="text-white/40 text-xs">MXN{financingOption !== 'contado' ? ' /mes' : ''}</p>
+          </div>
         </div>
       </div>
 
@@ -125,10 +213,39 @@ export function FinancialCalculator({
             <span>= Saldo a financiar</span>
             <span>${restante.toLocaleString()} MXN</span>
           </div>
+          
+          {financingOption === '12' && (
+            <div className="mt-3 p-2 bg-teal-500/10 rounded-lg">
+              <p className="text-teal-400 text-xs text-center">
+                12 pagos de <span className="font-bold">${monthlyPayment12.toLocaleString()} MXN</span> sin intereses
+              </p>
+            </div>
+          )}
+          
+          {financingOption === '24' && (
+            <div className="mt-3 p-2 bg-purple-500/10 rounded-lg space-y-1">
+              <p className="text-purple-400 text-xs text-center">
+                24 pagos de <span className="font-bold">${monthlyPayment24.toLocaleString()} MXN</span>
+              </p>
+              <p className="text-purple-400/60 text-xs text-center">
+                Total con interés: ${Math.round(totalWithInterest24).toLocaleString()} MXN
+              </p>
+            </div>
+          )}
+          
+          {financingOption === 'contado' && (
+            <div className="mt-3 p-2 bg-green-500/10 rounded-lg">
+              <p className="text-green-400 text-xs text-center">
+                Pago único: <span className="font-bold">${Math.round(restante * 0.95).toLocaleString()} MXN</span>
+                <span className="text-green-400/60"> (5% descuento)</span>
+              </p>
+            </div>
+          )}
+
           {useVandefi && (
             <div className="mt-3 p-2 bg-green-500/10 rounded-lg text-center">
               <p className="text-green-400 text-xs">
-                Ahorro total con VanDeFi: <span className="font-bold">${savings.toLocaleString()} MXN</span>
+                Ahorro con VanDeFi: <span className="font-bold">${savings.toLocaleString()} MXN</span>
               </p>
             </div>
           )}
@@ -148,11 +265,11 @@ export function PricingBadge({ className = '' }: { className?: string }) {
   return (
     <div className={`inline-flex flex-col items-center gap-1 ${className}`}>
       <div className="flex items-center gap-2">
-        <span className="text-white font-bold text-xl">$650,000 MXN</span>
-        <span className="text-white/40 text-sm">/ fracción</span>
+        <span className="text-2xl font-bold text-white">$650,000</span>
+        <span className="text-white/60 text-sm">MXN</span>
       </div>
-      <div className="flex items-center gap-1.5 text-green-400 text-sm">
-        <Sparkles className="w-3.5 h-3.5" />
+      <div className="flex items-center gap-2 text-green-400 text-sm">
+        <Sparkles className="w-4 h-4" />
         <span>$600,000 con VanDeFi</span>
       </div>
     </div>

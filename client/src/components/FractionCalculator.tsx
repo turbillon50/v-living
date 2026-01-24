@@ -12,7 +12,7 @@ interface FractionCalculatorProps {
 export function FractionCalculator({ 
   propertyTitle = "Propiedad",
   totalValue = 520000,
-  fractionPrice = 65000,
+  fractionPrice = 650000,
   onProceedToPayment 
 }: FractionCalculatorProps) {
   const { language } = useLanguage();

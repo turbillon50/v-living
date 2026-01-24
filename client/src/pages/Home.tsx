@@ -130,7 +130,7 @@ export default function Home() {
                     </div>
                     
                     <p className="text-[#1a1a1a]">
-                      <span className="text-lg font-medium">${(property.fractionPrice || 65000).toLocaleString()}</span>
+                      <span className="text-lg font-medium">${(property.fractionPrice || 650000).toLocaleString()}</span>
                       <span className="text-stone-500 text-sm"> / {language === 'es' ? 'fracción' : 'fraction'}</span>
                     </p>
                   </article>
