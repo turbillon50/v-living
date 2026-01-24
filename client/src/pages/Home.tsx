@@ -64,6 +64,62 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Infrastructure Section */}
+      <section className="py-16 bg-[#1a1a1a]">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <p className="text-xs text-teal-400 uppercase tracking-[0.2em] mb-3 font-medium">
+              {language === 'es' ? 'Respaldo Real' : 'Real Backing'}
+            </p>
+            <h2 className="text-2xl md:text-3xl font-extralight text-white mb-4">
+              {language === 'es' ? 'Infraestructura que te respalda' : 'Infrastructure that backs you'}
+            </h2>
+            <p className="text-white/50 max-w-2xl mx-auto">
+              {language === 'es' 
+                ? 'No somos intermediarios. Somos propietarios, operadores y administradores de cada activo.'
+                : 'We are not intermediaries. We are owners, operators, and managers of every asset.'}
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-4 gap-6">
+            {[
+              { 
+                icon: '🏛️',
+                title: language === 'es' ? 'Estructura Legal' : 'Legal Structure',
+                desc: language === 'es' ? 'Fideicomiso inmobiliario • Propiedad heredable • Registro público' : 'Real estate trust • Inheritable ownership • Public registry'
+              },
+              { 
+                icon: '🔧',
+                title: language === 'es' ? 'Operación 24/7' : '24/7 Operations',
+                desc: language === 'es' ? 'Mantenimiento • Limpieza • Seguridad • Concierge permanente' : 'Maintenance • Cleaning • Security • Permanent concierge'
+              },
+              { 
+                icon: '💼',
+                title: language === 'es' ? 'Gestión de Rentas' : 'Rental Management',
+                desc: language === 'es' ? 'Comercialización • Cobro • Distribución de rendimientos' : 'Marketing • Collection • Yield distribution'
+              },
+              { 
+                icon: '📊',
+                title: language === 'es' ? 'Respaldo Financiero' : 'Financial Backing',
+                desc: language === 'es' ? 'VanDeFi Wallet • Last Minute Capital • Financiamiento directo' : 'VanDeFi Wallet • Last Minute Capital • Direct financing'
+              }
+            ].map((item, i) => (
+              <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-5 text-center hover:border-teal-500/30 transition-colors">
+                <div className="text-3xl mb-3">{item.icon}</div>
+                <h3 className="text-white font-medium text-sm mb-2">{item.title}</h3>
+                <p className="text-white/50 text-xs leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-10 text-center">
+            <p className="text-teal-400 text-sm font-medium">
+              {language === 'es' ? 'Te acompañamos en cada paso del proceso' : 'We accompany you every step of the way'}
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Properties */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
