@@ -85,8 +85,8 @@ export default function Home() {
             {[
               { 
                 icon: '🏛️',
-                title: language === 'es' ? 'Estructura Legal' : 'Legal Structure',
-                desc: language === 'es' ? 'Fideicomiso inmobiliario • Propiedad heredable • Registro público' : 'Real estate trust • Inheritable ownership • Public registry'
+                title: language === 'es' ? 'Marco Legal' : 'Legal Framework',
+                desc: language === 'es' ? 'Contrato de cesión de derechos fiduciarios • Escritura ante notario • Propiedad heredable' : 'Fiduciary rights assignment contract • Notarized deed • Inheritable ownership'
               },
               { 
                 icon: '🔧',
@@ -116,6 +116,34 @@ export default function Home() {
             <p className="text-teal-400 text-sm font-medium">
               {language === 'es' ? 'Te acompañamos en cada paso del proceso' : 'We accompany you every step of the way'}
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Broker/Influencer CTA */}
+      <section className="py-12 bg-gradient-to-r from-purple-900/20 to-teal-900/20 border-y border-white/10">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-center md:text-left">
+              <h3 className="text-xl md:text-2xl font-light text-white mb-2">
+                {language === 'es' ? '¿Quieres ser Broker o Influencer?' : 'Want to be a Broker or Influencer?'}
+              </h3>
+              <p className="text-white/60 text-sm max-w-lg">
+                {language === 'es' 
+                  ? 'Comisiones desde 6% • Beneficios de ocupación • Capacitación constante • Leads directos • Red de comunicación'
+                  : '6%+ commissions • Occupancy benefits • Constant training • Direct leads • Communication network'}
+              </p>
+            </div>
+            <a
+              href="https://wa.me/529984292748?text=Hola,%20quiero%20ser%20broker/influencer%20de%20Fractional%20Living"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors whitespace-nowrap"
+              data-testid="button-broker"
+            >
+              <span>💼</span>
+              {language === 'es' ? 'Únete al Ecosistema' : 'Join the Ecosystem'}
+            </a>
           </div>
         </div>
       </section>
