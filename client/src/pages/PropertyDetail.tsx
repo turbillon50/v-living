@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { getPropertyById, getBookedWeeks, createPreBooking } from '@/lib/api';
 import { FloatingButtons } from '@/components/FloatingButtons';
+import { FinancialCalculator } from '@/components/FinancialCalculator';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/lib/LanguageContext';
@@ -76,19 +77,26 @@ export default function PropertyDetail() {
     enabled: !!id,
   });
 
+  const propertyBlockedWeeks = (property as any)?.blockedWeeks || [];
+  const creatorBlockedWeeks = (property as any)?.creatorBlockedWeeks || [];
+
   const weeks = useMemo(() => {
+    const allBlockedWeeks = [...blockedWeeks, ...propertyBlockedWeeks];
     return Array.from({ length: 52 }, (_, i) => {
       const weekNum = i + 1;
       const dates = getWeekDates(weekNum);
+      const isCreatorBlocked = creatorBlockedWeeks.includes(weekNum);
+      const isBlocked = allBlockedWeeks.includes(weekNum);
       return {
         weekNumber: weekNum,
-        available: !bookedWeeks.includes(weekNum) && !blockedWeeks.includes(weekNum),
-        isBlocked: blockedWeeks.includes(weekNum),
+        available: !bookedWeeks.includes(weekNum) && !isBlocked && !isCreatorBlocked,
+        isBlocked,
         isBooked: bookedWeeks.includes(weekNum),
+        isCreatorBlocked,
         ...dates
       };
     });
-  }, [bookedWeeks, blockedWeeks]);
+  }, [bookedWeeks, blockedWeeks, propertyBlockedWeeks, creatorBlockedWeeks]);
 
   const bookingMutation = useMutation({
     mutationFn: (data: { propertyId: string; email: string; selectedWeeks: number[] }) =>
@@ -325,7 +333,7 @@ export default function PropertyDetail() {
 
             <div className="py-6">
               <h2 className="text-lg font-semibold mb-4">Calculadora de pagos</h2>
-              <FinancialCalculator price={price} />
+              <FinancialCalculator basePrice={650000} vandefiPrice={600000} />
             </div>
           </div>
 
@@ -333,8 +341,11 @@ export default function PropertyDetail() {
             <div className="sticky top-24 border rounded-xl p-6 shadow-lg">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <span className="text-xl font-semibold">{formatPrice(price)}</span>
-                  <span className="text-gray-500"> fracción</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl font-semibold">$650,000 MXN</span>
+                    <span className="text-gray-500 text-sm">/ fracción</span>
+                  </div>
+                  <p className="text-green-600 text-sm font-medium">$600,000 con VanDeFi</p>
                 </div>
                 <button 
                   onClick={handleCreatorAccess} 
@@ -389,8 +400,9 @@ export default function PropertyDetail() {
                       disabled={!isCreatorMode && !week.available}
                       className={cn(
                         "w-full px-4 py-3 text-left transition-all flex items-center justify-between text-sm",
-                        week.isBlocked && "bg-red-50 text-red-600",
-                        week.isBooked && !week.isBlocked && "bg-gray-50 text-gray-400 cursor-not-allowed",
+                        week.isCreatorBlocked && "bg-purple-50 text-purple-600",
+                        week.isBlocked && !week.isCreatorBlocked && "bg-red-50 text-red-600",
+                        week.isBooked && !week.isBlocked && !week.isCreatorBlocked && "bg-gray-50 text-gray-400 cursor-not-allowed",
                         week.available && !selectedWeeks.includes(week.weekNumber) && "hover:bg-gray-50",
                         selectedWeeks.includes(week.weekNumber) && "bg-gray-900 text-white"
                       )}
@@ -405,8 +417,9 @@ export default function PropertyDetail() {
                         </span>
                         <span>{week.start} - {week.end}</span>
                       </div>
-                      {week.isBlocked && <Lock className="w-3.5 h-3.5" />}
-                      {week.isBooked && !week.isBlocked && <span className="text-xs">Reservada</span>}
+                      {week.isCreatorBlocked && <span className="text-xs text-purple-500">Apartada</span>}
+                      {week.isBlocked && !week.isCreatorBlocked && <Lock className="w-3.5 h-3.5" />}
+                      {week.isBooked && !week.isBlocked && !week.isCreatorBlocked && <span className="text-xs">Reservada</span>}
                       {selectedWeeks.includes(week.weekNumber) && <Check className="w-4 h-4" />}
                     </button>
                   ))}
@@ -528,53 +541,3 @@ export default function PropertyDetail() {
   );
 }
 
-function FinancialCalculator({ price }: { price: number }) {
-  const [downPayment, setDownPayment] = useState(20);
-  const [term, setTerm] = useState<12 | 24 | 36>(12);
-  const rates = { 12: 0, 24: 6, 36: 9 };
-  const downPaymentAmount = (price * downPayment) / 100;
-  const financeAmount = price - downPaymentAmount;
-  const annualRate = rates[term] / 100;
-  const monthlyRate = annualRate / 12;
-  const monthlyPayment = monthlyRate === 0 
-    ? financeAmount / term 
-    : (financeAmount * monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
-
-  return (
-    <div className="bg-gray-50 rounded-xl p-6 space-y-4">
-      <div>
-        <label className="text-sm text-gray-600 mb-2 block">
-          Enganche: {downPayment}% (${downPaymentAmount.toLocaleString()} MXN)
-        </label>
-        <input 
-          type="range" 
-          min="10" 
-          max="50" 
-          value={downPayment} 
-          onChange={(e) => setDownPayment(Number(e.target.value))} 
-          className="w-full accent-gray-900"
-          data-testid="down-payment-slider"
-        />
-      </div>
-      <div className="grid grid-cols-3 gap-2">
-        {([12, 24, 36] as const).map((t) => (
-          <button 
-            key={t} 
-            onClick={() => setTerm(t)} 
-            className={cn(
-              "py-3 rounded-lg text-sm font-medium transition-colors border",
-              term === t ? "bg-gray-900 text-white border-gray-900" : "bg-white border-gray-200 hover:bg-gray-50"
-            )}
-            data-testid={`term-${t}`}
-          >
-            {t} meses{rates[t] > 0 && ` (${rates[t]}%)`}
-          </button>
-        ))}
-      </div>
-      <div className="pt-4 border-t">
-        <p className="text-sm text-gray-500">Pago mensual estimado</p>
-        <p className="text-3xl font-semibold">${Math.round(monthlyPayment).toLocaleString()} <span className="text-lg font-normal text-gray-500">MXN/mes</span></p>
-      </div>
-    </div>
-  );
-}

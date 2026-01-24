@@ -22,6 +22,7 @@ interface Property {
   videos: string[];
   amenities: string[];
   blockedWeeks: number[];
+  creatorBlockedWeeks: number[];
   price: number;
   priceHighSeason: number | null;
   priceMidSeason: number | null;
@@ -138,6 +139,7 @@ export default function CreatorDashboard() {
     videos: [] as string[],
     amenities: [] as string[],
     blockedWeeks: [] as number[],
+    creatorBlockedWeeks: [] as number[],
     price: 650000,
     priceHighSeason: null as number | null,
     priceMidSeason: null as number | null,
@@ -358,7 +360,7 @@ export default function CreatorDashboard() {
   const resetForm = () => {
     setFormData({
       title: '', location: '', description: '', category: 'Propiedades',
-      images: [], videos: [], amenities: [], blockedWeeks: [],
+      images: [], videos: [], amenities: [], blockedWeeks: [], creatorBlockedWeeks: [],
       price: 650000, priceHighSeason: null, priceMidSeason: null, priceLowSeason: null,
       videoUrl: '', mapUrl: '', bedrooms: 2, bathrooms: 2, maxGuests: 6, tag: ''
     });
@@ -378,6 +380,7 @@ export default function CreatorDashboard() {
       videos: property.videos || [],
       amenities: property.amenities || [],
       blockedWeeks: property.blockedWeeks || [],
+      creatorBlockedWeeks: (property as any).creatorBlockedWeeks || [],
       price: property.price || 650000,
       priceHighSeason: property.priceHighSeason,
       priceMidSeason: property.priceMidSeason,
@@ -498,6 +501,15 @@ export default function CreatorDashboard() {
       blockedWeeks: prev.blockedWeeks.includes(week)
         ? prev.blockedWeeks.filter(w => w !== week)
         : [...prev.blockedWeeks, week]
+    }));
+  };
+
+  const toggleCreatorBlockedWeek = (week: number) => {
+    setFormData(prev => ({
+      ...prev,
+      creatorBlockedWeeks: prev.creatorBlockedWeeks.includes(week)
+        ? prev.creatorBlockedWeeks.filter(w => w !== week)
+        : [...prev.creatorBlockedWeeks, week]
     }));
   };
 
@@ -799,19 +811,37 @@ export default function CreatorDashboard() {
 
                   <div className="bg-white/5 rounded-xl border border-white/10 p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-medium text-sm text-white">Bloquear Semanas</h3>
+                      <h3 className="font-medium text-sm text-white">Semanas Apartadas (Creador)</h3>
+                      <span className="text-xs text-purple-400 bg-purple-500/20 px-2 py-1 rounded-full">{formData.creatorBlockedWeeks.length} apartadas</span>
+                    </div>
+                    <p className="text-xs text-white/50 mb-3">Semanas reservadas internamente. Se muestran en morado.</p>
+                    <div className="grid grid-cols-13 gap-1">
+                      {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
+                        <button key={week} onClick={() => toggleCreatorBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.creatorBlockedWeeks.includes(week) ? "bg-purple-500 text-white" : formData.blockedWeeks.includes(week) ? "bg-red-500/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
+                          {week}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-medium text-sm text-white">Bloquear Semanas (No disponibles)</h3>
                       <Button variant="outline" size="sm" onClick={() => setShowWeekBlocker(!showWeekBlocker)} className="border-white/20 text-white hover:bg-white/10">
                         <CalendarOff className="w-3.5 h-3.5 mr-1" /> {formData.blockedWeeks.length}
                       </Button>
                     </div>
                     {showWeekBlocker && (
-                      <div className="grid grid-cols-13 gap-1">
-                        {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
-                          <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-red-500 text-white" : "bg-white/10 text-white/60")}>
-                            {week}
-                          </button>
-                        ))}
-                      </div>
+                      <>
+                        <p className="text-xs text-white/50 mb-3">Semanas no disponibles para reserva. Se muestran en rojo.</p>
+                        <div className="grid grid-cols-13 gap-1">
+                          {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
+                            <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-red-500 text-white" : formData.creatorBlockedWeeks.includes(week) ? "bg-purple-500/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
+                              {week}
+                            </button>
+                          ))}
+                        </div>
+                      </>
                     )}
                   </div>
 
