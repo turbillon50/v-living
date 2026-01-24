@@ -1,6 +1,7 @@
 import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
-import { rm, readFile } from "fs/promises";
+import { rm, readFile, cp, mkdir } from "fs/promises";
+import { existsSync } from "fs";
 
 // server deps to bundle to reduce openat(2) syscalls
 // which helps cold start times
@@ -59,6 +60,13 @@ async function buildAll() {
     external: externals,
     logLevel: "info",
   });
+
+  // Copy attached_assets to dist for production
+  if (existsSync("attached_assets")) {
+    console.log("copying attached_assets...");
+    await mkdir("dist/attached_assets", { recursive: true });
+    await cp("attached_assets", "dist/attached_assets", { recursive: true });
+  }
 }
 
 buildAll().catch((err) => {

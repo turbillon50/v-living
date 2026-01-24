@@ -11,7 +11,7 @@ export function serveStatic(app: Express) {
   }
 
   // Serve attached_assets for images in production
-  const attachedAssetsPath = path.resolve(process.cwd(), "attached_assets");
+  const attachedAssetsPath = path.resolve(__dirname, "attached_assets");
   if (fs.existsSync(attachedAssetsPath)) {
     app.use("/attached_assets", express.static(attachedAssetsPath));
   }
