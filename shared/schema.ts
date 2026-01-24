@@ -32,6 +32,7 @@ export const properties = pgTable("properties", {
   amenities: jsonb("amenities").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
   highlights: jsonb("highlights").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
   blockedWeeks: jsonb("blocked_weeks").$type<number[]>().notNull().default(sql`'[]'::jsonb`),
+  creatorBlockedWeeks: jsonb("creator_blocked_weeks").$type<number[]>().notNull().default(sql`'[]'::jsonb`),
   price: integer("price").default(650000),
   pricePerNight: integer("price_per_night").default(500),
   priceHighSeason: integer("price_high_season"),
