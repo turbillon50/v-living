@@ -159,7 +159,9 @@ export default function Fractional() {
     { id: 'Yachts', label: 'Yachts' },
   ];
 
-  const filteredProperties = properties.filter(p => {
+  const attikOnly = properties.filter(p => p.title?.includes('ATTIK'));
+  
+  const filteredProperties = attikOnly.filter(p => {
     const matchesSearch = p.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.location?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = activeCategory === 'all' || p.category === activeCategory;
