@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema, insertSubscriberSchema, insertNavButtonSchema, insertCategorySchema, insertLeadSchema } from "@shared/schema";
 import { z } from "zod";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
+import { sendLeadConfirmationEmail } from "./resend";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -474,7 +475,15 @@ export async function registerRoutes(
       const data = insertLeadSchema.parse(req.body);
       const lead = await storage.createLead(data);
       
-      // TODO: Send confirmation email via Resend when configured
+      // Send confirmation email via Resend
+      try {
+        const emailResult = await sendLeadConfirmationEmail(data.email, data.interest, data.name || undefined);
+        if (emailResult.success) {
+          await storage.markLeadEmailSent(lead.id);
+        }
+      } catch (emailError) {
+        console.error("Error sending confirmation email:", emailError);
+      }
       
       res.status(201).json({ 
         success: true, 
