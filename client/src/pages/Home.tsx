@@ -15,7 +15,6 @@ export default function Home() {
   });
 
   const attikProperties = properties.filter(p => p.title.includes('ATTIK'));
-  const almyriaProperties = properties.filter(p => p.title.includes('ALMYRIA'));
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
@@ -41,7 +40,7 @@ export default function Home() {
           {/* Stats en línea */}
           <div className="flex justify-center gap-6 mb-6">
             <div className="text-center">
-              <p className="text-2xl font-light text-white">16</p>
+              <p className="text-2xl font-light text-white">10</p>
               <p className="text-[10px] text-white/40 uppercase">Props</p>
             </div>
             <div className="text-center">
@@ -145,78 +144,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* ALMYRIA Properties - Scroll Horizontal */}
-      {almyriaProperties.length > 0 && (
-        <section className="pb-8">
-          <div className="px-5 mb-4 flex items-end justify-between">
-            <div>
-              <p className="text-purple-400 text-xs font-medium uppercase tracking-wider mb-1">Proyecto ALMYRIA</p>
-              <h2 className="text-xl font-light text-white">Riviera Maya</h2>
-            </div>
-            <Link href="/fractional">
-              <span className="text-xs text-white/50 flex items-center gap-1">
-                Ver todo <ChevronRight className="w-3 h-3" />
-              </span>
-            </Link>
-          </div>
-          
-          <div className="overflow-x-auto scrollbar-hide">
-            <div className="flex gap-4 px-5 pb-2" style={{ width: 'max-content' }}>
-              {almyriaProperties.map((property) => (
-                <Link key={property.id} href={`/property/${property.id}`}>
-                  <div className="w-[280px] bg-white/5 rounded-xl overflow-hidden border border-white/10 active:scale-[0.98] transition-transform" data-testid={`card-property-${property.id}`}>
-                    <div className="h-40 bg-gradient-to-br from-purple-900/50 to-pink-900/50 flex items-center justify-center relative">
-                      {property.images?.[0] ? (
-                        <img 
-                          src={property.images[0]} 
-                          alt={property.title}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="text-center">
-                          <span className="text-4xl font-extralight text-white/20">ALMYRIA</span>
-                          <p className="text-white/30 text-xs mt-1">{property.sqMeters}m²</p>
-                        </div>
-                      )}
-                      {property.tag && (
-                        <span className="absolute top-3 left-3 bg-purple-500 text-white text-[10px] px-2 py-1 rounded-full font-medium">
-                          {property.tag}
-                        </span>
-                      )}
-                    </div>
-                    
-                    <div className="p-4">
-                      <h3 className="text-white font-medium text-sm mb-1 truncate">
-                        {property.title.replace('ALMYRIA ', '')}
-                      </h3>
-                      
-                      <div className="flex items-center gap-3 text-[11px] text-white/40 mb-3">
-                        <span>{property.sqMeters}m²</span>
-                        <span>•</span>
-                        <span>{property.bedrooms} rec</span>
-                        <span>•</span>
-                        <span>{property.bathrooms} baño</span>
-                      </div>
-                      
-                      <div className="flex items-end justify-between">
-                        <div>
-                          <p className="text-purple-400 font-semibold text-lg">
-                            ${((property.price || 950000) / 1000).toFixed(0)}K
-                          </p>
-                          <p className="text-white/30 text-[10px]">MXN / fracción</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-white/50 text-xs">14 fracciones</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Por qué invertir - Cards simples */}
       <section className="px-5 pb-8">
@@ -253,7 +180,7 @@ export default function Home() {
               {language === 'es' ? 'Explorar Todas las Propiedades' : 'Explore All Properties'}
             </p>
             <p className="text-stone-500 text-sm">
-              16 propiedades • 224 fracciones disponibles
+              10 propiedades ATTIK • 140 fracciones
             </p>
           </div>
         </Link>
