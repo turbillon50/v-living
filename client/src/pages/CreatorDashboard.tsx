@@ -15,15 +15,23 @@ import { cn } from '@/lib/utils';
 interface Property {
   id: string;
   title: string;
+  subtitle: string | null;
   category: string;
   location: string;
+  country: string | null;
   description: string;
   images: string[];
   videos: string[];
   amenities: string[];
+  conditions: string[];
   blockedWeeks: number[];
   creatorBlockedWeeks: number[];
   price: number;
+  fractionPrice: number | null;
+  totalFractions: number | null;
+  availableFractions: number | null;
+  weeksPerFraction: number | null;
+  currency: string | null;
   priceHighSeason: number | null;
   priceMidSeason: number | null;
   priceLowSeason: number | null;
@@ -32,8 +40,10 @@ interface Property {
   bedrooms: number;
   bathrooms: number;
   maxGuests: number;
+  sqMeters: number | null;
   viewCount: number;
   tag: string | null;
+  isFeatured: boolean | null;
 }
 
 interface Booking {
@@ -387,23 +397,23 @@ export default function CreatorDashboard() {
   const handleEdit = (property: Property) => {
     setFormData({
       title: property.title,
-      subtitle: (property as any).subtitle || '',
+      subtitle: property.subtitle || '',
       location: property.location,
-      country: (property as any).country || 'México',
+      country: property.country || 'México',
       description: property.description,
       category: property.category,
       images: property.images || [],
       videos: property.videos || [],
       amenities: property.amenities || [],
-      conditions: (property as any).conditions || [],
+      conditions: property.conditions || [],
       blockedWeeks: property.blockedWeeks || [],
-      creatorBlockedWeeks: (property as any).creatorBlockedWeeks || [],
+      creatorBlockedWeeks: property.creatorBlockedWeeks || [],
       price: property.price || 650000,
-      fractionPrice: (property as any).fractionPrice || 65000,
-      totalFractions: (property as any).totalFractions || 14,
-      availableFractions: (property as any).availableFractions || 14,
-      weeksPerFraction: (property as any).weeksPerFraction || 3,
-      currency: (property as any).currency || 'MXN',
+      fractionPrice: property.fractionPrice || 65000,
+      totalFractions: property.totalFractions || 14,
+      availableFractions: property.availableFractions || 14,
+      weeksPerFraction: property.weeksPerFraction || 3,
+      currency: property.currency || 'MXN',
       priceHighSeason: property.priceHighSeason,
       priceMidSeason: property.priceMidSeason,
       priceLowSeason: property.priceLowSeason,
@@ -412,9 +422,9 @@ export default function CreatorDashboard() {
       bedrooms: property.bedrooms || 2,
       bathrooms: property.bathrooms || 2,
       maxGuests: property.maxGuests || 6,
-      sqMeters: (property as any).sqMeters || 150,
+      sqMeters: property.sqMeters || 150,
       tag: property.tag || '',
-      isFeatured: (property as any).isFeatured || false
+      isFeatured: property.isFeatured || false
     });
     setEditingProperty(property);
     setIsCreating(true);
