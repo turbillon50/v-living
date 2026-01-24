@@ -127,7 +127,7 @@ export default function Invest() {
           
           <FractionCalculator 
             propertyTitle={selectedProperty?.title}
-            totalValue={(selectedProperty?.fractionPrice || 650000) * 8}
+            totalValue={(selectedProperty?.fractionPrice || 650000) * 14}
             fractionPrice={selectedProperty?.fractionPrice || 650000}
             onProceedToPayment={handleProceedToPayment}
           />

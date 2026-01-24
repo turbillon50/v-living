@@ -18,7 +18,7 @@ export function FractionCalculator({
   const { language } = useLanguage();
   const [paymentMethod, setPaymentMethod] = useState<'fiat' | 'crypto'>('fiat');
 
-  const totalFractions = 8;
+  const totalFractions = 14;
   const soldFractions = 3;
   const availableFractions = totalFractions - soldFractions;
   

@@ -47,8 +47,8 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid grid-cols-4 gap-8">
             {[
-              { value: '227', label: language === 'es' ? 'Fracciones' : 'Fractions' },
-              { value: '22', label: language === 'es' ? 'Propiedades' : 'Properties' },
+              { value: '224', label: language === 'es' ? 'Fracciones' : 'Fractions' },
+              { value: '16', label: language === 'es' ? 'Propiedades' : 'Properties' },
               { value: '$650K', label: 'MXN' },
               { value: '3', label: language === 'es' ? 'Semanas/año' : 'Weeks/year' },
             ].map((stat, i) => (
