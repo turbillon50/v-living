@@ -16,7 +16,7 @@ export default function Fractional() {
   });
 
   return (
-    <div className="min-h-screen bg-white pb-24">
+    <div className="min-h-screen bg-white pb-40">
       <Header />
 
       {/* Hero con slogan */}
@@ -147,7 +147,7 @@ export default function Fractional() {
       </section>
 
       {/* WhatsApp */}
-      <section className="px-4 pb-28">
+      <section className="px-4 pb-40">
         <a 
           href="https://wa.me/529984292748?text=Hola,%20me%20interesan%20las%20fracciones"
           target="_blank"

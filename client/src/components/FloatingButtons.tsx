@@ -11,7 +11,7 @@ export function FloatingButtons() {
   };
 
   return (
-    <div className="fixed bottom-6 left-6 z-40">
+    <div className="fixed bottom-24 left-4 z-40">
       <Button 
         size="lg" 
         className="rounded-full h-14 w-14 shadow-xl bg-[#25D366] hover:bg-[#20BD5A] text-white"

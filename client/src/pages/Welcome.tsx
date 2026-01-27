@@ -7,7 +7,7 @@ export default function Welcome() {
   const [showBeneficios, setShowBeneficios] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white pb-28">
+    <div className="min-h-screen bg-white pb-40">
       <header className="flex items-center justify-between px-6 md:px-12 py-4 border-b border-gray-100">
         <p className="text-gray-500 text-xs tracking-[0.2em] uppercase">All Global Holding LLC</p>
         <div className="flex items-center gap-4">
