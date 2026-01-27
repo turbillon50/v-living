@@ -18,7 +18,7 @@ const experienceCategories = [
     description: 'Navegación exclusiva en el Caribe mexicano',
     benefit: '30% OFF o GRATIS',
     image: '/exp-yates.jpg',
-    href: null,
+    href: '/exp-yates',
     icon: Ship
   },
   { 
@@ -27,7 +27,7 @@ const experienceCategories = [
     description: 'Gastronomía de clase mundial en Tulum',
     benefit: '30% OFF',
     image: '/exp-restaurantes.jpg',
-    href: null,
+    href: '/exp-restaurantes',
     icon: UtensilsCrossed
   },
   { 
@@ -36,7 +36,7 @@ const experienceCategories = [
     description: 'Celebraciones únicas y memorables',
     benefit: '30% OFF',
     image: '/exp-eventos.jpg',
-    href: null,
+    href: '/exp-eventos',
     icon: PartyPopper
   },
   { 
@@ -45,7 +45,7 @@ const experienceCategories = [
     description: 'Asistencia personalizada en todo momento',
     benefit: 'INCLUIDO',
     image: '/exp-concierge.jpg',
-    href: null,
+    href: '/exp-concierge',
     icon: Headphones
   },
   { 
@@ -54,7 +54,7 @@ const experienceCategories = [
     description: 'Transporte ejecutivo y discreto',
     benefit: '30% OFF',
     image: '/exp-chofer.jpg',
-    href: null,
+    href: '/exp-chofer',
     icon: UserCheck
   },
   { 
@@ -63,7 +63,7 @@ const experienceCategories = [
     description: 'Cuidado profesional certificado',
     benefit: '30% OFF',
     image: '/exp-nineras.jpg',
-    href: null,
+    href: '/exp-nineras',
     icon: Baby
   },
   { 
@@ -72,7 +72,7 @@ const experienceCategories = [
     description: 'Aventuras exclusivas diseñadas para ti',
     benefit: '30% OFF o GRATIS',
     image: '/exp-privadas.jpg',
-    href: null,
+    href: '/exp-privadas',
     icon: Palmtree
   },
 ];
@@ -125,19 +125,7 @@ export default function Experiences() {
               </div>
             );
 
-            if (exp.href) {
-              return <Link key={exp.id} href={exp.href}>{content}</Link>;
-            }
-            return (
-              <a 
-                key={exp.id}
-                href={`https://wa.me/529984292748?text=Hola,%20me%20interesa%20${encodeURIComponent(exp.title)}%20con%20el%20beneficio%20Fractional%20Living`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {content}
-              </a>
-            );
+            return <Link key={exp.id} href={exp.href}>{content}</Link>;
           })}
         </div>
 

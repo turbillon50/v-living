@@ -20,6 +20,14 @@ import LastMinuteCapital from "@/pages/LastMinuteCapital";
 import ModeloNegocios from "@/pages/ModeloNegocios";
 import Registro from "@/pages/Registro";
 import AutosLujo from "@/pages/AutosLujo";
+import ExpYates from "@/pages/ExpYates";
+import ExpRestaurantes from "@/pages/ExpRestaurantes";
+import ExpEventos from "@/pages/ExpEventos";
+import ExpConcierge from "@/pages/ExpConcierge";
+import ExpChofer from "@/pages/ExpChofer";
+import ExpNineras from "@/pages/ExpNineras";
+import ExpPrivadas from "@/pages/ExpPrivadas";
+import Multilinks from "@/pages/Multilinks";
 import NotFound from "@/pages/not-found";
 import { BottomNav } from "@/components/BottomNav";
 import { FloatingButtons } from "@/components/FloatingButtons";
@@ -45,6 +53,14 @@ function Router() {
       <Route path="/modelo-negocios" component={ModeloNegocios} />
       <Route path="/registro" component={Registro} />
       <Route path="/autos-lujo" component={AutosLujo} />
+      <Route path="/exp-yates" component={ExpYates} />
+      <Route path="/exp-restaurantes" component={ExpRestaurantes} />
+      <Route path="/exp-eventos" component={ExpEventos} />
+      <Route path="/exp-concierge" component={ExpConcierge} />
+      <Route path="/exp-chofer" component={ExpChofer} />
+      <Route path="/exp-nineras" component={ExpNineras} />
+      <Route path="/exp-privadas" component={ExpPrivadas} />
+      <Route path="/links" component={Multilinks} />
       <Route component={NotFound} />
     </Switch>
   );

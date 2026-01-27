@@ -153,21 +153,26 @@ export default function Invest() {
       <section className="py-12 bg-[#2d3a3a]">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-2xl font-light text-white mb-4">
-            {language === 'es' ? '¿Listo para invertir?' : 'Ready to invest?'}
+            {language === 'es' ? 'Sé Parte de la Familia' : 'Be Part of the Family'}
           </h2>
+          <p className="text-white/80 mb-4 text-lg">
+            {language === 'es' 
+              ? 'Contacta para pertenecer a la familia All Global Holding'
+              : 'Contact us to join the All Global Holding family'}
+          </p>
           <p className="text-white/60 mb-6">
             {language === 'es' 
-              ? 'Nuestro equipo te guiará en todo el proceso.'
-              : 'Our team will guide you through the entire process.'}
+              ? 'Seas desarrollador, broker, comprador o inversionista, tenemos un lugar para ti.'
+              : 'Whether developer, broker, buyer or investor, we have a place for you.'}
           </p>
           <a
-            href="https://wa.me/529984292748?text=Hola,%20quiero%20invertir%20en%20Fractional%20Living"
+            href="https://wa.me/529984292748?text=Hola,%20quiero%20ser%20parte%20de%20la%20familia%20All%20Global%20Holding"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 bg-[#4db6ac] text-white hover:bg-[#3da69c] transition-colors"
             data-testid="button-invest-cta"
           >
-            {language === 'es' ? 'Contactar Asesor' : 'Contact Advisor'}
+            {language === 'es' ? 'Contactar Ahora' : 'Contact Now'}
             <ChevronRight className="w-4 h-4" />
           </a>
         </div>

@@ -39,7 +39,7 @@ export default function ExpChofer() {
           <ul className="space-y-2 text-gray-700 text-sm">
             <li>• <strong>30% de descuento</strong> en servicio de chofer</li>
             <li>• Choferes bilingües profesionales</li>
-            <li>• Vehículos premium y ejecutivos</li>
+            <li>• Suburbans cómodas y espaciosas</li>
             <li>• Traslados aeropuerto incluidos</li>
             <li>• Servicio por hora o por día</li>
             <li>• Discreción y puntualidad garantizada</li>
