@@ -2,9 +2,12 @@ import { Property, InsertProperty, PreBooking, InsertPreBooking } from '@shared/
 
 const API_BASE = '/api';
 
-// Properties
+// Properties - con cache-busting para actualización en tiempo real
 export async function getProperties(): Promise<Property[]> {
-  const res = await fetch(`${API_BASE}/properties`);
+  const res = await fetch(`${API_BASE}/properties?t=${Date.now()}`, {
+    cache: 'no-store',
+    headers: { 'Cache-Control': 'no-cache' }
+  });
   if (!res.ok) throw new Error('Failed to fetch properties');
   return res.json();
 }

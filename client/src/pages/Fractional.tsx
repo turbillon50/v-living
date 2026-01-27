@@ -10,6 +10,9 @@ export default function Fractional() {
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['properties'],
     queryFn: getProperties,
+    staleTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
   });
 
   return (
