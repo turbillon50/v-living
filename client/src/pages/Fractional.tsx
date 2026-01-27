@@ -98,8 +98,8 @@ export default function Fractional() {
                     
                     <div className="flex items-center justify-between mt-2">
                       <p className="text-teal-600 font-bold text-sm">
-                        ${((property.price || 650000) / 1000).toFixed(0)}K
-                        <span className="text-gray-400 font-normal text-xs ml-1">{property.currency || 'MXN'}</span>
+                        ${((property.fractionPrice || property.price || 250000) / 1000).toFixed(0)}K
+                        <span className="text-gray-400 font-normal text-xs ml-1">/sem</span>
                       </p>
                       <ChevronRight className="w-4 h-4 text-gray-400" />
                     </div>

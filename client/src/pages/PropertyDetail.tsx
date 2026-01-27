@@ -331,128 +331,63 @@ export default function PropertyDetail() {
             )}
 
             <div className="py-6">
-              <h2 className="text-lg font-semibold mb-4">Calculadora de pagos</h2>
-              <FinancialCalculator basePrice={650000} vandefiPrice={600000} />
+              <h2 className="text-lg font-semibold mb-4">Plan de Inversión</h2>
+              <FinancialCalculator 
+                basePrice={property.fractionPrice || 250000}
+                prices2weeks={Math.round((property.fractionPrice || 250000) * 2 * 0.93)}
+                prices3weeks={Math.round((property.fractionPrice || 250000) * 3 * 0.86)}
+              />
             </div>
           </div>
 
           <div className="lg:col-span-1">
             <div className="sticky top-24 border rounded-xl p-6 shadow-lg">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl font-semibold">$650,000 MXN</span>
-                    <span className="text-gray-500 text-sm">/ fracción</span>
-                  </div>
-                  <p className="text-green-600 text-sm font-medium">$600,000 con VanDeFi</p>
+              <div className="mb-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-2xl font-bold text-gray-900">
+                    ${((property.fractionPrice || 250000) / 1000).toFixed(0)}K
+                  </span>
+                  <span className="text-gray-500">MXN / semana</span>
                 </div>
-                <button 
-                  onClick={handleCreatorAccess} 
-                  className={cn("p-2 rounded-full hover:bg-gray-100", isCreatorMode && "bg-gray-100")}
-                  data-testid="creator-mode-toggle"
-                >
-                  <Settings className="w-4 h-4 text-gray-500" />
+                <p className="text-gray-600 text-sm">Preventa · Máxima plusvalía</p>
+              </div>
+
+              <div className="space-y-3 mb-6">
+                <div className="flex items-center gap-3 p-3 bg-teal-50 rounded-xl">
+                  <Check className="w-5 h-5 text-teal-600" />
+                  <span className="text-gray-700 text-sm">30% enganche</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-xl">
+                  <Check className="w-5 h-5 text-blue-600" />
+                  <span className="text-gray-700 text-sm">12 meses sin intereses</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-xl">
+                  <Check className="w-5 h-5 text-purple-600" />
+                  <span className="text-gray-700 text-sm">Propiedad heredable</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 bg-green-50 rounded-xl">
+                  <Check className="w-5 h-5 text-green-600" />
+                  <span className="text-gray-700 text-sm">42 semanas disponibles/año</span>
+                </div>
+              </div>
+
+              <a 
+                href={`https://wa.me/529984292748?text=Hola,%20me%20interesa%20${encodeURIComponent(property.title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full py-4 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl text-center transition-colors mb-3"
+                data-testid="whatsapp-cta"
+              >
+                💬 Quiero Información
+              </a>
+
+              <Link href="/registro">
+                <button className="w-full py-4 border-2 border-gray-900 text-gray-900 font-semibold rounded-xl hover:bg-gray-900 hover:text-white transition-colors" data-testid="register-cta">
+                  Registrar Interés
                 </button>
-              </div>
+              </Link>
 
-              <div className="grid grid-cols-2 gap-2 mb-4">
-                <button 
-                  onClick={() => setBookingType('fraction')} 
-                  className={cn(
-                    "py-3 rounded-lg text-sm font-medium transition-all border",
-                    bookingType === 'fraction' 
-                      ? "bg-gray-900 text-white border-gray-900" 
-                      : "bg-white hover:bg-gray-50 border-gray-200"
-                  )}
-                  data-testid="booking-type-fraction"
-                >
-                  Comprar Fracción
-                </button>
-                <button 
-                  onClick={() => setBookingType('vacation')} 
-                  className={cn(
-                    "py-3 rounded-lg text-sm font-medium transition-all relative border",
-                    bookingType === 'vacation' 
-                      ? "bg-gray-900 text-white border-gray-900" 
-                      : "bg-white hover:bg-gray-50 border-gray-200"
-                  )}
-                  data-testid="booking-type-vacation"
-                >
-                  Vacacionar
-                  <span className="absolute -top-2 -right-2 text-[10px] bg-rose-500 text-white px-2 py-0.5 rounded-full">Pronto</span>
-                </button>
-              </div>
-
-              {isCreatorMode && (
-                <div className="mb-4 p-3 bg-amber-50 rounded-lg border border-amber-200">
-                  <p className="text-xs text-amber-700 font-medium">Modo Creador: Toca semanas para bloquear</p>
-                </div>
-              )}
-
-              <div className="mb-4">
-                <p className="text-sm font-medium mb-2">Selecciona {bookingType === 'fraction' ? '3' : ''} semanas</p>
-                <div className="max-h-[300px] overflow-y-auto space-y-1 pr-1 border rounded-lg">
-                  {weeks.map((week) => (
-                    <button
-                      key={week.weekNumber}
-                      onClick={() => isCreatorMode ? toggleBlockWeek(week.weekNumber) : week.available && toggleWeek(week.weekNumber)}
-                      disabled={!isCreatorMode && !week.available}
-                      className={cn(
-                        "w-full px-4 py-3 text-left transition-all flex items-center justify-between text-sm",
-                        week.isCreatorBlocked && "bg-purple-50 text-purple-600",
-                        week.isBlocked && !week.isCreatorBlocked && "bg-red-50 text-red-600",
-                        week.isBooked && !week.isBlocked && !week.isCreatorBlocked && "bg-gray-50 text-gray-400 cursor-not-allowed",
-                        week.available && !selectedWeeks.includes(week.weekNumber) && "hover:bg-gray-50",
-                        selectedWeeks.includes(week.weekNumber) && "bg-gray-900 text-white"
-                      )}
-                      data-testid={`week-${week.weekNumber}`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className={cn(
-                          "w-7 h-7 rounded-full flex items-center justify-center text-xs font-medium",
-                          selectedWeeks.includes(week.weekNumber) ? "bg-white/20" : "bg-gray-100 text-gray-600"
-                        )}>
-                          {week.weekNumber}
-                        </span>
-                        <span>{week.start} - {week.end}</span>
-                      </div>
-                      {week.isCreatorBlocked && <span className="text-xs text-purple-500">Apartada</span>}
-                      {week.isBlocked && !week.isCreatorBlocked && <Lock className="w-3.5 h-3.5" />}
-                      {week.isBooked && !week.isBlocked && !week.isCreatorBlocked && <span className="text-xs">Reservada</span>}
-                      {selectedWeeks.includes(week.weekNumber) && <Check className="w-4 h-4" />}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center justify-between text-sm py-2 border-t">
-                  <span>Semanas seleccionadas</span>
-                  <span className="font-medium">{selectedWeeks.length}{bookingType === 'fraction' && ' / 3'}</span>
-                </div>
-
-                {((bookingType === 'fraction' && selectedWeeks.length === 3) || (bookingType === 'vacation' && selectedWeeks.length > 0)) && (
-                  <>
-                    <Input 
-                      type="email" 
-                      placeholder="tu@email.com" 
-                      value={email} 
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="h-12"
-                      data-testid="email-input"
-                    />
-                    <Button 
-                      onClick={handleSubmit} 
-                      disabled={bookingMutation.isPending} 
-                      className="w-full h-12 bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white rounded-lg font-medium"
-                      data-testid="submit-booking"
-                    >
-                      {bookingMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Pre-Reservar"}
-                    </Button>
-                    <p className="text-xs text-center text-gray-500">Hold de 5 días · Sin cargo hasta confirmar</p>
-                  </>
-                )}
-              </div>
+              <p className="text-center text-gray-400 text-xs mt-4">Te contactamos en menos de 24 horas</p>
             </div>
           </div>
         </div>
