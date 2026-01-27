@@ -3,12 +3,13 @@ import { useQuery } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
 import { useLanguage } from '@/lib/LanguageContext';
 import { Property } from '@shared/schema';
-import { ChevronRight, MapPin, Sparkles, TrendingUp, Calendar, ChevronDown } from 'lucide-react';
+import { ChevronRight, MapPin, Sparkles, TrendingUp, Calendar, ChevronDown, X } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Home() {
   const { language } = useLanguage();
   const [showLegal, setShowLegal] = useState(false);
+  const [showBeneficios, setShowBeneficios] = useState(false);
   
   const { data: properties = [] } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
@@ -36,9 +37,23 @@ export default function Home() {
           <p className="text-base text-teal-600 font-bold mb-2">
             Compra • Vive • Renta • Revende • Repite
           </p>
-          <p className="text-xs text-gray-500 mb-6">
+          <p className="text-xs text-gray-500 mb-4">
             {language === 'es' ? 'Servicio llave en mano. Nosotros rentamos por ti.' : 'Turnkey service. We rent for you.'}
           </p>
+
+          {/* Botón Beneficios */}
+          <button 
+            onClick={() => setShowBeneficios(true)}
+            className="w-full max-w-xs mx-auto block mb-4 active:scale-[0.98] transition-transform"
+            data-testid="button-beneficios"
+          >
+            <img 
+              src="/beneficios-btn.png" 
+              alt="Beneficios Fractional Living" 
+              className="w-full rounded-xl shadow-lg"
+            />
+            <p className="text-teal-600 font-semibold text-sm mt-2">Beneficios Fractional Living</p>
+          </button>
 
           {/* Stats en línea */}
           <div className="flex justify-center gap-8 mb-6">
@@ -291,6 +306,23 @@ export default function Home() {
           <p className="text-[10px] text-gray-300">© 2024 All Global Holding LLC</p>
         </div>
       </footer>
+
+      {/* Modal Beneficios */}
+      {showBeneficios && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setShowBeneficios(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white p-4 border-b flex items-center justify-between">
+              <h2 className="text-lg font-bold text-gray-900">Beneficios Fractional Living</h2>
+              <button onClick={() => setShowBeneficios(false)} className="p-2">
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+            <div className="p-4">
+              <p className="text-gray-500 text-center py-8">Lista de beneficios próximamente...</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
