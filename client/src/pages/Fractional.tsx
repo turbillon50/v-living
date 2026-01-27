@@ -63,7 +63,7 @@ export default function Fractional() {
                       <img 
                         src={property.images[0]} 
                         alt={property.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                         loading="lazy"
                       />
                     ) : (
