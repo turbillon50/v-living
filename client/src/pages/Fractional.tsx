@@ -122,7 +122,7 @@ export default function Fractional() {
       </section>
 
       {/* WhatsApp */}
-      <section className="px-4 pb-8">
+      <section className="px-4 pb-28">
         <a 
           href="https://wa.me/529984292748?text=Hola,%20me%20interesan%20las%20fracciones"
           target="_blank"

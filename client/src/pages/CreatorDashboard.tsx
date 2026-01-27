@@ -992,9 +992,11 @@ export default function CreatorDashboard() {
                     </div>
                   </div>
 
-                  <Button onClick={handleSubmit} disabled={createMutation.isPending || updateMutation.isPending} className="w-full h-12 bg-teal-500 hover:bg-teal-600">
-                    {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Save className="w-4 h-4 mr-2" />{editingProperty ? 'Guardar' : 'Publicar'}</>}
-                  </Button>
+                  <div className="pb-8">
+                    <Button onClick={handleSubmit} disabled={createMutation.isPending || updateMutation.isPending} className="w-full h-12 bg-teal-500 hover:bg-teal-600">
+                      {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Save className="w-4 h-4 mr-2" />{editingProperty ? 'Guardar' : 'Publicar'}</>}
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
