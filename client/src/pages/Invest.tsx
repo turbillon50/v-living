@@ -46,8 +46,8 @@ export default function Invest() {
           </h1>
           <p className="text-stone-500 max-w-xl mx-auto">
             {language === 'es' 
-              ? 'Propiedad legal, heredable y con uso garantizado de 3 semanas al año.'
-              : 'Legal, inheritable ownership with 3 guaranteed weeks of use per year.'}
+              ? 'Propiedad legal, heredable y con uso garantizado.'
+              : 'Legal, inheritable ownership with guaranteed use.'}
           </p>
         </div>
       </section>
