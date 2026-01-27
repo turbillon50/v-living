@@ -4,11 +4,9 @@ import { Building2, Home as HomeIcon, Sparkles, User } from 'lucide-react';
 export function BottomNav() {
   const [location] = useLocation();
 
-  // Hide on welcome page
-  if (location === '/') return null;
 
   const navItems = [
-    { href: '/home', label: 'Inicio', icon: HomeIcon },
+    { href: '/', label: 'Inicio', icon: HomeIcon },
     { href: '/fractional', label: 'Fracciones', icon: Building2 },
     { href: '/experiences', label: 'Experiencias', icon: Sparkles },
     { href: '/registro', label: 'Registro', icon: User },
