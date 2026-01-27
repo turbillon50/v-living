@@ -53,12 +53,12 @@ export default function Fractional() {
             <p className="text-gray-300 text-xs">Agrega propiedades desde el modo creador</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-2">
             {properties.map((property) => (
               <Link key={property.id} href={`/property/${property.id}`}>
-                <div className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm active:scale-[0.97] transition-transform" data-testid={`property-card-${property.id}`}>
+                <div className="bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm active:scale-[0.97] transition-transform" data-testid={`property-card-${property.id}`}>
                   {/* Imagen */}
-                  <div className="aspect-[4/3] relative bg-gray-100">
+                  <div className="aspect-square relative bg-gray-100">
                     {property.images?.[0] ? (
                       <img 
                         src={property.images[0]} 
@@ -68,43 +68,43 @@ export default function Fractional() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-gray-300 text-sm">{property.title.split(' ')[0]}</span>
+                        <span className="text-gray-300 text-xs">{property.title.split(' ')[0]}</span>
                       </div>
                     )}
                     {property.tag && (
-                      <span className="absolute top-2 left-2 bg-teal-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                      <span className="absolute top-1 left-1 bg-teal-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">
                         {property.tag}
                       </span>
                     )}
                   </div>
                   
                   {/* Info */}
-                  <div className="p-3">
-                    <h3 className="text-gray-900 font-semibold text-sm truncate">
+                  <div className="p-2">
+                    <h3 className="text-gray-900 font-semibold text-[11px] truncate">
                       {property.title}
                     </h3>
                     
-                    <div className="flex items-center gap-2 text-gray-500 text-[11px] mt-1">
+                    <div className="flex items-center gap-1 text-gray-500 text-[9px] mt-0.5">
                       <span className="flex items-center gap-0.5">
-                        <Maximize className="w-3 h-3" />
+                        <Maximize className="w-2.5 h-2.5" />
                         {property.sqMeters}m²
                       </span>
                       <span className="flex items-center gap-0.5">
-                        <Bed className="w-3 h-3" />
+                        <Bed className="w-2.5 h-2.5" />
                         {property.bedrooms}
                       </span>
                       <span className="flex items-center gap-0.5">
-                        <Bath className="w-3 h-3" />
+                        <Bath className="w-2.5 h-2.5" />
                         {property.bathrooms}
                       </span>
                     </div>
                     
-                    <div className="flex items-center justify-between mt-2">
-                      <p className="text-teal-600 font-bold text-sm">
+                    <div className="flex items-center justify-between mt-1">
+                      <p className="text-teal-600 font-bold text-[11px]">
                         ${((property.fractionPrice || property.price || 250000) / 1000).toFixed(0)}K
-                        <span className="text-gray-400 font-normal text-xs ml-1">/sem</span>
+                        <span className="text-gray-400 font-normal text-[9px]">/sem</span>
                       </p>
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
+                      <ChevronRight className="w-3 h-3 text-gray-400" />
                     </div>
                   </div>
                 </div>
