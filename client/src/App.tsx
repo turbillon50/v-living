@@ -20,7 +20,6 @@ import LastMinuteCapital from "@/pages/LastMinuteCapital";
 import ModeloNegocios from "@/pages/ModeloNegocios";
 import Registro from "@/pages/Registro";
 import NotFound from "@/pages/not-found";
-import { FloatingButtons } from "@/components/FloatingButtons";
 import { BottomNav } from "@/components/BottomNav";
 
 function Router() {
@@ -56,7 +55,6 @@ function App() {
           <Toaster />
           <Router />
           <BottomNav />
-          <FloatingButtons />
         </TooltipProvider>
       </LanguageProvider>
     </QueryClientProvider>

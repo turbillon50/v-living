@@ -2,7 +2,6 @@ import { Link } from 'wouter';
 import { Building2, Wallet, Bot, MessageCircle } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
-import { FloatingButtons } from '@/components/FloatingButtons';
 import { Button } from '@/components/ui/button';
 
 const lobbyLinks = [
@@ -92,7 +91,6 @@ export default function Lobby() {
         </div>
       </main>
 
-      <FloatingButtons />
       <BottomNav />
     </div>
   );

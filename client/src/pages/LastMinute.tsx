@@ -1,6 +1,5 @@
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
-import { FloatingButtons } from '@/components/FloatingButtons';
 import { Button } from '@/components/ui/button';
 import { Zap, Clock, ArrowRight } from 'lucide-react';
 
@@ -61,7 +60,6 @@ export default function LastMinute() {
         </div>
       </main>
 
-      <FloatingButtons />
       <BottomNav />
     </div>
   );

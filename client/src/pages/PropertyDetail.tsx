@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { getPropertyById, getBookedWeeks, createPreBooking } from '@/lib/api';
-import { FloatingButtons } from '@/components/FloatingButtons';
 import { FinancialCalculator } from '@/components/FinancialCalculator';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -536,7 +535,6 @@ export default function PropertyDetail() {
         </DialogContent>
       </Dialog>
 
-      <FloatingButtons />
     </div>
   );
 }

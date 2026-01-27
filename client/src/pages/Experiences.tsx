@@ -1,6 +1,5 @@
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
-import { FloatingButtons } from '@/components/FloatingButtons';
 
 const experienceCategories = [
   { id: 1, title: 'Renta de Autos de Lujo', description: 'Vehículos premium para tu experiencia' },
@@ -45,7 +44,6 @@ export default function Experiences() {
         </div>
       </main>
 
-      <FloatingButtons />
       <BottomNav />
     </div>
   );

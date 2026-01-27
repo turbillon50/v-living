@@ -1,6 +1,5 @@
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
-import { FloatingButtons } from '@/components/FloatingButtons';
 import { Button } from '@/components/ui/button';
 import { Home, Building, Percent, Shield } from 'lucide-react';
 
@@ -73,7 +72,6 @@ export default function PropertyAsociado() {
         </div>
       </main>
 
-      <FloatingButtons />
       <BottomNav />
     </div>
   );
