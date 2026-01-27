@@ -6,6 +6,13 @@ import { z } from "zod";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { sendLeadConfirmationEmail } from "./resend";
 
+const ALMYRIA_PROPERTIES = [
+  { title: 'ALMYRIA Residencia A', subtitle: 'Residencia de 126 m² en Aldea Zama', sqMeters: 126, fractionPrice: 380000, bedrooms: 2, bathrooms: 2 },
+  { title: 'ALMYRIA Residencia B', subtitle: 'Residencia de 126 m² vista panorámica', sqMeters: 126, fractionPrice: 380000, bedrooms: 2, bathrooms: 2 },
+  { title: 'ALMYRIA Residencia C', subtitle: 'Residencia de 126 m² acabados premium', sqMeters: 126, fractionPrice: 380000, bedrooms: 2, bathrooms: 2 },
+  { title: 'ALMYRIA Penthouse', subtitle: 'Penthouse de 127 m² con rooftop privado', sqMeters: 127, fractionPrice: 380000, bedrooms: 2, bathrooms: 2 },
+];
+
 const ATTIK_PROPERTIES = [
   { title: 'ATTIK Loft', subtitle: 'Unidades de 50-75 m² con vista de ático', sqMeters: 75, fractionPrice: 250000, bedrooms: 1, bathrooms: 1 },
   { title: 'ATTIK Loft Central', subtitle: 'Unidad de 50 m² con vista panorámica', sqMeters: 50, fractionPrice: 250000, bedrooms: 1, bathrooms: 1 },
@@ -76,6 +83,61 @@ export async function registerRoutes(
       res.json({ success: true, added, message: `Added ${added} ATTIK properties` });
     } catch (error) {
       console.error("Error seeding ATTIK:", error);
+      res.status(500).json({ error: "Failed to seed properties" });
+    }
+  });
+
+  // Seed ALMYRIA properties endpoint
+  app.post("/api/seed-almyria", async (req, res) => {
+    try {
+      const { password } = req.body;
+      if (password !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const existingProps = await storage.getProperties();
+      const existingTitles = existingProps.filter(p => p.title.startsWith('ALMYRIA')).map(p => p.title);
+      
+      let added = 0;
+      for (const prop of ALMYRIA_PROPERTIES) {
+        if (!existingTitles.includes(prop.title)) {
+          await storage.createProperty({
+            category: 'fractional',
+            title: prop.title,
+            subtitle: prop.subtitle,
+            location: 'Aldea Zama, Tulum',
+            country: 'México',
+            description: 'ALMYRIA Residences te acerca al corazón de la Riviera Maya. A tan solo 35 minutos del aeropuerto internacional de Tulum y a 1:35 horas del aeropuerto de Cancún. Este hogar excepcional te brinda la experiencia de vivir en un paraíso. Preventa 90% avance - Entrega Julio 2026. Si compras hoy, te instalamos en una propiedad de las mismas características o superiores mientras se entrega.',
+            images: ['/almyria-1.jpg', '/almyria-2.jpg', '/almyria-3.jpg', '/almyria-4.jpg'],
+            conditions: [
+              'Preventa 90% - Entrega Julio 2026',
+              '1 semana: $380,000 MXN',
+              '2 semanas: $706,000 MXN (~7% desc)',
+              '3 semanas: $980,000 MXN (~14% desc)',
+              '30% Enganche',
+              '50% Mensualidades',
+              '20% a la escrituración',
+              'Si compras hoy, te instalamos en propiedad similar mientras se entrega',
+              'Propiedad heredable'
+            ],
+            amenities: ['Roofgarden', 'Infinity Pool', 'Gimnasio', 'Vista Panorámica', 'Seguridad 24/7', 'Estacionamiento', 'Bodega'],
+            sqMeters: prop.sqMeters,
+            fractionPrice: prop.fractionPrice,
+            totalFractions: 14,
+            availableFractions: 14,
+            weeksPerFraction: 3,
+            currency: 'MXN',
+            isFeatured: true,
+            bedrooms: prop.bedrooms,
+            bathrooms: prop.bathrooms,
+          });
+          added++;
+        }
+      }
+
+      res.json({ success: true, added, message: `Added ${added} ALMYRIA properties` });
+    } catch (error) {
+      console.error("Error seeding ALMYRIA:", error);
       res.status(500).json({ error: "Failed to seed properties" });
     }
   });
