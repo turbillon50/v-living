@@ -34,6 +34,14 @@ export async function registerRoutes(
   // Register object storage routes for file uploads
   registerObjectStorageRoutes(app);
 
+  // Version endpoint for automatic updates
+  app.get("/api/version", (req, res) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    res.json({ version: "2.1.0", timestamp: Date.now() });
+  });
+
   // Seed ATTIK properties endpoint - call this on production to populate
   app.post("/api/seed-attik", async (req, res) => {
     try {
