@@ -19,12 +19,12 @@ export default function Fractional() {
     <div className="min-h-screen bg-white pb-24">
       <Header />
 
-      {/* Hero compacto */}
-      <section className="px-4 pt-4 pb-6">
+      {/* Hero con slogan */}
+      <section className="px-4 pt-4 pb-4">
         <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-2xl p-5 text-center">
-          <h1 className="text-white text-xl font-bold mb-1">Propiedades</h1>
-          <p className="text-white/90 text-sm">{properties.length} propiedades disponibles</p>
-          <div className="flex justify-center gap-8 mt-4 text-white/80 text-xs">
+          <h1 className="text-white text-xl font-bold mb-1">Vive el Lujo, Hereda el Valor</h1>
+          <p className="text-white/90 text-sm">Tu patrimonio en el Caribe</p>
+          <div className="flex justify-center gap-6 mt-4 text-white/80 text-xs">
             <div className="text-center">
               <p className="text-white text-lg font-bold">420</p>
               <p>Fracciones</p>
@@ -37,6 +37,28 @@ export default function Fractional() {
               <p className="text-white text-lg font-bold">12</p>
               <p>MSI</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Beneficios rápidos */}
+      <section className="px-4 pb-4">
+        <div className="grid grid-cols-2 gap-2">
+          <div className="bg-teal-50 rounded-lg p-3 flex items-center gap-2">
+            <span className="text-teal-600 text-lg">✓</span>
+            <span className="text-gray-700 text-xs font-medium">100% Legal y Heredable</span>
+          </div>
+          <div className="bg-teal-50 rounded-lg p-3 flex items-center gap-2">
+            <span className="text-teal-600 text-lg">✓</span>
+            <span className="text-gray-700 text-xs font-medium">Sin Intereses</span>
+          </div>
+          <div className="bg-teal-50 rounded-lg p-3 flex items-center gap-2">
+            <span className="text-teal-600 text-lg">✓</span>
+            <span className="text-gray-700 text-xs font-medium">Plusvalía Garantizada</span>
+          </div>
+          <div className="bg-teal-50 rounded-lg p-3 flex items-center gap-2">
+            <span className="text-teal-600 text-lg">✓</span>
+            <span className="text-gray-700 text-xs font-medium">Uso Garantizado</span>
           </div>
         </div>
       </section>
