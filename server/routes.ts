@@ -17,6 +17,9 @@ export async function registerRoutes(
   // Get all properties
   app.get("/api/properties", async (req, res) => {
     try {
+      res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
       const properties = await storage.getProperties();
       res.json(properties);
     } catch (error) {
