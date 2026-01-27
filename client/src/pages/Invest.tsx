@@ -41,13 +41,13 @@ export default function Invest() {
       <section className="bg-white py-16 border-b border-stone-200">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <img src={logoImg} alt="Fractional Living" className="h-20 w-auto mx-auto mb-6" />
-          <h1 className="text-3xl md:text-4xl font-light text-[#2d3a3a] mb-4">
-            {language === 'es' ? 'Invierte en Tu Fracción' : 'Invest in Your Fraction'}
+          <h1 className="text-2xl md:text-3xl font-bold text-teal-600 mb-4">
+            Compra • Vive • Renta • Revende • Repite
           </h1>
           <p className="text-stone-500 max-w-xl mx-auto">
             {language === 'es' 
-              ? 'Propiedad legal, heredable y con uso garantizado.'
-              : 'Legal, inheritable ownership with guaranteed use.'}
+              ? 'Servicio llave en mano. Nosotros rentamos por ti. Plusvalía garantizada.'
+              : 'Turnkey service. We rent for you. Guaranteed appreciation.'}
           </p>
         </div>
       </section>

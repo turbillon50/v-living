@@ -33,28 +33,26 @@ export default function Home() {
           </h1>
           <p className="text-[10px] text-gray-400 uppercase tracking-[0.25em] mb-4">All Global Holding LLC</p>
           
-          <p className="text-base text-gray-600 font-light mb-1">
-            {language === 'es' 
-              ? 'Reserva · Compra · Vive · Renta · Vende'
-              : 'Reserve · Buy · Live · Rent · Sell'}
+          <p className="text-base text-teal-600 font-bold mb-2">
+            Compra • Vive • Renta • Revende • Repite
           </p>
-          <p className="text-sm text-teal-600 font-medium mb-6">
-            {language === 'es' ? 'Con plusvalía y vuelve a comenzar' : 'With appreciation and start again'}
+          <p className="text-xs text-gray-500 mb-6">
+            {language === 'es' ? 'Servicio llave en mano. Nosotros rentamos por ti.' : 'Turnkey service. We rent for you.'}
           </p>
 
           {/* Stats en línea */}
-          <div className="flex justify-center gap-6 mb-6">
+          <div className="flex justify-center gap-8 mb-6">
             <div className="text-center">
-              <p className="text-2xl font-light text-gray-900">{properties.length || '—'}</p>
-              <p className="text-[10px] text-gray-400 uppercase">Props</p>
+              <p className="text-2xl font-light text-gray-900">420</p>
+              <p className="text-[10px] text-gray-400 uppercase">Fracciones</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-light text-teal-600">$650K</p>
-              <p className="text-[10px] text-gray-400 uppercase">Desde MXN</p>
+              <p className="text-2xl font-light text-teal-600">30%</p>
+              <p className="text-[10px] text-gray-400 uppercase">Enganche</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-light text-gray-900">3</p>
-              <p className="text-[10px] text-gray-400 uppercase">Semanas/año</p>
+              <p className="text-2xl font-light text-gray-900">12</p>
+              <p className="text-[10px] text-gray-400 uppercase">MSI</p>
             </div>
           </div>
         </div>

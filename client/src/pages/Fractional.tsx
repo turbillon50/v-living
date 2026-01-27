@@ -19,12 +19,12 @@ export default function Fractional() {
     <div className="min-h-screen bg-white pb-24">
       <Header />
 
-      {/* Hero compacto */}
-      <section className="px-4 pt-4 pb-6">
+      {/* Hero con slogan */}
+      <section className="px-4 pt-4 pb-3">
         <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-2xl p-5 text-center">
-          <h1 className="text-white text-xl font-bold mb-1">Propiedades</h1>
-          <p className="text-white/90 text-sm">{properties.length} propiedades disponibles</p>
-          <div className="flex justify-center gap-8 mt-4 text-white/80 text-xs">
+          <h1 className="text-white text-lg font-bold mb-2">Compra • Vive • Renta • Revende • Repite</h1>
+          <p className="text-white/90 text-xs">{properties.length} propiedades disponibles</p>
+          <div className="flex justify-center gap-6 mt-4 text-white/80 text-xs">
             <div className="text-center">
               <p className="text-white text-lg font-bold">420</p>
               <p>Fracciones</p>
@@ -37,6 +37,28 @@ export default function Fractional() {
               <p className="text-white text-lg font-bold">12</p>
               <p>MSI</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Beneficios */}
+      <section className="px-4 pb-3">
+        <div className="grid grid-cols-2 gap-2">
+          <div className="bg-teal-50 rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-teal-600">✓</span>
+            <span className="text-gray-700 text-[10px] font-medium">Servicio llave en mano</span>
+          </div>
+          <div className="bg-teal-50 rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-teal-600">✓</span>
+            <span className="text-gray-700 text-[10px] font-medium">Nosotros rentamos por ti</span>
+          </div>
+          <div className="bg-teal-50 rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-teal-600">✓</span>
+            <span className="text-gray-700 text-[10px] font-medium">Plusvalía garantizada</span>
+          </div>
+          <div className="bg-teal-50 rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-teal-600">✓</span>
+            <span className="text-gray-700 text-[10px] font-medium">Disfruta o genera ingresos</span>
           </div>
         </div>
       </section>

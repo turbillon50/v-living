@@ -36,11 +36,14 @@ export default function Welcome() {
         <h1 className="text-2xl md:text-3xl font-light text-gray-900 tracking-widest mt-4">FRACTIONAL LIVING</h1>
       </div>
 
-      <div className="px-6 py-5 text-center border-b border-gray-100">
-        <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-lg mx-auto italic">
+      <div className="px-6 py-4 text-center border-b border-gray-100">
+        <p className="text-teal-600 text-base md:text-lg font-bold mb-2">
+          Compra • Vive • Renta • Revende • Repite
+        </p>
+        <p className="text-gray-600 text-xs md:text-sm leading-relaxed max-w-lg mx-auto">
           {lang === 'es' 
-            ? '"Fractional no es tiempo compartido. No es partir una propiedad en pedacitos. Va más allá: es separar el activo patrimonial del financiero, para que seas dueño de algo tangible mientras tu inversión crece."'
-            : '"Fractional is not timeshare. It\'s not splitting a property into pieces. It goes beyond: it\'s separating the patrimonial asset from the financial one, so you own something tangible while your investment grows."'}
+            ? 'Servicio llave en mano. Nosotros rentamos por ti. Plusvalía garantizada.'
+            : 'Turnkey service. We rent for you. Guaranteed appreciation.'}
         </p>
       </div>
 
