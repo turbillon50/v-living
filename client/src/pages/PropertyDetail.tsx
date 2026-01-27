@@ -4,7 +4,7 @@ import {
   ChevronLeft, Share, Check, Loader2, Calculator, Lock, Settings,
   Wifi, Waves, Utensils, Wind, Car, Dumbbell, Mountain, Home,
   Flame, WashingMachine, Tv, Sparkles, Shield, UmbrellaOff, Phone,
-  Bed, Bath, Users, MapPin, Play, X, ChevronRight, Grid3X3, Heart, Star
+  Bed, Bath, Users, MapPin, Play, X, ChevronRight, Grid3X3, Heart, Star, Gift
 } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
@@ -63,6 +63,7 @@ export default function PropertyDetail() {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [showVideo, setShowVideo] = useState(false);
   const [liked, setLiked] = useState(false);
+  const [showBeneficios, setShowBeneficios] = useState(false);
 
   const { data: property, isLoading } = useQuery({
     queryKey: ['property', id],
@@ -284,6 +285,15 @@ export default function PropertyDetail() {
             <div className="py-6 border-b">
               <h2 className="text-lg font-semibold mb-4">Acerca de esta propiedad</h2>
               <p className="text-gray-600 leading-relaxed whitespace-pre-line">{property.description}</p>
+              
+              <button 
+                onClick={() => setShowBeneficios(true)}
+                className="mt-6 w-full flex items-center justify-center gap-3 py-4 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg transition-all active:scale-[0.98]"
+                data-testid="button-beneficios-property"
+              >
+                <Gift className="w-5 h-5" />
+                Ver Beneficios Fractional Living
+              </button>
             </div>
 
             {amenities.length > 0 && (
@@ -465,6 +475,131 @@ export default function PropertyDetail() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {showBeneficios && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setShowBeneficios(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white p-4 border-b flex items-center justify-between z-10">
+              <h2 className="text-lg font-bold text-gray-900">Beneficios Fractional Living</h2>
+              <button onClick={() => setShowBeneficios(false)} className="p-2">
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+            <div className="p-4 text-sm text-gray-700 space-y-6">
+              
+              <div className="bg-gradient-to-r from-teal-50 to-blue-50 p-4 rounded-xl border border-teal-100">
+                <p className="text-center text-teal-700 font-bold text-base">
+                  En Fractional Living la experiencia, plusvalía y seguridad son un mismo concepto
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-teal-600 font-bold text-base mb-2">¿Por qué Fractional Living?</h3>
+                <p className="mb-2">Fractional Living nace de una idea simple: el tiempo, el uso y el capital inmobiliario pueden trabajar mejor cuando se estructuran correctamente.</p>
+                <p className="mb-2">No somos tiempo compartido. No somos preventas tradicionales. No somos un "fraccional barato".</p>
+                <p className="font-medium">Somos una infraestructura inmobiliaria diseñada para:</p>
+                <ul className="list-disc pl-5 mt-1 space-y-1">
+                  <li>Proteger valor</li>
+                  <li>Generar utilidad</li>
+                  <li>Crear experiencia real</li>
+                  <li>Construir plusvalía en el tiempo</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-teal-600 font-bold text-base mb-2">¿Por qué invertir aquí?</h3>
+                <p className="mb-2">Porque aquí no compras promesas, compras procesos.</p>
+                <p className="font-medium">Cada propiedad:</p>
+                <ul className="list-disc pl-5 mt-1 space-y-1">
+                  <li>Está en zonas estratégicas</li>
+                  <li>Tiene origen legal transparente</li>
+                  <li>Cuenta con financiamiento hipotecario</li>
+                  <li>Se integra a esquemas fiduciarios claros</li>
+                </ul>
+                <p className="mt-2 font-medium text-teal-600">Eso es certeza legal. Eso es estructura real.</p>
+              </div>
+
+              <div>
+                <h3 className="text-teal-600 font-bold text-base mb-2">Beneficio Legal</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Propiedades adquiridas con crédito hipotecario</li>
+                  <li>Cesión de derechos fiduciarios clara</li>
+                  <li>Acceso al legajo legal del activo</li>
+                  <li>Disfrute del uso desde el día uno</li>
+                  <li>Preventas con respaldo estructural</li>
+                </ul>
+                <p className="mt-2 text-xs text-gray-500">Si tu fecha llega antes de la entrega, te hospedamos en una propiedad de igual o mejor categoría.</p>
+              </div>
+
+              <div>
+                <h3 className="text-teal-600 font-bold text-base mb-2">Beneficio Comercial</h3>
+                <p className="text-center font-bold text-teal-600 mb-2">Compra · Vive · Renta · Revende · Repite</p>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Ingreso potencial desde el día uno</li>
+                  <li>Uso flexible de tu fracción</li>
+                  <li>Acceso permanente a hospedaje</li>
+                  <li>Descuentos superiores al 50% en fechas no propias</li>
+                  <li>Preventas con uso garantizado</li>
+                </ul>
+                <p className="mt-2 font-medium">Tu fracción trabaja contigo, no se queda congelada.</p>
+              </div>
+
+              <div>
+                <h3 className="text-teal-600 font-bold text-base mb-2">Beneficios Incluidos</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Traslados aeropuerto ↔ propiedad</li>
+                  <li>Concierge 24/7</li>
+                  <li>Eventos semanales</li>
+                  <li>Descuentos en yates, restaurantes, spas</li>
+                  <li>Acceso a comunidad y networking</li>
+                </ul>
+                <p className="mt-2 font-medium">Aquí no solo vienes a hospedarte. Vienes a vivir el ecosistema.</p>
+              </div>
+
+              <div>
+                <h3 className="text-teal-600 font-bold text-base mb-2">Beneficio de Experiencia</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Propiedades pet friendly y no pet friendly</li>
+                  <li>Espacios para fumadores y no fumadores</li>
+                  <li>Experiencias diseñadas según tu perfil</li>
+                  <li>Uso personal o comercial, tú decides</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-teal-600 font-bold text-base mb-2">La Gran Diferencia</h3>
+                <p className="mb-2">All Global Holding conserva fracciones propias en cada desarrollo.</p>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Somos copropietarios contigo</li>
+                  <li>No cedemos la administración</li>
+                  <li>Nuestro interés está alineado con el tuyo</li>
+                </ul>
+                <p className="mt-2 font-medium text-teal-600">Por eso el modelo se sostiene en el tiempo. Por eso la plusvalía es real.</p>
+              </div>
+
+              <div>
+                <h3 className="text-teal-600 font-bold text-base mb-2">No es tiempo compartido</h3>
+                <p className="mb-2">No compras noches. No compras puntos. No compras membresías opacas.</p>
+                <p className="font-medium">Compras:</p>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Derechos reales</li>
+                  <li>Uso flexible</li>
+                  <li>Beneficios transferibles</li>
+                  <li>Un activo con vida comercial</li>
+                </ul>
+                <p className="mt-2 font-medium">Tu fracción es tuya. La usas tú, o quien tú decidas.</p>
+              </div>
+
+              <div className="text-center pt-4 border-t">
+                <p className="text-teal-600 font-bold text-lg mb-2">Bienvenido a Fractional Living</p>
+                <p className="text-sm text-gray-600 mb-3">Invertir aquí no es entrar a un producto. Es sumarte a una familia inmobiliaria estructurada.</p>
+                <p className="text-teal-600 font-bold">Compra · Vive · Renta · Revende · Repite</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
