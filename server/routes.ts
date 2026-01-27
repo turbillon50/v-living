@@ -13,6 +13,12 @@ const ALMYRIA_PROPERTIES = [
   { title: 'ALMYRIA Penthouse', subtitle: 'Penthouse de 127 m² con rooftop privado', sqMeters: 127, fractionPrice: 380000, bedrooms: 2, bathrooms: 2 },
 ];
 
+const HERMITAGE_PROPERTIES = [
+  { title: 'HERMITAGE KEEJ Estudio 4A', subtitle: 'Estudio de 49 m² con terraza y jacuzzi', sqMeters: 49, fractionPrice: 180000, bedrooms: 1, bathrooms: 1 },
+  { title: 'HERMITAGE KEEJ Residencia 01', subtitle: 'Residencia de 118 m² planta baja con jacuzzi', sqMeters: 118, fractionPrice: 280000, bedrooms: 2, bathrooms: 2 },
+  { title: 'HERMITAGE KEEJ Residencia 06', subtitle: 'Residencia de 126 m² tercer nivel con jacuzzi', sqMeters: 126, fractionPrice: 280000, bedrooms: 2, bathrooms: 2 },
+];
+
 const ATTIK_PROPERTIES = [
   { title: 'ATTIK Loft', subtitle: 'Unidades de 50-75 m² con vista de ático', sqMeters: 75, fractionPrice: 250000, bedrooms: 1, bathrooms: 1 },
   { title: 'ATTIK Loft Central', subtitle: 'Unidad de 50 m² con vista panorámica', sqMeters: 50, fractionPrice: 250000, bedrooms: 1, bathrooms: 1 },
@@ -146,6 +152,60 @@ export async function registerRoutes(
       res.json({ success: true, added, message: `Added ${added} ALMYRIA properties` });
     } catch (error) {
       console.error("Error seeding ALMYRIA:", error);
+      res.status(500).json({ error: "Failed to seed properties" });
+    }
+  });
+
+  // Seed HERMITAGE KEEJ properties endpoint
+  app.post("/api/seed-hermitage", async (req, res) => {
+    try {
+      const { password } = req.body;
+      if (password !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const existingProps = await storage.getProperties();
+      const existingTitles = existingProps.filter(p => p.title.startsWith('HERMITAGE')).map(p => p.title);
+      
+      let added = 0;
+      for (const prop of HERMITAGE_PROPERTIES) {
+        if (!existingTitles.includes(prop.title)) {
+          await storage.createProperty({
+            category: 'fractional',
+            title: prop.title,
+            subtitle: prop.subtitle,
+            location: 'Aldea Zama, Tulum',
+            country: 'México',
+            description: 'HERMITAGE KEEJ ofrece una ubicación de excelencia en Aldea Zama, combinada con una amplia diversidad de experiencias que solo la joya de la Riviera Maya puede ofrecer. A 35 minutos del aeropuerto de Tulum y 1:35 hrs de Cancún. Vida de lujo y comodidad en el corazón de Tulum. Cocina equipada SMEG, terraza con jacuzzi, acabados premium en nogal. Entrega Junio 2026.',
+            images: ['/hermitage-1.jpg', '/hermitage-2.jpg', '/hermitage-3.jpg'],
+            conditions: [
+              'Preventa - Entrega Junio 2026',
+              `1 semana: $${prop.fractionPrice.toLocaleString()} MXN`,
+              '30% Enganche',
+              '50% Mensualidades',
+              '20% a la escrituración',
+              'Cocina equipada SMEG',
+              'Terraza con jacuzzi',
+              'Propiedad heredable'
+            ],
+            amenities: ['Lobby Front Desk', 'Elevador', 'Roof Garden', 'Alberca', 'Lounge', 'Gimnasio', 'Bodega', 'Vigilancia 24/7', 'CCTV', 'Planta Emergencia'],
+            sqMeters: prop.sqMeters,
+            fractionPrice: prop.fractionPrice,
+            totalFractions: 14,
+            availableFractions: 14,
+            weeksPerFraction: 3,
+            currency: 'MXN',
+            isFeatured: true,
+            bedrooms: prop.bedrooms,
+            bathrooms: prop.bathrooms,
+          });
+          added++;
+        }
+      }
+
+      res.json({ success: true, added, message: `Added ${added} HERMITAGE KEEJ properties` });
+    } catch (error) {
+      console.error("Error seeding HERMITAGE:", error);
       res.status(500).json({ error: "Failed to seed properties" });
     }
   });
