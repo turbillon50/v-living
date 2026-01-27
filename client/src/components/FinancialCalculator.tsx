@@ -127,7 +127,7 @@ export function FinancialCalculator({
             <div>
               <p className="text-white/80 text-sm">Inversión Total</p>
               <p className="text-3xl font-bold">${totalPrice.toLocaleString()}</p>
-              <p className="text-white/70 text-xs">MXN · {weeks} semana{weeks > 1 ? 's' : ''} al año</p>
+              <p className="text-white/70 text-xs">MXN · {weeks} semana{weeks > 1 ? 's' : ''}</p>
             </div>
             <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-sm">
               <TrendingUp className="w-8 h-8" />
@@ -149,15 +149,15 @@ export function FinancialCalculator({
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-gray-600 text-sm">
             <CheckCircle2 className="w-4 h-4 text-teal-500" />
-            <span>Propiedad 100% heredable</span>
+            <span>30% enganche</span>
           </div>
           <div className="flex items-center gap-2 text-gray-600 text-sm">
             <CheckCircle2 className="w-4 h-4 text-teal-500" />
-            <span>Estructura fiduciaria protegida</span>
+            <span>12 meses sin intereses</span>
           </div>
           <div className="flex items-center gap-2 text-gray-600 text-sm">
             <CheckCircle2 className="w-4 h-4 text-teal-500" />
-            <span>42 semanas disponibles al año</span>
+            <span>Propiedad heredable</span>
           </div>
           <div className="flex items-center gap-2 text-gray-600 text-sm">
             <CheckCircle2 className="w-4 h-4 text-teal-500" />
