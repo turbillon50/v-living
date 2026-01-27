@@ -23,6 +23,11 @@ export default function Home() {
       {/* Hero - Compacto para móvil */}
       <section className="pt-6 pb-8 px-5">
         <div className="text-center">
+          <img 
+            src="/fractional-logo.jpg" 
+            alt="Fractional Living" 
+            className="w-24 h-24 mx-auto mb-4 rounded-xl object-cover"
+          />
           <h1 className="text-3xl font-light text-gray-900 tracking-wide mb-2" data-testid="hero-title">
             Fractional Living
           </h1>

@@ -7,15 +7,19 @@ export default function Welcome() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
-      <div className="relative h-[50vh]">
+      <div className="relative h-[50vh] flex items-center justify-center">
         <img 
-          src="/welcome-bg.jpg" 
+          src="/fractional-logo.jpg" 
           alt="Fractional Living" 
           className="absolute inset-0 w-full h-full object-cover object-center"
           data-testid="welcome-background"
         />
         
         <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-transparent to-black/20" />
+        
+        <div className="relative z-10 text-center">
+          <h1 className="text-4xl md:text-5xl font-light text-white tracking-widest drop-shadow-lg">FRACTIONAL LIVING</h1>
+        </div>
 
         <header className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4">
           <p className="text-white/60 text-xs tracking-[0.2em] uppercase">All Global Holding LLC</p>
