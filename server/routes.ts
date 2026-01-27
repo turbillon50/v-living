@@ -6,6 +6,19 @@ import { z } from "zod";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { sendLeadConfirmationEmail } from "./resend";
 
+const ATTIK_PROPERTIES = [
+  { title: 'ATTIK Loft', subtitle: 'Unidades de 50-75 m² con vista de ático', sqMeters: 75, fractionPrice: 250000, bedrooms: 1, bathrooms: 1 },
+  { title: 'ATTIK Loft Central', subtitle: 'Unidad de 50 m² con vista panorámica', sqMeters: 50, fractionPrice: 250000, bedrooms: 1, bathrooms: 1 },
+  { title: 'ATTIK Loft Esquina', subtitle: 'Unidad de 60 m² con doble vista', sqMeters: 60, fractionPrice: 250000, bedrooms: 1, bathrooms: 1 },
+  { title: 'ATTIK Loft Premium', subtitle: 'Unidad de 75 m² con acabados superiores', sqMeters: 75, fractionPrice: 250000, bedrooms: 1, bathrooms: 1 },
+  { title: 'ATTIK Pareja', subtitle: 'Unidades de 75-98 m² con jacuzzi o plunge pool', sqMeters: 98, fractionPrice: 350000, bedrooms: 1, bathrooms: 1 },
+  { title: 'ATTIK Pareja Jacuzzi', subtitle: 'Unidad de 85 m² con jacuzzi privado', sqMeters: 85, fractionPrice: 350000, bedrooms: 1, bathrooms: 1 },
+  { title: 'ATTIK Pareja Plunge Pool', subtitle: 'Unidad de 98 m² con plunge pool', sqMeters: 98, fractionPrice: 350000, bedrooms: 1, bathrooms: 1 },
+  { title: 'ATTIK Familiar', subtitle: 'Unidades de 100-125 m² para toda la familia', sqMeters: 125, fractionPrice: 400000, bedrooms: 2, bathrooms: 2 },
+  { title: 'ATTIK Familiar Plus', subtitle: 'Unidad de 115 m² espacios amplios', sqMeters: 115, fractionPrice: 400000, bedrooms: 2, bathrooms: 2 },
+  { title: 'ATTIK Penthouse', subtitle: 'Unidad de 125 m² vista privilegiada', sqMeters: 125, fractionPrice: 400000, bedrooms: 2, bathrooms: 2 },
+];
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -13,6 +26,59 @@ export async function registerRoutes(
   
   // Register object storage routes for file uploads
   registerObjectStorageRoutes(app);
+
+  // Seed ATTIK properties endpoint - call this on production to populate
+  app.post("/api/seed-attik", async (req, res) => {
+    try {
+      const { password } = req.body;
+      if (password !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      // First delete old properties that aren't ATTIK
+      const existingProps = await storage.getProperties();
+      for (const prop of existingProps) {
+        if (!prop.title.startsWith('ATTIK')) {
+          await storage.deleteProperty(prop.id);
+        }
+      }
+
+      // Check which ATTIK properties already exist
+      const existingTitles = existingProps.filter(p => p.title.startsWith('ATTIK')).map(p => p.title);
+      
+      let added = 0;
+      for (const prop of ATTIK_PROPERTIES) {
+        if (!existingTitles.includes(prop.title)) {
+          await storage.createProperty({
+            category: 'fractional',
+            title: prop.title,
+            subtitle: prop.subtitle,
+            location: 'La Veleta, Tulum',
+            country: 'México',
+            description: 'Un refugio de lujo donde arquitectura, confort y naturaleza se fusionan. El único complejo con arquitectura de vanguardia en Tulum. Vista de ático hacia la selva, ventanales gigantes para los mejores amaneceres y atardeceres. A 0.3 km del centro, 1 km de Av. Cobá y 4 km de la playa con transporte incluido.',
+            images: ['/attik-1.jpg', '/attik-2.jpg', '/attik-3.jpg', '/attik-4.jpg', '/attik-5.jpg'],
+            conditions: ['Preventa - Beneficio de compra inmediata', `1 semana: $${prop.fractionPrice.toLocaleString()} MXN`, 'Enganche: 30%', '12 meses sin intereses', 'Propiedad heredable', 'Estructura fiduciaria'],
+            amenities: ['Infinity Pool', 'Sky Bar', 'Gimnasio', 'Yoga Loft', 'Float Tank', 'Área de Fogata', 'Rooftop', 'Club de Playa', 'Seguridad 24/7', 'Transporte a Playa'],
+            sqMeters: prop.sqMeters,
+            fractionPrice: prop.fractionPrice,
+            totalFractions: 14,
+            availableFractions: 14,
+            weeksPerFraction: 3,
+            currency: 'MXN',
+            isFeatured: true,
+            bedrooms: prop.bedrooms,
+            bathrooms: prop.bathrooms,
+          });
+          added++;
+        }
+      }
+
+      res.json({ success: true, added, message: `Added ${added} ATTIK properties` });
+    } catch (error) {
+      console.error("Error seeding ATTIK:", error);
+      res.status(500).json({ error: "Failed to seed properties" });
+    }
+  });
   
   // Get all properties
   app.get("/api/properties", async (req, res) => {
