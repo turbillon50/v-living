@@ -19,6 +19,7 @@ import PropertyAsociado from "@/pages/PropertyAsociado";
 import LastMinuteCapital from "@/pages/LastMinuteCapital";
 import ModeloNegocios from "@/pages/ModeloNegocios";
 import Registro from "@/pages/Registro";
+import AutosLujo from "@/pages/AutosLujo";
 import NotFound from "@/pages/not-found";
 import { BottomNav } from "@/components/BottomNav";
 import { FloatingButtons } from "@/components/FloatingButtons";
@@ -43,6 +44,7 @@ function Router() {
       <Route path="/property-asociado" component={PropertyAsociado} />
       <Route path="/modelo-negocios" component={ModeloNegocios} />
       <Route path="/registro" component={Registro} />
+      <Route path="/autos-lujo" component={AutosLujo} />
       <Route component={NotFound} />
     </Switch>
   );
