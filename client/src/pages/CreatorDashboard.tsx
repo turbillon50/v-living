@@ -118,6 +118,199 @@ const DEFAULT_TEXTS = [
   { key: 'footer_copyright', label: 'Copyright', default: '© 2024 All Global Holding LLC' },
 ];
 
+const LINK_TYPES = [
+  { value: 'instagram', label: 'Instagram' },
+  { value: 'youtube', label: 'YouTube' },
+  { value: 'facebook', label: 'Facebook' },
+  { value: 'twitter', label: 'Twitter/X' },
+  { value: 'linkedin', label: 'LinkedIn' },
+  { value: 'tiktok', label: 'TikTok' },
+  { value: 'video', label: 'Video' },
+  { value: 'link', label: 'Enlace' },
+];
+
+interface MultiLink {
+  id: string;
+  title: string;
+  url: string;
+  type: string;
+  position: number;
+  isActive: boolean;
+}
+
+function LinksManager({ creatorToken }: { creatorToken: string }) {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [isAdding, setIsAdding] = useState(false);
+  const [editingLink, setEditingLink] = useState<MultiLink | null>(null);
+  const [form, setForm] = useState({ title: '', url: '', type: 'link', position: 0 });
+
+  const { data: links = [], isLoading } = useQuery<MultiLink[]>({
+    queryKey: ['multilinks'],
+    queryFn: async () => {
+      const res = await fetch('/api/multilinks');
+      if (!res.ok) return [];
+      return res.json();
+    }
+  });
+
+  const createMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const res = await fetch('/api/multilinks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Creator-Token': creatorToken },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('Failed');
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: 'Link agregado' });
+      queryClient.invalidateQueries({ queryKey: ['multilinks'] });
+      setIsAdding(false);
+      setForm({ title: '', url: '', type: 'link', position: 0 });
+    }
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: any }) => {
+      const res = await fetch(`/api/multilinks/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'X-Creator-Token': creatorToken },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('Failed');
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: 'Link actualizado' });
+      queryClient.invalidateQueries({ queryKey: ['multilinks'] });
+      setEditingLink(null);
+      setForm({ title: '', url: '', type: 'link', position: 0 });
+    }
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`/api/multilinks/${id}`, {
+        method: 'DELETE',
+        headers: { 'X-Creator-Token': creatorToken }
+      });
+      if (!res.ok) throw new Error('Failed');
+    },
+    onSuccess: () => {
+      toast({ title: 'Link eliminado' });
+      queryClient.invalidateQueries({ queryKey: ['multilinks'] });
+    }
+  });
+
+  const handleEdit = (link: MultiLink) => {
+    setEditingLink(link);
+    setForm({ title: link.title, url: link.url, type: link.type, position: link.position });
+    setIsAdding(true);
+  };
+
+  const handleSubmit = () => {
+    if (!form.title || !form.url) {
+      toast({ title: 'Completa título y URL', variant: 'destructive' });
+      return;
+    }
+    if (editingLink) {
+      updateMutation.mutate({ id: editingLink.id, data: { ...form, isActive: true } });
+    } else {
+      createMutation.mutate({ ...form, isActive: true, position: links.length });
+    }
+  };
+
+  const toggleActive = (link: MultiLink) => {
+    updateMutation.mutate({ id: link.id, data: { isActive: !link.isActive } });
+  };
+
+  if (isLoading) {
+    return <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-teal-400" /></div>;
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <p className="text-sm text-white/50">{links.length} links</p>
+          <p className="text-xs text-white/30">Página: /links</p>
+        </div>
+        <Button onClick={() => { setIsAdding(true); setEditingLink(null); setForm({ title: '', url: '', type: 'link', position: 0 }); }} size="sm" className="bg-teal-500 hover:bg-teal-600">
+          <Plus className="w-4 h-4 mr-1" /> Nuevo
+        </Button>
+      </div>
+
+      {isAdding && (
+        <div className="bg-white/5 rounded-xl border border-white/10 p-4 mb-4">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-white">{editingLink ? 'Editar Link' : 'Nuevo Link'}</h3>
+            <Button variant="ghost" size="icon" className="h-8 w-8 text-white/50" onClick={() => { setIsAdding(false); setEditingLink(null); }}>
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
+          <div className="space-y-3">
+            <div>
+              <label className="text-xs text-white/50 mb-1 block">Título</label>
+              <Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Instagram" className="bg-white/10 border-white/20 text-white" />
+            </div>
+            <div>
+              <label className="text-xs text-white/50 mb-1 block">URL</label>
+              <Input value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} placeholder="https://instagram.com/..." className="bg-white/10 border-white/20 text-white" />
+            </div>
+            <div>
+              <label className="text-xs text-white/50 mb-1 block">Tipo</label>
+              <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className="w-full h-10 px-3 rounded-md bg-white/10 border border-white/20 text-white text-sm">
+                {LINK_TYPES.map(t => <option key={t.value} value={t.value} className="bg-gray-900">{t.label}</option>)}
+              </select>
+            </div>
+            <Button onClick={handleSubmit} className="w-full bg-teal-500 hover:bg-teal-600">
+              <Save className="w-4 h-4 mr-1" /> {editingLink ? 'Actualizar' : 'Guardar'}
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {links.length === 0 && !isAdding ? (
+        <div className="bg-white/5 rounded-xl border border-white/10 border-dashed p-12 text-center">
+          <Link2 className="w-12 h-12 mx-auto mb-4 text-white/30" />
+          <p className="text-white/50 mb-2">No hay links</p>
+          <p className="text-xs text-white/30 mb-4">Agrega redes sociales y videos de interés</p>
+          <Button onClick={() => setIsAdding(true)} className="bg-teal-500" size="sm">
+            <Plus className="w-4 h-4 mr-1" /> Agregar Link
+          </Button>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {links.map((link) => (
+            <div key={link.id} className={cn("bg-white/5 rounded-xl border p-3 flex items-center gap-3", link.isActive ? "border-white/10" : "border-white/5 opacity-50")}>
+              <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                <Link2 className="w-5 h-5 text-teal-400" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-medium text-sm text-white truncate">{link.title}</h4>
+                <p className="text-xs text-white/40 truncate">{link.url}</p>
+              </div>
+              <div className="flex gap-1">
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-white/50 hover:bg-white/10" onClick={() => toggleActive(link)}>
+                  {link.isActive ? <Eye className="w-4 h-4" /> : <CalendarOff className="w-4 h-4" />}
+                </Button>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-white/50 hover:bg-white/10" onClick={() => handleEdit(link)}>
+                  <Edit className="w-4 h-4" />
+                </Button>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400 hover:bg-red-500/20" onClick={() => deleteMutation.mutate(link.id)}>
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function CreatorDashboard() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
@@ -129,7 +322,7 @@ export default function CreatorDashboard() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [creatorToken, setCreatorToken] = useState('');
   const [password, setPassword] = useState('');
-  const [activeTab, setActiveTab] = useState<'properties' | 'navigation' | 'content' | 'bookings' | 'stats'>('properties');
+  const [activeTab, setActiveTab] = useState<'properties' | 'navigation' | 'content' | 'bookings' | 'stats' | 'links'>('properties');
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -657,7 +850,8 @@ export default function CreatorDashboard() {
               { id: 'navigation', label: 'Nav', icon: Navigation },
               { id: 'content', label: 'Textos', icon: FileText },
               { id: 'bookings', label: 'Reservas', icon: Calendar },
-              { id: 'stats', label: 'Stats', icon: BarChart3 }
+              { id: 'stats', label: 'Stats', icon: BarChart3 },
+              { id: 'links', label: 'Links', icon: Link2 }
             ].map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
@@ -1205,6 +1399,11 @@ export default function CreatorDashboard() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* LINKS TAB */}
+        {activeTab === 'links' && (
+          <LinksManager creatorToken={creatorToken} />
         )}
       </main>
 

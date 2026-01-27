@@ -218,6 +218,17 @@ export type NavButton = typeof navButtons.$inferSelect;
 export type InsertSiteSetting = z.infer<typeof insertSiteSettingSchema>;
 export type SiteSetting = typeof siteSettings.$inferSelect;
 
+// Multilinks - social media and video links for /links page
+export const multilinks = pgTable("multilinks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  url: text("url").notNull(),
+  type: text("type").notNull().default("link"), // instagram, youtube, facebook, twitter, linkedin, video, link
+  position: integer("position").default(0),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Leads - registration form submissions
 export const leads = pgTable("leads", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -236,3 +247,7 @@ export const leads = pgTable("leads", {
 export const insertLeadSchema = createInsertSchema(leads).omit({ id: true, createdAt: true, updatedAt: true, emailSent: true });
 export type InsertLead = z.infer<typeof insertLeadSchema>;
 export type Lead = typeof leads.$inferSelect;
+
+export const insertMultilinkSchema = createInsertSchema(multilinks).omit({ id: true, createdAt: true });
+export type InsertMultilink = z.infer<typeof insertMultilinkSchema>;
+export type Multilink = typeof multilinks.$inferSelect;

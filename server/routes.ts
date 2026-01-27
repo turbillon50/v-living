@@ -720,5 +720,48 @@ export async function registerRoutes(
     }
   });
 
+  // Multilinks CRUD
+  app.get("/api/multilinks", async (req, res) => {
+    try {
+      const links = await storage.getMultilinks();
+      res.json(links);
+    } catch (error) {
+      console.error("Error fetching multilinks:", error);
+      res.status(500).json({ error: "Failed to fetch multilinks" });
+    }
+  });
+
+  app.post("/api/multilinks", verifyCreatorToken, async (req, res) => {
+    try {
+      const link = await storage.createMultilink(req.body);
+      res.status(201).json(link);
+    } catch (error) {
+      console.error("Error creating multilink:", error);
+      res.status(500).json({ error: "Failed to create multilink" });
+    }
+  });
+
+  app.put("/api/multilinks/:id", verifyCreatorToken, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const link = await storage.updateMultilink(id, req.body);
+      res.json(link);
+    } catch (error) {
+      console.error("Error updating multilink:", error);
+      res.status(500).json({ error: "Failed to update multilink" });
+    }
+  });
+
+  app.delete("/api/multilinks/:id", verifyCreatorToken, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteMultilink(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting multilink:", error);
+      res.status(500).json({ error: "Failed to delete multilink" });
+    }
+  });
+
   return httpServer;
 }

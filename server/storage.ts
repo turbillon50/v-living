@@ -19,7 +19,9 @@ import type {
   InsertService,
   Category,
   InsertCategory,
-  SiteSetting
+  SiteSetting,
+  Multilink,
+  InsertMultilink
 } from "@shared/schema";
 
 const { Pool } = pg;
@@ -370,6 +372,28 @@ export class DatabaseStorage implements IStorage {
 
   async getLeadsByStatus(status: string): Promise<schema.Lead[]> {
     return db.select().from(schema.leads).where(eq(schema.leads.status, status));
+  }
+
+  // Multilinks
+  async getMultilinks(): Promise<Multilink[]> {
+    return db.select().from(schema.multilinks).orderBy(schema.multilinks.position);
+  }
+
+  async createMultilink(data: InsertMultilink): Promise<Multilink> {
+    const results = await db.insert(schema.multilinks).values(data).returning();
+    return results[0];
+  }
+
+  async updateMultilink(id: string, data: Partial<InsertMultilink>): Promise<Multilink | undefined> {
+    const results = await db.update(schema.multilinks)
+      .set(data)
+      .where(eq(schema.multilinks.id, id))
+      .returning();
+    return results[0];
+  }
+
+  async deleteMultilink(id: string): Promise<void> {
+    await db.delete(schema.multilinks).where(eq(schema.multilinks.id, id));
   }
 }
 
