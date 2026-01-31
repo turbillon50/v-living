@@ -31,6 +31,7 @@ import Multilinks from "@/pages/Multilinks";
 import NotFound from "@/pages/not-found";
 import { BottomNav } from "@/components/BottomNav";
 import { FloatingButtons } from "@/components/FloatingButtons";
+import { FloatingAI } from "@/components/FloatingAI";
 
 function Router() {
   return (
@@ -74,6 +75,7 @@ function App() {
           <Toaster />
           <Router />
           <FloatingButtons />
+          <FloatingAI />
           <BottomNav />
         </TooltipProvider>
       </LanguageProvider>
