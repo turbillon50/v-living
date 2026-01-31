@@ -47,7 +47,7 @@ export function FloatingAI() {
       </button>
 
       {/* Chat Window */}
-      <div className={`fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-50 w-full sm:w-96 h-[100dvh] sm:h-[600px] sm:max-h-[80vh] bg-[#1a1a1a] sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-full sm:translate-y-8 opacity-0 pointer-events-none'}`}>
+      <div className={`fixed bottom-20 left-4 right-4 sm:bottom-6 sm:right-6 sm:left-auto z-50 sm:w-96 max-h-[70vh] bg-[#1a1a1a] rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}>
         {/* Header */}
         <div className="bg-gradient-to-r from-teal-600 to-teal-500 px-4 py-4 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-3">
