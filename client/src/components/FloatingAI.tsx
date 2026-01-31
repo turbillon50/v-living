@@ -37,7 +37,7 @@ export function FloatingAI() {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all duration-300 ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
+        className={`fixed bottom-24 right-4 z-[60] w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all duration-300 ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
         data-testid="button-ai-open"
       >
         <div className="relative">
