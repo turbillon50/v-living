@@ -251,3 +251,26 @@ export type Lead = typeof leads.$inferSelect;
 export const insertMultilinkSchema = createInsertSchema(multilinks).omit({ id: true, createdAt: true });
 export type InsertMultilink = z.infer<typeof insertMultilinkSchema>;
 export type Multilink = typeof multilinks.$inferSelect;
+
+// Conversations for Alix AI chat
+export const conversations = pgTable("conversations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Messages in conversations
+export const messages = pgTable("messages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  conversationId: varchar("conversation_id").notNull().references(() => conversations.id, { onDelete: 'cascade' }),
+  role: text("role").notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertConversationSchema = createInsertSchema(conversations).omit({ id: true, createdAt: true });
+export const insertMessageSchema = createInsertSchema(messages).omit({ id: true, createdAt: true });
+export type InsertConversation = z.infer<typeof insertConversationSchema>;
+export type Conversation = typeof conversations.$inferSelect;
+export type InsertMessage = z.infer<typeof insertMessageSchema>;
+export type Message = typeof messages.$inferSelect;

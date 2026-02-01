@@ -5,6 +5,12 @@ import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema,
 import { z } from "zod";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { sendLeadConfirmationEmail } from "./resend";
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+});
 
 const ALMYRIA_PROPERTIES = [
   { title: 'ALMYRIA Residencia A', subtitle: 'Residencia de 126 m² en Aldea Zama', sqMeters: 126, fractionPrice: 380000, bedrooms: 2, bathrooms: 2 },
@@ -760,6 +766,62 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error deleting multilink:", error);
       res.status(500).json({ error: "Failed to delete multilink" });
+    }
+  });
+
+  // Alix AI Chat endpoint
+  app.post("/api/alix/chat", async (req, res) => {
+    try {
+      const { message, history = [] } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({ error: "Message is required" });
+      }
+
+      const systemPrompt = `Eres Alix, la asesora virtual de Fractional Living - All Global Holding LLC. 
+      
+Tu rol es ayudar a los usuarios a entender el modelo de propiedad fraccionada de lujo en el Caribe mexicano.
+
+INFORMACIÓN CLAVE:
+- Fractional Living ofrece fracciones de propiedades de lujo en Tulum, México
+- Cada fracción te da derecho a 3 semanas al año de uso
+- Las propiedades son heredables y legalmente tuyas
+- Proyectos actuales: ATTIK (La Veleta), ALMYRIA (Aldea Zama), HERMITAGE KEEJ (Aldea Zama)
+- Precios desde $180,000 MXN hasta $400,000 MXN por semana dependiendo del proyecto
+- Modelo de pago: 30% enganche, 50% mensualidades, 20% a la escrituración
+- Las propiedades incluyen amenidades de lujo: alberca, gimnasio, seguridad 24/7, transporte a playa
+
+CÓMO RESPONDER:
+- Sé amable, profesional y entusiasta
+- Responde en español por defecto
+- Mantén respuestas concisas pero informativas (2-3 párrafos máximo)
+- Si no sabes algo específico, invita al usuario a contactar por WhatsApp: +52 998 429 2748
+- Siempre menciona que pueden registrar su interés en allliving.org
+
+NO HAGAS:
+- No inventes precios o datos que no conoces
+- No prometas cosas que no están confirmadas
+- No des asesoría legal o financiera específica`;
+
+      const messages: any[] = [
+        { role: "system", content: systemPrompt },
+        ...history.map((h: any) => ({ role: h.role, content: h.content })),
+        { role: "user", content: message }
+      ];
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages,
+        max_tokens: 500,
+        temperature: 0.7,
+      });
+
+      const reply = completion.choices[0]?.message?.content || "Lo siento, no pude procesar tu mensaje. Por favor intenta de nuevo.";
+      
+      res.json({ reply });
+    } catch (error) {
+      console.error("Error in Alix chat:", error);
+      res.status(500).json({ error: "Failed to process message", reply: "Lo siento, hubo un error. Por favor contacta por WhatsApp al +52 998 429 2748." });
     }
   });
 
