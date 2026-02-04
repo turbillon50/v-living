@@ -1,7 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema, insertSubscriberSchema, insertNavButtonSchema, insertCategorySchema, insertLeadSchema } from "@shared/schema";
+import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema, insertSubscriberSchema, insertNavButtonSchema, insertCategorySchema, insertLeadSchema, insertUserSchema } from "@shared/schema";
+import crypto from "crypto";
 import { z } from "zod";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { sendLeadConfirmationEmail } from "./resend";
@@ -822,6 +823,181 @@ NO HAGAS:
     } catch (error) {
       console.error("Error in Alix chat:", error);
       res.status(500).json({ error: "Failed to process message", reply: "Lo siento, hubo un error. Por favor contacta por WhatsApp al +52 998 429 2748." });
+    }
+  });
+
+  // ========== USER REGISTRATION & AUTH ==========
+  
+  // Simple password hashing (for production use bcrypt)
+  function hashPassword(password: string): string {
+    return crypto.createHash('sha256').update(password).digest('hex');
+  }
+
+  // Register new user
+  app.post("/api/users/register", async (req, res) => {
+    try {
+      const { name, email, phone, country, password } = req.body;
+      
+      if (!name || !email || !phone || !password) {
+        return res.status(400).json({ error: "Nombre, email, teléfono y contraseña son obligatorios" });
+      }
+
+      // Check if email already exists
+      const existingUser = await storage.getUserByEmail(email.toLowerCase());
+      if (existingUser) {
+        return res.status(409).json({ error: "Este email ya está registrado. Intenta iniciar sesión." });
+      }
+
+      const user = await storage.createUser({
+        name,
+        email: email.toLowerCase(),
+        phone,
+        country: country || "México",
+        password: hashPassword(password),
+        interests: [],
+        status: "lead",
+        source: "web",
+      });
+
+      // Return user without password
+      const { password: _, ...safeUser } = user;
+      res.status(201).json(safeUser);
+    } catch (error) {
+      console.error("Error registering user:", error);
+      res.status(500).json({ error: "Error al registrar usuario" });
+    }
+  });
+
+  // Login user
+  app.post("/api/users/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      if (!email || !password) {
+        return res.status(400).json({ error: "Email y contraseña son obligatorios" });
+      }
+
+      const user = await storage.getUserByEmail(email.toLowerCase());
+      if (!user || user.password !== hashPassword(password)) {
+        return res.status(401).json({ error: "Email o contraseña incorrectos" });
+      }
+
+      // Update last login
+      await storage.updateUser(user.id, { lastLogin: new Date() } as any);
+
+      // Return user without password
+      const { password: _, ...safeUser } = user;
+      res.json(safeUser);
+    } catch (error) {
+      console.error("Error logging in:", error);
+      res.status(500).json({ error: "Error al iniciar sesión" });
+    }
+  });
+
+  // Update user interests
+  app.put("/api/users/:id/interests", async (req, res) => {
+    try {
+      const { interests, primaryInterest } = req.body;
+      
+      if (!interests || !Array.isArray(interests)) {
+        return res.status(400).json({ error: "Intereses son obligatorios" });
+      }
+
+      const user = await storage.updateUserInterests(req.params.id, interests, primaryInterest);
+      if (!user) {
+        return res.status(404).json({ error: "Usuario no encontrado" });
+      }
+
+      const { password: _, ...safeUser } = user;
+      res.json(safeUser);
+    } catch (error) {
+      console.error("Error updating interests:", error);
+      res.status(500).json({ error: "Error al actualizar intereses" });
+    }
+  });
+
+  // Get all users (CRM - protected by creator password)
+  app.get("/api/users", async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader || authHeader !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "No autorizado" });
+      }
+
+      const users = await storage.getUsers();
+      // Remove passwords from response
+      const safeUsers = users.map(u => {
+        const { password: _, ...safe } = u;
+        return safe;
+      });
+      res.json(safeUsers);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ error: "Error al obtener usuarios" });
+    }
+  });
+
+  // Update user status (CRM)
+  app.put("/api/users/:id/status", async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader || authHeader !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "No autorizado" });
+      }
+
+      const { status } = req.body;
+      const user = await storage.updateUserStatus(req.params.id, status);
+      if (!user) {
+        return res.status(404).json({ error: "Usuario no encontrado" });
+      }
+
+      const { password: _, ...safeUser } = user;
+      res.json(safeUser);
+    } catch (error) {
+      console.error("Error updating status:", error);
+      res.status(500).json({ error: "Error al actualizar estatus" });
+    }
+  });
+
+  // Update user notes (CRM)
+  app.put("/api/users/:id/notes", async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader || authHeader !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "No autorizado" });
+      }
+
+      const { notes } = req.body;
+      const user = await storage.updateUserNotes(req.params.id, notes);
+      if (!user) {
+        return res.status(404).json({ error: "Usuario no encontrado" });
+      }
+
+      const { password: _, ...safeUser } = user;
+      res.json(safeUser);
+    } catch (error) {
+      console.error("Error updating notes:", error);
+      res.status(500).json({ error: "Error al actualizar notas" });
+    }
+  });
+
+  // Get users by interest (CRM)
+  app.get("/api/users/interest/:interest", async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader || authHeader !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "No autorizado" });
+      }
+
+      const users = await storage.getUsersByInterest(req.params.interest);
+      const safeUsers = users.map(u => {
+        const { password: _, ...safe } = u;
+        return safe;
+      });
+      res.json(safeUsers);
+    } catch (error) {
+      console.error("Error fetching users by interest:", error);
+      res.status(500).json({ error: "Error al obtener usuarios" });
     }
   });
 

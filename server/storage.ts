@@ -88,6 +88,18 @@ export interface IStorage {
   getSiteSetting(key: string): Promise<SiteSetting | undefined>;
   upsertSiteSetting(key: string, value: string): Promise<SiteSetting>;
   deleteSiteSetting(key: string): Promise<void>;
+  
+  // Users
+  getUsers(): Promise<schema.User[]>;
+  getUserById(id: string): Promise<schema.User | undefined>;
+  getUserByEmail(email: string): Promise<schema.User | undefined>;
+  createUser(user: schema.InsertUser): Promise<schema.User>;
+  updateUser(id: string, data: Partial<schema.InsertUser>): Promise<schema.User | undefined>;
+  updateUserInterests(id: string, interests: string[], primaryInterest?: string): Promise<schema.User | undefined>;
+  updateUserStatus(id: string, status: string): Promise<schema.User | undefined>;
+  updateUserNotes(id: string, notes: string): Promise<schema.User | undefined>;
+  getUsersByStatus(status: string): Promise<schema.User[]>;
+  getUsersByInterest(interest: string): Promise<schema.User[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -394,6 +406,68 @@ export class DatabaseStorage implements IStorage {
 
   async deleteMultilink(id: string): Promise<void> {
     await db.delete(schema.multilinks).where(eq(schema.multilinks.id, id));
+  }
+
+  // Users
+  async getUsers(): Promise<schema.User[]> {
+    return db.select().from(schema.users).orderBy(sql`created_at DESC`);
+  }
+
+  async getUserById(id: string): Promise<schema.User | undefined> {
+    const results = await db.select().from(schema.users).where(eq(schema.users.id, id)).limit(1);
+    return results[0];
+  }
+
+  async getUserByEmail(email: string): Promise<schema.User | undefined> {
+    const results = await db.select().from(schema.users).where(eq(schema.users.email, email)).limit(1);
+    return results[0];
+  }
+
+  async createUser(user: schema.InsertUser): Promise<schema.User> {
+    const results = await db.insert(schema.users).values(user).returning();
+    return results[0];
+  }
+
+  async updateUser(id: string, data: Partial<schema.InsertUser>): Promise<schema.User | undefined> {
+    const results = await db.update(schema.users)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(schema.users.id, id))
+      .returning();
+    return results[0];
+  }
+
+  async updateUserInterests(id: string, interests: string[], primaryInterest?: string): Promise<schema.User | undefined> {
+    const results = await db.update(schema.users)
+      .set({ interests, primaryInterest, updatedAt: new Date() })
+      .where(eq(schema.users.id, id))
+      .returning();
+    return results[0];
+  }
+
+  async updateUserStatus(id: string, status: string): Promise<schema.User | undefined> {
+    const results = await db.update(schema.users)
+      .set({ status, updatedAt: new Date() })
+      .where(eq(schema.users.id, id))
+      .returning();
+    return results[0];
+  }
+
+  async updateUserNotes(id: string, notes: string): Promise<schema.User | undefined> {
+    const results = await db.update(schema.users)
+      .set({ notes, updatedAt: new Date() })
+      .where(eq(schema.users.id, id))
+      .returning();
+    return results[0];
+  }
+
+  async getUsersByStatus(status: string): Promise<schema.User[]> {
+    return db.select().from(schema.users).where(eq(schema.users.status, status));
+  }
+
+  async getUsersByInterest(interest: string): Promise<schema.User[]> {
+    return db.select().from(schema.users).where(
+      sql`${schema.users.interests}::jsonb @> ${JSON.stringify([interest])}::jsonb`
+    );
   }
 }
 
