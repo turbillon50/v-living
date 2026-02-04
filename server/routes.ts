@@ -5,7 +5,7 @@ import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema,
 import crypto from "crypto";
 import { z } from "zod";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
-import { sendLeadConfirmationEmail, sendUserRegistrationEmail } from "./resend";
+import { sendLeadConfirmationEmail, sendUserRegistrationEmail, sendCampaignEmail } from "./resend";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
@@ -1028,6 +1028,60 @@ NO HAGAS:
     } catch (error) {
       console.error("Error fetching users by interest:", error);
       res.status(500).json({ error: "Error al obtener usuarios" });
+    }
+  });
+
+  // Send campaign email to users
+  app.post("/api/campaigns/send", async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader || authHeader !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "No autorizado" });
+      }
+
+      const { subject, content, ctaText, ctaUrl, filterInterest, userIds } = req.body;
+
+      if (!subject || !content) {
+        return res.status(400).json({ error: "Asunto y contenido son obligatorios" });
+      }
+
+      let targetUsers: any[];
+
+      if (userIds && userIds.length > 0) {
+        const allUsers = await storage.getUsers();
+        targetUsers = allUsers.filter(u => userIds.includes(u.id));
+      } else if (filterInterest) {
+        targetUsers = await storage.getUsersByInterest(filterInterest);
+      } else {
+        targetUsers = await storage.getUsers();
+      }
+
+      let sent = 0;
+      let failed = 0;
+
+      for (const user of targetUsers) {
+        try {
+          const result = await sendCampaignEmail(user.email, subject, content, ctaText, ctaUrl);
+          if (result.success) {
+            sent++;
+          } else {
+            failed++;
+          }
+        } catch (e) {
+          failed++;
+        }
+      }
+
+      res.json({ 
+        success: true, 
+        sent, 
+        failed, 
+        total: targetUsers.length,
+        message: `Correos enviados: ${sent}/${targetUsers.length}`
+      });
+    } catch (error) {
+      console.error("Error sending campaign:", error);
+      res.status(500).json({ error: "Error al enviar campaña" });
     }
   });
 

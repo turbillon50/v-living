@@ -219,3 +219,69 @@ export async function sendUserRegistrationEmail(toEmail: string, name: string, i
     return { success: false, error };
   }
 }
+
+export async function sendCampaignEmail(toEmail: string, subject: string, content: string, ctaText?: string, ctaUrl?: string) {
+  try {
+    const { client, fromEmail } = await getResendClient();
+
+    const ctaButton = ctaText && ctaUrl ? `
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="${ctaUrl}" style="display: inline-block; background: linear-gradient(135deg, #4db6ac 0%, #26a69a 100%); color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px;">${ctaText}</a>
+      </div>
+    ` : '';
+
+    const { data, error } = await client.emails.send({
+      from: fromEmail || 'Fractional Living <noreply@resend.dev>',
+      to: [toEmail],
+      subject: subject,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0a0a0a; margin: 0; padding: 40px 20px;">
+          <div style="max-width: 500px; margin: 0 auto; background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%); border-radius: 16px; padding: 40px; border: 1px solid rgba(255,255,255,0.1);">
+            
+            <div style="text-align: center; margin-bottom: 30px;">
+              <h1 style="color: #ffffff; font-size: 28px; font-weight: 300; margin: 0; letter-spacing: 2px;">FRACTIONAL LIVING</h1>
+              <p style="color: rgba(255,255,255,0.4); font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin-top: 8px;">All Global Holding LLC</p>
+            </div>
+            
+            <div style="color: rgba(255,255,255,0.85); font-size: 14px; line-height: 1.8;">
+              ${content.replace(/\n/g, '<br>')}
+            </div>
+
+            ${ctaButton}
+            
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 30px;">
+              <p style="color: rgba(255,255,255,0.5); font-size: 12px; text-align: center; margin: 0;">
+                ¿Tienes preguntas? Escríbenos por WhatsApp: <a href="https://wa.me/529984292748" style="color: #4db6ac; text-decoration: none;">+52 998 429 2748</a>
+              </p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 25px;">
+              <a href="https://allliving.org" style="color: #4db6ac; text-decoration: none; font-size: 12px;">allliving.org</a>
+              <span style="color: rgba(255,255,255,0.2); margin: 0 8px;">|</span>
+              <a href="https://vandefi.org" style="color: #4db6ac; text-decoration: none; font-size: 12px;">vandefi.org</a>
+              <span style="color: rgba(255,255,255,0.2); margin: 0 8px;">|</span>
+              <a href="https://agh-ia.com" style="color: #4db6ac; text-decoration: none; font-size: 12px;">agh-ia.com</a>
+            </div>
+          </div>
+        </body>
+        </html>
+      `
+    });
+
+    if (error) {
+      console.error('Error sending campaign email:', error);
+      return { success: false, error };
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error in sendCampaignEmail:', error);
+    return { success: false, error };
+  }
+}
