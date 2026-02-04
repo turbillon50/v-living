@@ -75,18 +75,18 @@ export default function Multilinks() {
   const displayLinks = activeLinks.length > 0 ? activeLinks : defaultLinks;
 
   return (
-    <div className="min-h-screen bg-black pb-32">
+    <div className="min-h-screen bg-white pb-32">
       <div className="max-w-md mx-auto px-4 pt-8 pb-12">
         <div className="text-center mb-10">
-          <div className="w-28 h-28 mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl border-2 border-white/10">
+          <div className="w-28 h-28 mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl border border-black/10">
             <img 
               src={logoImg} 
               alt="All Living" 
               className="w-full h-full object-cover" 
             />
           </div>
-          <h1 className="text-white text-2xl font-bold tracking-tight mb-1">ALL LIVING</h1>
-          <p className="text-white/40 text-sm font-light tracking-widest">ALL GLOBAL HOLDING LLC</p>
+          <h1 className="text-black text-2xl font-bold tracking-tight mb-1">ALL LIVING</h1>
+          <p className="text-black/50 text-sm font-light tracking-widest">ALL GLOBAL HOLDING LLC</p>
           <div className="flex items-center justify-center gap-2 mt-4">
             <span className="w-12 h-px bg-gradient-to-r from-transparent to-orange-500" />
             <p className="text-orange-500 text-xs font-medium tracking-wide">COMPRA • VIVE • RENTA • REVENDE</p>
@@ -106,7 +106,7 @@ export default function Multilinks() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group relative flex items-center gap-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 transition-all duration-300 hover:bg-white/10 hover:scale-[1.02] active:scale-[0.98] ${brandHover}`}
+                className={`group relative flex items-center gap-4 bg-black/5 border border-black/10 rounded-2xl p-4 transition-all duration-300 hover:bg-black/10 hover:scale-[1.02] active:scale-[0.98] ${brandHover}`}
                 style={{ animationDelay: `${index * 100}ms` }}
                 data-testid={`link-${link.type}`}
               >
@@ -115,21 +115,21 @@ export default function Multilinks() {
                 </div>
                 
                 <div className="flex-1">
-                  <span className="text-white font-semibold text-base">{link.title}</span>
-                  <p className="text-white/40 text-xs truncate">{link.url.replace('https://', '').split('/')[0]}</p>
+                  <span className="text-black font-semibold text-base">{link.title}</span>
+                  <p className="text-black/40 text-xs truncate">{link.url.replace('https://', '').split('/')[0]}</p>
                 </div>
                 
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center transition-all group-hover:bg-orange-500">
-                  <ExternalLink className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />
+                <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center transition-all group-hover:bg-orange-500">
+                  <ExternalLink className="w-4 h-4 text-black/40 group-hover:text-white transition-colors" />
                 </div>
               </a>
             );
           })}
         </div>
 
-        <div className="mt-10 p-6 bg-gradient-to-br from-white/5 to-white/0 border border-white/10 rounded-2xl">
-          <p className="text-center text-white/80 font-medium mb-2">¿Listo para invertir en el Caribe?</p>
-          <p className="text-center text-white/40 text-sm mb-4">Fracciones desde $65,000 USD</p>
+        <div className="mt-10 p-6 bg-black border border-black/10 rounded-2xl">
+          <p className="text-center text-white font-medium mb-2">¿Listo para invertir en el Caribe?</p>
+          <p className="text-center text-white/60 text-sm mb-4">Fracciones desde $65,000 USD</p>
           <a 
             href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20invertir%20en%20una%20fracción"
             target="_blank"
@@ -145,24 +145,24 @@ export default function Multilinks() {
           <div className="flex items-center justify-center gap-6">
             <div className="text-center">
               <p className="text-orange-500 text-xl font-bold">8+</p>
-              <p className="text-white/30 text-[10px]">PROPIEDADES</p>
+              <p className="text-black/40 text-[10px]">PROPIEDADES</p>
             </div>
-            <div className="w-px h-8 bg-white/10" />
+            <div className="w-px h-8 bg-black/10" />
             <div className="text-center">
               <p className="text-orange-500 text-xl font-bold">42</p>
-              <p className="text-white/30 text-[10px]">FRACCIONES</p>
+              <p className="text-black/40 text-[10px]">FRACCIONES</p>
             </div>
-            <div className="w-px h-8 bg-white/10" />
+            <div className="w-px h-8 bg-black/10" />
             <div className="text-center">
               <p className="text-orange-500 text-xl font-bold">30%</p>
-              <p className="text-white/30 text-[10px]">ENGANCHE</p>
+              <p className="text-black/40 text-[10px]">ENGANCHE</p>
             </div>
           </div>
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-white/20 text-[10px] tracking-widest">© 2024 ALL GLOBAL HOLDING LLC</p>
-          <p className="text-white/10 text-[10px] mt-1">Cancún, Quintana Roo, México</p>
+          <p className="text-black/30 text-[10px] tracking-widest">© 2024 ALL GLOBAL HOLDING LLC</p>
+          <p className="text-black/20 text-[10px] mt-1">Cancún, Quintana Roo, México</p>
         </div>
       </div>
 
