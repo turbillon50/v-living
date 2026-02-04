@@ -58,7 +58,7 @@ export default function Home() {
           {/* Stats en línea */}
           <div className="flex justify-center gap-8 mb-6">
             <div className="text-center">
-              <p className="text-2xl font-light text-black">{properties.reduce((sum, p) => sum + (p.totalFractions || 14), 0)}</p>
+              <p className="text-2xl font-light text-black">{properties.length * 42}</p>
               <p className="text-[10px] text-black/40 uppercase">Fracciones</p>
             </div>
             <div className="text-center">
