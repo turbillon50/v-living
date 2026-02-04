@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter';
-import { Building2, Home as HomeIcon, Sparkles, User } from 'lucide-react';
+import { Building2, Home as HomeIcon, Sparkles, User, LinkIcon } from 'lucide-react';
 
 export function BottomNav() {
   const [location] = useLocation();
@@ -9,6 +9,7 @@ export function BottomNav() {
     { href: '/', label: 'Inicio', icon: HomeIcon },
     { href: '/fractional', label: 'Fracciones', icon: Building2 },
     { href: '/experiences', label: 'Experiencias', icon: Sparkles },
+    { href: '/links', label: 'Links', icon: LinkIcon },
     { href: '/registro', label: 'Registro', icon: User },
   ];
 
