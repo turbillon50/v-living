@@ -350,7 +350,7 @@ export default function Home() {
       </section>
 
       {/* Footer mínimo */}
-      <footer className="py-8 pb-40 border-t border-gray-100">
+      <footer className="py-8 pb-60 border-t border-gray-100">
         <div className="px-5 text-center">
           <p className="text-gray-400 text-xs mb-4">FRACTIONAL LIVING</p>
           <div className="flex justify-center gap-6 text-xs text-gray-500 mb-4">

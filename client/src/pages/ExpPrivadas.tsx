@@ -3,7 +3,7 @@ import { Link } from 'wouter';
 
 export default function ExpPrivadas() {
   return (
-    <div className="min-h-screen bg-white pb-32">
+    <div className="min-h-screen bg-white pb-60">
       <div className="relative">
         <img 
           src="/exp-privadas.jpg" 

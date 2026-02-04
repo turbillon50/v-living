@@ -5,7 +5,7 @@ import { Zap, Clock, ArrowRight } from 'lucide-react';
 
 export default function LastMinute() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-amber-50/30 pb-40">
+    <div className="min-h-screen bg-gradient-to-b from-white to-amber-50/30 pb-60">
       <Header />
 
       <main className="max-w-2xl mx-auto px-4 pt-6">

@@ -16,7 +16,7 @@ export default function AutosLujo() {
   const prev = () => setCurrent((current - 1 + AUTOS.length) % AUTOS.length);
 
   return (
-    <div className="min-h-screen bg-white pb-40">
+    <div className="min-h-screen bg-white pb-60">
       <Header />
 
       <section className="px-4 pt-4 pb-6">

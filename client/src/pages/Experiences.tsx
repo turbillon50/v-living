@@ -79,7 +79,7 @@ const experienceCategories = [
 
 export default function Experiences() {
   return (
-    <div className="min-h-screen bg-white pb-40">
+    <div className="min-h-screen bg-white pb-60">
       <Header />
 
       <section className="px-4 pt-4 pb-3">

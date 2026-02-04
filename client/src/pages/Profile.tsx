@@ -162,7 +162,7 @@ export default function Profile() {
     <div className="min-h-screen bg-white">
       <Header />
       
-      <div className="px-4 py-6 max-w-lg mx-auto pb-32">
+      <div className="px-4 py-6 max-w-lg mx-auto pb-60">
         <div className={`${config.color} rounded-3xl p-6 mb-6 text-white`}>
           <div className="flex items-start justify-between mb-4">
             <div>

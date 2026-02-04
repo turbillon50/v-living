@@ -5,7 +5,7 @@ import { Home, Building, Percent, Shield } from 'lucide-react';
 
 export default function PropertyAsociado() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-emerald-50/30 pb-40">
+    <div className="min-h-screen bg-gradient-to-b from-white to-emerald-50/30 pb-60">
       <Header />
 
       <main className="max-w-2xl mx-auto px-4 pt-6">

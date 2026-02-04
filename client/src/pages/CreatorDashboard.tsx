@@ -1118,7 +1118,7 @@ export default function CreatorDashboard() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 pb-32 sm:pb-40">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 pb-60 sm:pb-60">
         {/* PROPERTIES TAB */}
         {activeTab === 'properties' && (
           <div>

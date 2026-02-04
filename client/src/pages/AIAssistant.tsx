@@ -27,7 +27,7 @@ export default function AIAssistant() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-40 flex flex-col">
+    <div className="min-h-screen bg-background pb-60 flex flex-col">
       <Header />
 
       <main className="flex-1 max-w-3xl mx-auto w-full px-6 md:px-10 pt-8 flex flex-col">
