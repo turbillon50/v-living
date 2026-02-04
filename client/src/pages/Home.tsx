@@ -34,10 +34,10 @@ export default function Home() {
           </h1>
           <p className="text-[10px] text-gray-400 uppercase tracking-[0.25em] mb-4">All Global Holding LLC</p>
           
-          <p className="text-base text-teal-600 font-bold mb-2">
+          <p className="text-base text-orange-500 font-bold mb-2">
             Compra • Vive • Renta • Revende • Repite
           </p>
-          <p className="text-xs text-gray-500 mb-4">
+          <p className="text-xs text-black/50 mb-4">
             {language === 'es' ? 'Servicio llave en mano. Nosotros rentamos por ti.' : 'Turnkey service. We rent for you.'}
           </p>
 
@@ -52,22 +52,22 @@ export default function Home() {
               alt="Beneficios Fractional Living" 
               className="w-full rounded-xl shadow-lg"
             />
-            <p className="text-teal-600 font-semibold text-sm mt-2">Beneficios Fractional Living</p>
+            <p className="text-orange-500 font-semibold text-sm mt-2">Beneficios Fractional Living</p>
           </button>
 
           {/* Stats en línea */}
           <div className="flex justify-center gap-8 mb-6">
             <div className="text-center">
-              <p className="text-2xl font-light text-gray-900">{properties.length * 42}</p>
-              <p className="text-[10px] text-gray-400 uppercase">Fracciones</p>
+              <p className="text-2xl font-light text-black">{properties.length * 42}</p>
+              <p className="text-[10px] text-black/40 uppercase">Fracciones</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-light text-teal-600">30%</p>
-              <p className="text-[10px] text-gray-400 uppercase">Enganche</p>
+              <p className="text-2xl font-light text-orange-500">30%</p>
+              <p className="text-[10px] text-black/40 uppercase">Enganche</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-light text-gray-900">12</p>
-              <p className="text-[10px] text-gray-400 uppercase">MSI</p>
+              <p className="text-2xl font-light text-black">12</p>
+              <p className="text-[10px] text-black/40 uppercase">MSI</p>
             </div>
           </div>
         </div>
@@ -75,15 +75,15 @@ export default function Home() {
 
       {/* Oportunidad destacada */}
       <section className="px-5 pb-6">
-        <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-2xl p-5 text-center">
+        <div className="bg-black rounded-2xl p-5 text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Sparkles className="w-4 h-4 text-white" />
+            <Sparkles className="w-4 h-4 text-orange-500" />
             <span className="text-xs font-medium text-white/80 uppercase tracking-wider">Oportunidad</span>
           </div>
           <p className="text-white text-lg font-medium mb-1">
             {language === 'es' ? 'Invierte desde $195K MXN' : 'Invest from $195K MXN'}
           </p>
-          <p className="text-white/70 text-sm">
+          <p className="text-white/60 text-sm">
             {language === 'es' ? '30% enganche • 12 meses sin intereses' : '30% down payment • 12 months no interest'}
           </p>
         </div>
@@ -94,8 +94,8 @@ export default function Home() {
         <section className="pb-8">
           <div className="px-5 mb-4 flex items-end justify-between">
             <div>
-              <p className="text-teal-600 text-xs font-medium uppercase tracking-wider mb-1">Propiedades</p>
-              <h2 className="text-xl font-light text-gray-900">Disponibles</h2>
+              <p className="text-orange-500 text-xs font-medium uppercase tracking-wider mb-1">Propiedades</p>
+              <h2 className="text-xl font-light text-black">Disponibles</h2>
             </div>
             <Link href="/fractional">
               <span className="text-xs text-gray-400 flex items-center gap-1">
@@ -123,7 +123,7 @@ export default function Home() {
                         </div>
                       )}
                       {property.tag && (
-                        <span className="absolute top-3 left-3 bg-teal-500 text-white text-[10px] px-2 py-1 rounded-full font-medium">
+                        <span className="absolute top-3 left-3 bg-orange-500 text-white text-[10px] px-2 py-1 rounded-full font-medium">
                           {property.tag}
                         </span>
                       )}
@@ -144,13 +144,13 @@ export default function Home() {
                       
                       <div className="flex items-end justify-between">
                         <div>
-                          <p className="text-teal-600 font-semibold text-lg">
+                          <p className="text-orange-500 font-semibold text-lg">
                             ${((property.price || 650000) / 1000).toFixed(0)}K
                           </p>
-                          <p className="text-gray-400 text-[10px]">{property.currency || 'MXN'} / fracción</p>
+                          <p className="text-black/40 text-[10px]">{property.currency || 'MXN'} / fracción</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-gray-500 text-xs">{property.totalFractions || 14} fracciones</p>
+                          <p className="text-black/50 text-xs">{property.totalFractions || 14} fracciones</p>
                         </div>
                       </div>
                     </div>
@@ -174,27 +174,27 @@ export default function Home() {
 
       {/* Por qué invertir - Cards simples */}
       <section className="px-5 pb-8">
-        <h3 className="text-gray-500 text-sm font-medium mb-4 text-center">¿Por qué Fractional Living?</h3>
+        <h3 className="text-black/50 text-sm font-medium mb-4 text-center">¿Por qué Fractional Living?</h3>
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-            <TrendingUp className="w-5 h-5 text-teal-600 mb-2" />
-            <p className="text-gray-900 text-sm font-medium">Plusvalía Real</p>
-            <p className="text-gray-400 text-xs">Tu fracción se valoriza</p>
+          <div className="bg-black/5 rounded-xl p-4 border border-black/10">
+            <TrendingUp className="w-5 h-5 text-orange-500 mb-2" />
+            <p className="text-black text-sm font-medium">Plusvalía Real</p>
+            <p className="text-black/40 text-xs">Tu fracción se valoriza</p>
           </div>
-          <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-            <Calendar className="w-5 h-5 text-teal-600 mb-2" />
-            <p className="text-gray-900 text-sm font-medium">3 Semanas/Año</p>
-            <p className="text-gray-400 text-xs">Uso garantizado</p>
+          <div className="bg-black/5 rounded-xl p-4 border border-black/10">
+            <Calendar className="w-5 h-5 text-orange-500 mb-2" />
+            <p className="text-black text-sm font-medium">3 Semanas/Año</p>
+            <p className="text-black/40 text-xs">Uso garantizado</p>
           </div>
-          <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+          <div className="bg-black/5 rounded-xl p-4 border border-black/10">
             <span className="text-xl mb-2 block">💰</span>
-            <p className="text-gray-900 text-sm font-medium">Renta tu Fracción</p>
-            <p className="text-gray-400 text-xs">Genera ingresos</p>
+            <p className="text-black text-sm font-medium">Renta tu Fracción</p>
+            <p className="text-black/40 text-xs">Genera ingresos</p>
           </div>
-          <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+          <div className="bg-black/5 rounded-xl p-4 border border-black/10">
             <span className="text-xl mb-2 block">🔄</span>
-            <p className="text-gray-900 text-sm font-medium">Revende</p>
-            <p className="text-gray-400 text-xs">Liquida cuando quieras</p>
+            <p className="text-black text-sm font-medium">Revende</p>
+            <p className="text-black/40 text-xs">Liquida cuando quieras</p>
           </div>
         </div>
       </section>

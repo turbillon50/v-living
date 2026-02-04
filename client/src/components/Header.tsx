@@ -8,51 +8,42 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/lib/LanguageContext';
+import { useAuth } from '@/lib/AuthContext';
+
 export function Header() {
   const [location] = useLocation();
-  const { toast } = useToast();
   const { language, setLanguage } = useLanguage();
-  const [showRegister, setShowRegister] = useState(false);
-  const [registerEmail, setRegisterEmail] = useState('');
-
-  const handleRegister = () => {
-    if (!registerEmail) {
-      toast({ title: "Email requerido", variant: "destructive" });
-      return;
-    }
-    toast({ title: "¡Registrado!", description: "Te contactaremos pronto" });
-    setShowRegister(false);
-    setRegisterEmail('');
-  };
+  const { user, setShowAuthModal, setAuthModalMode } = useAuth();
 
   const openWhatsApp = () => {
     window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living', '_blank');
   };
 
+  const handleLogin = () => {
+    setAuthModalMode('login');
+    setShowAuthModal(true);
+  };
+
+  const handleRegister = () => {
+    setAuthModalMode('register');
+    setShowAuthModal(true);
+  };
+
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-stone-200">
+    <header className="sticky top-0 z-50 bg-white border-b border-black/10">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
             {(location.startsWith('/property') || location === '/registro' || location === '/creator') && (
               <Link href="/fractional">
-                <button className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors" data-testid="button-back">
-                  <ArrowLeft className="w-5 h-5 text-gray-600" />
+                <button className="p-2 -ml-2 hover:bg-black/5 rounded-full transition-colors" data-testid="button-back">
+                  <ArrowLeft className="w-5 h-5 text-black/60" />
                 </button>
               </Link>
             )}
             <Link href="/" data-testid="link-home">
-              <span className="text-lg font-light tracking-wide cursor-pointer text-[#1a1a1a]">
+              <span className="text-lg font-bold tracking-tight cursor-pointer text-black">
                 FRACTIONAL LIVING
               </span>
             </Link>
@@ -60,17 +51,17 @@ export function Header() {
 
           <nav className="hidden md:flex items-center gap-8">
             <Link href="/fractional" data-testid="link-fractional">
-              <span className={`text-sm cursor-pointer transition-colors ${location.startsWith('/fractional') || location.startsWith('/property') ? 'text-[#2d3a3a] font-medium' : 'text-stone-500 hover:text-[#2d3a3a]'}`}>
+              <span className={`text-sm cursor-pointer transition-colors ${location.startsWith('/fractional') || location.startsWith('/property') ? 'text-black font-medium' : 'text-black/50 hover:text-black'}`}>
                 {language === 'es' ? 'Propiedades' : 'Properties'}
               </span>
             </Link>
             <Link href="/experiences" data-testid="link-experiences">
-              <span className={`text-sm cursor-pointer transition-colors ${location === '/experiences' ? 'text-[#2d3a3a] font-medium' : 'text-stone-500 hover:text-[#2d3a3a]'}`}>
+              <span className={`text-sm cursor-pointer transition-colors ${location === '/experiences' ? 'text-black font-medium' : 'text-black/50 hover:text-black'}`}>
                 {language === 'es' ? 'Experiencias' : 'Experiences'}
               </span>
             </Link>
             <Link href="/invest" data-testid="link-invest">
-              <span className={`text-sm cursor-pointer transition-colors ${location === '/invest' ? 'text-[#2d3a3a] font-medium' : 'text-stone-500 hover:text-[#2d3a3a]'}`}>
+              <span className={`text-sm cursor-pointer transition-colors ${location === '/invest' ? 'text-black font-medium' : 'text-black/50 hover:text-black'}`}>
                 {language === 'es' ? 'Invertir' : 'Invest'}
               </span>
             </Link>
@@ -78,13 +69,13 @@ export function Header() {
 
           <div className="flex items-center gap-3">
             <Link href="/creator">
-              <Button variant="ghost" size="icon" className="w-8 h-8 text-stone-400 hover:text-stone-600" title="Admin">
+              <Button variant="ghost" size="icon" className="w-8 h-8 text-black/30 hover:text-black" title="Admin">
                 <Lock className="w-4 h-4" />
               </Button>
             </Link>
             
             <button 
-              className="flex items-center gap-1 text-sm text-stone-500 hover:text-[#2d3a3a] transition-colors px-2 py-1" 
+              className="flex items-center gap-1 text-sm text-black/50 hover:text-black transition-colors px-2 py-1" 
               data-testid="button-language"
               onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
             >
@@ -95,24 +86,41 @@ export function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
-                  className="flex items-center gap-2 border border-stone-200 rounded-full px-2 py-1.5 hover:shadow-sm transition-shadow"
+                  className="flex items-center gap-2 border border-black/20 rounded-full px-2 py-1.5 hover:shadow-sm transition-shadow"
                   data-testid="button-user-menu"
                 >
-                  <Menu className="w-4 h-4 text-stone-600" />
-                  <div className="w-7 h-7 rounded-full bg-stone-400 flex items-center justify-center">
+                  <Menu className="w-4 h-4 text-black/60" />
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center ${user ? 'bg-orange-500' : 'bg-black/40'}`}>
                     <User className="w-4 h-4 text-white" />
                   </div>
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem onClick={() => setShowRegister(true)}>
-                  <span className="font-medium">{language === 'es' ? 'Registrarse' : 'Sign up'}</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setShowRegister(true)}>
-                  {language === 'es' ? 'Iniciar Sesión' : 'Log in'}
-                </DropdownMenuItem>
+                {user ? (
+                  <>
+                    <div className="px-2 py-2">
+                      <p className="font-medium text-black">{user.name}</p>
+                      <p className="text-xs text-black/50">{user.email}</p>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <Link href="/perfil">
+                      <DropdownMenuItem className="cursor-pointer">
+                        {language === 'es' ? 'Mi Perfil' : 'My Profile'}
+                      </DropdownMenuItem>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem onClick={handleRegister} className="cursor-pointer">
+                      <span className="font-medium">{language === 'es' ? 'Registrarse' : 'Sign up'}</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogin} className="cursor-pointer">
+                      {language === 'es' ? 'Iniciar Sesión' : 'Log in'}
+                    </DropdownMenuItem>
+                  </>
+                )}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={openWhatsApp}>
+                <DropdownMenuItem onClick={openWhatsApp} className="cursor-pointer">
                   {language === 'es' ? 'Centro de Ayuda' : 'Help Center'}
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -120,32 +128,6 @@ export function Header() {
           </div>
         </div>
       </div>
-
-      <Dialog open={showRegister} onOpenChange={setShowRegister}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>{language === 'es' ? 'Únete a Fractional Living' : 'Join Fractional Living'}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <p className="text-sm text-stone-500">
-              {language === 'es' 
-                ? 'Ingresa tu email para recibir información exclusiva sobre nuestras propiedades.'
-                : 'Enter your email to receive exclusive information about our properties.'}
-            </p>
-            <Input 
-              type="email"
-              placeholder="tu@email.com" 
-              value={registerEmail}
-              onChange={e => setRegisterEmail(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleRegister()}
-              className="h-12"
-            />
-            <Button onClick={handleRegister} className="w-full h-12 bg-[#2d3a3a] hover:bg-[#3d4a4a]">
-              {language === 'es' ? 'Registrarme' : 'Sign up'}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </header>
   );
 }
