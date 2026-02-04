@@ -212,22 +212,37 @@ export default function Home() {
       {/* Opciones de inversión */}
       <section className="px-5 pb-8">
         <h3 className="text-black/50 text-sm font-medium mb-4 text-center">Más Opciones</h3>
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-3 gap-3">
           <Link href="/last-minute-capital">
-            <div className="relative rounded-2xl overflow-hidden aspect-[16/9] active:scale-[0.98] transition-transform shadow-lg">
+            <div className="relative rounded-xl overflow-hidden aspect-[3/4] active:scale-[0.95] hover:scale-[1.02] transition-transform shadow-lg group border-2 border-transparent hover:border-orange-500">
               <img src="/last-minute-capital.jpg" alt="Last Minute Capital" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-2 left-2 right-2">
+                <p className="text-white text-[10px] font-bold leading-tight">Last Minute Capital</p>
+                <p className="text-orange-400 text-[8px] mt-0.5">Ver más →</p>
+              </div>
             </div>
           </Link>
           
           <Link href="/perfil-asociado">
-            <div className="relative rounded-2xl overflow-hidden aspect-[16/9] active:scale-[0.98] transition-transform shadow-lg">
+            <div className="relative rounded-xl overflow-hidden aspect-[3/4] active:scale-[0.95] hover:scale-[1.02] transition-transform shadow-lg group border-2 border-transparent hover:border-orange-500">
               <img src="/perfil-asociado.jpg" alt="Perfil Asociado" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-2 left-2 right-2">
+                <p className="text-white text-[10px] font-bold leading-tight">Perfil Asociado</p>
+                <p className="text-orange-400 text-[8px] mt-0.5">Ver más →</p>
+              </div>
             </div>
           </Link>
           
           <Link href="/modelo-negocios">
-            <div className="relative rounded-2xl overflow-hidden aspect-[16/9] active:scale-[0.98] transition-transform shadow-lg">
+            <div className="relative rounded-xl overflow-hidden aspect-[3/4] active:scale-[0.95] hover:scale-[1.02] transition-transform shadow-lg group border-2 border-transparent hover:border-orange-500">
               <img src="/modelo-negocio.jpg" alt="Modelo de Negocio" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-2 left-2 right-2">
+                <p className="text-white text-[10px] font-bold leading-tight">Modelo de Negocio</p>
+                <p className="text-orange-400 text-[8px] mt-0.5">Ver más →</p>
+              </div>
             </div>
           </Link>
         </div>
