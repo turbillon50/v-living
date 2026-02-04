@@ -5,7 +5,7 @@ import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema,
 import crypto from "crypto";
 import { z } from "zod";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
-import { sendLeadConfirmationEmail } from "./resend";
+import { sendLeadConfirmationEmail, sendUserRegistrationEmail } from "./resend";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
@@ -906,6 +906,14 @@ NO HAGAS:
       const user = await storage.updateUserInterests(req.params.id, interests, primaryInterest);
       if (!user) {
         return res.status(404).json({ error: "Usuario no encontrado" });
+      }
+
+      // Send confirmation email after interests are set
+      try {
+        await sendUserRegistrationEmail(user.email, user.name, interests);
+      } catch (emailError) {
+        console.error("Error sending registration email:", emailError);
+        // Don't fail the request if email fails
       }
 
       const { password: _, ...safeUser } = user;
