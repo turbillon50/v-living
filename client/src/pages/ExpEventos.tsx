@@ -22,8 +22,8 @@ export default function ExpEventos() {
 
       <div className="px-5 pt-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="bg-purple-100 p-3 rounded-xl">
-            <PartyPopper className="w-6 h-6 text-purple-600" />
+          <div className="bg-black p-3 rounded-xl">
+            <PartyPopper className="w-6 h-6 text-orange-500" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Eventos Privados</h1>
@@ -31,7 +31,7 @@ export default function ExpEventos() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl p-5 mb-6">
+        <div className="bg-gradient-to-br from-black to-black rounded-2xl p-5 mb-6">
           <div className="flex items-center gap-2 mb-3">
             <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
             <h2 className="font-bold text-gray-900">Tu Beneficio Fractional Living</h2>
@@ -64,18 +64,18 @@ export default function ExpEventos() {
           </p>
         </div>
 
-        <div className="bg-pink-50 rounded-2xl p-5 mb-6">
+        <div className="bg-black/5 rounded-2xl p-5 mb-6">
           <h3 className="font-bold text-gray-900 mb-3">Tipos de Eventos</h3>
           <div className="space-y-3">
-            <div className="bg-white rounded-xl p-3 border border-pink-100">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Cumpleaños y Aniversarios</p>
               <p className="text-xs text-gray-500">Celebraciones íntimas o grandes fiestas</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-pink-100">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Bodas y Compromisos</p>
               <p className="text-xs text-gray-500">El escenario perfecto para el "Sí"</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-pink-100">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Reuniones Corporativas</p>
               <p className="text-xs text-gray-500">Networking en ambiente exclusivo</p>
             </div>
@@ -88,7 +88,7 @@ export default function ExpEventos() {
           href="https://wa.me/529984292748?text=Hola,%20soy%20miembro%20Fractional%20Living%20y%20quiero%20organizar%20un%20evento%20privado"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-4 rounded-xl transition-colors"
+          className="flex items-center justify-center gap-2 w-full bg-black/5 hover:bg-black/5 text-white font-bold py-4 rounded-xl transition-colors"
         >
           <Phone className="w-5 h-5" />
           Planear Mi Evento

@@ -20,8 +20,8 @@ const seasonConfig: Record<Season, { label: string; color: string; bg: string }>
   },
   low: {
     label: 'Low Season',
-    color: 'text-teal-600',
-    bg: 'bg-teal-50',
+    color: 'text-orange-500',
+    bg: 'bg-orange-500',
   },
 };
 
@@ -56,7 +56,7 @@ export function SeasonBadge({ season, size = 'md', showLabel = true }: SeasonBad
           dotSizes[size],
           season === 'high' && 'bg-primary',
           season === 'mid' && 'bg-amber-500',
-          season === 'low' && 'bg-teal-500'
+          season === 'low' && 'bg-orange-500'
         )}
       />
       {showLabel && config.label}
@@ -68,7 +68,7 @@ export function SeasonIndicator({ season }: { season: Season }) {
   const colors = {
     high: 'bg-primary',
     mid: 'bg-amber-500',
-    low: 'bg-teal-500',
+    low: 'bg-orange-500',
   };
 
   return <span className={cn('w-3 h-3 rounded-full', colors[season])} />;

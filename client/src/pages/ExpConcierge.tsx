@@ -15,15 +15,15 @@ export default function ExpConcierge() {
             <ArrowLeft className="w-5 h-5" />
           </button>
         </Link>
-        <div className="absolute bottom-4 right-4 bg-green-500 text-white text-sm font-bold px-4 py-2 rounded-full">
+        <div className="absolute bottom-4 right-4 bg-black text-white text-sm font-bold px-4 py-2 rounded-full">
           INCLUIDO
         </div>
       </div>
 
       <div className="px-5 pt-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="bg-purple-100 p-3 rounded-xl">
-            <Headphones className="w-6 h-6 text-purple-600" />
+          <div className="bg-black p-3 rounded-xl">
+            <Headphones className="w-6 h-6 text-orange-500" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Conserjería 24/7</h1>
@@ -31,7 +31,7 @@ export default function ExpConcierge() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-5 mb-6">
+        <div className="bg-gradient-to-br from-black to-emerald-50 rounded-2xl p-5 mb-6">
           <div className="flex items-center gap-2 mb-3">
             <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
             <h2 className="font-bold text-gray-900">Tu Beneficio Fractional Living</h2>
@@ -65,18 +65,18 @@ export default function ExpConcierge() {
           </p>
         </div>
 
-        <div className="bg-green-50 rounded-2xl p-5 mb-6">
+        <div className="bg-black rounded-2xl p-5 mb-6">
           <h3 className="font-bold text-gray-900 mb-3">¿Qué Podemos Hacer Por Ti?</h3>
           <div className="space-y-3">
-            <div className="bg-white rounded-xl p-3 border border-green-100">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Reservaciones</p>
               <p className="text-xs text-gray-500">Restaurantes, spas, tours, actividades</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-green-100">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Logística</p>
               <p className="text-xs text-gray-500">Transporte, traslados, coordinación</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-green-100">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Lo Imposible</p>
               <p className="text-xs text-gray-500">Si existe, te lo conseguimos</p>
             </div>
@@ -89,7 +89,7 @@ export default function ExpConcierge() {
           href="https://wa.me/529984292748?text=Hola,%20soy%20miembro%20Fractional%20Living%20y%20necesito%20asistencia"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition-colors"
+          className="flex items-center justify-center gap-2 w-full bg-black hover:bg-black text-white font-bold py-4 rounded-xl transition-colors"
         >
           <Phone className="w-5 h-5" />
           Contactar Concierge

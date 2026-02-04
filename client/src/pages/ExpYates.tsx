@@ -22,8 +22,8 @@ export default function ExpYates() {
 
       <div className="px-5 pt-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="bg-purple-100 p-3 rounded-xl">
-            <Ship className="w-6 h-6 text-purple-600" />
+          <div className="bg-black p-3 rounded-xl">
+            <Ship className="w-6 h-6 text-orange-500" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Yates y Embarcaciones</h1>
@@ -31,7 +31,7 @@ export default function ExpYates() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-5 mb-6">
+        <div className="bg-gradient-to-br from-black to-black rounded-2xl p-5 mb-6">
           <div className="flex items-center gap-2 mb-3">
             <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
             <h2 className="font-bold text-gray-900">Tu Beneficio Fractional Living</h2>
@@ -63,18 +63,18 @@ export default function ExpYates() {
           </p>
         </div>
 
-        <div className="bg-purple-50 rounded-2xl p-5 mb-6">
+        <div className="bg-black rounded-2xl p-5 mb-6">
           <h3 className="font-bold text-gray-900 mb-3">Experiencias Disponibles</h3>
           <div className="space-y-3">
-            <div className="bg-white rounded-xl p-3 border border-purple-100">
+            <div className="bg-white rounded-xl p-3 border border-orange-500">
               <p className="font-semibold text-sm">Sunset Cruise</p>
               <p className="text-xs text-gray-500">2 horas • Atardecer en el mar</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-purple-100">
+            <div className="bg-white rounded-xl p-3 border border-orange-500">
               <p className="font-semibold text-sm">Full Day Isla Mujeres</p>
               <p className="text-xs text-gray-500">8 horas • Snorkel y playa privada</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-purple-100">
+            <div className="bg-white rounded-xl p-3 border border-orange-500">
               <p className="font-semibold text-sm">Fishing Experience</p>
               <p className="text-xs text-gray-500">6 horas • Pesca deportiva</p>
             </div>
@@ -87,7 +87,7 @@ export default function ExpYates() {
           href="https://wa.me/529984292748?text=Hola,%20soy%20miembro%20Fractional%20Living%20y%20me%20interesa%20rentar%20un%20yate"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 rounded-xl transition-colors"
+          className="flex items-center justify-center gap-2 w-full bg-black hover:bg-black text-white font-bold py-4 rounded-xl transition-colors"
         >
           <Phone className="w-5 h-5" />
           Reservar con Descuento

@@ -206,7 +206,7 @@ export default function Profile() {
                     <p className="text-white font-medium">{feat.value}</p>
                   </div>
                 </div>
-                <div className={`w-2 h-2 rounded-full ${feat.status === 'active' ? 'bg-green-500' : 'bg-orange-500'}`} />
+                <div className={`w-2 h-2 rounded-full ${feat.status === 'active' ? 'bg-black' : 'bg-orange-500'}`} />
               </div>
             ))}
           </div>

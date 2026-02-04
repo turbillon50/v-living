@@ -83,7 +83,7 @@ export default function Experiences() {
       <Header />
 
       <section className="px-4 pt-4 pb-3">
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-5 text-center mb-4">
+        <div className="bg-gradient-to-r from-black to-black rounded-2xl p-5 text-center mb-4">
           <div className="flex items-center justify-center gap-2 mb-2">
             <Sparkles className="w-5 h-5 text-yellow-300" />
             <h1 className="text-white text-lg font-bold">Experiencias Exclusivas</h1>
@@ -117,7 +117,7 @@ export default function Experiences() {
                 </div>
                 <div className="p-3">
                   <div className="flex items-center gap-2 mb-1">
-                    <Icon className="w-4 h-4 text-purple-600" />
+                    <Icon className="w-4 h-4 text-orange-500" />
                     <h3 className="font-semibold text-sm text-gray-900">{exp.title}</h3>
                   </div>
                   <p className="text-xs text-gray-500 leading-relaxed">{exp.description}</p>
@@ -131,13 +131,13 @@ export default function Experiences() {
 
         <div className="mt-6 bg-gray-50 rounded-xl p-4 text-center">
           <p className="text-gray-600 text-sm mb-2">
-            ¿Necesitas algo especial? <span className="font-bold text-purple-600">Te lo conseguimos.</span>
+            ¿Necesitas algo especial? <span className="font-bold text-orange-500">Te lo conseguimos.</span>
           </p>
           <a 
             href="https://wa.me/529984292748?text=Hola,%20necesito%20una%20experiencia%20especial%20con%20Fractional%20Living"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors"
+            className="inline-block bg-black hover:bg-black text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors"
           >
             Contactar Concierge
           </a>

@@ -25,12 +25,12 @@ const getIcon = (type: string) => {
 
 const getGradient = (type: string) => {
   switch (type) {
-    case 'instagram': return 'from-pink-500 to-purple-600';
+    case 'instagram': return 'from-black to-black';
     case 'youtube': return 'from-red-500 to-red-600';
-    case 'facebook': return 'from-blue-600 to-blue-700';
-    case 'twitter': return 'from-sky-400 to-sky-500';
-    case 'linkedin': return 'from-blue-700 to-blue-800';
-    case 'video': return 'from-purple-500 to-indigo-600';
+    case 'facebook': return 'from-black to-black';
+    case 'twitter': return 'from-black to-black';
+    case 'linkedin': return 'from-black to-black';
+    case 'video': return 'from-black to-black';
     default: return 'from-gray-700 to-gray-800';
   }
 };
@@ -54,7 +54,7 @@ export default function Multilinks() {
           <img src={logoImg} alt="Fractional Living" className="h-16 w-auto mx-auto mb-4" />
           <h1 className="text-white text-xl font-bold mb-1">Fractional Living</h1>
           <p className="text-gray-400 text-sm">All Global Holding LLC</p>
-          <p className="text-teal-400 text-xs mt-2">Compra • Vive • Renta • Revende • Repite</p>
+          <p className="text-orange-500 text-xs mt-2">Compra • Vive • Renta • Revende • Repite</p>
         </div>
 
         <div className="space-y-3">
@@ -66,7 +66,7 @@ export default function Multilinks() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all group"
               >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-black to-black flex items-center justify-center">
                   <Globe className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-white font-medium flex-1">WhatsApp</span>
@@ -78,7 +78,7 @@ export default function Multilinks() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all group"
               >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-black to-black flex items-center justify-center">
                   <Instagram className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-white font-medium flex-1">Instagram</span>

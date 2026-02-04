@@ -64,7 +64,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
             </SelectItem>
             <SelectItem value="low">
               <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-teal-500" />
+                <span className="w-2 h-2 rounded-full bg-orange-500" />
                 Low Season
               </span>
             </SelectItem>

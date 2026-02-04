@@ -21,7 +21,7 @@ export default function Fractional() {
 
       {/* Hero con slogan */}
       <section className="px-4 pt-4 pb-3">
-        <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-2xl p-5 text-center">
+        <div className="bg-gradient-to-r from-black to-black rounded-2xl p-5 text-center">
           <h1 className="text-white text-lg font-bold mb-2">Compra • Vive • Renta • Revende • Repite</h1>
           <p className="text-white/90 text-xs">{properties.length} propiedades disponibles</p>
           <div className="flex justify-center gap-6 mt-4 text-white/80 text-xs">
@@ -44,20 +44,20 @@ export default function Fractional() {
       {/* Beneficios */}
       <section className="px-4 pb-3">
         <div className="grid grid-cols-2 gap-2">
-          <div className="bg-teal-50 rounded-lg p-2.5 flex items-center gap-2">
-            <span className="text-teal-600">✓</span>
+          <div className="bg-orange-500 rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-orange-500">✓</span>
             <span className="text-gray-700 text-[10px] font-medium">Servicio llave en mano</span>
           </div>
-          <div className="bg-teal-50 rounded-lg p-2.5 flex items-center gap-2">
-            <span className="text-teal-600">✓</span>
+          <div className="bg-orange-500 rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-orange-500">✓</span>
             <span className="text-gray-700 text-[10px] font-medium">Nosotros rentamos por ti</span>
           </div>
-          <div className="bg-teal-50 rounded-lg p-2.5 flex items-center gap-2">
-            <span className="text-teal-600">✓</span>
+          <div className="bg-orange-500 rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-orange-500">✓</span>
             <span className="text-gray-700 text-[10px] font-medium">Plusvalía garantizada</span>
           </div>
-          <div className="bg-teal-50 rounded-lg p-2.5 flex items-center gap-2">
-            <span className="text-teal-600">✓</span>
+          <div className="bg-orange-500 rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-orange-500">✓</span>
             <span className="text-gray-700 text-[10px] font-medium">Disfruta o genera ingresos</span>
           </div>
         </div>
@@ -67,7 +67,7 @@ export default function Fractional() {
       <section className="px-4 pb-6">
         {isLoading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-teal-400" />
+            <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
           </div>
         ) : properties.length === 0 ? (
           <div className="text-center py-12">
@@ -94,7 +94,7 @@ export default function Fractional() {
                       </div>
                     )}
                     {property.tag && (
-                      <span className="absolute top-1 left-1 bg-teal-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">
+                      <span className="absolute top-1 left-1 bg-orange-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">
                         {property.tag}
                       </span>
                     )}
@@ -122,7 +122,7 @@ export default function Fractional() {
                     </div>
                     
                     <div className="flex items-center justify-between mt-1">
-                      <p className="text-teal-600 font-bold text-[11px]">
+                      <p className="text-orange-500 font-bold text-[11px]">
                         ${((property.fractionPrice || property.price || 250000) / 1000).toFixed(0)}K
                         <span className="text-gray-400 font-normal text-[9px]">/sem</span>
                       </p>
@@ -139,7 +139,7 @@ export default function Fractional() {
       {/* CTA fijo */}
       <section className="px-4 pb-6">
         <Link href="/registro">
-          <div className="bg-teal-600 rounded-xl p-4 text-center active:scale-[0.98] transition-transform">
+          <div className="bg-orange-500 rounded-xl p-4 text-center active:scale-[0.98] transition-transform">
             <p className="text-white font-bold">Reserva tu fracción</p>
             <p className="text-white/80 text-xs">Te contactamos en 5 días</p>
           </div>
@@ -152,7 +152,7 @@ export default function Fractional() {
           href="https://wa.me/529984292748?text=Hola,%20me%20interesan%20las%20fracciones"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full py-3 bg-green-600 text-white font-medium rounded-xl text-sm"
+          className="flex items-center justify-center gap-2 w-full py-3 bg-black text-white font-medium rounded-xl text-sm"
         >
           💬 WhatsApp Directo
         </a>

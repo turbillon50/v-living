@@ -43,7 +43,7 @@ export default function LastMinuteCapital() {
 
         <section className="mb-10">
           <h3 className="text-xl font-light mb-4 flex items-center gap-3">
-            <Clock className="w-5 h-5 text-teal-400" />
+            <Clock className="w-5 h-5 text-orange-500" />
             ¿Qué es Last Minute Capital?
           </h3>
           <p className="text-white/60 leading-relaxed text-sm md:text-base">
@@ -56,14 +56,14 @@ export default function LastMinuteCapital() {
 
         <section className="mb-10">
           <h3 className="text-xl font-light mb-4 flex items-center gap-3">
-            <TrendingUp className="w-5 h-5 text-teal-400" />
+            <TrendingUp className="w-5 h-5 text-orange-500" />
             ¿Por qué es relevante ahora?
           </h3>
           <p className="text-white/60 leading-relaxed text-sm md:text-base">
             El ecosistema se encuentra en fase activa de crecimiento y consolidación. Existen procesos avanzados que requieren capital oportuno para mantener ritmo y eficiencia.
           </p>
-          <div className="mt-4 bg-teal-500/10 border border-teal-500/20 rounded-xl p-4">
-            <p className="text-teal-400 font-medium text-sm">
+          <div className="mt-4 bg-orange-500/10 border border-orange-500/20 rounded-xl p-4">
+            <p className="text-orange-500 font-medium text-sm">
               Ventana de participación limitada: 67 procesos disponibles
             </p>
             <p className="text-white/50 text-xs mt-1">
@@ -80,7 +80,7 @@ export default function LastMinuteCapital() {
           
           <div className="grid md:grid-cols-2 gap-4">
             <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-              <p className="text-2xl font-light text-teal-400 mb-1">7% - 12%</p>
+              <p className="text-2xl font-light text-orange-500 mb-1">7% - 12%</p>
               <p className="text-white/50 text-sm">Rendimiento estimado bimestral</p>
               <p className="text-white/30 text-xs mt-1">Según monto y proceso específico</p>
             </div>
@@ -94,7 +94,7 @@ export default function LastMinuteCapital() {
 
         <section className="mb-10">
           <h3 className="text-xl font-light mb-4 flex items-center gap-3">
-            <Shield className="w-5 h-5 text-teal-400" />
+            <Shield className="w-5 h-5 text-orange-500" />
             Estructura y Seguridad
           </h3>
           <p className="text-white/60 leading-relaxed text-sm md:text-base mb-4">
@@ -117,7 +117,7 @@ export default function LastMinuteCapital() {
 
         <section className="mb-10">
           <h3 className="text-xl font-light mb-4 flex items-center gap-3">
-            <Users className="w-5 h-5 text-teal-400" />
+            <Users className="w-5 h-5 text-orange-500" />
             Participación en el Ecosistema
           </h3>
           <p className="text-white/60 leading-relaxed text-sm md:text-base mb-4">
@@ -126,15 +126,15 @@ export default function LastMinuteCapital() {
           
           <div className="space-y-3">
             <div className="flex items-start gap-3">
-              <Check className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
+              <Check className="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" />
               <p className="text-white/60 text-sm">Acceso preferente a oportunidades del ecosistema</p>
             </div>
             <div className="flex items-start gap-3">
-              <Check className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
+              <Check className="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" />
               <p className="text-white/60 text-sm">Condiciones especiales de ocupación</p>
             </div>
             <div className="flex items-start gap-3">
-              <Check className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
+              <Check className="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" />
               <p className="text-white/60 text-sm">Desde $50,000 MXN: hasta una semana anual de estancia (sujeta a disponibilidad)</p>
             </div>
           </div>

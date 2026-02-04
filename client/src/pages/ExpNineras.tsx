@@ -22,8 +22,8 @@ export default function ExpNineras() {
 
       <div className="px-5 pt-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="bg-purple-100 p-3 rounded-xl">
-            <Baby className="w-6 h-6 text-purple-600" />
+          <div className="bg-black p-3 rounded-xl">
+            <Baby className="w-6 h-6 text-orange-500" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Servicios de Niñeras</h1>
@@ -31,7 +31,7 @@ export default function ExpNineras() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-5 mb-6">
+        <div className="bg-gradient-to-br from-rose-50 to-black rounded-2xl p-5 mb-6">
           <div className="flex items-center gap-2 mb-3">
             <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
             <h2 className="font-bold text-gray-900">Tu Beneficio Fractional Living</h2>

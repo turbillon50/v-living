@@ -32,7 +32,7 @@ export function AlexAssistant() {
         <div className="bg-white border border-border rounded-2xl shadow-2xl w-80 mb-4 overflow-hidden animate-in slide-in-from-bottom-5 fade-in duration-300">
           <div className="bg-black text-white p-4 flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <div className="w-2 h-2 rounded-full bg-black animate-pulse" />
               <span className="font-medium">Alex AI</span>
             </div>
             <button onClick={() => setIsOpen(false)} className="text-white/70 hover:text-white">

@@ -73,20 +73,20 @@ export default function AutosLujo() {
         <div className="space-y-3 mb-6">
           <div className="bg-gray-50 rounded-xl p-4">
             <p className="text-gray-700 text-sm text-center">
-              Como miembro de <span className="font-bold text-teal-600">Fractional Living</span>, te conseguimos cualquier vehículo de lujo con hasta <span className="font-bold">40% de descuento</span>.
+              Como miembro de <span className="font-bold text-orange-500">Fractional Living</span>, te conseguimos cualquier vehículo de lujo con hasta <span className="font-bold">40% de descuento</span>.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
-            <div className="bg-teal-50 rounded-lg p-3">
-              <p className="text-teal-600 font-bold text-sm">Sedanes</p>
+            <div className="bg-orange-500 rounded-lg p-3">
+              <p className="text-orange-500 font-bold text-sm">Sedanes</p>
               <p className="text-gray-500 text-xs">Ejecutivos</p>
             </div>
-            <div className="bg-teal-50 rounded-lg p-3">
-              <p className="text-teal-600 font-bold text-sm">SUVs</p>
+            <div className="bg-orange-500 rounded-lg p-3">
+              <p className="text-orange-500 font-bold text-sm">SUVs</p>
               <p className="text-gray-500 text-xs">Premium</p>
             </div>
-            <div className="bg-teal-50 rounded-lg p-3">
-              <p className="text-teal-600 font-bold text-sm">Exóticos</p>
+            <div className="bg-orange-500 rounded-lg p-3">
+              <p className="text-orange-500 font-bold text-sm">Exóticos</p>
               <p className="text-gray-500 text-xs">Super Autos</p>
             </div>
           </div>
@@ -96,7 +96,7 @@ export default function AutosLujo() {
           href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20rentar%20un%20auto%20de%20lujo%20con%20el%20beneficio%20Fractional%20Living"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-3 w-full py-4 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg transition-all"
+          className="flex items-center justify-center gap-3 w-full py-4 bg-gradient-to-r from-black to-black hover:from-black hover:to-black text-white font-semibold rounded-xl shadow-lg transition-all"
           data-testid="whatsapp-autos"
         >
           <MessageCircle className="w-5 h-5" />

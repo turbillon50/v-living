@@ -109,7 +109,7 @@ export function FractionSelector({ property, selectedFraction, onSelect }: Fract
                         'w-2 h-2 rounded-full',
                         w.season === 'high' && 'bg-primary',
                         w.season === 'mid' && 'bg-amber-500',
-                        w.season === 'low' && 'bg-teal-500'
+                        w.season === 'low' && 'bg-orange-500'
                       )}
                     />
                   ))}

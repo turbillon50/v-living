@@ -25,7 +25,7 @@ export default function Registro() {
       
       <main className="flex-1 flex items-center justify-center p-6">
         <div className="text-center">
-          <div className="w-16 h-16 border-2 border-teal-400/30 border-t-teal-400 rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-16 h-16 border-2 border-black/20 border-t-orange-500 rounded-full animate-spin mx-auto mb-4" />
           <p className="text-white/60">
             {language === 'es' ? 'Cargando formulario...' : 'Loading form...'}
           </p>

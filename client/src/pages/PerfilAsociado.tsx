@@ -17,7 +17,7 @@ export default function PerfilAsociado() {
         <div className="max-w-4xl mx-auto">
           
           <div className="text-center mb-12">
-            <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center">
+            <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-black to-black rounded-full flex items-center justify-center">
               <Handshake className="w-10 h-10 text-white" />
             </div>
             <h2 className="text-3xl md:text-4xl font-extralight mb-4" data-testid="text-title">
@@ -38,7 +38,7 @@ export default function PerfilAsociado() {
               Diseñamos modelos de participación que integran a personas, propiedades y capital dentro de procesos fiduciarios, bancarios y mercantiles formales.
             </p>
             <p className="text-white/70 leading-relaxed">
-              El <span className="text-teal-400 font-medium">Perfil Asociado</span> es uno de los pilares del ecosistema Fractional Living.
+              El <span className="text-orange-500 font-medium">Perfil Asociado</span> es uno de los pilares del ecosistema Fractional Living.
               Un modelo pensado para quienes entienden el valor de participar desde la estructura, no solo desde la compra o la venta.
             </p>
           </div>
@@ -47,13 +47,13 @@ export default function PerfilAsociado() {
             Actualmente existen dos tipos de Perfil Asociado, ambos complementarios y estratégicos dentro del sistema.
           </p>
 
-          <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-2xl p-6 md:p-8 mb-6">
+          <div className="bg-gradient-to-br from-black/10 to-black/10 border border-blue-500/20 rounded-2xl p-6 md:p-8 mb-6">
             <div className="flex items-center gap-4 mb-6">
-              <div className="p-3 bg-blue-500/20 rounded-xl">
-                <CreditCard className="w-8 h-8 text-blue-400" />
+              <div className="p-3 bg-black/5/20 rounded-xl">
+                <CreditCard className="w-8 h-8 text-black" />
               </div>
               <div>
-                <h3 className="text-2xl font-light text-blue-400">Perfil Asociado – Crédito</h3>
+                <h3 className="text-2xl font-light text-black">Perfil Asociado – Crédito</h3>
                 <p className="text-white/50 text-sm">Monetiza tu historial financiero dentro de un activo real</p>
               </div>
             </div>
@@ -64,7 +64,7 @@ export default function PerfilAsociado() {
 
             <div className="bg-white/5 rounded-xl p-5 mb-6">
               <h4 className="text-white/80 font-medium mb-3 flex items-center gap-2">
-                <Shield className="w-4 h-4 text-blue-400" />
+                <Shield className="w-4 h-4 text-black" />
                 ¿Cómo funciona?
               </h4>
               <p className="text-white/60 text-sm leading-relaxed mb-3">
@@ -76,15 +76,15 @@ export default function PerfilAsociado() {
               </p>
             </div>
 
-            <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-5 mb-6">
-              <h4 className="text-blue-400 font-medium mb-4 flex items-center gap-2">
+            <div className="bg-black/5/10 border border-blue-500/20 rounded-xl p-5 mb-6">
+              <h4 className="text-black font-medium mb-4 flex items-center gap-2">
                 <Percent className="w-4 h-4" />
                 ¿Qué obtiene el Perfil Asociado – Crédito?
               </h4>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-400 flex-shrink-0" />
-                  <span className="text-white/80">Hasta <span className="text-blue-400 font-bold text-lg">8%</span> del monto total del crédito utilizado</span>
+                  <CheckCircle className="w-5 h-5 text-black flex-shrink-0" />
+                  <span className="text-white/80">Hasta <span className="text-black font-bold text-lg">8%</span> del monto total del crédito utilizado</span>
                 </div>
                 <div className="flex items-center gap-3 pl-8">
                   <span className="text-white/60 text-sm">• 4% al momento de la firma de la escritura</span>
@@ -95,27 +95,27 @@ export default function PerfilAsociado() {
               </div>
               <div className="mt-4 pt-4 border-t border-blue-500/20">
                 <div className="flex items-center gap-2 text-white/60 text-sm">
-                  <Clock className="w-4 h-4 text-blue-400" />
-                  Tiempo promedio para generar el ingreso inicial: <span className="text-blue-400 font-medium">menor a dos meses</span>
+                  <Clock className="w-4 h-4 text-black" />
+                  Tiempo promedio para generar el ingreso inicial: <span className="text-black font-medium">menor a dos meses</span>
                 </div>
               </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-3">
               <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
                 <span className="text-white/60 text-sm">Posibilidad de acceso y optimización de líneas de crédito</span>
               </div>
               <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
                 <span className="text-white/60 text-sm">Participación preferente en oportunidades del ecosistema</span>
               </div>
               <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
                 <span className="text-white/60 text-sm">Beneficios de uso y ocupación dentro del portafolio</span>
               </div>
               <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
                 <span className="text-white/60 text-sm">Integración a una alianza de largo plazo</span>
               </div>
             </div>
@@ -125,7 +125,7 @@ export default function PerfilAsociado() {
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 rounded-2xl p-6 md:p-8 mb-8">
+          <div className="bg-gradient-to-br from-emerald-500/10 to-black/10 border border-emerald-500/20 rounded-2xl p-6 md:p-8 mb-8">
             <div className="flex items-center gap-4 mb-6">
               <div className="p-3 bg-emerald-500/20 rounded-xl">
                 <Building2 className="w-8 h-8 text-emerald-400" />
@@ -193,7 +193,7 @@ export default function PerfilAsociado() {
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-8">
-            <h3 className="text-xl font-light text-center mb-6 text-teal-400">
+            <h3 className="text-xl font-light text-center mb-6 text-orange-500">
               ¿Por qué este modelo es posible?
             </h3>
             <p className="text-center text-white/70 mb-6 text-lg italic">
@@ -202,23 +202,23 @@ export default function PerfilAsociado() {
             
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
               <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-teal-400 text-sm font-medium">Revalorizar</p>
+                <p className="text-orange-500 text-sm font-medium">Revalorizar</p>
                 <p className="text-white/40 text-xs">el activo</p>
               </div>
               <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-teal-400 text-sm font-medium">Acelerar</p>
+                <p className="text-orange-500 text-sm font-medium">Acelerar</p>
                 <p className="text-white/40 text-xs">liquidez</p>
               </div>
               <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-teal-400 text-sm font-medium">Distribuir</p>
+                <p className="text-orange-500 text-sm font-medium">Distribuir</p>
                 <p className="text-white/40 text-xs">riesgos</p>
               </div>
               <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-teal-400 text-sm font-medium">Optimizar</p>
+                <p className="text-orange-500 text-sm font-medium">Optimizar</p>
                 <p className="text-white/40 text-xs">tiempos</p>
               </div>
               <div className="bg-white/5 rounded-lg p-3 text-center col-span-2 md:col-span-1">
-                <p className="text-teal-400 text-sm font-medium">Alinear</p>
+                <p className="text-orange-500 text-sm font-medium">Alinear</p>
                 <p className="text-white/40 text-xs">intereses</p>
               </div>
             </div>
@@ -228,8 +228,8 @@ export default function PerfilAsociado() {
             </p>
           </div>
 
-          <div className="bg-gradient-to-r from-teal-500/20 to-cyan-500/20 border border-teal-500/30 rounded-2xl p-6 md:p-8 mb-8">
-            <h3 className="text-xl font-light text-center mb-4 text-teal-400">Síntesis</h3>
+          <div className="bg-gradient-to-r from-black/20 to-black/20 border border-orange-500/30 rounded-2xl p-6 md:p-8 mb-8">
+            <h3 className="text-xl font-light text-center mb-4 text-orange-500">Síntesis</h3>
             <p className="text-white/70 leading-relaxed mb-4 text-center">
               El Perfil Asociado no es un rol pasivo.<br />
               Es una alianza estratégica dentro de un sistema diseñado para operar activos reales con visión institucional.
@@ -244,14 +244,14 @@ export default function PerfilAsociado() {
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-            <Users className="w-10 h-10 mx-auto mb-4 text-teal-400" />
+            <Users className="w-10 h-10 mx-auto mb-4 text-orange-500" />
             <h3 className="text-lg font-light mb-2">¿Tienes dudas?</h3>
             <p className="text-white/60 text-sm mb-4">
-              Habla con <span className="text-purple-400 font-medium">ALIX</span>, nuestra inteligencia artificial disponible 24/7, o con un asesor humano para evaluar cuál perfil se alinea mejor contigo.
+              Habla con <span className="text-orange-500 font-medium">ALIX</span>, nuestra inteligencia artificial disponible 24/7, o con un asesor humano para evaluar cuál perfil se alinea mejor contigo.
             </p>
             <div className="flex flex-col gap-2 text-white/50 text-xs">
-              <p>🟣 <span className="text-purple-400">ALIX</span> — Botón morado en la esquina inferior derecha</p>
-              <p>🟢 <span className="text-green-400">WhatsApp</span> — Botón verde en la esquina inferior izquierda</p>
+              <p>🟣 <span className="text-orange-500">ALIX</span> — Botón morado en la esquina inferior derecha</p>
+              <p>🟢 <span className="text-orange-500">WhatsApp</span> — Botón verde en la esquina inferior izquierda</p>
             </div>
           </div>
 

@@ -227,7 +227,7 @@ function LinksManager({ creatorToken }: { creatorToken: string }) {
   };
 
   if (isLoading) {
-    return <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-teal-400" /></div>;
+    return <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-orange-500" /></div>;
   }
 
   return (
@@ -237,7 +237,7 @@ function LinksManager({ creatorToken }: { creatorToken: string }) {
           <p className="text-sm text-white/50">{links.length} links</p>
           <p className="text-xs text-white/30">Página: /links</p>
         </div>
-        <Button onClick={() => { setIsAdding(true); setEditingLink(null); setForm({ title: '', url: '', type: 'link', position: 0 }); }} size="sm" className="bg-teal-500 hover:bg-teal-600">
+        <Button onClick={() => { setIsAdding(true); setEditingLink(null); setForm({ title: '', url: '', type: 'link', position: 0 }); }} size="sm" className="bg-orange-500 hover:bg-orange-500">
           <Plus className="w-4 h-4 mr-1" /> Nuevo
         </Button>
       </div>
@@ -265,7 +265,7 @@ function LinksManager({ creatorToken }: { creatorToken: string }) {
                 {LINK_TYPES.map(t => <option key={t.value} value={t.value} className="bg-gray-900">{t.label}</option>)}
               </select>
             </div>
-            <Button onClick={handleSubmit} className="w-full bg-teal-500 hover:bg-teal-600">
+            <Button onClick={handleSubmit} className="w-full bg-orange-500 hover:bg-orange-500">
               <Save className="w-4 h-4 mr-1" /> {editingLink ? 'Actualizar' : 'Guardar'}
             </Button>
           </div>
@@ -277,7 +277,7 @@ function LinksManager({ creatorToken }: { creatorToken: string }) {
           <Link2 className="w-12 h-12 mx-auto mb-4 text-white/30" />
           <p className="text-white/50 mb-2">No hay links</p>
           <p className="text-xs text-white/30 mb-4">Agrega redes sociales y videos de interés</p>
-          <Button onClick={() => setIsAdding(true)} className="bg-teal-500" size="sm">
+          <Button onClick={() => setIsAdding(true)} className="bg-orange-500" size="sm">
             <Plus className="w-4 h-4 mr-1" /> Agregar Link
           </Button>
         </div>
@@ -286,7 +286,7 @@ function LinksManager({ creatorToken }: { creatorToken: string }) {
           {links.map((link) => (
             <div key={link.id} className={cn("bg-white/5 rounded-xl border p-3 flex items-center gap-3", link.isActive ? "border-white/10" : "border-white/5 opacity-50")}>
               <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-                <Link2 className="w-5 h-5 text-teal-400" />
+                <Link2 className="w-5 h-5 text-orange-500" />
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium text-sm text-white truncate">{link.title}</h4>
@@ -334,10 +334,10 @@ const INTEREST_LABELS: Record<string, string> = {
 };
 
 const STATUS_OPTIONS = [
-  { value: 'lead', label: 'Nuevo', color: 'bg-blue-500' },
+  { value: 'lead', label: 'Nuevo', color: 'bg-black/5' },
   { value: 'contacted', label: 'Contactado', color: 'bg-yellow-500' },
-  { value: 'in_progress', label: 'En proceso', color: 'bg-purple-500' },
-  { value: 'converted', label: 'Convertido', color: 'bg-green-500' },
+  { value: 'in_progress', label: 'En proceso', color: 'bg-black' },
+  { value: 'converted', label: 'Convertido', color: 'bg-black' },
   { value: 'lost', label: 'Perdido', color: 'bg-red-500' }
 ];
 
@@ -423,7 +423,7 @@ function UsersCRM({ creatorToken }: { creatorToken: string }) {
   if (isLoading) {
     return (
       <div className="flex justify-center py-20">
-        <Loader2 className="w-8 h-8 animate-spin text-teal-400" />
+        <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
       </div>
     );
   }
@@ -497,7 +497,7 @@ function UsersCRM({ creatorToken }: { creatorToken: string }) {
                 {user.interests.length > 0 && (
                   <div className="flex flex-wrap gap-1 mb-3">
                     {user.interests.map((interest) => (
-                      <span key={interest} className="px-2 py-1 bg-teal-500/20 text-teal-400 rounded text-xs">
+                      <span key={interest} className="px-2 py-1 bg-orange-500/20 text-orange-500 rounded text-xs">
                         {INTEREST_LABELS[interest] || interest}
                       </span>
                     ))}
@@ -509,13 +509,13 @@ function UsersCRM({ creatorToken }: { creatorToken: string }) {
                     href={`https://wa.me/${user.phone.replace(/\D/g, '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded text-xs flex items-center gap-1"
+                    className="px-3 py-1.5 bg-black hover:bg-black text-white rounded text-xs flex items-center gap-1"
                   >
                     <MessageCircle className="w-3 h-3" /> WhatsApp
                   </a>
                   <a
                     href={`mailto:${user.email}`}
-                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs"
+                    className="px-3 py-1.5 bg-black/5 hover:bg-black/5 text-white rounded text-xs"
                   >
                     Email
                   </a>
@@ -539,7 +539,7 @@ function UsersCRM({ creatorToken }: { creatorToken: string }) {
                       <Button
                         size="sm"
                         onClick={() => updateNotesMutation.mutate({ id: user.id, notes: notesValue })}
-                        className="bg-teal-500"
+                        className="bg-orange-500"
                       >
                         <Save className="w-3 h-3 mr-1" /> Guardar
                       </Button>
@@ -1106,7 +1106,7 @@ export default function CreatorDashboard() {
                 onClick={() => setActiveTab(id as any)}
                 className={cn(
                   "flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap flex-shrink-0",
-                  activeTab === id ? "bg-teal-500 text-white" : "bg-white/10 text-white/70 hover:bg-white/20"
+                  activeTab === id ? "bg-orange-500 text-white" : "bg-white/10 text-white/70 hover:bg-white/20"
                 )}
               >
                 <Icon className="w-4 h-4" />
@@ -1126,20 +1126,20 @@ export default function CreatorDashboard() {
               <>
                 <div className="flex items-center justify-between mb-4">
                   <p className="text-sm text-white/50">{properties.length} propiedades</p>
-                  <Button onClick={() => setIsCreating(true)} size="sm" className="bg-teal-500 hover:bg-teal-600">
+                  <Button onClick={() => setIsCreating(true)} size="sm" className="bg-orange-500 hover:bg-orange-500">
                     <Plus className="w-4 h-4 mr-1" /> Nueva
                   </Button>
                 </div>
 
                 {loadingProperties ? (
                   <div className="flex justify-center py-20">
-                    <Loader2 className="w-8 h-8 animate-spin text-teal-400" />
+                    <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
                   </div>
                 ) : properties.length === 0 ? (
                   <div className="bg-white/5 rounded-xl border border-white/10 border-dashed p-12 text-center">
                     <Building className="w-12 h-12 mx-auto mb-4 text-white/30" />
                     <p className="text-white/50">No hay propiedades</p>
-                    <Button onClick={() => setIsCreating(true)} className="mt-4 bg-teal-500" size="sm">
+                    <Button onClick={() => setIsCreating(true)} className="mt-4 bg-orange-500" size="sm">
                       <Plus className="w-4 h-4 mr-1" /> Crear
                     </Button>
                   </div>
@@ -1233,7 +1233,7 @@ export default function CreatorDashboard() {
                     </div>
                     <div className="grid grid-cols-2 gap-3 mb-3">
                       <div>
-                        <label className="text-xs text-teal-400">Enganche / Precio Fracción</label>
+                        <label className="text-xs text-orange-500">Enganche / Precio Fracción</label>
                         <Input type="number" placeholder="65000" value={formData.fractionPrice} onChange={(e) => setFormData(prev => ({ ...prev, fractionPrice: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
                       </div>
                       <div>
@@ -1262,7 +1262,7 @@ export default function CreatorDashboard() {
                         <Input type="number" placeholder="0" value={formData.priceMidSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceMidSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-white/10 border-white/20 text-white" />
                       </div>
                       <div>
-                        <label className="text-xs text-green-400">Baja</label>
+                        <label className="text-xs text-orange-500">Baja</label>
                         <Input type="number" placeholder="0" value={formData.priceLowSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceLowSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-white/10 border-white/20 text-white" />
                       </div>
                     </div>
@@ -1314,7 +1314,7 @@ export default function CreatorDashboard() {
                             setNewCondition('');
                           }
                         }}
-                        className="bg-teal-500 hover:bg-teal-600"
+                        className="bg-orange-500 hover:bg-orange-500"
                       >
                         <Plus className="w-4 h-4" />
                       </Button>
@@ -1351,7 +1351,7 @@ export default function CreatorDashboard() {
                     <h3 className="font-medium text-sm text-white mb-3">Imágenes</h3>
                     <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
                     <button onClick={() => fileInputRef.current?.click()} disabled={uploadingImage} className="w-full border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:bg-white/5">
-                      {uploadingImage ? <Loader2 className="w-6 h-6 animate-spin mx-auto text-teal-400" /> : <><Upload className="w-6 h-6 mx-auto mb-1 text-white/40" /><p className="text-xs text-white/50">Subir imágenes</p></>}
+                      {uploadingImage ? <Loader2 className="w-6 h-6 animate-spin mx-auto text-orange-500" /> : <><Upload className="w-6 h-6 mx-auto mb-1 text-white/40" /><p className="text-xs text-white/50">Subir imágenes</p></>}
                     </button>
                     {formData.images.length > 0 && (
                       <div className="grid grid-cols-4 gap-2 mt-3">
@@ -1371,7 +1371,7 @@ export default function CreatorDashboard() {
                     <h3 className="font-medium text-sm text-white mb-3">Videos</h3>
                     <input ref={videoInputRef} type="file" accept="video/*" multiple onChange={handleVideoUpload} className="hidden" />
                     <button onClick={() => videoInputRef.current?.click()} disabled={uploadingVideo} className="w-full border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:bg-white/5">
-                      {uploadingVideo ? <Loader2 className="w-5 h-5 animate-spin mx-auto text-teal-400" /> : <><Video className="w-5 h-5 mx-auto mb-1 text-white/40" /><p className="text-xs text-white/50">Subir videos</p></>}
+                      {uploadingVideo ? <Loader2 className="w-5 h-5 animate-spin mx-auto text-orange-500" /> : <><Video className="w-5 h-5 mx-auto mb-1 text-white/40" /><p className="text-xs text-white/50">Subir videos</p></>}
                     </button>
                     {formData.videos.length > 0 && (
                       <div className="grid grid-cols-2 gap-2 mt-3">
@@ -1390,12 +1390,12 @@ export default function CreatorDashboard() {
                   <div className="bg-white/5 rounded-xl border border-white/10 p-4">
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="font-medium text-sm text-white">Semanas Apartadas (Creador)</h3>
-                      <span className="text-xs text-purple-400 bg-purple-500/20 px-2 py-1 rounded-full">{formData.creatorBlockedWeeks.length} apartadas</span>
+                      <span className="text-xs text-orange-500 bg-black/20 px-2 py-1 rounded-full">{formData.creatorBlockedWeeks.length} apartadas</span>
                     </div>
                     <p className="text-xs text-white/50 mb-3">Semanas reservadas internamente. Se muestran en morado.</p>
                     <div className="grid grid-cols-13 gap-1">
                       {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
-                        <button key={week} onClick={() => toggleCreatorBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.creatorBlockedWeeks.includes(week) ? "bg-purple-500 text-white" : formData.blockedWeeks.includes(week) ? "bg-red-500/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
+                        <button key={week} onClick={() => toggleCreatorBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.creatorBlockedWeeks.includes(week) ? "bg-black text-white" : formData.blockedWeeks.includes(week) ? "bg-red-500/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
                           {week}
                         </button>
                       ))}
@@ -1414,7 +1414,7 @@ export default function CreatorDashboard() {
                         <p className="text-xs text-white/50 mb-3">Semanas no disponibles para reserva. Se muestran en rojo.</p>
                         <div className="grid grid-cols-13 gap-1">
                           {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
-                            <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-red-500 text-white" : formData.creatorBlockedWeeks.includes(week) ? "bg-purple-500/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
+                            <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-red-500 text-white" : formData.creatorBlockedWeeks.includes(week) ? "bg-black/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
                               {week}
                             </button>
                           ))}
@@ -1427,7 +1427,7 @@ export default function CreatorDashboard() {
                     <h3 className="font-medium text-sm text-white mb-3">Amenidades</h3>
                     <div className="flex flex-wrap gap-2">
                       {AMENITIES_LIST.map((amenity) => (
-                        <button key={amenity} onClick={() => toggleAmenity(amenity)} className={cn("px-3 py-1.5 rounded-full text-xs font-medium border", formData.amenities.includes(amenity) ? "bg-teal-500 text-white border-teal-500" : "bg-white/5 border-white/20 text-white/70")}>
+                        <button key={amenity} onClick={() => toggleAmenity(amenity)} className={cn("px-3 py-1.5 rounded-full text-xs font-medium border", formData.amenities.includes(amenity) ? "bg-orange-500 text-white border-orange-500" : "bg-white/5 border-white/20 text-white/70")}>
                           {formData.amenities.includes(amenity) && <Check className="w-3 h-3 inline mr-1" />}{amenity}
                         </button>
                       ))}
@@ -1435,7 +1435,7 @@ export default function CreatorDashboard() {
                   </div>
 
                   <div className="pb-8">
-                    <Button onClick={handleSubmit} disabled={createMutation.isPending || updateMutation.isPending} className="w-full h-12 bg-teal-500 hover:bg-teal-600">
+                    <Button onClick={handleSubmit} disabled={createMutation.isPending || updateMutation.isPending} className="w-full h-12 bg-orange-500 hover:bg-orange-500">
                       {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Save className="w-4 h-4 mr-2" />{editingProperty ? 'Guardar' : 'Publicar'}</>}
                     </Button>
                   </div>
@@ -1460,14 +1460,14 @@ export default function CreatorDashboard() {
                 
                 <input ref={navImageRef} type="file" accept="image/*" onChange={handleNavImageUpload} className="hidden" />
                 <button onClick={() => navImageRef.current?.click()} disabled={uploadingNavImage} className="w-full border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:bg-white/5">
-                  {uploadingNavImage ? <Loader2 className="w-5 h-5 animate-spin mx-auto text-teal-400" /> : navForm.image ? (
+                  {uploadingNavImage ? <Loader2 className="w-5 h-5 animate-spin mx-auto text-orange-500" /> : navForm.image ? (
                     <img src={navForm.image} alt="" className="h-20 mx-auto object-cover rounded" />
                   ) : (
                     <><Image className="w-5 h-5 mx-auto mb-1 text-white/40" /><p className="text-xs text-white/50">Subir imagen</p></>
                   )}
                 </button>
 
-                <Button onClick={() => saveNavMutation.mutate({ ...navForm, isActive: true })} disabled={!navForm.name || !navForm.link} className="w-full bg-teal-500 hover:bg-teal-600">
+                <Button onClick={() => saveNavMutation.mutate({ ...navForm, isActive: true })} disabled={!navForm.name || !navForm.link} className="w-full bg-orange-500 hover:bg-orange-500">
                   <Plus className="w-4 h-4 mr-1" /> {editingNavButton ? 'Actualizar' : 'Agregar'}
                 </Button>
               </div>
@@ -1562,11 +1562,11 @@ export default function CreatorDashboard() {
                           </div>
                         </div>
                         <div className="flex flex-col items-end gap-2 flex-shrink-0">
-                          <span className={cn("px-2 py-1 rounded-full text-xs font-medium", isExpired ? "bg-red-500/20 text-red-400" : "bg-green-500/20 text-green-400")}>
+                          <span className={cn("px-2 py-1 rounded-full text-xs font-medium", isExpired ? "bg-red-500/20 text-red-400" : "bg-black/20 text-orange-500")}>
                             {isExpired ? 'Expirada' : 'Activa'}
                           </span>
                           {!isExpired && (
-                            <Button size="sm" onClick={() => sendWhatsAppNotification(booking)} className="bg-green-600 hover:bg-green-700 text-xs h-8">
+                            <Button size="sm" onClick={() => sendWhatsAppNotification(booking)} className="bg-black hover:bg-black text-xs h-8">
                               <MessageCircle className="w-3.5 h-3.5 mr-1" /> WA
                             </Button>
                           )}
@@ -1586,8 +1586,8 @@ export default function CreatorDashboard() {
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Building className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-black/5/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Building className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-lg sm:text-xl font-bold text-white">{properties.length}</p>
@@ -1597,8 +1597,8 @@ export default function CreatorDashboard() {
               </div>
               <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-black/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-lg sm:text-xl font-bold text-white">{bookings.filter(b => new Date(b.expiresAt) > new Date()).length}</p>
@@ -1608,8 +1608,8 @@ export default function CreatorDashboard() {
               </div>
               <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-black/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-lg sm:text-xl font-bold text-white">{totalViews.toLocaleString()}</p>
@@ -1619,8 +1619,8 @@ export default function CreatorDashboard() {
               </div>
               <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-teal-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-teal-400" />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-orange-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-lg sm:text-xl font-bold text-white">${(properties.reduce((sum, p) => sum + (p.price || 650000), 0) / 1000).toFixed(0)}K</p>
@@ -1641,7 +1641,7 @@ export default function CreatorDashboard() {
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm text-white truncate">{property.title}</p>
                     </div>
-                    <p className="font-bold text-sm text-teal-400">{(property.viewCount || 0).toLocaleString()}</p>
+                    <p className="font-bold text-sm text-orange-500">{(property.viewCount || 0).toLocaleString()}</p>
                   </div>
                 ))}
               </div>
@@ -1675,7 +1675,7 @@ export default function CreatorDashboard() {
               {formData.images[0] && (
                 <div className="aspect-video relative">
                   <img src={formData.images[0]} alt="" className="w-full h-full object-cover" />
-                  {formData.tag && <span className="absolute top-4 left-4 bg-teal-500 text-white px-3 py-1 rounded-full text-sm">{PROPERTY_TAGS.find(t => t.value === formData.tag)?.label}</span>}
+                  {formData.tag && <span className="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm">{PROPERTY_TAGS.find(t => t.value === formData.tag)?.label}</span>}
                 </div>
               )}
               <div className="p-6">
@@ -1686,7 +1686,7 @@ export default function CreatorDashboard() {
                   <span className="flex items-center gap-1"><Bath className="w-4 h-4" /> {formData.bathrooms}</span>
                   <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {formData.maxGuests}</span>
                 </div>
-                <p className="text-2xl font-bold text-teal-600 mb-4">${formData.price.toLocaleString()} USD</p>
+                <p className="text-2xl font-bold text-orange-500 mb-4">${formData.price.toLocaleString()} USD</p>
                 <p className="text-gray-600 whitespace-pre-wrap">{formData.description}</p>
               </div>
             </div>

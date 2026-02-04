@@ -22,8 +22,8 @@ export default function ExpRestaurantes() {
 
       <div className="px-5 pt-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="bg-purple-100 p-3 rounded-xl">
-            <UtensilsCrossed className="w-6 h-6 text-purple-600" />
+          <div className="bg-black p-3 rounded-xl">
+            <UtensilsCrossed className="w-6 h-6 text-orange-500" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Restaurantes Selectos</h1>

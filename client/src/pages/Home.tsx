@@ -237,7 +237,7 @@ export default function Home() {
           href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-3 w-full py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-colors"
+          className="flex items-center justify-center gap-3 w-full py-3 bg-black hover:bg-black text-white font-medium rounded-xl transition-colors"
           data-testid="button-whatsapp"
         >
           <span className="text-xl">💬</span>
@@ -287,7 +287,7 @@ export default function Home() {
           href="https://wa.me/529984292748?text=Hola,%20quiero%20ser%20broker/influencer%20de%20Fractional%20Living"
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full text-center py-3 border border-purple-200 rounded-xl text-purple-600 text-sm bg-purple-50"
+          className="block w-full text-center py-3 border border-orange-500 rounded-xl text-orange-500 text-sm bg-black"
           data-testid="button-broker"
         >
           💼 ¿Quieres ser Broker? Comisiones 6%+
