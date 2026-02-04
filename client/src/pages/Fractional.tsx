@@ -26,7 +26,7 @@ export default function Fractional() {
           <p className="text-white/90 text-xs">{properties.length} propiedades disponibles</p>
           <div className="flex justify-center gap-6 mt-4 text-white/80 text-xs">
             <div className="text-center">
-              <p className="text-white text-lg font-bold">{properties.length * 42}</p>
+              <p className="text-white text-lg font-bold">{properties.reduce((sum, p) => sum + (p.totalFractions || 14), 0)}</p>
               <p>Fracciones</p>
             </div>
             <div className="text-center">
