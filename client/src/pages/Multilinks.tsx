@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Instagram, Youtube, Facebook, Twitter, Linkedin, Globe, Play, ExternalLink, Music, MessageCircle, Mail, Phone } from 'lucide-react';
-import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
-import logoImg from '@/assets/logo.png';
+import logoImg from '@/assets/logo-all-living.jpg';
 
 interface MultiLink {
   id: string;
@@ -77,24 +76,21 @@ export default function Multilinks() {
 
   return (
     <div className="min-h-screen bg-black pb-32">
-      <Header />
-      
-      <div className="max-w-md mx-auto px-4 pt-6 pb-12">
-        <div className="text-center mb-8">
-          <div className="relative inline-block mb-4">
-            <div className="absolute inset-0 bg-orange-500/20 blur-3xl rounded-full" />
+      <div className="max-w-md mx-auto px-4 pt-8 pb-12">
+        <div className="text-center mb-10">
+          <div className="w-28 h-28 mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl border-2 border-white/10">
             <img 
               src={logoImg} 
-              alt="Fractional Living" 
-              className="relative h-20 w-auto mx-auto drop-shadow-2xl" 
+              alt="All Living" 
+              className="w-full h-full object-cover" 
             />
           </div>
-          <h1 className="text-white text-2xl font-bold tracking-tight mb-1">FRACTIONAL LIVING</h1>
+          <h1 className="text-white text-2xl font-bold tracking-tight mb-1">ALL LIVING</h1>
           <p className="text-white/40 text-sm font-light tracking-widest">ALL GLOBAL HOLDING LLC</p>
-          <div className="flex items-center justify-center gap-2 mt-3">
-            <span className="w-8 h-px bg-gradient-to-r from-transparent to-orange-500" />
+          <div className="flex items-center justify-center gap-2 mt-4">
+            <span className="w-12 h-px bg-gradient-to-r from-transparent to-orange-500" />
             <p className="text-orange-500 text-xs font-medium tracking-wide">COMPRA • VIVE • RENTA • REVENDE</p>
-            <span className="w-8 h-px bg-gradient-to-l from-transparent to-orange-500" />
+            <span className="w-12 h-px bg-gradient-to-l from-transparent to-orange-500" />
           </div>
         </div>
 
