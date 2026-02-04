@@ -141,24 +141,6 @@ export default function Multilinks() {
           </a>
         </div>
 
-        <div className="mt-8 text-center space-y-2">
-          <div className="flex items-center justify-center gap-6">
-            <div className="text-center">
-              <p className="text-orange-500 text-xl font-bold">8+</p>
-              <p className="text-black/40 text-[10px]">PROPIEDADES</p>
-            </div>
-            <div className="w-px h-8 bg-black/10" />
-            <div className="text-center">
-              <p className="text-orange-500 text-xl font-bold">42</p>
-              <p className="text-black/40 text-[10px]">FRACCIONES</p>
-            </div>
-            <div className="w-px h-8 bg-black/10" />
-            <div className="text-center">
-              <p className="text-orange-500 text-xl font-bold">30%</p>
-              <p className="text-black/40 text-[10px]">ENGANCHE</p>
-            </div>
-          </div>
-        </div>
 
         <div className="mt-8 text-center">
           <p className="text-black/30 text-[10px] tracking-widest">© 2024 ALL GLOBAL HOLDING LLC</p>
