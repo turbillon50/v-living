@@ -44,15 +44,25 @@ export default function Home() {
           {/* Botón Beneficios */}
           <button 
             onClick={() => setShowBeneficios(true)}
-            className="w-full max-w-xs mx-auto block mb-4 active:scale-[0.98] transition-transform"
+            className="w-full max-w-xs mx-auto block mb-4 active:scale-[0.95] hover:scale-[1.02] transition-all group"
             data-testid="button-beneficios"
           >
-            <img 
-              src="/beneficios-btn.png" 
-              alt="Beneficios Fractional Living" 
-              className="w-full rounded-xl shadow-lg"
-            />
-            <p className="text-orange-500 font-semibold text-sm mt-2">Beneficios Fractional Living</p>
+            <div className="relative">
+              <img 
+                src="/beneficios-btn.png" 
+                alt="Beneficios Fractional Living" 
+                className="w-full rounded-xl shadow-lg border-2 border-orange-500 group-hover:shadow-xl group-hover:shadow-orange-500/20 transition-all"
+              />
+              <div className="absolute inset-0 bg-orange-500/0 group-hover:bg-orange-500/10 rounded-xl transition-all flex items-center justify-center">
+                <span className="opacity-0 group-hover:opacity-100 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-opacity">
+                  Toca para ver
+                </span>
+              </div>
+            </div>
+            <p className="text-orange-500 font-semibold text-sm mt-2 flex items-center justify-center gap-2">
+              Beneficios Fractional Living
+              <span className="animate-pulse">👆</span>
+            </p>
           </button>
 
           {/* Stats en línea */}
