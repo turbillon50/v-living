@@ -967,6 +967,28 @@ NO HAGAS:
     }
   });
 
+  // Update user profile
+  app.put("/api/users/:id/profile", async (req, res) => {
+    try {
+      const { name, phone, country } = req.body;
+      
+      if (!name || !phone || !country) {
+        return res.status(400).json({ error: "Todos los campos son obligatorios" });
+      }
+
+      const user = await storage.updateUserProfile(req.params.id, { name, phone, country });
+      if (!user) {
+        return res.status(404).json({ error: "Usuario no encontrado" });
+      }
+
+      const { password: _, ...safeUser } = user;
+      res.json(safeUser);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      res.status(500).json({ error: "Error al actualizar perfil" });
+    }
+  });
+
   // Update user notes (CRM)
   app.put("/api/users/:id/notes", async (req, res) => {
     try {

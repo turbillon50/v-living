@@ -98,6 +98,7 @@ export interface IStorage {
   updateUserInterests(id: string, interests: string[], primaryInterest?: string): Promise<schema.User | undefined>;
   updateUserStatus(id: string, status: string): Promise<schema.User | undefined>;
   updateUserNotes(id: string, notes: string): Promise<schema.User | undefined>;
+  updateUserProfile(id: string, data: { name: string; phone: string; country: string }): Promise<schema.User | undefined>;
   getUsersByStatus(status: string): Promise<schema.User[]>;
   getUsersByInterest(interest: string): Promise<schema.User[]>;
 }
@@ -455,6 +456,14 @@ export class DatabaseStorage implements IStorage {
   async updateUserNotes(id: string, notes: string): Promise<schema.User | undefined> {
     const results = await db.update(schema.users)
       .set({ notes, updatedAt: new Date() })
+      .where(eq(schema.users.id, id))
+      .returning();
+    return results[0];
+  }
+
+  async updateUserProfile(id: string, data: { name: string; phone: string; country: string }): Promise<schema.User | undefined> {
+    const results = await db.update(schema.users)
+      .set({ ...data, updatedAt: new Date() })
       .where(eq(schema.users.id, id))
       .returning();
     return results[0];

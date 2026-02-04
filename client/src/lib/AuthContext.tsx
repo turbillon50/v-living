@@ -19,6 +19,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   register: (data: { name: string; email: string; phone: string; country: string; password: string }) => Promise<{ success: boolean; user?: User; error?: string }>;
   updateInterests: (interests: string[], primaryInterest?: string) => Promise<boolean>;
+  updateUser: (user: User) => void;
   logout: () => void;
   showAuthModal: boolean;
   setShowAuthModal: (show: boolean) => void;
@@ -118,6 +119,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('fractional_user');
   };
 
+  const updateUser = (updatedUser: User) => {
+    setUser(updatedUser);
+    localStorage.setItem('fractional_user', JSON.stringify(updatedUser));
+  };
+
   return (
     <AuthContext.Provider value={{
       user,
@@ -126,6 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       login,
       register,
       updateInterests,
+      updateUser,
       logout,
       showAuthModal,
       setShowAuthModal,
