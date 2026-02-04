@@ -212,43 +212,22 @@ export default function Home() {
       {/* Opciones de inversión */}
       <section className="px-5 pb-8">
         <h3 className="text-black/50 text-sm font-medium mb-4 text-center">Más Opciones</h3>
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 gap-4">
           <Link href="/last-minute-capital">
-            <div className="flex items-center gap-4 bg-black rounded-xl p-4 active:scale-[0.98] transition-transform">
-              <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
-                <span className="text-2xl">⚡</span>
-              </div>
-              <div className="flex-1">
-                <p className="text-white font-medium">Last Minute Capital</p>
-                <p className="text-white/50 text-xs">Oportunidades de inversión inmediata</p>
-              </div>
-              <ChevronRight className="w-5 h-5 text-white/40" />
+            <div className="relative rounded-2xl overflow-hidden aspect-[16/9] active:scale-[0.98] transition-transform shadow-lg">
+              <img src="/last-minute-capital.jpg" alt="Last Minute Capital" className="w-full h-full object-cover" />
             </div>
           </Link>
           
           <Link href="/perfil-asociado">
-            <div className="flex items-center gap-4 bg-black rounded-xl p-4 active:scale-[0.98] transition-transform">
-              <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
-                <span className="text-2xl">🤝</span>
-              </div>
-              <div className="flex-1">
-                <p className="text-white font-medium">Perfil Asociado</p>
-                <p className="text-white/50 text-xs">Únete como asociado de propiedades</p>
-              </div>
-              <ChevronRight className="w-5 h-5 text-white/40" />
+            <div className="relative rounded-2xl overflow-hidden aspect-[16/9] active:scale-[0.98] transition-transform shadow-lg">
+              <img src="/perfil-asociado.jpg" alt="Perfil Asociado" className="w-full h-full object-cover" />
             </div>
           </Link>
           
           <Link href="/modelo-negocios">
-            <div className="flex items-center gap-4 bg-black rounded-xl p-4 active:scale-[0.98] transition-transform">
-              <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
-                <span className="text-2xl">📊</span>
-              </div>
-              <div className="flex-1">
-                <p className="text-white font-medium">Modelo de Negocios</p>
-                <p className="text-white/50 text-xs">Conoce cómo funciona Fractional Living</p>
-              </div>
-              <ChevronRight className="w-5 h-5 text-white/40" />
+            <div className="relative rounded-2xl overflow-hidden aspect-[16/9] active:scale-[0.98] transition-transform shadow-lg">
+              <img src="/modelo-negocio.jpg" alt="Modelo de Negocio" className="w-full h-full object-cover" />
             </div>
           </Link>
         </div>
