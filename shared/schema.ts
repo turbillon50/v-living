@@ -274,3 +274,26 @@ export type InsertConversation = z.infer<typeof insertConversationSchema>;
 export type Conversation = typeof conversations.$inferSelect;
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type Message = typeof messages.$inferSelect;
+
+// Users - registered users for the platform
+export const users = pgTable("users", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  phone: text("phone").notNull(),
+  country: text("country").notNull().default("México"),
+  password: text("password").notNull(),
+  interests: jsonb("interests").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+  primaryInterest: text("primary_interest"),
+  status: text("status").default("lead"),
+  source: text("source").default("web"),
+  notes: text("notes"),
+  emailVerified: boolean("email_verified").default(false),
+  lastLogin: timestamp("last_login"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true, lastLogin: true });
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = typeof users.$inferSelect;

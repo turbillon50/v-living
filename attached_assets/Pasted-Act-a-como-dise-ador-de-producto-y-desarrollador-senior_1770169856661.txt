@@ -1,0 +1,142 @@
+Actúa como diseñador de producto y desarrollador senior.
+
+Tu objetivo es IMPLEMENTAR un SISTEMA DE REGISTRO FUNCIONAL Y ESTRATÉGICO en Fractional Living.
+
+NO rediseñes todo el sistema.
+NO cambies el front más de lo necesario.
+CONCÉNTRATE SOLO en el REGISTRO y la CAPTACIÓN DE INTERÉS.
+
+---
+
+## OBJETIVO DEL REGISTRO
+Que cualquier persona que entre a Fractional Living:
+1) Se registre obligatoriamente
+2) Deje datos reales de contacto
+3) Declare su interés específico
+4) Quede registrada para comunicación futura
+5) Active flujos internos (CRM / correos / seguimiento)
+
+Sin registro, NO hay interacción real.
+
+---
+
+## 1. REGISTRO OBLIGATORIO
+
+Implementa un registro obligatorio con:
+
+Campos mínimos:
+- nombre completo
+- email (verificado)
+- teléfono (WhatsApp)
+- país
+- contraseña
+
+Al completar el registro:
+- se crea un USER_ID único
+- se guarda fecha y hora
+- se habilita acceso al sitio
+
+---
+
+## 2. SELECCIÓN DE INTERÉS (CLAVE)
+
+Después del registro, mostrar una pantalla obligatoria:
+
+*“¿Qué te interesa en Fractional Living?”*
+
+Opciones (selección múltiple):
+- Comprar fracciones inmobiliarias
+- Invertir capital (Last Minute Capital)
+- Aportar una propiedad (Property Associate)
+- Usar mi perfil de crédito (Profile Associate)
+- Ser broker o afiliado
+- Solo quiero información
+
+Guardar cada selección como:
+- interés_primario
+- intereses_secundarios
+
+Esto define los flujos posteriores.
+
+---
+
+## 3. PERFIL BÁSICO DEL USUARIO
+
+Crear automáticamente un perfil básico con:
+- user_id
+- datos de registro
+- intereses seleccionados
+- estatus: lead registrado
+- origen (web / campaña / referido)
+
+Este perfil será reutilizado para todo el ecosistema.
+
+---
+
+## 4. COMUNICACIÓN AUTOMÁTICA
+
+Al registrarse, disparar automáticamente:
+
+Correo 1 (inmediato):
+- Confirmación de registro
+- Agradecimiento
+- Mensaje claro: “Un asesor se pondrá en contacto”
+
+Correo 2 (según interés):
+- Contenido específico según lo que eligió
+- Sin vender agresivo
+- Explicación breve del siguiente paso
+
+Guardar registro de correos enviados.
+
+---
+
+## 5. CRM INTERNO (BACKEND)
+
+Cada registro debe aparecer en un panel interno con:
+- nombre
+- email
+- teléfono
+- país
+- interés seleccionado
+- fecha
+- estatus (nuevo / contactado / en proceso)
+
+Debe permitir:
+- filtrar por interés
+- exportar leads
+- agregar notas internas
+
+---
+
+## 6. BOTÓN DE CONTACTO POST-REGISTRO
+
+Una vez registrado, habilitar botones:
+- “Hablar por WhatsApp”
+- “Agendar llamada”
+- “Descargar VanDeFi” (opcional)
+
+NO permitir contacto sin registro previo.
+
+---
+
+## 7. REGLAS IMPORTANTES
+
+- No pedir documentos en esta etapa
+- No pedir KYC aquí
+- No pedir contratos
+- El objetivo es CAPTAR y ORDENAR, no cerrar
+
+---
+
+## RESULTADO ESPERADO
+Fractional Living deja de ser un sitio pasivo y se convierte en:
+- máquina de captación
+- base de datos viva
+- punto de inicio de todo el ecosistema
+
+ENTREGA:
+- Implementación del registro
+- Flujo post-registro
+- Registro visible en CRM
+- Correos automáticos
