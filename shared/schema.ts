@@ -276,6 +276,7 @@ export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type Message = typeof messages.$inferSelect;
 
 // Users - registered users for the platform
+// Note: password field stores the 4-digit PIN (hashed) for simple authentication
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
@@ -283,7 +284,6 @@ export const users = pgTable("users", {
   phone: text("phone").notNull(),
   country: text("country").notNull().default("México"),
   password: text("password").notNull(),
-  pin: text("pin"),
   interests: jsonb("interests").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
   primaryInterest: text("primary_interest"),
   status: text("status").default("lead"),
