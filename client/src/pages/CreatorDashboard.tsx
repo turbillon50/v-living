@@ -311,6 +311,253 @@ function LinksManager({ creatorToken }: { creatorToken: string }) {
   );
 }
 
+interface CRMUser {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  country: string;
+  interests: string[];
+  primaryInterest: string | null;
+  status: string;
+  notes: string | null;
+  createdAt: string;
+}
+
+const INTEREST_LABELS: Record<string, string> = {
+  'comprar_fracciones': 'Comprar fracciones',
+  'last_minute_capital': 'Last Minute Capital',
+  'property_associate': 'Property Associate',
+  'profile_associate': 'Profile Associate',
+  'broker': 'Broker/Afiliado',
+  'informacion': 'Solo información'
+};
+
+const STATUS_OPTIONS = [
+  { value: 'lead', label: 'Nuevo', color: 'bg-blue-500' },
+  { value: 'contacted', label: 'Contactado', color: 'bg-yellow-500' },
+  { value: 'in_progress', label: 'En proceso', color: 'bg-purple-500' },
+  { value: 'converted', label: 'Convertido', color: 'bg-green-500' },
+  { value: 'lost', label: 'Perdido', color: 'bg-red-500' }
+];
+
+function UsersCRM({ creatorToken }: { creatorToken: string }) {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [filterInterest, setFilterInterest] = useState<string>('');
+  const [filterStatus, setFilterStatus] = useState<string>('');
+  const [editingNotes, setEditingNotes] = useState<string | null>(null);
+  const [notesValue, setNotesValue] = useState('');
+
+  const { data: users = [], isLoading } = useQuery<CRMUser[]>({
+    queryKey: ['crm-users'],
+    queryFn: async () => {
+      const res = await fetch('/api/users', {
+        headers: { 'Authorization': creatorToken }
+      });
+      if (!res.ok) return [];
+      return res.json();
+    }
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      const res = await fetch(`/api/users/${id}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': creatorToken },
+        body: JSON.stringify({ status })
+      });
+      if (!res.ok) throw new Error('Failed');
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['crm-users'] });
+      toast({ title: 'Estado actualizado' });
+    }
+  });
+
+  const updateNotesMutation = useMutation({
+    mutationFn: async ({ id, notes }: { id: string; notes: string }) => {
+      const res = await fetch(`/api/users/${id}/notes`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': creatorToken },
+        body: JSON.stringify({ notes })
+      });
+      if (!res.ok) throw new Error('Failed');
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['crm-users'] });
+      setEditingNotes(null);
+      toast({ title: 'Notas guardadas' });
+    }
+  });
+
+  const filteredUsers = users.filter(u => {
+    if (filterInterest && !u.interests.includes(filterInterest)) return false;
+    if (filterStatus && u.status !== filterStatus) return false;
+    return true;
+  });
+
+  const exportToCSV = () => {
+    const headers = ['Nombre', 'Email', 'Teléfono', 'País', 'Intereses', 'Estado', 'Fecha'];
+    const rows = filteredUsers.map(u => [
+      u.name,
+      u.email,
+      u.phone,
+      u.country,
+      u.interests.map(i => INTEREST_LABELS[i] || i).join('; '),
+      STATUS_OPTIONS.find(s => s.value === u.status)?.label || u.status,
+      new Date(u.createdAt).toLocaleDateString()
+    ]);
+    
+    const csv = [headers, ...rows].map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `leads-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-20">
+        <Loader2 className="w-8 h-8 animate-spin text-teal-400" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap gap-3 items-center justify-between">
+        <h2 className="text-lg font-semibold text-white">CRM - {users.length} usuarios registrados</h2>
+        <Button onClick={exportToCSV} size="sm" variant="outline" className="bg-white/5 border-white/20 text-white">
+          <Copy className="w-4 h-4 mr-1" /> Exportar CSV
+        </Button>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <select
+          value={filterInterest}
+          onChange={(e) => setFilterInterest(e.target.value)}
+          className="px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm"
+        >
+          <option value="" className="bg-[#1a1a1a]">Todos los intereses</option>
+          {Object.entries(INTEREST_LABELS).map(([key, label]) => (
+            <option key={key} value={key} className="bg-[#1a1a1a]">{label}</option>
+          ))}
+        </select>
+
+        <select
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className="px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm"
+        >
+          <option value="" className="bg-[#1a1a1a]">Todos los estados</option>
+          {STATUS_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value} className="bg-[#1a1a1a]">{opt.label}</option>
+          ))}
+        </select>
+      </div>
+
+      {filteredUsers.length === 0 ? (
+        <div className="bg-white/5 rounded-xl p-8 text-center">
+          <Users className="w-12 h-12 mx-auto mb-4 text-white/30" />
+          <p className="text-white/50">No hay usuarios registrados aún</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {filteredUsers.map((user) => {
+            const statusInfo = STATUS_OPTIONS.find(s => s.value === user.status) || STATUS_OPTIONS[0];
+            return (
+              <div key={user.id} className="bg-white/5 rounded-xl border border-white/10 p-4">
+                <div className="flex flex-wrap gap-3 items-start justify-between mb-3">
+                  <div>
+                    <h3 className="font-medium text-white">{user.name}</h3>
+                    <p className="text-sm text-white/60">{user.email}</p>
+                    <p className="text-sm text-white/40">{user.phone} • {user.country}</p>
+                  </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <select
+                      value={user.status}
+                      onChange={(e) => updateStatusMutation.mutate({ id: user.id, status: e.target.value })}
+                      className={cn("px-3 py-1 rounded-full text-xs font-medium text-white", statusInfo.color)}
+                    >
+                      {STATUS_OPTIONS.map((opt) => (
+                        <option key={opt.value} value={opt.value} className="bg-[#1a1a1a] text-white">{opt.label}</option>
+                      ))}
+                    </select>
+                    <span className="text-xs text-white/40">
+                      {new Date(user.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+
+                {user.interests.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {user.interests.map((interest) => (
+                      <span key={interest} className="px-2 py-1 bg-teal-500/20 text-teal-400 rounded text-xs">
+                        {INTEREST_LABELS[interest] || interest}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex gap-2 items-center">
+                  <a
+                    href={`https://wa.me/${user.phone.replace(/\D/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded text-xs flex items-center gap-1"
+                  >
+                    <MessageCircle className="w-3 h-3" /> WhatsApp
+                  </a>
+                  <a
+                    href={`mailto:${user.email}`}
+                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs"
+                  >
+                    Email
+                  </a>
+                  <button
+                    onClick={() => { setEditingNotes(user.id); setNotesValue(user.notes || ''); }}
+                    className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded text-xs"
+                  >
+                    {user.notes ? 'Ver notas' : 'Agregar nota'}
+                  </button>
+                </div>
+
+                {editingNotes === user.id && (
+                  <div className="mt-3 space-y-2">
+                    <Textarea
+                      value={notesValue}
+                      onChange={(e) => setNotesValue(e.target.value)}
+                      placeholder="Notas internas..."
+                      className="bg-white/5 border-white/20 text-white min-h-[80px]"
+                    />
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        onClick={() => updateNotesMutation.mutate({ id: user.id, notes: notesValue })}
+                        className="bg-teal-500"
+                      >
+                        <Save className="w-3 h-3 mr-1" /> Guardar
+                      </Button>
+                      <Button size="sm" variant="ghost" onClick={() => setEditingNotes(null)}>
+                        Cancelar
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function CreatorDashboard() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
@@ -322,7 +569,7 @@ export default function CreatorDashboard() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [creatorToken, setCreatorToken] = useState('');
   const [password, setPassword] = useState('');
-  const [activeTab, setActiveTab] = useState<'properties' | 'navigation' | 'content' | 'bookings' | 'stats' | 'links'>('properties');
+  const [activeTab, setActiveTab] = useState<'properties' | 'navigation' | 'content' | 'bookings' | 'stats' | 'links' | 'users'>('properties');
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -851,7 +1098,8 @@ export default function CreatorDashboard() {
               { id: 'content', label: 'Textos', icon: FileText },
               { id: 'bookings', label: 'Reservas', icon: Calendar },
               { id: 'stats', label: 'Stats', icon: BarChart3 },
-              { id: 'links', label: 'Links', icon: Link2 }
+              { id: 'links', label: 'Links', icon: Link2 },
+              { id: 'users', label: 'CRM', icon: Users }
             ].map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
@@ -1404,6 +1652,11 @@ export default function CreatorDashboard() {
         {/* LINKS TAB */}
         {activeTab === 'links' && (
           <LinksManager creatorToken={creatorToken} />
+        )}
+
+        {/* USERS CRM TAB */}
+        {activeTab === 'users' && (
+          <UsersCRM creatorToken={creatorToken} />
         )}
       </main>
 

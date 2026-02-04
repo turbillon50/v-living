@@ -15,6 +15,7 @@ import { FinancialCalculator } from '@/components/FinancialCalculator';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/lib/LanguageContext';
+import { useAuth } from '@/lib/AuthContext';
 
 const CREATOR_PASSWORD = 'lumamijuvisado';
 const BASE_YEAR = 2026;
@@ -50,6 +51,16 @@ export default function PropertyDetail() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { formatPrice } = useLanguage();
+  const { isAuthenticated, setShowAuthModal, setAuthModalMode } = useAuth();
+  
+  const handleContactClick = (whatsappUrl: string) => {
+    if (isAuthenticated) {
+      window.open(whatsappUrl, '_blank');
+    } else {
+      setAuthModalMode('register');
+      setShowAuthModal(true);
+    }
+  };
   
   const [selectedWeeks, setSelectedWeeks] = useState<number[]>([]);
   const [email, setEmail] = useState('');
@@ -377,21 +388,23 @@ export default function PropertyDetail() {
                 </div>
               </div>
 
-              <a 
-                href={`https://wa.me/529984292748?text=Hola,%20me%20interesa%20${encodeURIComponent(property.title)}`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button 
+                onClick={() => handleContactClick(`https://wa.me/529984292748?text=Hola,%20me%20interesa%20${encodeURIComponent(property.title)}`)}
                 className="block w-full py-4 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl text-center transition-colors mb-3"
                 data-testid="whatsapp-cta"
               >
-                💬 Quiero Información
-              </a>
+                💬 {isAuthenticated ? 'Hablar por WhatsApp' : 'Registrarme para Contactar'}
+              </button>
 
-              <Link href="/registro">
-                <button className="w-full py-4 border-2 border-gray-900 text-gray-900 font-semibold rounded-xl hover:bg-gray-900 hover:text-white transition-colors" data-testid="register-cta">
-                  Registrar Interés
+              {!isAuthenticated && (
+                <button 
+                  onClick={() => { setAuthModalMode('login'); setShowAuthModal(true); }}
+                  className="w-full py-4 border-2 border-gray-900 text-gray-900 font-semibold rounded-xl hover:bg-gray-900 hover:text-white transition-colors" 
+                  data-testid="login-cta"
+                >
+                  Ya tengo cuenta - Iniciar Sesión
                 </button>
-              </Link>
+              )}
 
               <p className="text-center text-gray-400 text-xs mt-4">Te contactamos en menos de 24 horas</p>
             </div>
