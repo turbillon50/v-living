@@ -193,8 +193,8 @@ export default function Home() {
           </div>
           <div className="bg-black/5 rounded-xl p-4 border border-black/10">
             <Calendar className="w-5 h-5 text-orange-500 mb-2" />
-            <p className="text-black text-sm font-medium">3 Semanas/Año</p>
-            <p className="text-black/40 text-xs">Uso garantizado</p>
+            <p className="text-black text-sm font-medium">Compra Semanas</p>
+            <p className="text-black/40 text-xs">Suma las que quieras</p>
           </div>
           <div className="bg-black/5 rounded-xl p-4 border border-black/10">
             <span className="text-xl mb-2 block">💰</span>
