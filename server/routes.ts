@@ -967,9 +967,15 @@ NO HAGAS:
     }
   });
 
-  // Update user profile
+  // Update user profile (requires auth - user can only update their own profile)
   app.put("/api/users/:id/profile", async (req, res) => {
     try {
+      const authUserId = req.headers['x-user-id'];
+      
+      if (!authUserId || authUserId !== req.params.id) {
+        return res.status(401).json({ error: "No autorizado - solo puedes editar tu propio perfil" });
+      }
+
       const { name, phone, country } = req.body;
       
       if (!name || !phone || !country) {

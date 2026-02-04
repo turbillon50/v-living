@@ -102,7 +102,10 @@ export default function Profile() {
     mutationFn: async (data: { name: string; phone: string; country: string }) => {
       const res = await fetch(`/api/users/${user?.id}/profile`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-User-Id': user?.id || ''
+        },
         body: JSON.stringify(data)
       });
       if (!res.ok) throw new Error('Failed to update');
