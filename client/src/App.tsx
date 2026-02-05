@@ -94,19 +94,19 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
-        {CLERK_ENABLED ? (
-          <ClerkAuthProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Router />
-              <FloatingButtons />
-              <FloatingAI />
-              <BottomNav />
-              <ClerkAuthModalWrapper />
-            </TooltipProvider>
-          </ClerkAuthProvider>
-        ) : (
-          <AuthProvider>
+        <AuthProvider>
+          {CLERK_ENABLED ? (
+            <ClerkAuthProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Router />
+                <FloatingButtons />
+                <FloatingAI />
+                <BottomNav />
+                <ClerkAuthModalWrapper />
+              </TooltipProvider>
+            </ClerkAuthProvider>
+          ) : (
             <TooltipProvider>
               <Toaster />
               <Router />
@@ -115,8 +115,8 @@ function App() {
               <BottomNav />
               <AuthModal />
             </TooltipProvider>
-          </AuthProvider>
-        )}
+          )}
+        </AuthProvider>
       </LanguageProvider>
     </QueryClientProvider>
   );
