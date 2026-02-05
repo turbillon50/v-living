@@ -21,7 +21,9 @@ import type {
   InsertCategory,
   SiteSetting,
   Multilink,
-  InsertMultilink
+  InsertMultilink,
+  ReferralCommission,
+  InsertReferralCommission
 } from "@shared/schema";
 
 const { Pool } = pg;
@@ -101,6 +103,12 @@ export interface IStorage {
   updateUserProfile(id: string, data: { name: string; phone: string; country: string }): Promise<schema.User | undefined>;
   getUsersByStatus(status: string): Promise<schema.User[]>;
   getUsersByInterest(interest: string): Promise<schema.User[]>;
+  getUserByReferralCode(code: string): Promise<schema.User | undefined>;
+  generateReferralCode(userId: string): Promise<string>;
+  getReferralNetwork(userId: string, maxLevel?: number): Promise<{ level: number; users: schema.User[] }[]>;
+  getReferralStats(userId: string): Promise<{ totalReferrals: number; networkSize: number; levels: { level: number; count: number }[] }>;
+  getCommissions(userId: string): Promise<ReferralCommission[]>;
+  createCommission(commission: InsertReferralCommission): Promise<ReferralCommission>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -477,6 +485,74 @@ export class DatabaseStorage implements IStorage {
     return db.select().from(schema.users).where(
       sql`${schema.users.interests}::jsonb @> ${JSON.stringify([interest])}::jsonb`
     );
+  }
+
+  async getUserByReferralCode(code: string): Promise<schema.User | undefined> {
+    const results = await db.select().from(schema.users).where(eq(schema.users.referralCode, code)).limit(1);
+    return results[0];
+  }
+
+  async generateReferralCode(userId: string): Promise<string> {
+    const user = await this.getUserById(userId);
+    if (!user) throw new Error("User not found");
+    if (user.referralCode) return user.referralCode;
+
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code: string;
+    let exists = true;
+    do {
+      code = 'FL-';
+      for (let i = 0; i < 6; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      const existing = await this.getUserByReferralCode(code);
+      exists = !!existing;
+    } while (exists);
+
+    await db.update(schema.users)
+      .set({ referralCode: code, updatedAt: new Date() })
+      .where(eq(schema.users.id, userId));
+
+    return code;
+  }
+
+  async getReferralNetwork(userId: string, maxLevel: number = 5): Promise<{ level: number; users: schema.User[] }[]> {
+    const network: { level: number; users: schema.User[] }[] = [];
+    const user = await this.getUserById(userId);
+    if (!user || !user.referralCode) return network;
+
+    let currentCodes = [user.referralCode];
+
+    for (let level = 1; level <= maxLevel; level++) {
+      if (currentCodes.length === 0) break;
+      const levelUsers = await db.select().from(schema.users).where(
+        sql`${schema.users.referredBy} IN (${sql.join(currentCodes.map(c => sql`${c}`), sql`, `)})`
+      );
+      if (levelUsers.length === 0) break;
+      network.push({ level, users: levelUsers });
+      currentCodes = levelUsers.filter(u => u.referralCode).map(u => u.referralCode!);
+    }
+
+    return network;
+  }
+
+  async getReferralStats(userId: string): Promise<{ totalReferrals: number; networkSize: number; levels: { level: number; count: number }[] }> {
+    const network = await this.getReferralNetwork(userId, 5);
+    const levels = network.map(n => ({ level: n.level, count: n.users.length }));
+    const networkSize = levels.reduce((sum, l) => sum + l.count, 0);
+    const totalReferrals = network.length > 0 ? network[0].users.length : 0;
+    return { totalReferrals, networkSize, levels };
+  }
+
+  async getCommissions(userId: string): Promise<ReferralCommission[]> {
+    return db.select().from(schema.referralCommissions)
+      .where(eq(schema.referralCommissions.userId, userId))
+      .orderBy(sql`created_at DESC`);
+  }
+
+  async createCommission(commission: InsertReferralCommission): Promise<ReferralCommission> {
+    const results = await db.insert(schema.referralCommissions).values(commission).returning();
+    return results[0];
   }
 }
 

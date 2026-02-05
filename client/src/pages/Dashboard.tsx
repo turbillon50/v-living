@@ -1,184 +1,696 @@
-import { Link } from 'wouter';
-import { Calendar, Home, TrendingUp, Building, MapPin, ChevronRight, Clock } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
+import { useLanguage } from '@/lib/LanguageContext';
 import { Header } from '@/components/Header';
-import { SeasonBadge } from '@/components/SeasonBadge';
-import { userDashboard, formatPrice, getWeekDateRange } from '@/lib/mockData';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { format } from 'date-fns';
+import { 
+  ArrowLeft, Copy, Share2, Users, TrendingUp, Gift, 
+  ChevronDown, ChevronRight, Check, 
+  Network, Star, Wallet, UserPlus, LinkIcon, Shield
+} from 'lucide-react';
+
+const COMMISSION_LEVELS = [
+  { level: 1, percentage: 1.2, color: '#FF6B00' },
+  { level: 2, percentage: 0.8, color: '#FF8C38' },
+  { level: 3, percentage: 0.8, color: '#FFB170' },
+  { level: 4, percentage: 0.6, color: '#FFD1A0' },
+  { level: 5, percentage: 0.6, color: '#FFE4C7' },
+];
+
+const INTEREST_OPTIONS = [
+  { id: 'comprar', label: 'Comprar una fracción', labelEn: 'Buy a fraction', icon: '🏠' },
+  { id: 'invertir', label: 'Invertir en propiedades', labelEn: 'Invest in properties', icon: '📈' },
+  { id: 'vender', label: 'Vender mi propiedad', labelEn: 'Sell my property', icon: '🏷️' },
+  { id: 'promocionar', label: 'Promocionar propiedades', labelEn: 'Promote properties', icon: '📣' },
+  { id: 'vivir', label: 'Vivir experiencias de lujo', labelEn: 'Live luxury experiences', icon: '✨' },
+  { id: 'referir', label: 'Referir amigos y ganar', labelEn: 'Refer friends & earn', icon: '🤝' },
+];
 
 export default function Dashboard() {
-  const { ownedFractions, upcomingWeeks } = userDashboard;
+  const { language } = useLanguage();
+  const [, navigate] = useLocation();
+  const [activeTab, setActiveTab] = useState<'perfil' | 'red' | 'comisiones' | 'compartir'>('perfil');
+  const [copied, setCopied] = useState(false);
+  const [expandedLevel, setExpandedLevel] = useState<number | null>(null);
+
+  const storedUser = localStorage.getItem('fl_user');
+  const currentUser = storedUser ? JSON.parse(storedUser) : null;
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/login');
+    }
+  }, [currentUser, navigate]);
+
+  const { data: dashboardData, isLoading } = useQuery({
+    queryKey: ['referral-dashboard', currentUser?.id],
+    queryFn: async () => {
+      const res = await fetch(`/api/users/${currentUser.id}/referral-dashboard`);
+      if (!res.ok) throw new Error('Error');
+      return res.json();
+    },
+    enabled: !!currentUser?.id,
+    refetchInterval: 30000,
+  });
+
+  const copyLink = () => {
+    if (dashboardData?.referralLink) {
+      navigator.clipboard.writeText(dashboardData.referralLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const shareLink = async () => {
+    if (!dashboardData?.referralLink) return;
+    const shareData = {
+      title: 'FRACTIONAL LIVING',
+      text: language === 'es'
+        ? `Únete a Fractional Living! Vive, invierte y construye patrimonio en el Caribe. Usa mi código: ${dashboardData.referralCode}`
+        : `Join Fractional Living! Live, invest and build wealth in the Caribbean. Use my code: ${dashboardData.referralCode}`,
+      url: dashboardData.referralLink,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        copyLink();
+      }
+    } catch {
+      copyLink();
+    }
+  };
+
+  if (!currentUser) return null;
+
+  const tabs = [
+    { id: 'perfil' as const, label: language === 'es' ? 'Perfil' : 'Profile', icon: <Shield className="w-4 h-4" /> },
+    { id: 'red' as const, label: language === 'es' ? 'Mi Red' : 'My Network', icon: <Network className="w-4 h-4" /> },
+    { id: 'comisiones' as const, label: language === 'es' ? 'Comisiones' : 'Commissions', icon: <Wallet className="w-4 h-4" /> },
+    { id: 'compartir' as const, label: language === 'es' ? 'Compartir' : 'Share', icon: <Share2 className="w-4 h-4" /> },
+  ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
       <Header />
 
-      <main className="max-w-[1760px] mx-auto px-6 md:px-10 lg:px-20 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-semibold mb-2">My Portfolio</h1>
-          <p className="text-muted-foreground">Manage your fractional ownership investments</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl border border-primary/20">
-            <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-4">
-              <Home className="w-6 h-6 text-primary" />
-            </div>
-            <p className="text-3xl font-semibold mb-1">{ownedFractions.length}</p>
-            <p className="text-muted-foreground">Properties Owned</p>
-          </div>
-
-          <div className="p-6 bg-muted/50 rounded-2xl border border-border">
-            <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center mb-4">
-              <Calendar className="w-6 h-6 text-foreground" />
-            </div>
-            <p className="text-3xl font-semibold mb-1">{ownedFractions.length * 3}</p>
-            <p className="text-muted-foreground">Total Usage Weeks</p>
-          </div>
-
-          <div className="p-6 bg-muted/50 rounded-2xl border border-border">
-            <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center mb-4">
-              <TrendingUp className="w-6 h-6 text-foreground" />
-            </div>
-            <p className="text-3xl font-semibold mb-1">
-              {formatPrice(ownedFractions.reduce((acc, f) => acc + f.fraction.price, 0))}
-            </p>
-            <p className="text-muted-foreground">Portfolio Value</p>
+      <main className="pb-32 max-w-4xl mx-auto">
+        <div className="px-4 pt-4 pb-2 flex items-center gap-3">
+          <Link href="/home">
+            <span className="p-2 hover:bg-white/5 rounded-full transition-colors cursor-pointer" data-testid="button-back-dashboard">
+              <ArrowLeft className="w-5 h-5" />
+            </span>
+          </Link>
+          <div>
+            <h1 className="text-lg font-semibold tracking-tight" data-testid="text-dashboard-title">
+              {language === 'es' ? 'Mi Dashboard' : 'My Dashboard'}
+            </h1>
+            <p className="text-[10px] text-white/40 uppercase tracking-[0.2em]">FRACTIONAL LIVING NETWORK</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold">My Fractions</h2>
-                <Link href="/" data-testid="link-explore-more">
-                  <Button variant="ghost" size="sm" className="gap-1">
-                    Explore More <ChevronRight className="w-4 h-4" />
-                  </Button>
-                </Link>
+        {dashboardData?.referralCode && (
+          <div className="mx-4 mt-3 bg-gradient-to-r from-orange-500/20 to-orange-600/10 border border-orange-500/30 rounded-2xl p-4" data-testid="card-referral-code">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[10px] text-orange-400/70 uppercase tracking-wider mb-1">
+                  {language === 'es' ? 'Tu código único' : 'Your unique code'}
+                </p>
+                <p className="text-2xl font-bold text-orange-400 tracking-widest font-mono" data-testid="text-referral-code">
+                  {dashboardData.referralCode}
+                </p>
               </div>
-
-              <div className="space-y-4">
-                {ownedFractions.map(({ property, fraction }) => (
-                  <Link
-                    key={fraction.id}
-                    href={`/property/${property.id}/fraction/${fraction.id}`}
-                    data-testid={`owned-fraction-${fraction.id}`}
-                  >
-                    <div className="flex gap-4 p-4 border border-border rounded-2xl hover:shadow-md transition-shadow cursor-pointer">
-                      <img
-                        src={property.images[0]}
-                        alt={property.title}
-                        className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-xl"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-2">
-                          <div>
-                            <h3 className="font-semibold line-clamp-1">{property.title}</h3>
-                            <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
-                              <MapPin className="w-3.5 h-3.5" />
-                              {property.location}, {property.country}
-                            </p>
-                          </div>
-                          <span className="text-sm font-medium text-primary whitespace-nowrap">
-                            Fraction #{fraction.fractionNumber}
-                          </span>
-                        </div>
-
-                        <div className="flex items-center gap-4 mt-3">
-                          <div>
-                            <p className="text-xs text-muted-foreground">Ownership</p>
-                            <p className="font-medium">{fraction.ownershipPercentage}%</p>
-                          </div>
-                          <Separator orientation="vertical" className="h-8" />
-                          <div>
-                            <p className="text-xs text-muted-foreground">Value</p>
-                            <p className="font-medium">{formatPrice(fraction.price)}</p>
-                          </div>
-                          <Separator orientation="vertical" className="h-8" />
-                          <div>
-                            <p className="text-xs text-muted-foreground">Usage</p>
-                            <p className="font-medium capitalize">{fraction.usageMode}</p>
-                          </div>
-                        </div>
-
-                        <div className="flex gap-1.5 mt-3">
-                          {fraction.usageWeeks.map((w, i) => (
-                            <SeasonBadge key={i} season={w.season} size="sm" showLabel={false} />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+              <div className="flex gap-2">
+                <button 
+                  onClick={copyLink} 
+                  className="p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-colors"
+                  data-testid="button-copy-link"
+                >
+                  {copied ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
+                </button>
+                <button 
+                  onClick={shareLink}
+                  className="p-3 bg-orange-500 rounded-xl hover:bg-orange-600 transition-colors"
+                  data-testid="button-share-link"
+                >
+                  <Share2 className="w-5 h-5 text-white" />
+                </button>
               </div>
             </div>
-          </div>
-
-          <div className="space-y-6">
-            <div className="border border-border rounded-2xl p-6">
-              <h2 className="text-lg font-semibold mb-4">Upcoming Usage</h2>
-
-              {upcomingWeeks.length > 0 ? (
-                <div className="space-y-4">
-                  {upcomingWeeks.map(({ property, fraction, week }, idx) => {
-                    const { start, end } = getWeekDateRange(week.weekNumber);
-                    return (
-                      <div key={idx} className="p-4 bg-muted/50 rounded-xl">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                            <Clock className="w-5 h-5 text-primary" />
-                          </div>
-                          <div>
-                            <p className="font-medium">Week {week.weekNumber}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {format(start, 'MMM d')} - {format(end, 'MMM d')}
-                            </p>
-                          </div>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-2">{property.title}</p>
-                        <SeasonBadge season={week.season} size="sm" />
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <p className="text-muted-foreground text-sm">No upcoming usage scheduled</p>
-              )}
-            </div>
-
-            <div className="border border-border rounded-2xl p-6">
-              <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
-              <div className="space-y-3">
-                <Button variant="outline" className="w-full justify-start gap-3" data-testid="button-exchange-weeks">
-                  <Calendar className="w-4 h-4" />
-                  Exchange Weeks
-                </Button>
-                <Button variant="outline" className="w-full justify-start gap-3" data-testid="button-list-rental">
-                  <Building className="w-4 h-4" />
-                  List for Rental
-                </Button>
-                <Button variant="outline" className="w-full justify-start gap-3" data-testid="button-view-statements">
-                  <TrendingUp className="w-4 h-4" />
-                  View Statements
-                </Button>
-              </div>
-            </div>
-
-            <div className="border border-border rounded-2xl p-6 bg-gradient-to-br from-foreground to-foreground/90 text-background">
-              <h2 className="text-lg font-semibold mb-2">Need Assistance?</h2>
-              <p className="text-sm opacity-80 mb-4">
-                Our ownership concierge is available to help with any questions.
+            <div className="mt-2 flex items-center gap-2 bg-black/30 rounded-lg px-3 py-2">
+              <LinkIcon className="w-3 h-3 text-white/40 flex-shrink-0" />
+              <p className="text-xs text-white/50 truncate" data-testid="text-referral-link">
+                {dashboardData.referralLink}
               </p>
-              <Button variant="secondary" className="w-full" data-testid="button-contact-concierge">
-                Contact Concierge
-              </Button>
             </div>
           </div>
+        )}
+
+        <div className="flex gap-1 mx-4 mt-4 bg-white/5 rounded-xl p-1" data-testid="tabs-dashboard">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg text-xs font-medium transition-all ${
+                activeTab === tab.id
+                  ? 'bg-orange-500 text-white shadow-lg'
+                  : 'text-white/50 hover:text-white/70'
+              }`}
+              data-testid={`tab-${tab.id}`}
+            >
+              {tab.icon}
+              <span className="hidden sm:inline">{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-4 px-4">
+          {activeTab === 'perfil' && (
+            <ProfileTab 
+              user={dashboardData?.user || currentUser}
+              stats={dashboardData?.stats}
+              language={language}
+              isLoading={isLoading}
+            />
+          )}
+          {activeTab === 'red' && (
+            <NetworkTab
+              network={dashboardData?.network || []}
+              stats={dashboardData?.stats}
+              language={language}
+              isLoading={isLoading}
+              expandedLevel={expandedLevel}
+              setExpandedLevel={setExpandedLevel}
+            />
+          )}
+          {activeTab === 'comisiones' && (
+            <CommissionsTab
+              commissions={dashboardData?.commissions || []}
+              totalCommission={dashboardData?.totalCommission || 0}
+              commissionStructure={dashboardData?.commissionStructure || COMMISSION_LEVELS}
+              language={language}
+              isLoading={isLoading}
+            />
+          )}
+          {activeTab === 'compartir' && (
+            <ShareTab
+              referralCode={dashboardData?.referralCode || ''}
+              referralLink={dashboardData?.referralLink || ''}
+              language={language}
+              onCopy={copyLink}
+              onShare={shareLink}
+              copied={copied}
+            />
+          )}
         </div>
       </main>
+    </div>
+  );
+}
+
+function ProfileTab({ user, stats, language, isLoading }: any) {
+  if (isLoading) return <LoadingSkeleton />;
+  
+  return (
+    <div className="space-y-4" data-testid="tab-content-perfil">
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center text-2xl font-bold">
+            {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+          </div>
+          <div className="flex-1 min-w-0">
+            <h2 className="text-xl font-semibold truncate" data-testid="text-user-name">{user?.name || 'Usuario'}</h2>
+            <p className="text-sm text-white/50 truncate" data-testid="text-user-email">{user?.email}</p>
+            <p className="text-xs text-orange-400 mt-1">
+              {language === 'es' ? 'Miembro de la Red FL' : 'FL Network Member'}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <InfoCard label={language === 'es' ? 'Teléfono' : 'Phone'} value={user?.phone || '-'} />
+          <InfoCard label={language === 'es' ? 'País' : 'Country'} value={user?.country || 'México'} />
+          <InfoCard 
+            label={language === 'es' ? 'Miembro desde' : 'Member since'} 
+            value={user?.createdAt ? new Date(user.createdAt).toLocaleDateString('es-MX', { month: 'short', year: 'numeric' }) : '-'} 
+          />
+          <InfoCard 
+            label={language === 'es' ? 'Fuente' : 'Source'} 
+            value={user?.source === 'referral' ? '🤝 Referido' : '🌐 Web'} 
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-3">
+        <StatCard 
+          icon={<UserPlus className="w-5 h-5 text-orange-400" />}
+          value={stats?.totalReferrals || 0}
+          label={language === 'es' ? 'Directos' : 'Direct'}
+        />
+        <StatCard 
+          icon={<Users className="w-5 h-5 text-orange-400" />}
+          value={stats?.networkSize || 0}
+          label={language === 'es' ? 'Red Total' : 'Network'}
+        />
+        <StatCard 
+          icon={<TrendingUp className="w-5 h-5 text-orange-400" />}
+          value={stats?.levels?.length || 0}
+          label={language === 'es' ? 'Niveles' : 'Levels'}
+        />
+      </div>
+
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <h3 className="text-sm font-semibold mb-3 text-white/80">
+          {language === 'es' ? 'Mis Intereses' : 'My Interests'}
+        </h3>
+        <div className="grid grid-cols-2 gap-2">
+          {INTEREST_OPTIONS.map(opt => {
+            const isSelected = user?.interests?.includes(opt.id);
+            return (
+              <div 
+                key={opt.id}
+                className={`flex items-center gap-2 p-3 rounded-xl border transition-all text-xs ${
+                  isSelected 
+                    ? 'bg-orange-500/10 border-orange-500/30 text-orange-300' 
+                    : 'bg-white/[0.03] border-white/5 text-white/40'
+                }`}
+                data-testid={`interest-${opt.id}`}
+              >
+                <span>{opt.icon}</span>
+                <span>{language === 'es' ? opt.label : opt.labelEn}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="bg-gradient-to-r from-orange-500/10 to-transparent border border-orange-500/20 rounded-2xl p-5">
+        <div className="flex items-start gap-3">
+          <Gift className="w-6 h-6 text-orange-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <h3 className="text-sm font-semibold text-orange-400 mb-1">
+              {language === 'es' ? 'Gana compartiendo!' : 'Earn by sharing!'}
+            </h3>
+            <p className="text-xs text-white/60 leading-relaxed">
+              {language === 'es' 
+                ? 'Comparte tu enlace único con amigos, familia o conocidos. Por cada persona que se registre y cualquier actividad en tu red de 5 niveles, accedes al 4% en comisiones. No necesitan comprar para que tú ganes!'
+                : 'Share your unique link with friends, family or contacts. For every person who registers and any activity in your 5-level network, you access 4% in commissions. They don\'t need to buy for you to earn!'}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NetworkTab({ network, stats, language, isLoading, expandedLevel, setExpandedLevel }: any) {
+  if (isLoading) return <LoadingSkeleton />;
+
+  return (
+    <div className="space-y-4" data-testid="tab-content-red">
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
+          <Network className="w-4 h-4 text-orange-400" />
+          {language === 'es' ? 'Mi Red de 5 Niveles' : 'My 5-Level Network'}
+        </h3>
+        
+        <div className="space-y-2">
+          {[1, 2, 3, 4, 5].map(level => {
+            const levelData = network?.find((n: any) => n.level === level);
+            const count = levelData?.count || 0;
+            const commission = COMMISSION_LEVELS.find(c => c.level === level);
+            const isExpanded = expandedLevel === level;
+
+            return (
+              <div key={level}>
+                <button
+                  onClick={() => setExpandedLevel(isExpanded ? null : level)}
+                  className="w-full flex items-center gap-3 p-3 bg-white/[0.03] hover:bg-white/5 rounded-xl transition-all"
+                  data-testid={`network-level-${level}`}
+                >
+                  <div 
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-black"
+                    style={{ backgroundColor: commission?.color }}
+                  >
+                    N{level}
+                  </div>
+                  <div className="flex-1 text-left">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">
+                        {language === 'es' ? `Nivel ${level}` : `Level ${level}`}
+                        {level === 1 && <span className="text-orange-400 text-xs ml-1">({language === 'es' ? 'Directos' : 'Direct'})</span>}
+                      </span>
+                      <span className="text-sm font-bold text-orange-400" data-testid={`text-level-${level}-count`}>{count}</span>
+                    </div>
+                    <div className="flex items-center justify-between mt-0.5">
+                      <span className="text-xs text-white/40">{commission?.percentage}% {language === 'es' ? 'comisión' : 'commission'}</span>
+                      {count > 0 && (
+                        isExpanded ? <ChevronDown className="w-3 h-3 text-white/40" /> : <ChevronRight className="w-3 h-3 text-white/40" />
+                      )}
+                    </div>
+                  </div>
+                </button>
+
+                {isExpanded && levelData?.users && (
+                  <div className="mt-1 space-y-1 pl-4 ml-5 border-l border-white/10">
+                    {levelData.users.map((u: any) => (
+                      <div key={u.id} className="flex items-center gap-3 p-2 bg-white/[0.03] rounded-lg text-xs">
+                        <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-bold">
+                          {u.name?.charAt(0)?.toUpperCase()}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white/80 truncate">{u.name}</p>
+                          <p className="text-white/30 truncate">{u.email}</p>
+                        </div>
+                        <span className="text-[10px] text-white/30">
+                          {new Date(u.createdAt).toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {stats?.networkSize === 0 && (
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+          <Users className="w-12 h-12 text-white/20 mx-auto mb-3" />
+          <h3 className="text-sm font-semibold mb-2">
+            {language === 'es' ? 'Tu red está vacía' : 'Your network is empty'}
+          </h3>
+          <p className="text-xs text-white/50 mb-4 max-w-xs mx-auto">
+            {language === 'es' 
+              ? 'Comparte tu enlace único y comienza a construir tu red. Cada registro cuenta.'
+              : 'Share your unique link and start building your network. Every registration counts.'}
+          </p>
+        </div>
+      )}
+
+      <div className="bg-gradient-to-br from-orange-500/5 to-transparent border border-orange-500/10 rounded-2xl p-5">
+        <h4 className="text-xs font-semibold text-orange-400 mb-3 uppercase tracking-wider">
+          {language === 'es' ? 'Razones para compartir tu enlace' : 'Reasons to share your link'}
+        </h4>
+        <div className="space-y-2">
+          {[
+            { es: 'Un amigo quiere comprar una fracción', en: 'A friend wants to buy a fraction', icon: '🏠' },
+            { es: 'Alguien quiere vender su propiedad', en: 'Someone wants to sell their property', icon: '🏷️' },
+            { es: 'Un conocido busca invertir', en: 'Someone looking to invest', icon: '📈' },
+            { es: 'Una persona quiere promocionar propiedades', en: 'Someone wants to promote properties', icon: '📣' },
+            { es: 'Cualquier persona curiosa por el modelo', en: 'Anyone curious about the model', icon: '🤔' },
+          ].map((reason, i) => (
+            <div key={i} className="flex items-center gap-2 text-xs text-white/60">
+              <span>{reason.icon}</span>
+              <span>{language === 'es' ? reason.es : reason.en}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CommissionsTab({ commissions, totalCommission, commissionStructure, language, isLoading }: any) {
+  if (isLoading) return <LoadingSkeleton />;
+
+  return (
+    <div className="space-y-4" data-testid="tab-content-comisiones">
+      <div className="bg-gradient-to-br from-orange-500/20 to-orange-600/5 border border-orange-500/30 rounded-2xl p-5">
+        <p className="text-[10px] text-orange-400/70 uppercase tracking-wider mb-1">
+          {language === 'es' ? 'Total Comisiones Acumuladas' : 'Total Accumulated Commissions'}
+        </p>
+        <p className="text-3xl font-bold text-white" data-testid="text-total-commissions">
+          ${totalCommission.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+          <span className="text-sm text-white/40 ml-1">USD</span>
+        </p>
+      </div>
+
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
+          <TrendingUp className="w-4 h-4 text-orange-400" />
+          {language === 'es' ? 'Estructura de Comisiones - 4% Total' : 'Commission Structure - 4% Total'}
+        </h3>
+
+        <div className="space-y-3">
+          {COMMISSION_LEVELS.map(level => (
+            <div key={level.level} className="flex items-center gap-3">
+              <div 
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-black"
+                style={{ backgroundColor: level.color }}
+              >
+                {level.level}
+              </div>
+              <div className="flex-1">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-xs text-white/70">
+                    {language === 'es' ? `Nivel ${level.level}` : `Level ${level.level}`}
+                    {level.level === 1 && ` (${language === 'es' ? 'Directos' : 'Direct'})`}
+                  </span>
+                  <span className="text-xs font-bold text-orange-400">{level.percentage}%</span>
+                </div>
+                <div className="w-full bg-white/5 rounded-full h-2">
+                  <div 
+                    className="h-2 rounded-full transition-all"
+                    style={{ width: `${(level.percentage / 1.2) * 100}%`, backgroundColor: level.color }}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+          <span className="text-xs text-white/50">{language === 'es' ? 'Total por transacción' : 'Total per transaction'}</span>
+          <span className="text-sm font-bold text-orange-400">4.0%</span>
+        </div>
+      </div>
+
+      {commissions.length > 0 ? (
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+          <h3 className="text-sm font-semibold mb-3">
+            {language === 'es' ? 'Historial de Comisiones' : 'Commission History'}
+          </h3>
+          <div className="space-y-2">
+            {commissions.map((c: any) => (
+              <div key={c.id} className="flex items-center justify-between p-3 bg-white/[0.03] rounded-xl">
+                <div>
+                  <p className="text-xs font-medium">Nivel {c.level}</p>
+                  <p className="text-[10px] text-white/40">{new Date(c.createdAt).toLocaleDateString('es-MX')}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-bold text-green-400">+${parseFloat(c.amount).toFixed(2)}</p>
+                  <p className="text-[10px] text-white/40">{c.status}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+          <Wallet className="w-12 h-12 text-white/20 mx-auto mb-3" />
+          <h3 className="text-sm font-semibold mb-2">
+            {language === 'es' ? 'Sin comisiones aún' : 'No commissions yet'}
+          </h3>
+          <p className="text-xs text-white/50 max-w-xs mx-auto">
+            {language === 'es' 
+              ? 'Las comisiones se generan cuando hay actividad en tu red. Comienza compartiendo tu enlace!'
+              : 'Commissions are generated when there is activity in your network. Start sharing your link!'}
+          </p>
+        </div>
+      )}
+
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <h4 className="text-xs font-semibold text-orange-400 mb-3">
+          {language === 'es' ? 'Cómo funcionan las comisiones?' : 'How do commissions work?'}
+        </h4>
+        <div className="space-y-3 text-xs text-white/60">
+          <p>
+            {language === 'es' 
+              ? '- Cada vez que alguien en tu red realiza una transacción (compra, venta, inversión), se genera un 4% de comisión distribuido en 5 niveles.'
+              : '- Every time someone in your network makes a transaction (purchase, sale, investment), a 4% commission is generated distributed across 5 levels.'}
+          </p>
+          <p>
+            {language === 'es'
+              ? '- No necesitas comprar nada para ganar. Solo comparte tu enlace y deja que tu red crezca.'
+              : '- You don\'t need to buy anything to earn. Just share your link and let your network grow.'}
+          </p>
+          <p>
+            {language === 'es'
+              ? '- Las comisiones se acumulan y son pagaderas según los términos del programa.'
+              : '- Commissions accumulate and are payable according to program terms.'}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ShareTab({ referralCode, referralLink, language, onCopy, onShare, copied }: any) {
+  const shareMessages = [
+    {
+      label: language === 'es' ? 'Para un amigo que quiere comprar' : 'For a friend who wants to buy',
+      icon: '🏠',
+      message: language === 'es'
+        ? `Hola! Mira esta oportunidad de tener una fracción de propiedad de lujo en el Caribe. Es legal, heredable y accesible. Regístrate con mi enlace: ${referralLink}`
+        : `Hey! Check out this opportunity to own a fraction of luxury property in the Caribbean. It's legal, inheritable and accessible. Register with my link: ${referralLink}`,
+    },
+    {
+      label: language === 'es' ? 'Para alguien que quiere vender' : 'For someone who wants to sell',
+      icon: '🏷️',
+      message: language === 'es'
+        ? `Tienes una propiedad que quieres vender? En Fractional Living la venden por ti con un modelo innovador que puede darte hasta 12% más de su valor. Info: ${referralLink}`
+        : `Have a property you want to sell? Fractional Living sells it for you with an innovative model that can give you up to 12% more. Info: ${referralLink}`,
+    },
+    {
+      label: language === 'es' ? 'Para un inversionista' : 'For an investor',
+      icon: '📈',
+      message: language === 'es'
+        ? `Si buscas invertir en bienes raíces de lujo en el Caribe sin complicaciones, conoce el modelo Fractional Living. Activos reales, estructura legal. ${referralLink}`
+        : `If you're looking to invest in luxury Caribbean real estate hassle-free, check out the Fractional Living model. Real assets, legal structure. ${referralLink}`,
+    },
+    {
+      label: language === 'es' ? 'Para promocionar' : 'To promote',
+      icon: '📣',
+      message: language === 'es'
+        ? `Te gustaría ganar comisiones promoviendo propiedades de lujo en el Caribe? Únete a la red de Fractional Living. Es gratis registrarse: ${referralLink}`
+        : `Want to earn commissions promoting luxury Caribbean properties? Join the Fractional Living network. Free to register: ${referralLink}`,
+    },
+    {
+      label: language === 'es' ? 'General' : 'General',
+      icon: '✨',
+      message: language === 'es'
+        ? `Te invito a conocer Fractional Living - propiedades de lujo fraccionadas en el Caribe. Vive, invierte y construye patrimonio. ${referralLink}`
+        : `Check out Fractional Living - fractional luxury properties in the Caribbean. Live, invest and build wealth. ${referralLink}`,
+    },
+  ];
+
+  const copyMessage = (msg: string) => {
+    navigator.clipboard.writeText(msg);
+  };
+
+  return (
+    <div className="space-y-4" data-testid="tab-content-compartir">
+      <div className="bg-gradient-to-r from-orange-500/20 to-orange-600/10 border border-orange-500/30 rounded-2xl p-5 text-center">
+        <Share2 className="w-10 h-10 text-orange-400 mx-auto mb-3" />
+        <h3 className="text-lg font-semibold mb-2">
+          {language === 'es' ? 'Comparte y Gana' : 'Share & Earn'}
+        </h3>
+        <p className="text-xs text-white/60 mb-4 max-w-sm mx-auto">
+          {language === 'es'
+            ? 'Cada persona que se registre con tu enlace se convierte en parte de tu red. Ganas comisiones por la actividad de hasta 5 niveles de profundidad.'
+            : 'Every person who registers with your link becomes part of your network. You earn commissions from activity up to 5 levels deep.'}
+        </p>
+
+        <div className="bg-black/30 rounded-xl p-4 mb-4">
+          <p className="text-[10px] text-white/40 mb-1 uppercase tracking-wider">
+            {language === 'es' ? 'Tu enlace único' : 'Your unique link'}
+          </p>
+          <p className="text-sm text-orange-400 font-mono break-all" data-testid="text-share-link">{referralLink}</p>
+        </div>
+
+        <div className="flex gap-3">
+          <button
+            onClick={onCopy}
+            className="flex-1 py-3 bg-white/10 rounded-xl text-sm font-medium hover:bg-white/20 transition-colors flex items-center justify-center gap-2"
+            data-testid="button-copy-share"
+          >
+            {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+            {copied ? (language === 'es' ? 'Copiado' : 'Copied') : (language === 'es' ? 'Copiar' : 'Copy')}
+          </button>
+          <button
+            onClick={onShare}
+            className="flex-1 py-3 bg-orange-500 rounded-xl text-sm font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2"
+            data-testid="button-share-native"
+          >
+            <Share2 className="w-4 h-4" />
+            {language === 'es' ? 'Compartir' : 'Share'}
+          </button>
+        </div>
+      </div>
+
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+          <Star className="w-4 h-4 text-orange-400" />
+          {language === 'es' ? 'Mensajes listos para compartir' : 'Ready-to-share messages'}
+        </h3>
+        <div className="space-y-3">
+          {shareMessages.map((msg, i) => (
+            <div key={i} className="bg-white/[0.03] border border-white/5 rounded-xl p-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-medium flex items-center gap-1.5">
+                  <span>{msg.icon}</span>
+                  {msg.label}
+                </span>
+                <button
+                  onClick={() => copyMessage(msg.message)}
+                  className="text-[10px] text-orange-400 hover:text-orange-300 flex items-center gap-1"
+                  data-testid={`button-copy-message-${i}`}
+                >
+                  <Copy className="w-3 h-3" />
+                  {language === 'es' ? 'Copiar' : 'Copy'}
+                </button>
+              </div>
+              <p className="text-[11px] text-white/50 leading-relaxed">{msg.message}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <h4 className="text-xs font-semibold text-orange-400 mb-3">
+          {language === 'es' ? 'Quién puede beneficiarse?' : 'Who can benefit?'}
+        </h4>
+        <div className="grid grid-cols-2 gap-2">
+          {[
+            { es: 'Compradores', en: 'Buyers', icon: '🏠' },
+            { es: 'Vendedores', en: 'Sellers', icon: '🏷️' },
+            { es: 'Inversionistas', en: 'Investors', icon: '💰' },
+            { es: 'Promotores', en: 'Promoters', icon: '📣' },
+            { es: 'Brokers', en: 'Brokers', icon: '🤝' },
+            { es: 'Curiosos', en: 'Curious', icon: '🔍' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-center gap-2 p-2.5 bg-white/[0.03] rounded-lg text-xs text-white/60">
+              <span>{item.icon}</span>
+              <span>{language === 'es' ? item.es : item.en}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InfoCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="bg-white/[0.03] rounded-xl p-3">
+      <p className="text-[10px] text-white/40 mb-0.5">{label}</p>
+      <p className="text-sm font-medium truncate">{value}</p>
+    </div>
+  );
+}
+
+function StatCard({ icon, value, label }: { icon: React.ReactNode; value: number; label: string }) {
+  return (
+    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center" data-testid={`stat-${label.toLowerCase().replace(/\s/g, '-')}`}>
+      <div className="flex justify-center mb-2">{icon}</div>
+      <p className="text-2xl font-bold">{value}</p>
+      <p className="text-[10px] text-white/50">{label}</p>
+    </div>
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <div className="space-y-4">
+      {[1, 2, 3].map(i => (
+        <div key={i} className="bg-white/5 rounded-2xl p-5 animate-pulse">
+          <div className="h-4 bg-white/10 rounded w-1/3 mb-3" />
+          <div className="h-3 bg-white/5 rounded w-2/3 mb-2" />
+          <div className="h-3 bg-white/5 rounded w-1/2" />
+        </div>
+      ))}
     </div>
   );
 }

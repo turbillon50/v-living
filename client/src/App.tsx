@@ -36,6 +36,8 @@ import ExpNineras from "@/pages/ExpNineras";
 import ExpPrivadas from "@/pages/ExpPrivadas";
 import Multilinks from "@/pages/Multilinks";
 import Profile from "@/pages/Profile";
+import Dashboard from "@/pages/Dashboard";
+import ReferralLanding from "@/pages/ReferralLanding";
 import NotFound from "@/pages/not-found";
 import { BottomNav } from "@/components/BottomNav";
 import { FloatingButtons } from "@/components/FloatingButtons";
@@ -72,6 +74,8 @@ function Router() {
       <Route path="/exp-privadas" component={ExpPrivadas} />
       <Route path="/links" component={Multilinks} />
       <Route path="/perfil" component={Profile} />
+      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/ref/:code" component={ReferralLanding} />
       <Route component={NotFound} />
     </Switch>
   );

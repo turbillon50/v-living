@@ -67,30 +67,35 @@ export async function registerRoutes(
         return res.status(400).json({ error: "clerkId and email required" });
       }
 
-      // Check if user exists by email
       let user = await storage.getUserByEmail(email.toLowerCase());
       
       if (user) {
-        // Update existing user with Clerk info
         user = await storage.updateUser(user.id, {
           name: name || user.name,
           phone: phone || user.phone,
         } as any);
+        if (!user!.referralCode) {
+          await storage.generateReferralCode(user!.id);
+          user = await storage.getUserById(user!.id);
+        }
       } else {
-        // Create new user
         user = await storage.createUser({
           name: name || 'Usuario',
           email: email.toLowerCase(),
           phone: phone || '',
           country: 'México',
-          password: clerkId, // Store clerkId as password placeholder
+          password: clerkId,
           interests: [],
+          referredBy: req.body.referralCode || undefined,
           status: 'lead',
-          source: 'clerk',
+          source: req.body.referralCode ? 'referral' : 'clerk',
         });
+        await storage.generateReferralCode(user.id);
+        user = await storage.getUserById(user.id);
       }
       
-      res.json(user);
+      const { password: _, ...safeUser } = user!;
+      res.json(safeUser);
     } catch (error) {
       console.error("Error syncing Clerk user:", error);
       res.status(500).json({ error: "Failed to sync user" });
@@ -942,16 +947,23 @@ NO HAGAS:
   // Register new user
   app.post("/api/users/register", async (req, res) => {
     try {
-      const { name, email, phone, country, password } = req.body;
+      const { name, email, phone, country, password, referralCode, interests } = req.body;
       
       if (!name || !email || !phone || !password) {
         return res.status(400).json({ error: "Nombre, email, teléfono y contraseña son obligatorios" });
       }
 
-      // Check if email already exists
       const existingUser = await storage.getUserByEmail(email.toLowerCase());
       if (existingUser) {
         return res.status(409).json({ error: "Este email ya está registrado. Intenta iniciar sesión." });
+      }
+
+      let referredBy: string | undefined;
+      if (referralCode) {
+        const referrer = await storage.getUserByReferralCode(referralCode);
+        if (referrer) {
+          referredBy = referralCode;
+        }
       }
 
       const user = await storage.createUser({
@@ -960,13 +972,16 @@ NO HAGAS:
         phone,
         country: country || "México",
         password: hashPassword(password),
-        interests: [],
+        interests: interests || [],
+        referredBy: referredBy,
         status: "lead",
-        source: "web",
+        source: referredBy ? "referral" : "web",
       });
 
-      // Return user without password
-      const { password: _, ...safeUser } = user;
+      const code = await storage.generateReferralCode(user.id);
+      const updatedUser = await storage.getUserById(user.id);
+
+      const { password: _, ...safeUser } = updatedUser!;
       res.status(201).json(safeUser);
     } catch (error) {
       console.error("Error registering user:", error);
@@ -1194,6 +1209,90 @@ NO HAGAS:
     } catch (error) {
       console.error("Error sending campaign:", error);
       res.status(500).json({ error: "Error al enviar campaña" });
+    }
+  });
+
+  // ========== REFERRAL SYSTEM ==========
+
+  // Get referral info by code (public - for landing page)
+  app.get("/api/referral/:code", async (req, res) => {
+    try {
+      const user = await storage.getUserByReferralCode(req.params.code);
+      if (!user) {
+        return res.status(404).json({ error: "Código de referido no encontrado" });
+      }
+      res.json({ name: user.name, code: user.referralCode });
+    } catch (error) {
+      console.error("Error fetching referral:", error);
+      res.status(500).json({ error: "Error al obtener referido" });
+    }
+  });
+
+  // Get user's referral dashboard data
+  app.get("/api/users/:id/referral-dashboard", async (req, res) => {
+    try {
+      const user = await storage.getUserById(req.params.id);
+      if (!user) {
+        return res.status(404).json({ error: "Usuario no encontrado" });
+      }
+
+      if (!user.referralCode) {
+        await storage.generateReferralCode(user.id);
+      }
+
+      const updatedUser = await storage.getUserById(user.id);
+      const stats = await storage.getReferralStats(user.id);
+      const network = await storage.getReferralNetwork(user.id, 5);
+      const commissions = await storage.getCommissions(user.id);
+
+      const networkData = network.map(level => ({
+        level: level.level,
+        count: level.users.length,
+        users: level.users.map(u => ({
+          id: u.id,
+          name: u.name,
+          email: u.email,
+          interests: u.interests,
+          createdAt: u.createdAt,
+          referralCode: u.referralCode,
+        }))
+      }));
+
+      const commissionLevels = [
+        { level: 1, percentage: 1.2, label: "Nivel 1 - Directos" },
+        { level: 2, percentage: 0.8, label: "Nivel 2" },
+        { level: 3, percentage: 0.8, label: "Nivel 3" },
+        { level: 4, percentage: 0.6, label: "Nivel 4" },
+        { level: 5, percentage: 0.6, label: "Nivel 5" },
+      ];
+
+      const totalCommission = commissions.reduce((sum, c) => sum + parseFloat(c.amount), 0);
+
+      const { password: _, ...safeUser } = updatedUser!;
+      res.json({
+        user: safeUser,
+        referralCode: updatedUser!.referralCode,
+        referralLink: `https://allliving.org/ref/${updatedUser!.referralCode}`,
+        stats,
+        network: networkData,
+        commissions,
+        totalCommission,
+        commissionStructure: commissionLevels,
+      });
+    } catch (error) {
+      console.error("Error fetching referral dashboard:", error);
+      res.status(500).json({ error: "Error al obtener dashboard de referidos" });
+    }
+  });
+
+  // Generate referral code for existing user
+  app.post("/api/users/:id/generate-referral", async (req, res) => {
+    try {
+      const code = await storage.generateReferralCode(req.params.id);
+      res.json({ referralCode: code, referralLink: `https://allliving.org/ref/${code}` });
+    } catch (error) {
+      console.error("Error generating referral code:", error);
+      res.status(500).json({ error: "Error al generar código de referido" });
     }
   });
 
