@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useLocation } from 'wouter';
-import { SignUp, useUser } from '@clerk/clerk-react';
+import { SignIn, useUser } from '@clerk/clerk-react';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
 import { useLanguage } from '@/lib/LanguageContext';
 
 const CLERK_ENABLED = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
-export default function Registro() {
+export default function Login() {
   const { language } = useLanguage();
   const [, navigate] = useLocation();
   
@@ -16,33 +16,9 @@ export default function Registro() {
 
   useEffect(() => {
     if (isLoaded && isSignedIn) {
-      syncUserToDatabase();
       navigate('/home');
     }
   }, [isSignedIn, isLoaded, navigate]);
-
-  const syncUserToDatabase = async () => {
-    if (!CLERK_ENABLED) return;
-    
-    try {
-      const user = (clerkUser as any).user;
-      if (!user) return;
-      
-      await fetch('/api/clerk/sync-user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          clerkId: user.id,
-          email: user.primaryEmailAddress?.emailAddress,
-          name: user.fullName || user.firstName || '',
-          phone: user.primaryPhoneNumber?.phoneNumber || '',
-          profileImage: user.imageUrl,
-        }),
-      });
-    } catch (error) {
-      console.error('Error syncing user:', error);
-    }
-  };
 
   if (!isLoaded) {
     return (
@@ -73,7 +49,7 @@ export default function Registro() {
           </div>
 
           {CLERK_ENABLED ? (
-            <SignUp 
+            <SignIn 
               appearance={{
                 elements: {
                   rootBox: "w-full",
@@ -88,21 +64,19 @@ export default function Registro() {
                   formFieldLabel: "text-black/70",
                   dividerLine: "bg-black/10",
                   dividerText: "text-black/40",
-                  identityPreviewText: "text-black",
-                  identityPreviewEditButton: "text-orange-500",
                 }
               }}
               routing="path"
-              path="/registro"
-              signInUrl="/login"
-              afterSignUpUrl="/home"
+              path="/login"
+              signUpUrl="/registro"
+              afterSignInUrl="/home"
             />
           ) : (
             <div className="text-center py-8">
               <p className="text-black/60">
                 {language === 'es' 
-                  ? 'El sistema de registro está siendo configurado.' 
-                  : 'Registration system is being configured.'}
+                  ? 'El sistema de login está siendo configurado.' 
+                  : 'Login system is being configured.'}
               </p>
             </div>
           )}

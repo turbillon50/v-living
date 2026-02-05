@@ -8,6 +8,7 @@ import { registerObjectStorageRoutes } from "./replit_integrations/object_storag
 import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 import { sendLeadConfirmationEmail, sendUserRegistrationEmail, sendCampaignEmail } from "./resend";
 import OpenAI from "openai";
+import { clerkMiddleware, getAuth, requireAuth } from "@clerk/express";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
@@ -45,12 +46,80 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
   
+  // Setup Clerk middleware (if keys are available)
+  if (process.env.CLERK_SECRET_KEY) {
+    app.use(clerkMiddleware());
+  }
+  
   // Setup Replit Auth (must be before other routes)
   await setupAuth(app);
   registerAuthRoutes(app);
   
   // Register object storage routes for file uploads
   registerObjectStorageRoutes(app);
+  
+  // Clerk user sync endpoint
+  app.post("/api/clerk/sync-user", async (req, res) => {
+    try {
+      const { clerkId, email, name, phone, profileImage } = req.body;
+      
+      if (!clerkId || !email) {
+        return res.status(400).json({ error: "clerkId and email required" });
+      }
+
+      // Check if user exists by email
+      let user = await storage.getUserByEmail(email.toLowerCase());
+      
+      if (user) {
+        // Update existing user with Clerk info
+        user = await storage.updateUser(user.id, {
+          name: name || user.name,
+          phone: phone || user.phone,
+        } as any);
+      } else {
+        // Create new user
+        user = await storage.createUser({
+          name: name || 'Usuario',
+          email: email.toLowerCase(),
+          phone: phone || '',
+          country: 'México',
+          password: clerkId, // Store clerkId as password placeholder
+          interests: [],
+          status: 'lead',
+          source: 'clerk',
+        });
+      }
+      
+      res.json(user);
+    } catch (error) {
+      console.error("Error syncing Clerk user:", error);
+      res.status(500).json({ error: "Failed to sync user" });
+    }
+  });
+  
+  // Get current Clerk user
+  app.get("/api/clerk/me", async (req, res) => {
+    try {
+      const auth = getAuth(req);
+      if (!auth.userId) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      // Find user by clerk ID in password field or by session
+      const users = await storage.getUsers();
+      const user = users.find(u => u.password === auth.userId || u.source === 'clerk');
+      
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      
+      const { password: _, ...safeUser } = user;
+      res.json(safeUser);
+    } catch (error) {
+      console.error("Error getting Clerk user:", error);
+      res.status(500).json({ error: "Failed to get user" });
+    }
+  });
 
   // Version endpoint for automatic updates
   app.get("/api/version", (req, res) => {

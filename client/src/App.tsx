@@ -5,7 +5,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/lib/LanguageContext";
 import { AuthProvider } from "@/lib/AuthContext";
+import { ClerkAuthProvider } from "@/lib/ClerkAuthContext";
 import { AuthModal } from "@/components/AuthModal";
+import { ClerkAuthModal } from "@/components/ClerkAuthModal";
+import { useClerkAuth } from "@/lib/ClerkAuthContext";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 import Welcome from "@/pages/Welcome";
 import Home from "@/pages/Home";
 import PropertyDetail from "@/pages/PropertyDetail";
@@ -21,6 +25,7 @@ import PropertyAsociado from "@/pages/PropertyAsociado";
 import LastMinuteCapital from "@/pages/LastMinuteCapital";
 import ModeloNegocios from "@/pages/ModeloNegocios";
 import Registro from "@/pages/Registro";
+import Login from "@/pages/Login";
 import AutosLujo from "@/pages/AutosLujo";
 import ExpYates from "@/pages/ExpYates";
 import ExpRestaurantes from "@/pages/ExpRestaurantes";
@@ -56,6 +61,7 @@ function Router() {
       <Route path="/property-asociado" component={PropertyAsociado} />
       <Route path="/modelo-negocios" component={ModeloNegocios} />
       <Route path="/registro" component={Registro} />
+      <Route path="/login" component={Login} />
       <Route path="/autos-lujo" component={AutosLujo} />
       <Route path="/exp-yates" component={ExpYates} />
       <Route path="/exp-restaurantes" component={ExpRestaurantes} />
@@ -71,20 +77,46 @@ function Router() {
   );
 }
 
+const CLERK_ENABLED = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+function ClerkAuthModalWrapper() {
+  const { showAuthModal, setShowAuthModal, authModalMode } = useClerkAuth();
+  return (
+    <ClerkAuthModal 
+      isOpen={showAuthModal} 
+      onClose={() => setShowAuthModal(false)} 
+      mode={authModalMode}
+    />
+  );
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
-        <AuthProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-            <FloatingButtons />
-            <FloatingAI />
-            <BottomNav />
-            <AuthModal />
-          </TooltipProvider>
-        </AuthProvider>
+        {CLERK_ENABLED ? (
+          <ClerkAuthProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Router />
+              <FloatingButtons />
+              <FloatingAI />
+              <BottomNav />
+              <ClerkAuthModalWrapper />
+            </TooltipProvider>
+          </ClerkAuthProvider>
+        ) : (
+          <AuthProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Router />
+              <FloatingButtons />
+              <FloatingAI />
+              <BottomNav />
+              <AuthModal />
+            </TooltipProvider>
+          </AuthProvider>
+        )}
       </LanguageProvider>
     </QueryClientProvider>
   );
