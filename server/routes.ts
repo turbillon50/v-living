@@ -844,7 +844,7 @@ export async function registerRoutes(
     }
   });
 
-  // Alix AI Chat endpoint
+  // Alix AI Chat endpoint - Using external ALIX API
   app.post("/api/alix/chat", async (req, res) => {
     try {
       const { message, history = [] } = req.body;
@@ -853,6 +853,38 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Message is required" });
       }
 
+      const ALIX_API_KEY = process.env.ALIX_API_KEY;
+      const ALIX_BASE_URL = 'https://alix-ai.net';
+
+      if (ALIX_API_KEY) {
+        // Use external ALIX API
+        try {
+          const alixResponse = await fetch(`${ALIX_BASE_URL}/api/alix/command`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-ALIX-API-KEY': ALIX_API_KEY
+            },
+            body: JSON.stringify({
+              command: message,
+              context: {
+                currentApp: 'fractional-living',
+                userRole: 'visitor',
+                history: history.slice(-5)
+              }
+            })
+          });
+
+          if (alixResponse.ok) {
+            const alixData = await alixResponse.json();
+            return res.json({ reply: alixData.response || alixData.reply || alixData.message });
+          }
+        } catch (alixError) {
+          console.error("ALIX API error, falling back to OpenAI:", alixError);
+        }
+      }
+
+      // Fallback to OpenAI if ALIX API fails or is not configured
       const systemPrompt = `Eres Alix, la asesora virtual de Fractional Living - All Global Holding LLC. 
       
 Tu rol es ayudar a los usuarios a entender el modelo de propiedad fraccionada de lujo en el Caribe mexicano.
