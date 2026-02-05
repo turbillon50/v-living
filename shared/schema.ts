@@ -289,6 +289,9 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
   interests: jsonb("interests").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
   primaryInterest: text("primary_interest"),
+  referralCode: text("referral_code").unique(),
+  referredBy: text("referred_by"),
+  referralLevel: integer("referral_level").default(0),
   status: text("status").default("lead"),
   source: text("source").default("web"),
   notes: text("notes"),
@@ -301,3 +304,20 @@ export const users = pgTable("users", {
 export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true, lastLogin: true });
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+// Referral commissions tracking
+export const referralCommissions = pgTable("referral_commissions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: 'cascade' }),
+  fromUserId: varchar("from_user_id").notNull().references(() => users.id, { onDelete: 'cascade' }),
+  level: integer("level").notNull(),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  percentage: decimal("percentage", { precision: 5, scale: 2 }).notNull(),
+  transactionType: text("transaction_type").notNull(),
+  status: text("status").default("pending"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertReferralCommissionSchema = createInsertSchema(referralCommissions).omit({ id: true, createdAt: true });
+export type InsertReferralCommission = z.infer<typeof insertReferralCommissionSchema>;
+export type ReferralCommission = typeof referralCommissions.$inferSelect;
