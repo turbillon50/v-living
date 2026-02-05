@@ -3,6 +3,9 @@ import { pgTable, text, varchar, timestamp, jsonb, integer, boolean, decimal } f
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Export auth models (Replit Auth)
+export * from "./models/auth";
+
 // Categories for dynamic navigation
 export const categories = pgTable("categories", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),

@@ -5,6 +5,7 @@ import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema,
 import crypto from "crypto";
 import { z } from "zod";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
+import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 import { sendLeadConfirmationEmail, sendUserRegistrationEmail, sendCampaignEmail } from "./resend";
 import OpenAI from "openai";
 
@@ -43,6 +44,10 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  
+  // Setup Replit Auth (must be before other routes)
+  await setupAuth(app);
+  registerAuthRoutes(app);
   
   // Register object storage routes for file uploads
   registerObjectStorageRoutes(app);
