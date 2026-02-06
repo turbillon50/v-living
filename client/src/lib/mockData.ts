@@ -21,8 +21,42 @@ export const categories: { id: Category; label: string }[] = [
 
 export const properties: Property[] = [];
 
+export type Season = 'high' | 'mid' | 'low';
+export type UsageMode = 'living' | 'investment' | 'rental';
+
+export interface UsageWeek {
+  weekNumber: number;
+  season: Season;
+}
+
+export interface Fraction {
+  id: string;
+  fractionNumber: number;
+  ownershipPercentage: number;
+  price: number;
+  status: 'available' | 'reserved' | 'pre-sale';
+  usageMode: UsageMode;
+  usageWeeks: UsageWeek[];
+}
+
 export function getPropertyById(id: string): Property | undefined {
   return properties.find(p => p.id === id);
+}
+
+export function getFractionById(_propertyId: string, _fractionId: string): Fraction | undefined {
+  return undefined;
+}
+
+export function formatPrice(price: number): string {
+  return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(price);
+}
+
+export function getWeekDateRange(weekNumber: number): { start: Date; end: Date } {
+  const year = new Date().getFullYear();
+  const start = new Date(year, 0, 1 + (weekNumber - 1) * 7);
+  const end = new Date(start);
+  end.setDate(end.getDate() + 6);
+  return { start, end };
 }
 
 export function generateWeeks() {

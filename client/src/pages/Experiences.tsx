@@ -117,7 +117,7 @@ export default function Experiences() {
                 </div>
                 <div className="p-3">
                   <div className="flex items-center gap-2 mb-1">
-                    <Icon className="w-4 h-4 text-orange-500" />
+                    <Icon className="w-4 h-4 text-black" />
                     <h3 className="font-semibold text-sm text-gray-900">{exp.title}</h3>
                   </div>
                   <p className="text-xs text-gray-500 leading-relaxed">{exp.description}</p>
@@ -131,7 +131,7 @@ export default function Experiences() {
 
         <div className="mt-6 bg-gray-50 rounded-xl p-4 text-center">
           <p className="text-gray-600 text-sm mb-2">
-            ¿Necesitas algo especial? <span className="font-bold text-orange-500">Te lo conseguimos.</span>
+            ¿Necesitas algo especial? <span className="font-bold text-black">Te lo conseguimos.</span>
           </p>
           <a 
             href="https://wa.me/529984292748?text=Hola,%20necesito%20una%20experiencia%20especial%20con%20Fractional%20Living"

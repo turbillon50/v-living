@@ -41,7 +41,7 @@ export default function Invest() {
       <section className="bg-white py-16 border-b border-stone-200">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <img src={logoImg} alt="Fractional Living" className="h-20 w-auto mx-auto mb-6" />
-          <h1 className="text-2xl md:text-3xl font-bold text-orange-500 mb-4">
+          <h1 className="text-2xl md:text-3xl font-bold text-black mb-4">
             Compra • Vive • Renta • Revende • Repite
           </h1>
           <p className="text-stone-500 max-w-xl mx-auto">

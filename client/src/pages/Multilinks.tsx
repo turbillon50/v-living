@@ -35,20 +35,20 @@ const getBrandColor = (type: string) => {
     case 'tiktok': return 'hover:border-white';
     case 'linkedin': return 'hover:border-blue-500';
     case 'whatsapp': return 'hover:border-green-500';
-    default: return 'hover:border-orange-500';
+    default: return 'hover:border-black';
   }
 };
 
 const getIconBg = (type: string) => {
   switch (type) {
-    case 'instagram': return 'bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400';
+    case 'instagram': return 'bg-gradient-to-br from-purple-600 via-pink-500 to-amber-400';
     case 'youtube': return 'bg-red-600';
     case 'tiktok': return 'bg-black';
     case 'linkedin': return 'bg-blue-600';
     case 'facebook': return 'bg-blue-500';
     case 'whatsapp': return 'bg-green-500';
     case 'twitter': return 'bg-black';
-    default: return 'bg-orange-500';
+    default: return 'bg-black';
   }
 };
 
@@ -88,9 +88,9 @@ export default function Multilinks() {
           <h1 className="text-black text-2xl font-bold tracking-tight mb-1">ALL LIVING</h1>
           <p className="text-black/50 text-sm font-light tracking-widest">ALL GLOBAL HOLDING LLC</p>
           <div className="flex items-center justify-center gap-2 mt-4">
-            <span className="w-12 h-px bg-gradient-to-r from-transparent to-orange-500" />
-            <p className="text-orange-500 text-xs font-medium tracking-wide">COMPRA • VIVE • RENTA • REVENDE</p>
-            <span className="w-12 h-px bg-gradient-to-l from-transparent to-orange-500" />
+            <span className="w-12 h-px bg-gradient-to-r from-transparent to-black" />
+            <p className="text-black text-xs font-medium tracking-wide">COMPRA • VIVE • RENTA • REVENDE</p>
+            <span className="w-12 h-px bg-gradient-to-l from-transparent to-black" />
           </div>
         </div>
 
@@ -119,7 +119,7 @@ export default function Multilinks() {
                   <p className="text-black/40 text-xs truncate">{link.url.replace('https://', '').split('/')[0]}</p>
                 </div>
                 
-                <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center transition-all group-hover:bg-orange-500">
+                <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center transition-all group-hover:bg-black">
                   <ExternalLink className="w-4 h-4 text-black/40 group-hover:text-white transition-colors" />
                 </div>
               </a>
@@ -134,7 +134,7 @@ export default function Multilinks() {
             href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20invertir%20en%20una%20fracción"
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl text-center transition-all active:scale-[0.98]"
+            className="block w-full py-4 bg-black hover:bg-black/90 text-white font-bold rounded-xl text-center transition-all active:scale-[0.98]"
             data-testid="cta-whatsapp"
           >
             Solicitar Información

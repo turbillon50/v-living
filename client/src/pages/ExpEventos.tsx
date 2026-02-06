@@ -23,7 +23,7 @@ export default function ExpEventos() {
       <div className="px-5 pt-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-black p-3 rounded-xl">
-            <PartyPopper className="w-6 h-6 text-orange-500" />
+            <PartyPopper className="w-6 h-6 text-white" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Eventos Privados</h1>

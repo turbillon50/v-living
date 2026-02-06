@@ -23,7 +23,7 @@ export default function ExpYates() {
       <div className="px-5 pt-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-black p-3 rounded-xl">
-            <Ship className="w-6 h-6 text-orange-500" />
+            <Ship className="w-6 h-6 text-white" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Yates y Embarcaciones</h1>
@@ -66,15 +66,15 @@ export default function ExpYates() {
         <div className="bg-black rounded-2xl p-5 mb-6">
           <h3 className="font-bold text-gray-900 mb-3">Experiencias Disponibles</h3>
           <div className="space-y-3">
-            <div className="bg-white rounded-xl p-3 border border-orange-500">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Sunset Cruise</p>
               <p className="text-xs text-gray-500">2 horas • Atardecer en el mar</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-orange-500">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Full Day Isla Mujeres</p>
               <p className="text-xs text-gray-500">8 horas • Snorkel y playa privada</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-orange-500">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Fishing Experience</p>
               <p className="text-xs text-gray-500">6 horas • Pesca deportiva</p>
             </div>

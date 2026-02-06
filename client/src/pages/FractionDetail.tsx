@@ -37,7 +37,7 @@ export default function FractionDetail() {
   ];
 
   const statusConfig = {
-    available: { label: 'Available', color: 'bg-black', textColor: 'text-orange-500' },
+    available: { label: 'Available', color: 'bg-black', textColor: 'text-black' },
     reserved: { label: 'Reserved', color: 'bg-amber-500', textColor: 'text-amber-600' },
     'pre-sale': { label: 'Pre-sale', color: 'bg-black/5', textColor: 'text-black' },
   };
@@ -61,7 +61,7 @@ export default function FractionDetail() {
               Fraction #{fraction.fractionNumber}
             </h1>
             <p className="text-muted-foreground mt-1">
-              {property.title} · {property.location}, {property.country}
+              {property.title} · {property.location}
             </p>
           </div>
 
@@ -199,7 +199,7 @@ export default function FractionDetail() {
                   'Proportional share of rental income (if applicable)',
                 ].map((rule, idx) => (
                   <div key={idx} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-orange-500 mt-0.5 shrink-0" />
+                    <Check className="w-5 h-5 text-black mt-0.5 shrink-0" />
                     <p className="text-muted-foreground">{rule}</p>
                   </div>
                 ))}

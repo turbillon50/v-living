@@ -38,7 +38,7 @@ export default function PerfilAsociado() {
               Diseñamos modelos de participación que integran a personas, propiedades y capital dentro de procesos fiduciarios, bancarios y mercantiles formales.
             </p>
             <p className="text-white/70 leading-relaxed">
-              El <span className="text-orange-500 font-medium">Perfil Asociado</span> es uno de los pilares del ecosistema Fractional Living.
+              El <span className="text-white/70 font-medium">Perfil Asociado</span> es uno de los pilares del ecosistema Fractional Living.
               Un modelo pensado para quienes entienden el valor de participar desde la estructura, no solo desde la compra o la venta.
             </p>
           </div>
@@ -193,7 +193,7 @@ export default function PerfilAsociado() {
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-8">
-            <h3 className="text-xl font-light text-center mb-6 text-orange-500">
+            <h3 className="text-xl font-light text-center mb-6 text-white/70">
               ¿Por qué este modelo es posible?
             </h3>
             <p className="text-center text-white/70 mb-6 text-lg italic">
@@ -202,23 +202,23 @@ export default function PerfilAsociado() {
             
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
               <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-orange-500 text-sm font-medium">Revalorizar</p>
+                <p className="text-white/70 text-sm font-medium">Revalorizar</p>
                 <p className="text-white/40 text-xs">el activo</p>
               </div>
               <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-orange-500 text-sm font-medium">Acelerar</p>
+                <p className="text-white/70 text-sm font-medium">Acelerar</p>
                 <p className="text-white/40 text-xs">liquidez</p>
               </div>
               <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-orange-500 text-sm font-medium">Distribuir</p>
+                <p className="text-white/70 text-sm font-medium">Distribuir</p>
                 <p className="text-white/40 text-xs">riesgos</p>
               </div>
               <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-orange-500 text-sm font-medium">Optimizar</p>
+                <p className="text-white/70 text-sm font-medium">Optimizar</p>
                 <p className="text-white/40 text-xs">tiempos</p>
               </div>
               <div className="bg-white/5 rounded-lg p-3 text-center col-span-2 md:col-span-1">
-                <p className="text-orange-500 text-sm font-medium">Alinear</p>
+                <p className="text-white/70 text-sm font-medium">Alinear</p>
                 <p className="text-white/40 text-xs">intereses</p>
               </div>
             </div>
@@ -228,8 +228,8 @@ export default function PerfilAsociado() {
             </p>
           </div>
 
-          <div className="bg-gradient-to-r from-black/20 to-black/20 border border-orange-500/30 rounded-2xl p-6 md:p-8 mb-8">
-            <h3 className="text-xl font-light text-center mb-4 text-orange-500">Síntesis</h3>
+          <div className="bg-gradient-to-r from-black/20 to-black/20 border border-white/20 rounded-2xl p-6 md:p-8 mb-8">
+            <h3 className="text-xl font-light text-center mb-4 text-white/70">Síntesis</h3>
             <p className="text-white/70 leading-relaxed mb-4 text-center">
               El Perfil Asociado no es un rol pasivo.<br />
               Es una alianza estratégica dentro de un sistema diseñado para operar activos reales con visión institucional.
@@ -244,14 +244,14 @@ export default function PerfilAsociado() {
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-            <Users className="w-10 h-10 mx-auto mb-4 text-orange-500" />
+            <Users className="w-10 h-10 mx-auto mb-4 text-white/70" />
             <h3 className="text-lg font-light mb-2">¿Tienes dudas?</h3>
             <p className="text-white/60 text-sm mb-4">
-              Habla con <span className="text-orange-500 font-medium">ALIX</span>, nuestra inteligencia artificial disponible 24/7, o con un asesor humano para evaluar cuál perfil se alinea mejor contigo.
+              Habla con <span className="text-white/70 font-medium">ALIX</span>, nuestra inteligencia artificial disponible 24/7, o con un asesor humano para evaluar cuál perfil se alinea mejor contigo.
             </p>
             <div className="flex flex-col gap-2 text-white/50 text-xs">
-              <p>🟣 <span className="text-orange-500">ALIX</span> — Botón morado en la esquina inferior derecha</p>
-              <p>🟢 <span className="text-orange-500">WhatsApp</span> — Botón verde en la esquina inferior izquierda</p>
+              <p>🟣 <span className="text-white/70">ALIX</span> — Botón morado en la esquina inferior derecha</p>
+              <p>🟢 <span className="text-white/70">WhatsApp</span> — Botón verde en la esquina inferior izquierda</p>
             </div>
           </div>
 

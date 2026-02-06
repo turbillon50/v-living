@@ -10,10 +10,10 @@ export default function LastMinute() {
 
       <main className="max-w-2xl mx-auto px-4 pt-6">
         <div className="mb-8 text-center">
-          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-amber-400 to-black rounded-full flex items-center justify-center">
             <Zap className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-medium mb-2 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+          <h1 className="text-2xl font-medium mb-2 bg-gradient-to-r from-amber-600 to-black/90 bg-clip-text text-transparent">
             Last Minute Capital
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -47,12 +47,12 @@ export default function LastMinute() {
           </div>
         </div>
 
-        <div className="p-6 bg-gradient-to-r from-amber-100 to-orange-100 rounded-2xl text-center">
+        <div className="p-6 bg-gradient-to-r from-amber-100 to-gray-100 rounded-2xl text-center">
           <p className="text-amber-800 font-medium mb-3">
             ¿Interesado en Last Minute Capital?
           </p>
           <Button
-            className="bg-gradient-to-r from-amber-500 to-orange-600"
+            className="bg-gradient-to-r from-amber-500 to-black/90"
             onClick={() => window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20Last%20Minute%20Capital', '_blank')}
           >
             Contactar Asesor

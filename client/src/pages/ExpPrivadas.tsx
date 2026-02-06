@@ -23,7 +23,7 @@ export default function ExpPrivadas() {
       <div className="px-5 pt-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-black p-3 rounded-xl">
-            <Palmtree className="w-6 h-6 text-orange-500" />
+            <Palmtree className="w-6 h-6 text-white" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Experiencias Privadas</h1>
@@ -64,22 +64,22 @@ export default function ExpPrivadas() {
           </p>
         </div>
 
-        <div className="bg-orange-500 rounded-2xl p-5 mb-6">
+        <div className="bg-black/5 rounded-2xl p-5 mb-6">
           <h3 className="font-bold text-gray-900 mb-3">Experiencias Destacadas</h3>
           <div className="space-y-3">
-            <div className="bg-white rounded-xl p-3 border border-orange-500">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Cenotes Privados</p>
               <p className="text-xs text-gray-500">Sin multitudes • Nada como un local</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-orange-500">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Amanecer en Ruinas Mayas</p>
               <p className="text-xs text-gray-500">Antes de abrir al público</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-orange-500">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Cenas en Playas Secretas</p>
               <p className="text-xs text-gray-500">Chef privado • Bajo las estrellas</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-orange-500">
+            <div className="bg-white rounded-xl p-3 border border-black/10">
               <p className="font-semibold text-sm">Snorkel con Tortugas</p>
               <p className="text-xs text-gray-500">Guías expertos • Grupos pequeños</p>
             </div>
@@ -92,7 +92,7 @@ export default function ExpPrivadas() {
           href="https://wa.me/529984292748?text=Hola,%20soy%20miembro%20Fractional%20Living%20y%20quiero%20reservar%20una%20experiencia%20privada"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full bg-orange-500 hover:bg-orange-500 text-white font-bold py-4 rounded-xl transition-colors"
+          className="flex items-center justify-center gap-2 w-full bg-black hover:bg-black/90 text-white font-bold py-4 rounded-xl transition-colors"
         >
           <Phone className="w-5 h-5" />
           Descubrir Experiencias
