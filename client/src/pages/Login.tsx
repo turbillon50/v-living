@@ -48,7 +48,7 @@ export default function Login() {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-10 h-10 border border-white/10 border-t-orange-500 rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-10 h-10 border border-white/10 border-t-white rounded-full animate-spin mx-auto mb-4" />
           <p className="text-white/40 text-xs tracking-widest uppercase">
             {language === 'es' ? 'Cargando' : 'Loading'}
           </p>
@@ -67,7 +67,7 @@ export default function Login() {
               <h1 className="text-xl font-extralight tracking-[0.2em] text-white">
                 FRACTIONAL LIVING
               </h1>
-              <div className="w-8 h-[0.5px] bg-orange-500 mx-auto mt-2 mb-1" />
+              <div className="w-8 h-[0.5px] bg-black mx-auto mt-2 mb-1" />
               <p className="text-[8px] text-white/25 uppercase tracking-[0.4em]">All Global Holding LLC</p>
             </span>
           </Link>
@@ -94,13 +94,13 @@ export default function Login() {
                     socialButtonsBlockButton: "border border-[#e5e5e5] hover:border-[#1a1a1a]/20 hover:bg-[#fafafa] text-[#1a1a1a] rounded-lg h-10 text-[13px] font-normal transition-all",
                     socialButtonsBlockButtonText: "text-[#1a1a1a] font-normal text-[13px]",
                     formButtonPrimary: "bg-[#1a1a1a] hover:bg-[#333] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all",
-                    footerActionLink: "text-orange-600 hover:text-orange-700 text-[13px] font-normal",
+                    footerActionLink: "text-black hover:text-black/80 text-[13px] font-normal",
                     formFieldInput: "border border-[#e5e5e5] focus:border-[#1a1a1a] focus:ring-0 rounded-lg h-10 text-[13px] text-[#1a1a1a] bg-white placeholder:text-[#1a1a1a]/30",
                     formFieldLabel: "text-[#1a1a1a]/60 text-[12px] font-normal",
                     dividerLine: "bg-[#e5e5e5]",
                     dividerText: "text-[#1a1a1a]/30 text-[11px] font-light",
                     identityPreviewText: "text-[#1a1a1a] text-[13px]",
-                    identityPreviewEditButton: "text-orange-600 text-[12px]",
+                    identityPreviewEditButton: "text-black text-[12px]",
                     footer: "pt-3",
                     footerAction: "text-[12px]",
                     footerActionText: "text-[#1a1a1a]/40 text-[12px]",

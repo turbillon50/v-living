@@ -33,15 +33,15 @@ export default function ReferralLanding() {
       <main className="pb-32">
         <div className="max-w-lg mx-auto px-5 pt-8">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 mx-auto mb-5 bg-gradient-to-br from-orange-500/20 to-orange-600/10 border border-orange-500/30 rounded-full flex items-center justify-center">
-              <Users className="w-7 h-7 text-orange-400" />
+            <div className="w-16 h-16 mx-auto mb-5 bg-gradient-to-br from-white/10 to-white/5 border border-white/10 rounded-full flex items-center justify-center">
+              <Users className="w-7 h-7 text-white/70" />
             </div>
             
             {isLoading ? (
               <div className="h-6 w-48 bg-white/10 rounded mx-auto animate-pulse" />
             ) : referrer ? (
               <>
-                <p className="text-xs text-orange-400/70 uppercase tracking-[0.2em] mb-2">
+                <p className="text-xs text-white/50 uppercase tracking-[0.2em] mb-2">
                   {language === 'es' ? 'Invitación de' : 'Invitation from'}
                 </p>
                 <h1 className="text-2xl font-light tracking-tight" data-testid="text-referrer-name">
@@ -73,7 +73,7 @@ export default function ReferralLanding() {
                 { icon: <Users className="w-4 h-4" />, es: 'Red de referidos a 5 niveles', en: '5-level referral network' },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3 text-sm text-white/70">
-                  <div className="text-orange-400">{item.icon}</div>
+                  <div className="text-white/70">{item.icon}</div>
                   <span>{language === 'es' ? item.es : item.en}</span>
                 </div>
               ))}

@@ -1,13 +1,35 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
 import { Check, Info, Calendar, TrendingUp, Home, Building } from 'lucide-react';
-import { Property, Fraction, formatPrice, Season, UsageMode } from '@/lib/mockData';
+import { Property } from '@shared/schema';
 import { Button } from '@/components/ui/button';
 import { SeasonBadge } from './SeasonBadge';
 import { cn } from '@/lib/utils';
 
+type Season = 'high' | 'mid' | 'low';
+type UsageMode = 'living' | 'investment' | 'rental';
+
+interface UsageWeek {
+  season: Season;
+  weekNumber: number;
+}
+
+interface Fraction {
+  id: string;
+  fractionNumber: number;
+  ownershipPercentage: number;
+  price: number;
+  status: 'available' | 'reserved' | 'sold';
+  usageMode: UsageMode;
+  usageWeeks: UsageWeek[];
+}
+
+function formatPrice(price: number): string {
+  return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(price);
+}
+
 interface FractionSelectorProps {
-  property: Property;
+  property: Property & { fractions?: Fraction[] };
   selectedFraction?: Fraction;
   onSelect?: (fraction: Fraction) => void;
 }
@@ -16,9 +38,10 @@ export function FractionSelector({ property, selectedFraction, onSelect }: Fract
   const [seasonFilter, setSeasonFilter] = useState<Season | 'all'>('all');
   const [usageFilter, setUsageFilter] = useState<UsageMode | 'all'>('all');
 
-  const filteredFractions = property.fractions.filter((f) => {
+  const fractions = (property as any).fractions || [];
+  const filteredFractions = fractions.filter((f: Fraction) => {
     if (f.status !== 'available') return false;
-    if (seasonFilter !== 'all' && !f.usageWeeks.some((w) => w.season === seasonFilter)) return false;
+    if (seasonFilter !== 'all' && !f.usageWeeks.some((w: UsageWeek) => w.season === seasonFilter)) return false;
     if (usageFilter !== 'all' && f.usageMode !== usageFilter) return false;
     return true;
   });
@@ -77,7 +100,7 @@ export function FractionSelector({ property, selectedFraction, onSelect }: Fract
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-2">
-          {filteredFractions.map((fraction) => (
+          {filteredFractions.map((fraction: Fraction) => (
             <Link
               key={fraction.id}
               href={`/property/${property.id}/fraction/${fraction.id}`}
@@ -102,14 +125,14 @@ export function FractionSelector({ property, selectedFraction, onSelect }: Fract
                 </p>
                 <p className="text-sm font-semibold">{formatPrice(fraction.price)}</p>
                 <div className="flex gap-1 mt-2">
-                  {fraction.usageWeeks.slice(0, 2).map((w, i) => (
+                  {fraction.usageWeeks.slice(0, 2).map((w: UsageWeek, i: number) => (
                     <span
                       key={i}
                       className={cn(
                         'w-2 h-2 rounded-full',
                         w.season === 'high' && 'bg-primary',
                         w.season === 'mid' && 'bg-amber-500',
-                        w.season === 'low' && 'bg-orange-500'
+                        w.season === 'low' && 'bg-black'
                       )}
                     />
                   ))}

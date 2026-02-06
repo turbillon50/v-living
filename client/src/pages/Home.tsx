@@ -5,6 +5,7 @@ import { useLanguage } from '@/lib/LanguageContext';
 import { Property } from '@shared/schema';
 import { ChevronRight, MapPin, Sparkles, TrendingUp, Calendar, ChevronDown, X } from 'lucide-react';
 import { useState } from 'react';
+import { AGHLogo, AGHLogoHorizontal } from '@/components/AGHLogo';
 
 export default function Home() {
   const { language } = useLanguage();
@@ -24,17 +25,15 @@ export default function Home() {
       {/* Hero - Compacto para móvil */}
       <section className="pt-6 pb-8 px-5">
         <div className="text-center">
-          <img 
-            src="/fractional-logo.jpg" 
-            alt="Fractional Living" 
-            className="w-24 h-24 mx-auto mb-4 rounded-xl object-cover"
-          />
+          <div className="w-24 h-24 mx-auto mb-4 flex items-center justify-center">
+            <AGHLogo size={32} color="#000000" />
+          </div>
           <h1 className="text-3xl font-light text-gray-900 tracking-wide mb-2" data-testid="hero-title">
             Fractional Living
           </h1>
           <p className="text-[10px] text-gray-400 uppercase tracking-[0.25em] mb-4">All Global Holding LLC</p>
           
-          <p className="text-base text-orange-500 font-bold mb-2">
+          <p className="text-base text-black/70 font-light tracking-wider mb-2">
             Compra • Vive • Renta • Revende • Repite
           </p>
           <p className="text-xs text-black/50 mb-4">
@@ -44,25 +43,15 @@ export default function Home() {
           {/* Botón Beneficios */}
           <button 
             onClick={() => setShowBeneficios(true)}
-            className="w-full max-w-xs mx-auto block mb-4 active:scale-[0.95] hover:scale-[1.02] transition-all group"
+            className="w-32 mx-auto block mb-4 active:scale-[0.96] transition-transform"
             data-testid="button-beneficios"
           >
-            <div className="relative">
-              <img 
-                src="/beneficios-btn.png" 
-                alt="Beneficios Fractional Living" 
-                className="w-full rounded-xl shadow-lg border-2 border-orange-500 group-hover:shadow-xl group-hover:shadow-orange-500/20 transition-all"
-              />
-              <div className="absolute inset-0 bg-orange-500/0 group-hover:bg-orange-500/10 rounded-xl transition-all flex items-center justify-center">
-                <span className="opacity-0 group-hover:opacity-100 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-opacity">
-                  Toca para ver
-                </span>
-              </div>
-            </div>
-            <p className="text-orange-500 font-semibold text-sm mt-2 flex items-center justify-center gap-2">
-              Beneficios Fractional Living
-              <span className="animate-pulse">👆</span>
-            </p>
+            <img 
+              src="/beneficios-btn.png" 
+              alt="Beneficios Fractional Living" 
+              className="w-full rounded-lg shadow-sm border border-black/10"
+            />
+            <p className="text-black/40 text-[10px] mt-1.5 tracking-wider uppercase">Ver beneficios</p>
           </button>
 
           {/* Stats en línea */}
@@ -72,7 +61,7 @@ export default function Home() {
               <p className="text-[10px] text-black/40 uppercase">Fracciones</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-light text-orange-500">30%</p>
+              <p className="text-2xl font-light text-black">30%</p>
               <p className="text-[10px] text-black/40 uppercase">Enganche</p>
             </div>
             <div className="text-center">
@@ -87,7 +76,7 @@ export default function Home() {
       <section className="px-5 pb-6">
         <div className="bg-black rounded-2xl p-5 text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Sparkles className="w-4 h-4 text-orange-500" />
+            <Sparkles className="w-4 h-4 text-white" />
             <span className="text-xs font-medium text-white/80 uppercase tracking-wider">Oportunidad</span>
           </div>
           <p className="text-white text-lg font-medium mb-1">
@@ -104,7 +93,7 @@ export default function Home() {
         <section className="pb-8">
           <div className="px-5 mb-4 flex items-end justify-between">
             <div>
-              <p className="text-orange-500 text-xs font-medium uppercase tracking-wider mb-1">Propiedades</p>
+              <p className="text-black/60 text-xs font-medium uppercase tracking-wider mb-1">Propiedades</p>
               <h2 className="text-xl font-light text-black">Disponibles</h2>
             </div>
             <Link href="/fractional">
@@ -133,7 +122,7 @@ export default function Home() {
                         </div>
                       )}
                       {property.tag && (
-                        <span className="absolute top-3 left-3 bg-orange-500 text-white text-[10px] px-2 py-1 rounded-full font-medium">
+                        <span className="absolute top-3 left-3 bg-black text-white text-[10px] px-2 py-1 rounded-full font-medium">
                           {property.tag}
                         </span>
                       )}
@@ -154,7 +143,7 @@ export default function Home() {
                       
                       <div className="flex items-end justify-between">
                         <div>
-                          <p className="text-orange-500 font-semibold text-lg">
+                          <p className="text-black font-semibold text-lg">
                             ${((property.price || 650000) / 1000).toFixed(0)}K
                           </p>
                           <p className="text-black/40 text-[10px]">{property.currency || 'MXN'} / fracción</p>
@@ -187,12 +176,12 @@ export default function Home() {
         <h3 className="text-black/50 text-sm font-medium mb-4 text-center">¿Por qué Fractional Living?</h3>
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-black/5 rounded-xl p-4 border border-black/10">
-            <TrendingUp className="w-5 h-5 text-orange-500 mb-2" />
+            <TrendingUp className="w-5 h-5 text-black mb-2" />
             <p className="text-black text-sm font-medium">Plusvalía Real</p>
             <p className="text-black/40 text-xs">Tu fracción se valoriza</p>
           </div>
           <div className="bg-black/5 rounded-xl p-4 border border-black/10">
-            <Calendar className="w-5 h-5 text-orange-500 mb-2" />
+            <Calendar className="w-5 h-5 text-black mb-2" />
             <p className="text-black text-sm font-medium">Compra Semanas</p>
             <p className="text-black/40 text-xs">Suma las que quieras</p>
           </div>
@@ -214,34 +203,34 @@ export default function Home() {
         <h3 className="text-black/50 text-sm font-medium mb-4 text-center">Más Opciones</h3>
         <div className="grid grid-cols-3 gap-3">
           <Link href="/last-minute-capital">
-            <div className="relative rounded-xl overflow-hidden aspect-[3/4] active:scale-[0.95] hover:scale-[1.02] transition-transform shadow-lg group border-2 border-transparent hover:border-orange-500">
+            <div className="relative rounded-xl overflow-hidden aspect-[3/4] active:scale-[0.95] hover:scale-[1.02] transition-transform shadow-lg group border-2 border-transparent hover:border-black">
               <img src="/last-minute-capital.jpg" alt="Last Minute Capital" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-2 left-2 right-2">
                 <p className="text-white text-[10px] font-bold leading-tight">Last Minute Capital</p>
-                <p className="text-orange-400 text-[8px] mt-0.5">Ver más →</p>
+                <p className="text-white/70 text-[8px] mt-0.5">Ver más →</p>
               </div>
             </div>
           </Link>
           
           <Link href="/perfil-asociado">
-            <div className="relative rounded-xl overflow-hidden aspect-[3/4] active:scale-[0.95] hover:scale-[1.02] transition-transform shadow-lg group border-2 border-transparent hover:border-orange-500">
+            <div className="relative rounded-xl overflow-hidden aspect-[3/4] active:scale-[0.95] hover:scale-[1.02] transition-transform shadow-lg group border-2 border-transparent hover:border-black">
               <img src="/perfil-asociado.jpg" alt="Perfil Asociado" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-2 left-2 right-2">
                 <p className="text-white text-[10px] font-bold leading-tight">Perfil Asociado</p>
-                <p className="text-orange-400 text-[8px] mt-0.5">Ver más →</p>
+                <p className="text-white/70 text-[8px] mt-0.5">Ver más →</p>
               </div>
             </div>
           </Link>
           
           <Link href="/modelo-negocios">
-            <div className="relative rounded-xl overflow-hidden aspect-[3/4] active:scale-[0.95] hover:scale-[1.02] transition-transform shadow-lg group border-2 border-transparent hover:border-orange-500">
+            <div className="relative rounded-xl overflow-hidden aspect-[3/4] active:scale-[0.95] hover:scale-[1.02] transition-transform shadow-lg group border-2 border-transparent hover:border-black">
               <img src="/modelo-negocio.jpg" alt="Modelo de Negocio" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-2 left-2 right-2">
                 <p className="text-white text-[10px] font-bold leading-tight">Modelo de Negocio</p>
-                <p className="text-orange-400 text-[8px] mt-0.5">Ver más →</p>
+                <p className="text-white/70 text-[8px] mt-0.5">Ver más →</p>
               </div>
             </div>
           </Link>
@@ -265,7 +254,7 @@ export default function Home() {
       {/* Registro - Después de explorar */}
       <section className="px-5 pb-8">
         <div className="bg-black/5 rounded-xl p-5 border border-black/10">
-          <p className="text-orange-500 text-xs uppercase tracking-wider mb-2">¿Te interesa?</p>
+          <p className="text-black/60 text-xs uppercase tracking-wider mb-2">¿Te interesa?</p>
           <h3 className="text-gray-900 text-lg font-medium mb-2">
             {language === 'es' ? 'Regístrate para más información' : 'Register for more info'}
           </h3>
@@ -273,25 +262,11 @@ export default function Home() {
             Te contactamos en menos de 5 días con opciones personalizadas.
           </p>
           <Link href="/registro">
-            <span className="inline-flex items-center justify-center w-full gap-2 px-6 py-3 bg-orange-500 text-white font-medium rounded-lg" data-testid="button-register">
+            <span className="inline-flex items-center justify-center w-full gap-2 px-6 py-3 bg-black text-white font-medium rounded-lg" data-testid="button-register">
               Registrarme <ChevronRight className="w-4 h-4" />
             </span>
           </Link>
         </div>
-      </section>
-
-      {/* WhatsApp flotante */}
-      <section className="px-5 pb-6">
-        <a 
-          href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center gap-3 w-full py-3 bg-black hover:bg-black text-white font-medium rounded-xl transition-colors"
-          data-testid="button-whatsapp"
-        >
-          <span className="text-xl">💬</span>
-          WhatsApp Directo
-        </a>
       </section>
 
       {/* Legal - Colapsable al final */}
@@ -336,7 +311,7 @@ export default function Home() {
           href="https://wa.me/529984292748?text=Hola,%20quiero%20ser%20broker/influencer%20de%20Fractional%20Living"
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full text-center py-3 border border-orange-500 rounded-xl text-orange-500 text-sm bg-black"
+          className="block w-full text-center py-3 border border-black rounded-xl text-white text-sm bg-black"
           data-testid="button-broker"
         >
           💼 ¿Quieres ser Broker? Comisiones 6%+
@@ -346,13 +321,15 @@ export default function Home() {
       {/* Footer mínimo */}
       <footer className="py-8 pb-60 border-t border-gray-100">
         <div className="px-5 text-center">
-          <p className="text-gray-400 text-xs mb-4">FRACTIONAL LIVING</p>
+          <div className="flex justify-center mb-4">
+            <AGHLogoHorizontal />
+          </div>
           <div className="flex justify-center gap-6 text-xs text-gray-500 mb-4">
             <Link href="/fractional"><span>Propiedades</span></Link>
             <Link href="/invest"><span>Invertir</span></Link>
             <Link href="/registro"><span>Registro</span></Link>
           </div>
-          <p className="text-[10px] text-gray-300">© 2024 All Global Holding LLC</p>
+          <p className="text-[10px] text-gray-300">© 2025 All Global Holding LLC</p>
         </div>
       </footer>
 
@@ -369,7 +346,7 @@ export default function Home() {
             <div className="p-4 text-sm text-gray-700 space-y-6">
               
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">¿Por qué Fractional Living?</h3>
+                <h3 className="text-black font-bold text-base mb-2">¿Por qué Fractional Living?</h3>
                 <p className="mb-2">Fractional Living nace de una idea simple: el tiempo, el uso y el capital inmobiliario pueden trabajar mejor cuando se estructuran correctamente.</p>
                 <p className="mb-2">No somos tiempo compartido. No somos preventas tradicionales. No somos un "fraccional barato".</p>
                 <p className="font-medium">Somos una infraestructura inmobiliaria diseñada para:</p>
@@ -382,7 +359,7 @@ export default function Home() {
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">¿Por qué invertir aquí?</h3>
+                <h3 className="text-black font-bold text-base mb-2">¿Por qué invertir aquí?</h3>
                 <p className="mb-2">Porque aquí no compras promesas, compras procesos.</p>
                 <p className="font-medium">Cada propiedad:</p>
                 <ul className="list-disc pl-5 mt-1 space-y-1">
@@ -391,11 +368,11 @@ export default function Home() {
                   <li>Cuenta con financiamiento hipotecario</li>
                   <li>Se integra a esquemas fiduciarios claros</li>
                 </ul>
-                <p className="mt-2 font-medium text-orange-500">Eso es certeza legal. Eso es estructura real.</p>
+                <p className="mt-2 font-medium text-black">Eso es certeza legal. Eso es estructura real.</p>
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">Beneficio Legal</h3>
+                <h3 className="text-black font-bold text-base mb-2">Beneficio Legal</h3>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Propiedades adquiridas con crédito hipotecario</li>
                   <li>Cesión de derechos fiduciarios clara</li>
@@ -407,8 +384,8 @@ export default function Home() {
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">Beneficio Comercial</h3>
-                <p className="text-center font-bold text-orange-500 mb-2">Compra · Vive · Renta · Revende · Repite</p>
+                <h3 className="text-black font-bold text-base mb-2">Beneficio Comercial</h3>
+                <p className="text-center font-bold text-black mb-2">Compra · Vive · Renta · Revende · Repite</p>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Ingreso potencial desde el día uno</li>
                   <li>Uso flexible de tu fracción</li>
@@ -420,7 +397,7 @@ export default function Home() {
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">Beneficios Incluidos</h3>
+                <h3 className="text-black font-bold text-base mb-2">Beneficios Incluidos</h3>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Traslados aeropuerto ↔ propiedad</li>
                   <li>Concierge 24/7</li>
@@ -432,7 +409,7 @@ export default function Home() {
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">Beneficio de Experiencia</h3>
+                <h3 className="text-black font-bold text-base mb-2">Beneficio de Experiencia</h3>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Propiedades pet friendly y no pet friendly</li>
                   <li>Espacios para fumadores y no fumadores</li>
@@ -442,18 +419,18 @@ export default function Home() {
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">La Gran Diferencia</h3>
+                <h3 className="text-black font-bold text-base mb-2">La Gran Diferencia</h3>
                 <p className="mb-2">All Global Holding conserva fracciones propias en cada desarrollo.</p>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Somos copropietarios contigo</li>
                   <li>No cedemos la administración</li>
                   <li>Nuestro interés está alineado con el tuyo</li>
                 </ul>
-                <p className="mt-2 font-medium text-orange-500">Por eso el modelo se sostiene en el tiempo. Por eso la plusvalía es real.</p>
+                <p className="mt-2 font-medium text-black">Por eso el modelo se sostiene en el tiempo. Por eso la plusvalía es real.</p>
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">No es tiempo compartido</h3>
+                <h3 className="text-black font-bold text-base mb-2">No es tiempo compartido</h3>
                 <p className="mb-2">No compras noches. No compras puntos. No compras membresías opacas.</p>
                 <p className="font-medium">Compras:</p>
                 <ul className="list-disc pl-5 space-y-1">
@@ -466,9 +443,9 @@ export default function Home() {
               </div>
 
               <div className="text-center pt-4 border-t">
-                <p className="text-orange-500 font-bold text-lg mb-2">Bienvenido a Fractional Living</p>
+                <p className="text-black font-bold text-lg mb-2">Bienvenido a Fractional Living</p>
                 <p className="text-sm text-gray-600 mb-3">Invertir aquí no es entrar a un producto. Es sumarte a una familia inmobiliaria estructurada.</p>
-                <p className="text-orange-500 font-bold">Compra · Vive · Renta · Revende · Repite</p>
+                <p className="text-black font-bold">Compra · Vive · Renta · Revende · Repite</p>
               </div>
 
             </div>

@@ -24,7 +24,7 @@ const INTEREST_CONFIG: Record<string, {
   'comprar_fracciones': {
     label: 'Propietario Fractional',
     icon: Home,
-    color: 'bg-gradient-to-r from-orange-500 to-orange-600',
+    color: 'bg-gradient-to-r from-black/20 to-black/10',
     description: 'Tus fracciones inmobiliarias de lujo',
     dashboardTitle: 'Mis Fracciones',
     features: [
@@ -50,7 +50,7 @@ const INTEREST_CONFIG: Record<string, {
   'property_associate': {
     label: 'Property Associate',
     icon: Building2,
-    color: 'bg-gradient-to-r from-orange-600 to-orange-700',
+    color: 'bg-gradient-to-r from-black/15 to-black/10',
     description: 'Estado de tu propiedad asociada',
     dashboardTitle: 'Mi Propiedad',
     features: [
@@ -76,7 +76,7 @@ const INTEREST_CONFIG: Record<string, {
   'broker': {
     label: 'Broker / Afiliado',
     icon: Users,
-    color: 'bg-gradient-to-r from-orange-500 to-orange-600',
+    color: 'bg-gradient-to-r from-black/20 to-black/10',
     description: 'Tu desempeño como broker',
     dashboardTitle: 'Mi Red',
     features: [
@@ -189,7 +189,7 @@ export default function Profile() {
         <div className="bg-black rounded-2xl p-5 mb-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-white font-semibold">{config.dashboardTitle}</h2>
-            <span className="text-orange-500 text-xs font-medium px-2 py-1 bg-orange-500/10 rounded-full">
+            <span className="text-white/70 text-xs font-medium px-2 py-1 bg-white/10 rounded-full">
               En desarrollo
             </span>
           </div>
@@ -199,14 +199,14 @@ export default function Profile() {
               <div key={idx} className="flex items-center justify-between py-3 border-b border-white/10 last:border-0">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
-                    <feat.icon className="w-5 h-5 text-orange-500" />
+                    <feat.icon className="w-5 h-5 text-white/70" />
                   </div>
                   <div>
                     <p className="text-white/60 text-xs">{feat.label}</p>
                     <p className="text-white font-medium">{feat.value}</p>
                   </div>
                 </div>
-                <div className={`w-2 h-2 rounded-full ${feat.status === 'active' ? 'bg-black' : 'bg-orange-500'}`} />
+                <div className={`w-2 h-2 rounded-full ${feat.status === 'active' ? 'bg-white' : 'bg-white/40'}`} />
               </div>
             ))}
           </div>
@@ -218,7 +218,7 @@ export default function Profile() {
             {!isEditing && (
               <button 
                 onClick={() => setIsEditing(true)}
-                className="text-orange-500 text-sm font-medium flex items-center gap-1"
+                className="text-black text-sm font-medium flex items-center gap-1"
                 data-testid="button-edit-profile"
               >
                 <Edit2 className="w-4 h-4" /> Editar
@@ -326,7 +326,7 @@ export default function Profile() {
           <Link href="/home">
             <a className="flex items-center justify-between p-4 bg-black/5 rounded-xl hover:bg-black/10 transition-colors">
               <div className="flex items-center gap-3">
-                <Home className="w-5 h-5 text-orange-500" />
+                <Home className="w-5 h-5 text-black" />
                 <span className="font-medium text-black">Ver propiedades</span>
               </div>
               <ChevronRight className="w-5 h-5 text-black/30" />
@@ -340,7 +340,7 @@ export default function Profile() {
             className="flex items-center justify-between p-4 bg-black/5 rounded-xl hover:bg-black/10 transition-colors"
           >
             <div className="flex items-center gap-3">
-              <Phone className="w-5 h-5 text-orange-500" />
+              <Phone className="w-5 h-5 text-black" />
               <span className="font-medium text-black">Contactar asesor</span>
             </div>
             <ArrowUpRight className="w-5 h-5 text-black/30" />
@@ -354,20 +354,20 @@ export default function Profile() {
               href="https://vandefi.org" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 bg-white border border-black/10 rounded-xl hover:border-orange-500/30 transition-colors"
+              className="flex items-center gap-2 p-3 bg-white border border-black/10 rounded-xl hover:border-black/20 transition-colors"
               data-testid="link-vandefi"
             >
-              <Wallet className="w-5 h-5 text-orange-500" />
+              <Wallet className="w-5 h-5 text-black" />
               <span className="text-black text-sm font-medium">VanDeFi</span>
             </a>
             <a 
               href="https://agh-ia.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 bg-white border border-black/10 rounded-xl hover:border-orange-500/30 transition-colors"
+              className="flex items-center gap-2 p-3 bg-white border border-black/10 rounded-xl hover:border-black/20 transition-colors"
               data-testid="link-aghia"
             >
-              <TrendingUp className="w-5 h-5 text-orange-500" />
+              <TrendingUp className="w-5 h-5 text-black" />
               <span className="text-black text-sm font-medium">AGH-IA</span>
             </a>
           </div>

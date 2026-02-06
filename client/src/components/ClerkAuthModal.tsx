@@ -2,6 +2,7 @@ import { SignIn, SignUp, useUser, useClerk } from '@clerk/clerk-react';
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+import { AGHLogo } from '@/components/AGHLogo';
 
 interface ClerkAuthModalProps {
   isOpen: boolean;
@@ -41,6 +42,9 @@ export function ClerkAuthModal({ isOpen, onClose, mode }: ClerkAuthModalProps) {
 
         <div className="p-6 pt-8">
           <div className="text-center mb-6">
+            <div className="flex justify-center mb-2">
+              <AGHLogo size={28} color="#000000" />
+            </div>
             <h1 className="text-2xl font-bold text-black tracking-tight">FRACTIONAL LIVING</h1>
             <p className="text-[10px] text-black/40 uppercase tracking-[0.3em] mt-1">All Global Holding LLC</p>
           </div>
@@ -55,8 +59,8 @@ export function ClerkAuthModal({ isOpen, onClose, mode }: ClerkAuthModalProps) {
                   headerSubtitle: "hidden",
                   socialButtonsBlockButton: "border-black/20 hover:bg-black/5",
                   formButtonPrimary: "bg-black hover:bg-black/90",
-                  footerActionLink: "text-orange-500 hover:text-orange-600",
-                  formFieldInput: "border-black/20 focus:border-orange-500",
+                  footerActionLink: "text-black hover:text-black/70",
+                  formFieldInput: "border-black/20 focus:border-black",
                 }
               }}
               routing="hash"
@@ -73,8 +77,8 @@ export function ClerkAuthModal({ isOpen, onClose, mode }: ClerkAuthModalProps) {
                   headerSubtitle: "hidden",
                   socialButtonsBlockButton: "border-black/20 hover:bg-black/5",
                   formButtonPrimary: "bg-black hover:bg-black/90",
-                  footerActionLink: "text-orange-500 hover:text-orange-600",
-                  formFieldInput: "border-black/20 focus:border-orange-500",
+                  footerActionLink: "text-black hover:text-black/70",
+                  formFieldInput: "border-black/20 focus:border-black",
                 }
               }}
               routing="hash"

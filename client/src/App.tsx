@@ -40,7 +40,6 @@ import Dashboard from "@/pages/Dashboard";
 import ReferralLanding from "@/pages/ReferralLanding";
 import NotFound from "@/pages/not-found";
 import { BottomNav } from "@/components/BottomNav";
-import { FloatingButtons } from "@/components/FloatingButtons";
 import { FloatingAI } from "@/components/FloatingAI";
 
 function Router() {
@@ -104,7 +103,6 @@ function App() {
               <TooltipProvider>
                 <Toaster />
                 <Router />
-                <FloatingButtons />
                 <FloatingAI />
                 <BottomNav />
                 <ClerkAuthModalWrapper />
@@ -114,7 +112,6 @@ function App() {
             <TooltipProvider>
               <Toaster />
               <Router />
-              <FloatingButtons />
               <FloatingAI />
               <BottomNav />
               <AuthModal />

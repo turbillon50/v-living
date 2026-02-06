@@ -1,5 +1,6 @@
-import { Season } from '@/lib/mockData';
 import { cn } from '@/lib/utils';
+
+type Season = 'high' | 'mid' | 'low';
 
 interface SeasonBadgeProps {
   season: Season;
@@ -20,8 +21,8 @@ const seasonConfig: Record<Season, { label: string; color: string; bg: string }>
   },
   low: {
     label: 'Low Season',
-    color: 'text-orange-500',
-    bg: 'bg-orange-500',
+    color: 'text-black',
+    bg: 'bg-black',
   },
 };
 
@@ -45,7 +46,7 @@ export function SeasonBadge({ season, size = 'md', showLabel = true }: SeasonBad
       className={cn(
         'inline-flex items-center gap-1.5 rounded-full font-medium',
         config.bg,
-        config.color,
+        season === 'low' ? 'text-white' : config.color,
         sizeClasses[size]
       )}
       data-testid={`badge-season-${season}`}
@@ -56,7 +57,7 @@ export function SeasonBadge({ season, size = 'md', showLabel = true }: SeasonBad
           dotSizes[size],
           season === 'high' && 'bg-primary',
           season === 'mid' && 'bg-amber-500',
-          season === 'low' && 'bg-orange-500'
+          season === 'low' && 'bg-white'
         )}
       />
       {showLabel && config.label}
@@ -68,7 +69,7 @@ export function SeasonIndicator({ season }: { season: Season }) {
   const colors = {
     high: 'bg-primary',
     mid: 'bg-amber-500',
-    low: 'bg-orange-500',
+    low: 'bg-black',
   };
 
   return <span className={cn('w-3 h-3 rounded-full', colors[season])} />;

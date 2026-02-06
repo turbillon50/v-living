@@ -374,17 +374,17 @@ export default function PropertyDetail() {
               </div>
 
               <div className="space-y-3 mb-6">
-                <div className="flex items-center gap-3 p-3 bg-orange-500 rounded-xl">
-                  <Check className="w-5 h-5 text-orange-500" />
-                  <span className="text-gray-700 text-sm">30% enganche</span>
+                <div className="flex items-center gap-3 p-3 bg-black rounded-xl">
+                  <Check className="w-5 h-5 text-white" />
+                  <span className="text-white text-sm">30% enganche</span>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-black/5 rounded-xl">
                   <Check className="w-5 h-5 text-black" />
                   <span className="text-gray-700 text-sm">12 meses sin intereses</span>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-black rounded-xl">
-                  <Check className="w-5 h-5 text-orange-500" />
-                  <span className="text-gray-700 text-sm">Propiedad heredable</span>
+                  <Check className="w-5 h-5 text-white" />
+                  <span className="text-white text-sm">Propiedad heredable</span>
                 </div>
               </div>
 
@@ -480,7 +480,7 @@ export default function PropertyDetail() {
         <DialogContent className="sm:max-w-md">
           <div className="text-center py-6">
             <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-4">
-              <Check className="w-8 h-8 text-orange-500" />
+              <Check className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-xl font-semibold mb-2">Pre-Reserva Confirmada</h3>
             <p className="text-gray-500 mb-6">Tienes 5 días para completar tu reserva. Un asesor te contactará pronto.</p>
@@ -500,14 +500,14 @@ export default function PropertyDetail() {
             </div>
             <div className="p-4 text-sm text-gray-700 space-y-6">
               
-              <div className="bg-gradient-to-r from-black to-black p-4 rounded-xl border border-orange-500">
-                <p className="text-center text-orange-500 font-bold text-base">
+              <div className="bg-gradient-to-r from-black to-black p-4 rounded-xl border border-white/20">
+                <p className="text-center text-black font-bold text-base">
                   En Fractional Living la experiencia, plusvalía y seguridad son un mismo concepto
                 </p>
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">¿Por qué Fractional Living?</h3>
+                <h3 className="text-black font-bold text-base mb-2">¿Por qué Fractional Living?</h3>
                 <p className="mb-2">Fractional Living nace de una idea simple: el tiempo, el uso y el capital inmobiliario pueden trabajar mejor cuando se estructuran correctamente.</p>
                 <p className="mb-2">No somos tiempo compartido. No somos preventas tradicionales. No somos un "fraccional barato".</p>
                 <p className="font-medium">Somos una infraestructura inmobiliaria diseñada para:</p>
@@ -520,7 +520,7 @@ export default function PropertyDetail() {
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">¿Por qué invertir aquí?</h3>
+                <h3 className="text-black font-bold text-base mb-2">¿Por qué invertir aquí?</h3>
                 <p className="mb-2">Porque aquí no compras promesas, compras procesos.</p>
                 <p className="font-medium">Cada propiedad:</p>
                 <ul className="list-disc pl-5 mt-1 space-y-1">
@@ -529,11 +529,11 @@ export default function PropertyDetail() {
                   <li>Cuenta con financiamiento hipotecario</li>
                   <li>Se integra a esquemas fiduciarios claros</li>
                 </ul>
-                <p className="mt-2 font-medium text-orange-500">Eso es certeza legal. Eso es estructura real.</p>
+                <p className="mt-2 font-medium text-black">Eso es certeza legal. Eso es estructura real.</p>
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">Beneficio Legal</h3>
+                <h3 className="text-black font-bold text-base mb-2">Beneficio Legal</h3>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Propiedades adquiridas con crédito hipotecario</li>
                   <li>Cesión de derechos fiduciarios clara</li>
@@ -545,8 +545,8 @@ export default function PropertyDetail() {
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">Beneficio Comercial</h3>
-                <p className="text-center font-bold text-orange-500 mb-2">Compra · Vive · Renta · Revende · Repite</p>
+                <h3 className="text-black font-bold text-base mb-2">Beneficio Comercial</h3>
+                <p className="text-center font-bold text-black mb-2">Compra · Vive · Renta · Revende · Repite</p>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Ingreso potencial desde el día uno</li>
                   <li>Uso flexible de tu fracción</li>
@@ -558,7 +558,7 @@ export default function PropertyDetail() {
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">Beneficios Incluidos</h3>
+                <h3 className="text-black font-bold text-base mb-2">Beneficios Incluidos</h3>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Traslados aeropuerto ↔ propiedad</li>
                   <li>Concierge 24/7</li>
@@ -570,7 +570,7 @@ export default function PropertyDetail() {
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">Beneficio de Experiencia</h3>
+                <h3 className="text-black font-bold text-base mb-2">Beneficio de Experiencia</h3>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Propiedades pet friendly y no pet friendly</li>
                   <li>Espacios para fumadores y no fumadores</li>
@@ -580,18 +580,18 @@ export default function PropertyDetail() {
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">La Gran Diferencia</h3>
+                <h3 className="text-black font-bold text-base mb-2">La Gran Diferencia</h3>
                 <p className="mb-2">All Global Holding conserva fracciones propias en cada desarrollo.</p>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Somos copropietarios contigo</li>
                   <li>No cedemos la administración</li>
                   <li>Nuestro interés está alineado con el tuyo</li>
                 </ul>
-                <p className="mt-2 font-medium text-orange-500">Por eso el modelo se sostiene en el tiempo. Por eso la plusvalía es real.</p>
+                <p className="mt-2 font-medium text-black">Por eso el modelo se sostiene en el tiempo. Por eso la plusvalía es real.</p>
               </div>
 
               <div>
-                <h3 className="text-orange-500 font-bold text-base mb-2">No es tiempo compartido</h3>
+                <h3 className="text-black font-bold text-base mb-2">No es tiempo compartido</h3>
                 <p className="mb-2">No compras noches. No compras puntos. No compras membresías opacas.</p>
                 <p className="font-medium">Compras:</p>
                 <ul className="list-disc pl-5 space-y-1">
@@ -604,9 +604,9 @@ export default function PropertyDetail() {
               </div>
 
               <div className="text-center pt-4 border-t">
-                <p className="text-orange-500 font-bold text-lg mb-2">Bienvenido a Fractional Living</p>
+                <p className="text-black font-bold text-lg mb-2">Bienvenido a Fractional Living</p>
                 <p className="text-sm text-gray-600 mb-3">Invertir aquí no es entrar a un producto. Es sumarte a una familia inmobiliaria estructurada.</p>
-                <p className="text-orange-500 font-bold">Compra · Vive · Renta · Revende · Repite</p>
+                <p className="text-black font-bold">Compra · Vive · Renta · Revende · Repite</p>
               </div>
 
             </div>

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { X, Send, Sparkles } from 'lucide-react';
+import { X, Send, ArrowUp } from 'lucide-react';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -46,12 +46,12 @@ export function FloatingAI() {
       
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: data.reply || 'Lo siento, hubo un error. Por favor contacta por WhatsApp al +52 998 429 2748.'
+        content: data.reply || 'Lo siento, hubo un error. Intenta de nuevo.'
       }]);
     } catch (error) {
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: 'Lo siento, hubo un error de conexión. Por favor contacta por WhatsApp al +52 998 429 2748.'
+        content: 'Lo siento, hubo un error de conexión. Intenta de nuevo.'
       }]);
     } finally {
       setIsLoading(false);
@@ -60,60 +60,95 @@ export function FloatingAI() {
 
   return (
     <>
-      {/* Floating Button */}
+      <style>{`
+        @keyframes alix-glow {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.1), 0 4px 20px rgba(0,0,0,0.3); }
+          50% { box-shadow: 0 0 0 6px rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.4); }
+        }
+        @keyframes alix-ring {
+          0% { transform: scale(1); opacity: 0.6; }
+          100% { transform: scale(1.8); opacity: 0; }
+        }
+        .alix-btn {
+          animation: alix-glow 3s ease-in-out infinite;
+        }
+        .alix-ring {
+          animation: alix-ring 2.5s ease-out infinite;
+        }
+      `}</style>
+
       <button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-24 right-4 z-[60] w-12 h-12 bg-black rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all duration-300 ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
+        className={`alix-btn fixed bottom-24 right-4 z-[60] w-14 h-14 rounded-full flex items-center justify-center transition-all duration-500 ${isOpen ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100'}`}
+        style={{
+          background: 'linear-gradient(145deg, #1a1a1a 0%, #000000 50%, #1a1a1a 100%)',
+          border: '1.5px solid rgba(255,255,255,0.15)',
+        }}
         data-testid="button-ai-open"
       >
-        <div className="relative">
-          <Sparkles className="w-7 h-7 text-orange-500" />
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full animate-pulse" />
+        <div className="absolute inset-0 rounded-full alix-ring border border-white/20" />
+        <div className="relative flex flex-col items-center justify-center">
+          <span className="text-white font-bold text-[11px] tracking-[0.15em] leading-none">ALIX</span>
+          <span className="w-4 h-[1px] bg-white/40 mt-0.5" />
         </div>
       </button>
 
-      {/* Chat Window */}
-      <div className={`fixed bottom-20 left-4 right-4 sm:bottom-6 sm:right-6 sm:left-auto z-50 sm:w-96 max-h-[70vh] bg-black rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}>
-        {/* Header */}
-        <div className="bg-orange-500 px-4 py-3 flex items-center justify-between flex-shrink-0">
+      <div className={`fixed bottom-20 left-3 right-3 sm:bottom-6 sm:right-6 sm:left-auto z-50 sm:w-[380px] max-h-[75vh] flex flex-col overflow-hidden transition-all duration-400 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}
+        style={{
+          borderRadius: '20px',
+          background: '#0a0a0a',
+          border: '1px solid rgba(255,255,255,0.08)',
+          boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)',
+        }}
+      >
+        <div className="px-5 py-4 flex items-center justify-between flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
+            <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(145deg, #222 0%, #111 100%)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <span className="text-white font-bold text-[9px] tracking-[0.2em]">A</span>
             </div>
             <div>
-              <h3 className="font-semibold text-white">Alix</h3>
-              <p className="text-xs text-white/70">Asesora Virtual</p>
+              <h3 className="font-semibold text-white text-sm tracking-wide">ALIX</h3>
+              <p className="text-[10px] text-white/30 tracking-wider uppercase">Asesora Virtual</p>
             </div>
           </div>
           <button 
             onClick={() => setIsOpen(false)} 
-            className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors"
+            className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:bg-white/10"
+            style={{ border: '1px solid rgba(255,255,255,0.08)' }}
             data-testid="button-ai-close"
           >
-            <X className="w-5 h-5 text-white" />
+            <X className="w-4 h-4 text-white/60" />
           </button>
         </div>
 
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-[200px]">
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 min-h-[200px]">
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm ${
+              <div className={`max-w-[85%] px-4 py-2.5 text-[13px] leading-relaxed ${
                 msg.role === 'user' 
-                  ? 'bg-orange-500 text-white rounded-br-md' 
-                  : 'bg-white/10 text-white/90 rounded-bl-md'
-              }`}>
+                  ? 'text-white rounded-2xl rounded-br-md' 
+                  : 'text-white/80 rounded-2xl rounded-bl-md'
+              }`}
+                style={{
+                  background: msg.role === 'user' 
+                    ? 'linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%)'
+                    : 'rgba(255,255,255,0.04)',
+                  border: msg.role === 'user'
+                    ? '1px solid rgba(255,255,255,0.08)'
+                    : '1px solid rgba(255,255,255,0.04)',
+                }}
+              >
                 {msg.content}
               </div>
             </div>
           ))}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="bg-white/10 px-4 py-3 rounded-2xl rounded-bl-md">
-                <div className="flex gap-1">
-                  <span className="w-2 h-2 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <span className="w-2 h-2 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <span className="w-2 h-2 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              <div className="px-4 py-3 rounded-2xl rounded-bl-md" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}>
+                <div className="flex gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-white/30 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1.5 h-1.5 bg-white/30 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1.5 h-1.5 bg-white/30 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
               </div>
             </div>
@@ -121,25 +156,29 @@ export function FloatingAI() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input */}
-        <div className="p-3 border-t border-white/10 flex-shrink-0">
-          <div className="flex gap-2">
+        <div className="px-3 py-3 flex-shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="flex gap-2 items-end">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Escribe tu pregunta..."
-              className="flex-1 bg-white/10 border border-white/20 rounded-full px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-orange-500"
+              placeholder="Pregunta algo..."
+              className="flex-1 bg-transparent text-white text-sm placeholder:text-white/20 focus:outline-none py-2.5 px-4 rounded-full"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
               data-testid="input-ai-message"
             />
             <button
               onClick={handleSend}
               disabled={!input.trim() || isLoading}
-              className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors disabled:opacity-50"
+              className="w-9 h-9 rounded-full flex items-center justify-center transition-all disabled:opacity-20"
+              style={{
+                background: input.trim() && !isLoading ? '#fff' : 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(255,255,255,0.1)',
+              }}
               data-testid="button-ai-send"
             >
-              <Send className="w-4 h-4 text-white" />
+              <ArrowUp className={`w-4 h-4 ${input.trim() && !isLoading ? 'text-black' : 'text-white/30'}`} />
             </button>
           </div>
         </div>

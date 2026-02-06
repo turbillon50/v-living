@@ -24,7 +24,7 @@ export function BottomNav() {
           return (
             <Link key={item.href} href={item.href}>
               <button className={`flex flex-col items-center justify-center gap-0.5 min-w-[60px] py-2 transition-colors ${
-                isActive ? 'text-orange-500' : 'text-black/40'
+                isActive ? 'text-black' : 'text-black/40'
               }`}>
                 <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : ''}`} />
                 <span className={`text-[9px] leading-tight ${isActive ? 'font-semibold' : ''}`}>{item.label}</span>

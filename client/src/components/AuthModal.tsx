@@ -3,6 +3,7 @@ import { useAuth } from '@/lib/AuthContext';
 import { useLanguage } from '@/lib/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { AGHLogo } from '@/components/AGHLogo';
 import { X, User, Mail, Phone, Globe, CheckCircle, Home, TrendingUp, Users, Wallet, Building, Tag, ExternalLink, ArrowRight } from 'lucide-react';
 
 const INTEREST_OPTIONS = [
@@ -163,6 +164,9 @@ export function AuthModal() {
 
         <div className="p-6 pt-8">
           <div className="text-center mb-6">
+            <div className="flex justify-center mb-2">
+              <AGHLogo size={28} color="#000000" />
+            </div>
             <h1 className="text-2xl font-bold text-black tracking-tight">FRACTIONAL LIVING</h1>
             <p className="text-[10px] text-black/40 uppercase tracking-[0.3em] mt-1">All Global Holding LLC</p>
           </div>
@@ -239,7 +243,7 @@ export function AuthModal() {
                       value={digit}
                       onChange={(e) => handlePinChange(i, e.target.value)}
                       onKeyDown={(e) => handlePinKeyDown(i, e)}
-                      className="w-14 h-14 text-center text-2xl font-bold bg-black/5 border-2 border-transparent focus:border-orange-500 rounded-xl text-black outline-none transition-colors"
+                      className="w-14 h-14 text-center text-2xl font-bold bg-black/5 border-2 border-transparent focus:border-black rounded-xl text-black outline-none transition-colors"
                       data-testid={`input-pin-${i}`}
                     />
                   ))}
@@ -265,7 +269,7 @@ export function AuthModal() {
                 <button 
                   type="button"
                   onClick={() => setAuthModalMode('login')}
-                  className="text-orange-500 font-medium hover:underline"
+                  className="text-black font-medium underline"
                   data-testid="link-login"
                 >
                   {language === 'es' ? 'Iniciar sesión' : 'Log in'}
@@ -308,7 +312,7 @@ export function AuthModal() {
                       value={digit}
                       onChange={(e) => handlePinChange(i, e.target.value)}
                       onKeyDown={(e) => handlePinKeyDown(i, e)}
-                      className="w-14 h-14 text-center text-2xl font-bold bg-black/5 border-2 border-transparent focus:border-orange-500 rounded-xl text-black outline-none transition-colors"
+                      className="w-14 h-14 text-center text-2xl font-bold bg-black/5 border-2 border-transparent focus:border-black rounded-xl text-black outline-none transition-colors"
                       data-testid={`input-login-pin-${i}`}
                     />
                   ))}
@@ -334,7 +338,7 @@ export function AuthModal() {
                 <button 
                   type="button"
                   onClick={() => setAuthModalMode('register')}
-                  className="text-orange-500 font-medium hover:underline"
+                  className="text-black font-medium underline"
                   data-testid="link-register"
                 >
                   {language === 'es' ? 'Regístrate' : 'Sign up'}
@@ -363,13 +367,13 @@ export function AuthModal() {
                       onClick={() => toggleInterest(option.id)}
                       className={`p-4 rounded-xl border-2 transition-all text-left ${
                         isSelected 
-                          ? 'border-orange-500 bg-orange-50' 
+                          ? 'border-black bg-black/5' 
                           : 'border-black/10 bg-black/5 hover:border-black/20'
                       }`}
                       data-testid={`interest-${option.id}`}
                     >
-                      <Icon className={`w-5 h-5 mb-2 ${isSelected ? 'text-orange-500' : 'text-black/40'}`} />
-                      <p className={`text-sm font-medium ${isSelected ? 'text-orange-600' : 'text-black/70'}`}>
+                      <Icon className={`w-5 h-5 mb-2 ${isSelected ? 'text-black' : 'text-black/40'}`} />
+                      <p className={`text-sm font-medium ${isSelected ? 'text-black' : 'text-black/70'}`}>
                         {language === 'es' ? option.label : option.labelEn}
                       </p>
                     </button>
@@ -395,7 +399,7 @@ export function AuthModal() {
 
           {step === 'success' && (
             <div className="text-center py-6">
-              <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-8 h-8 text-white" />
               </div>
               <h2 className="text-xl font-bold text-black mb-2">
@@ -415,7 +419,7 @@ export function AuthModal() {
                   className="flex items-center justify-between p-4 bg-black/5 rounded-xl hover:bg-black/10 transition-colors"
                 >
                   <span className="font-medium text-black">VanDeFi.org</span>
-                  <ExternalLink className="w-4 h-4 text-orange-500" />
+                  <ExternalLink className="w-4 h-4 text-black" />
                 </a>
                 <a 
                   href="https://agh-ia.com" 
@@ -424,13 +428,13 @@ export function AuthModal() {
                   className="flex items-center justify-between p-4 bg-black/5 rounded-xl hover:bg-black/10 transition-colors"
                 >
                   <span className="font-medium text-black">AGH-IA.com</span>
-                  <ExternalLink className="w-4 h-4 text-orange-500" />
+                  <ExternalLink className="w-4 h-4 text-black" />
                 </a>
               </div>
 
               <Button 
                 onClick={handleClose}
-                className="w-full h-12 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-medium"
+                className="w-full h-12 bg-black hover:bg-black/90 text-white rounded-xl font-medium"
                 data-testid="button-go-dashboard"
               >
                 {language === 'es' ? 'Ir a mi perfil' : 'Go to my profile'}

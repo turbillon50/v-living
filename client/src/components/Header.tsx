@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useLanguage } from '@/lib/LanguageContext';
 import { useAuth } from '@/lib/AuthContext';
+import { AGHLogo } from '@/components/AGHLogo';
 
 export function Header() {
   const [location] = useLocation();
@@ -43,8 +44,11 @@ export function Header() {
               </Link>
             )}
             <Link href="/" data-testid="link-home">
-              <span className="text-lg font-bold tracking-tight cursor-pointer text-black">
-                FRACTIONAL LIVING
+              <span className="flex items-center gap-2.5 cursor-pointer">
+                <AGHLogo size={22} color="#000000" />
+                <span className="text-lg font-bold tracking-tight text-black">
+                  FRACTIONAL LIVING
+                </span>
               </span>
             </Link>
           </div>
@@ -90,7 +94,7 @@ export function Header() {
                   data-testid="button-user-menu"
                 >
                   <Menu className="w-4 h-4 text-black/60" />
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center ${user ? 'bg-orange-500' : 'bg-black/40'}`}>
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center ${user ? 'bg-black' : 'bg-black/40'}`}>
                     <User className="w-4 h-4 text-white" />
                   </div>
                 </button>

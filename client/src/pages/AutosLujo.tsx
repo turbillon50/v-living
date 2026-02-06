@@ -73,20 +73,20 @@ export default function AutosLujo() {
         <div className="space-y-3 mb-6">
           <div className="bg-gray-50 rounded-xl p-4">
             <p className="text-gray-700 text-sm text-center">
-              Como miembro de <span className="font-bold text-orange-500">Fractional Living</span>, te conseguimos cualquier vehículo de lujo con hasta <span className="font-bold">40% de descuento</span>.
+              Como miembro de <span className="font-bold text-black">Fractional Living</span>, te conseguimos cualquier vehículo de lujo con hasta <span className="font-bold">40% de descuento</span>.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
-            <div className="bg-orange-500 rounded-lg p-3">
-              <p className="text-orange-500 font-bold text-sm">Sedanes</p>
+            <div className="bg-black/5 rounded-lg p-3">
+              <p className="text-black font-bold text-sm">Sedanes</p>
               <p className="text-gray-500 text-xs">Ejecutivos</p>
             </div>
-            <div className="bg-orange-500 rounded-lg p-3">
-              <p className="text-orange-500 font-bold text-sm">SUVs</p>
+            <div className="bg-black/5 rounded-lg p-3">
+              <p className="text-black font-bold text-sm">SUVs</p>
               <p className="text-gray-500 text-xs">Premium</p>
             </div>
-            <div className="bg-orange-500 rounded-lg p-3">
-              <p className="text-orange-500 font-bold text-sm">Exóticos</p>
+            <div className="bg-black/5 rounded-lg p-3">
+              <p className="text-black font-bold text-sm">Exóticos</p>
               <p className="text-gray-500 text-xs">Super Autos</p>
             </div>
           </div>

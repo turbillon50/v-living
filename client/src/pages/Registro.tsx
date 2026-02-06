@@ -54,7 +54,7 @@ export default function Registro() {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-10 h-10 border border-white/10 border-t-orange-500 rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-10 h-10 border border-white/10 border-t-white rounded-full animate-spin mx-auto mb-4" />
           <p className="text-white/40 text-xs tracking-widest uppercase">
             {language === 'es' ? 'Cargando' : 'Loading'}
           </p>
@@ -73,7 +73,7 @@ export default function Registro() {
               <h1 className="text-xl font-extralight tracking-[0.2em] text-white" data-testid="text-brand">
                 FRACTIONAL LIVING
               </h1>
-              <div className="w-8 h-[0.5px] bg-orange-500 mx-auto mt-2 mb-1" />
+              <div className="w-8 h-[0.5px] bg-black mx-auto mt-2 mb-1" />
               <p className="text-[8px] text-white/25 uppercase tracking-[0.4em]">All Global Holding LLC</p>
             </span>
           </Link>
@@ -87,8 +87,8 @@ export default function Registro() {
           </p>
           {referralCode && (
             <div className="mt-3 flex items-center justify-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-              <p className="text-xs text-orange-400/80">
+              <div className="w-1.5 h-1.5 rounded-full bg-white" />
+              <p className="text-xs text-white/60">
                 {language === 'es' ? `Invitado con código: ${referralCode}` : `Invited with code: ${referralCode}`}
               </p>
             </div>
@@ -108,13 +108,13 @@ export default function Registro() {
                     socialButtonsBlockButton: "border border-[#e5e5e5] hover:border-[#1a1a1a]/20 hover:bg-[#fafafa] text-[#1a1a1a] rounded-lg h-10 text-[13px] font-normal transition-all",
                     socialButtonsBlockButtonText: "text-[#1a1a1a] font-normal text-[13px]",
                     formButtonPrimary: "bg-[#1a1a1a] hover:bg-[#333] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all",
-                    footerActionLink: "text-orange-600 hover:text-orange-700 text-[13px] font-normal",
+                    footerActionLink: "text-black hover:text-black/80 text-[13px] font-normal",
                     formFieldInput: "border border-[#e5e5e5] focus:border-[#1a1a1a] focus:ring-0 rounded-lg h-10 text-[13px] text-[#1a1a1a] bg-white placeholder:text-[#1a1a1a]/30",
                     formFieldLabel: "text-[#1a1a1a]/60 text-[12px] font-normal",
                     dividerLine: "bg-[#e5e5e5]",
                     dividerText: "text-[#1a1a1a]/30 text-[11px] font-light",
                     identityPreviewText: "text-[#1a1a1a] text-[13px]",
-                    identityPreviewEditButton: "text-orange-600 text-[12px]",
+                    identityPreviewEditButton: "text-black text-[12px]",
                     footer: "pt-3",
                     footerAction: "text-[12px]",
                     footerActionText: "text-[#1a1a1a]/40 text-[12px]",
@@ -156,7 +156,7 @@ export default function Registro() {
           >
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center">
-                <Download className="w-3.5 h-3.5 text-orange-400" />
+                <Download className="w-3.5 h-3.5 text-white/70" />
               </div>
               <div>
                 <p className="text-[13px] text-white/70 font-light">
@@ -177,7 +177,7 @@ export default function Registro() {
             <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 mt-1 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200" data-testid="card-pwa-instructions">
               <div>
                 <div className="flex items-center gap-2 mb-2.5">
-                  <Smartphone className="w-3.5 h-3.5 text-orange-400" />
+                  <Smartphone className="w-3.5 h-3.5 text-white/70" />
                   <p className="text-[11px] font-medium text-white/60 uppercase tracking-wider">iPhone / iPad</p>
                 </div>
                 <div className="space-y-2 pl-5">
@@ -191,7 +191,7 @@ export default function Registro() {
 
               <div>
                 <div className="flex items-center gap-2 mb-2.5">
-                  <Smartphone className="w-3.5 h-3.5 text-orange-400" />
+                  <Smartphone className="w-3.5 h-3.5 text-white/70" />
                   <p className="text-[11px] font-medium text-white/60 uppercase tracking-wider">Android</p>
                 </div>
                 <div className="space-y-2 pl-5">

@@ -44,21 +44,21 @@ export default function Fractional() {
       {/* Beneficios */}
       <section className="px-4 pb-3">
         <div className="grid grid-cols-2 gap-2">
-          <div className="bg-orange-500 rounded-lg p-2.5 flex items-center gap-2">
-            <span className="text-orange-500">✓</span>
-            <span className="text-gray-700 text-[10px] font-medium">Servicio llave en mano</span>
+          <div className="bg-black rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-white/70">✓</span>
+            <span className="text-white/80 text-[10px] font-medium">Servicio llave en mano</span>
           </div>
-          <div className="bg-orange-500 rounded-lg p-2.5 flex items-center gap-2">
-            <span className="text-orange-500">✓</span>
-            <span className="text-gray-700 text-[10px] font-medium">Nosotros rentamos por ti</span>
+          <div className="bg-black rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-white/70">✓</span>
+            <span className="text-white/80 text-[10px] font-medium">Nosotros rentamos por ti</span>
           </div>
-          <div className="bg-orange-500 rounded-lg p-2.5 flex items-center gap-2">
-            <span className="text-orange-500">✓</span>
-            <span className="text-gray-700 text-[10px] font-medium">Plusvalía garantizada</span>
+          <div className="bg-black rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-white/70">✓</span>
+            <span className="text-white/80 text-[10px] font-medium">Plusvalía garantizada</span>
           </div>
-          <div className="bg-orange-500 rounded-lg p-2.5 flex items-center gap-2">
-            <span className="text-orange-500">✓</span>
-            <span className="text-gray-700 text-[10px] font-medium">Disfruta o genera ingresos</span>
+          <div className="bg-black rounded-lg p-2.5 flex items-center gap-2">
+            <span className="text-white/70">✓</span>
+            <span className="text-white/80 text-[10px] font-medium">Disfruta o genera ingresos</span>
           </div>
         </div>
       </section>
@@ -67,7 +67,7 @@ export default function Fractional() {
       <section className="px-4 pb-6">
         {isLoading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+            <Loader2 className="w-8 h-8 animate-spin text-white/70" />
           </div>
         ) : properties.length === 0 ? (
           <div className="text-center py-12">
@@ -94,7 +94,7 @@ export default function Fractional() {
                       </div>
                     )}
                     {property.tag && (
-                      <span className="absolute top-1 left-1 bg-orange-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">
+                      <span className="absolute top-1 left-1 bg-black text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">
                         {property.tag}
                       </span>
                     )}
@@ -122,7 +122,7 @@ export default function Fractional() {
                     </div>
                     
                     <div className="flex items-center justify-between mt-1">
-                      <p className="text-orange-500 font-bold text-[11px]">
+                      <p className="text-white/70 font-bold text-[11px]">
                         ${((property.fractionPrice || property.price || 250000) / 1000).toFixed(0)}K
                         <span className="text-gray-400 font-normal text-[9px]">/sem</span>
                       </p>
@@ -139,7 +139,7 @@ export default function Fractional() {
       {/* CTA fijo */}
       <section className="px-4 pb-6">
         <Link href="/registro">
-          <div className="bg-orange-500 rounded-xl p-4 text-center active:scale-[0.98] transition-transform">
+          <div className="bg-black rounded-xl p-4 text-center active:scale-[0.98] transition-transform">
             <p className="text-white font-bold">Reserva tu fracción</p>
             <p className="text-white/80 text-xs">Te contactamos en 5 días</p>
           </div>
