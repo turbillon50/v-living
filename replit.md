@@ -141,6 +141,66 @@ Security:
 - Rate limited to 100 requests/minute per IP
 - All requests logged with timestamp, endpoint, IP, status
 
+### Ecosystem API v1 (Cross-Platform Integration)
+
+Architecture: ALIX (center) orchestrates bidirectional data flow between Fractional Living, Broker Network, Vanddi, and Hub.
+
+Key backend files:
+- `server/ecosystem-middleware.ts` - Platform auth, scope verification, dynamic CORS, rate limit (200/min), request logging, webhook signature generation
+- `server/ecosystem-routes.ts` - Full ecosystem endpoints under `/api/ecosystem/v1/*`
+
+Database tables:
+- `platforms` - Registered platforms (name, slug, type, baseUrl, allowedOrigins, status, heartbeat)
+- `platform_api_keys` - Scoped API keys per platform (key, scopes[], expiresAt)
+- `webhooks` - Webhook subscriptions (url, secret, events[], failCount, lastDelivery)
+- `ecosystem_events` - Event log/outbox (event, payload, delivered, deliveredTo)
+
+Registered Platforms:
+- **ALIX AI** (slug: `alix`) - Central AI orchestrator, scopes: read, write, admin
+- **Broker Network** (slug: `broker_network`) - Real estate broker network, scopes: read, write
+- **Vanddi** (slug: `vanddi`) - Luxury marketplace, scopes: read, write
+- **Hub** (slug: `hub`) - Central ecosystem hub, scopes: read, write, admin
+
+Platform Management (Creator password required):
+- `POST /api/ecosystem/v1/platforms` - Register new platform (returns API key)
+- `GET /api/ecosystem/v1/platforms` - List platforms (X-Creator-Password header)
+- `POST /api/ecosystem/v1/platforms/:id/generate-key` - Generate additional API key
+
+Ecosystem Data Endpoints (require `Authorization: Bearer [PLATFORM_API_KEY]`):
+- `POST /api/ecosystem/v1/heartbeat` - Platform heartbeat + metadata
+- `GET /api/ecosystem/v1/status` - Ecosystem status (all platforms online/offline)
+- `GET /api/ecosystem/v1/properties` - Property catalog (scope: read)
+- `GET /api/ecosystem/v1/properties/:id` - Single property detail (scope: read)
+- `GET /api/ecosystem/v1/leads` - All leads (scope: read)
+- `POST /api/ecosystem/v1/leads` - Create lead (scope: write)
+- `GET /api/ecosystem/v1/bookings` - All bookings (scope: read)
+- `GET /api/ecosystem/v1/users` - Users (safe fields only, scope: read)
+- `GET /api/ecosystem/v1/stats` - Aggregated platform metrics (scope: read)
+- `GET /api/ecosystem/v1/announcements` - Announcements (scope: read)
+- `POST /api/ecosystem/v1/announcements` - Create announcement (scope: write)
+
+Webhook System:
+- `POST /api/ecosystem/v1/webhooks` - Register webhook (url, events[])
+- `GET /api/ecosystem/v1/webhooks` - List platform's webhooks
+- `DELETE /api/ecosystem/v1/webhooks/:id` - Delete webhook
+- Supported events: property.created, property.updated, property.deleted, lead.created, lead.updated, booking.created, booking.expired, user.registered, announcement.created
+- HMAC-SHA256 signature verification via X-Ecosystem-Signature header
+
+Bulk Sync:
+- `POST /api/ecosystem/v1/sync/properties` - Batch sync properties from external platform
+- `POST /api/ecosystem/v1/sync/leads` - Batch sync leads from external platform
+
+Event Log:
+- `GET /api/ecosystem/v1/events` - Recent ecosystem events (scope: read)
+
+Security:
+- Per-platform API keys with scoped permissions (read, write, admin)
+- Dynamic CORS based on platform's allowedOrigins
+- Rate limited to 200 requests/minute per platform
+- Webhook delivery with HMAC-SHA256 signing + replay protection
+- User data never exposes passwords/PINs
+- All requests logged with platform, IP, status, duration
+
 ### Shared Code
 The `shared/` directory contains code used by both frontend and backend:
 - Schema definitions and TypeScript types

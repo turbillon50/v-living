@@ -125,6 +125,35 @@ export interface IStorage {
   getLeads(): Promise<schema.Lead[]>;
   updateLead(id: string, data: Partial<schema.InsertLead>): Promise<schema.Lead | undefined>;
   deleteLead(id: string): Promise<void>;
+
+  // Ecosystem - Platforms
+  getPlatforms(): Promise<schema.Platform[]>;
+  getPlatformById(id: string): Promise<schema.Platform | undefined>;
+  getPlatformBySlug(slug: string): Promise<schema.Platform | undefined>;
+  createPlatform(platform: schema.InsertPlatform): Promise<schema.Platform>;
+  updatePlatform(id: string, data: Partial<schema.InsertPlatform>): Promise<schema.Platform | undefined>;
+  deletePlatform(id: string): Promise<void>;
+  updatePlatformHeartbeat(id: string, metadata?: Record<string, any>): Promise<void>;
+
+  // Ecosystem - Platform API Keys
+  getPlatformApiKeys(platformId: string): Promise<schema.PlatformApiKey[]>;
+  getPlatformApiKeyByKey(key: string): Promise<(schema.PlatformApiKey & { platform: schema.Platform }) | undefined>;
+  createPlatformApiKey(data: schema.InsertPlatformApiKey): Promise<schema.PlatformApiKey>;
+  deactivatePlatformApiKey(id: string): Promise<void>;
+  updatePlatformApiKeyLastUsed(id: string): Promise<void>;
+
+  // Ecosystem - Webhooks
+  getWebhooks(platformId: string): Promise<schema.Webhook[]>;
+  getWebhooksByEvent(event: string): Promise<schema.Webhook[]>;
+  createWebhook(data: schema.InsertWebhook): Promise<schema.Webhook>;
+  updateWebhook(id: string, data: Partial<schema.InsertWebhook>): Promise<schema.Webhook | undefined>;
+  deleteWebhook(id: string): Promise<void>;
+  updateWebhookDelivery(id: string, status: number, success: boolean): Promise<void>;
+
+  // Ecosystem - Events
+  createEcosystemEvent(data: schema.InsertEcosystemEvent): Promise<schema.EcosystemEvent>;
+  updateEcosystemEventDelivery(id: string, deliveredTo: string[]): Promise<void>;
+  getRecentEvents(limit?: number): Promise<schema.EcosystemEvent[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -614,6 +643,128 @@ export class DatabaseStorage implements IStorage {
 
   async deleteLead(id: string): Promise<void> {
     await db.delete(schema.leads).where(eq(schema.leads.id, id));
+  }
+
+  // ========== ECOSYSTEM ==========
+
+  // Platforms
+  async getPlatforms(): Promise<schema.Platform[]> {
+    return db.select().from(schema.platforms);
+  }
+
+  async getPlatformById(id: string): Promise<schema.Platform | undefined> {
+    const results = await db.select().from(schema.platforms).where(eq(schema.platforms.id, id)).limit(1);
+    return results[0];
+  }
+
+  async getPlatformBySlug(slug: string): Promise<schema.Platform | undefined> {
+    const results = await db.select().from(schema.platforms).where(eq(schema.platforms.slug, slug)).limit(1);
+    return results[0];
+  }
+
+  async createPlatform(platform: schema.InsertPlatform): Promise<schema.Platform> {
+    const results = await db.insert(schema.platforms).values(platform as any).returning();
+    return results[0];
+  }
+
+  async updatePlatform(id: string, data: Partial<schema.InsertPlatform>): Promise<schema.Platform | undefined> {
+    const results = await db.update(schema.platforms).set(data as any).where(eq(schema.platforms.id, id)).returning();
+    return results[0];
+  }
+
+  async deletePlatform(id: string): Promise<void> {
+    await db.delete(schema.platforms).where(eq(schema.platforms.id, id));
+  }
+
+  async updatePlatformHeartbeat(id: string, metadata?: Record<string, any>): Promise<void> {
+    const updateData: any = { lastHeartbeat: new Date(), status: 'active' };
+    if (metadata) updateData.metadata = metadata;
+    await db.update(schema.platforms).set(updateData).where(eq(schema.platforms.id, id));
+  }
+
+  // Platform API Keys
+  async getPlatformApiKeys(platformId: string): Promise<schema.PlatformApiKey[]> {
+    return db.select().from(schema.platformApiKeys).where(eq(schema.platformApiKeys.platformId, platformId));
+  }
+
+  async getPlatformApiKeyByKey(key: string): Promise<(schema.PlatformApiKey & { platform: schema.Platform }) | undefined> {
+    const results = await db
+      .select()
+      .from(schema.platformApiKeys)
+      .innerJoin(schema.platforms, eq(schema.platformApiKeys.platformId, schema.platforms.id))
+      .where(and(eq(schema.platformApiKeys.key, key), eq(schema.platformApiKeys.isActive, true)))
+      .limit(1);
+    if (!results[0]) return undefined;
+    return { ...results[0].platform_api_keys, platform: results[0].platforms };
+  }
+
+  async createPlatformApiKey(data: schema.InsertPlatformApiKey): Promise<schema.PlatformApiKey> {
+    const results = await db.insert(schema.platformApiKeys).values(data as any).returning();
+    return results[0];
+  }
+
+  async deactivatePlatformApiKey(id: string): Promise<void> {
+    await db.update(schema.platformApiKeys).set({ isActive: false }).where(eq(schema.platformApiKeys.id, id));
+  }
+
+  async updatePlatformApiKeyLastUsed(id: string): Promise<void> {
+    await db.update(schema.platformApiKeys).set({ lastUsed: new Date() }).where(eq(schema.platformApiKeys.id, id));
+  }
+
+  // Webhooks
+  async getWebhooks(platformId: string): Promise<schema.Webhook[]> {
+    return db.select().from(schema.webhooks).where(eq(schema.webhooks.platformId, platformId));
+  }
+
+  async getWebhooksByEvent(event: string): Promise<schema.Webhook[]> {
+    return db.select().from(schema.webhooks).where(
+      and(
+        eq(schema.webhooks.isActive, true),
+        sql`${schema.webhooks.events}::jsonb @> ${JSON.stringify([event])}::jsonb`
+      )
+    );
+  }
+
+  async createWebhook(data: schema.InsertWebhook): Promise<schema.Webhook> {
+    const results = await db.insert(schema.webhooks).values(data as any).returning();
+    return results[0];
+  }
+
+  async updateWebhook(id: string, data: Partial<schema.InsertWebhook>): Promise<schema.Webhook | undefined> {
+    const results = await db.update(schema.webhooks).set(data as any).where(eq(schema.webhooks.id, id)).returning();
+    return results[0];
+  }
+
+  async deleteWebhook(id: string): Promise<void> {
+    await db.delete(schema.webhooks).where(eq(schema.webhooks.id, id));
+  }
+
+  async updateWebhookDelivery(id: string, status: number, success: boolean): Promise<void> {
+    if (success) {
+      await db.update(schema.webhooks).set({ lastDelivery: new Date(), lastStatus: status, failCount: 0 }).where(eq(schema.webhooks.id, id));
+    } else {
+      await db.update(schema.webhooks).set({
+        lastDelivery: new Date(),
+        lastStatus: status,
+        failCount: sql`COALESCE(${schema.webhooks.failCount}, 0) + 1`,
+      }).where(eq(schema.webhooks.id, id));
+    }
+  }
+
+  // Ecosystem Events
+  async createEcosystemEvent(data: schema.InsertEcosystemEvent): Promise<schema.EcosystemEvent> {
+    const results = await db.insert(schema.ecosystemEvents).values(data as any).returning();
+    return results[0];
+  }
+
+  async updateEcosystemEventDelivery(id: string, deliveredTo: string[]): Promise<void> {
+    await db.update(schema.ecosystemEvents)
+      .set({ delivered: deliveredTo.length > 0, deliveredTo })
+      .where(eq(schema.ecosystemEvents.id, id));
+  }
+
+  async getRecentEvents(limit: number = 50): Promise<schema.EcosystemEvent[]> {
+    return db.select().from(schema.ecosystemEvents).orderBy(sql`created_at DESC`).limit(limit);
   }
 }
 

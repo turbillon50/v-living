@@ -334,3 +334,70 @@ export const apiKeys = pgTable("api_keys", {
 });
 
 export type ApiKey = typeof apiKeys.$inferSelect;
+
+// ========== ECOSYSTEM TABLES ==========
+
+export const platforms = pgTable("platforms", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull().unique(),
+  slug: text("slug").notNull().unique(),
+  type: text("type").notNull().default("external"),
+  baseUrl: text("base_url"),
+  allowedOrigins: jsonb("allowed_origins").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+  description: text("description"),
+  contactEmail: text("contact_email"),
+  status: text("status").default("active"),
+  lastHeartbeat: timestamp("last_heartbeat"),
+  metadata: jsonb("metadata").$type<Record<string, any>>().default(sql`'{}'::jsonb`),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const platformApiKeys = pgTable("platform_api_keys", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  platformId: varchar("platform_id").notNull().references(() => platforms.id, { onDelete: 'cascade' }),
+  name: text("name").notNull(),
+  key: text("key").notNull().unique(),
+  scopes: jsonb("scopes").$type<string[]>().notNull().default(sql`'["read"]'::jsonb`),
+  isActive: boolean("is_active").default(true),
+  lastUsed: timestamp("last_used"),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const webhooks = pgTable("webhooks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  platformId: varchar("platform_id").notNull().references(() => platforms.id, { onDelete: 'cascade' }),
+  url: text("url").notNull(),
+  secret: text("secret").notNull(),
+  events: jsonb("events").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+  isActive: boolean("is_active").default(true),
+  failCount: integer("fail_count").default(0),
+  lastDelivery: timestamp("last_delivery"),
+  lastStatus: integer("last_status"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const ecosystemEvents = pgTable("ecosystem_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  event: text("event").notNull(),
+  sourcePlatform: text("source_platform").notNull().default("fractional_living"),
+  payload: jsonb("payload").$type<Record<string, any>>().notNull().default(sql`'{}'::jsonb`),
+  delivered: boolean("delivered").default(false),
+  deliveredTo: jsonb("delivered_to").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPlatformSchema = createInsertSchema(platforms).omit({ id: true, createdAt: true, lastHeartbeat: true });
+export const insertPlatformApiKeySchema = createInsertSchema(platformApiKeys).omit({ id: true, createdAt: true, lastUsed: true });
+export const insertWebhookSchema = createInsertSchema(webhooks).omit({ id: true, createdAt: true, lastDelivery: true, lastStatus: true, failCount: true });
+export const insertEcosystemEventSchema = createInsertSchema(ecosystemEvents).omit({ id: true, createdAt: true });
+
+export type Platform = typeof platforms.$inferSelect;
+export type InsertPlatform = z.infer<typeof insertPlatformSchema>;
+export type PlatformApiKey = typeof platformApiKeys.$inferSelect;
+export type InsertPlatformApiKey = z.infer<typeof insertPlatformApiKeySchema>;
+export type Webhook = typeof webhooks.$inferSelect;
+export type InsertWebhook = z.infer<typeof insertWebhookSchema>;
+export type EcosystemEvent = typeof ecosystemEvents.$inferSelect;
+export type InsertEcosystemEvent = z.infer<typeof insertEcosystemEventSchema>;

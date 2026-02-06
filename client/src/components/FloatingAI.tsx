@@ -79,7 +79,7 @@ export function FloatingAI() {
 
       <button
         onClick={() => setIsOpen(true)}
-        className={`alix-btn fixed bottom-24 right-4 z-[60] w-14 h-14 rounded-full flex items-center justify-center transition-all duration-500 ${isOpen ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100'}`}
+        className={`alix-btn fixed bottom-32 right-5 z-[60] w-14 h-14 rounded-full flex items-center justify-center transition-all duration-500 ${isOpen ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100'}`}
         style={{
           background: 'linear-gradient(145deg, #1a1a1a 0%, #000000 50%, #1a1a1a 100%)',
           border: '1.5px solid rgba(255,255,255,0.15)',
@@ -93,7 +93,7 @@ export function FloatingAI() {
         </div>
       </button>
 
-      <div className={`fixed bottom-20 left-3 right-3 sm:bottom-6 sm:right-6 sm:left-auto z-50 sm:w-[380px] max-h-[75vh] flex flex-col overflow-hidden transition-all duration-400 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}
+      <div className={`fixed bottom-28 left-3 right-3 sm:bottom-8 sm:right-6 sm:left-auto z-50 sm:w-[380px] max-h-[70vh] flex flex-col overflow-hidden transition-all duration-400 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}
         style={{
           borderRadius: '20px',
           background: '#0a0a0a',
