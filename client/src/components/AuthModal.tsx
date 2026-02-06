@@ -251,7 +251,7 @@ export function AuthModal() {
               </div>
 
               {error && (
-                <p className="text-red-500 text-sm text-center bg-red-50 p-3 rounded-xl">{error}</p>
+                <p className="text-black/70 text-sm text-center bg-black/5 p-3 rounded-xl">{error}</p>
               )}
 
               <Button 
@@ -320,7 +320,7 @@ export function AuthModal() {
               </div>
 
               {error && (
-                <p className="text-red-500 text-sm text-center bg-red-50 p-3 rounded-xl">{error}</p>
+                <p className="text-black/70 text-sm text-center bg-black/5 p-3 rounded-xl">{error}</p>
               )}
 
               <Button 
@@ -382,7 +382,7 @@ export function AuthModal() {
               </div>
 
               {error && (
-                <p className="text-red-500 text-sm text-center bg-red-50 p-3 rounded-xl">{error}</p>
+                <p className="text-black/70 text-sm text-center bg-black/5 p-3 rounded-xl">{error}</p>
               )}
 
               <Button 

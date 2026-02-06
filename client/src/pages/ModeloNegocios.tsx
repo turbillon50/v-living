@@ -110,7 +110,7 @@ export default function ModeloNegocios() {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-black/10 to-black/10 border border-blue-500/20 rounded-2xl p-6 md:p-8 mb-8">
+          <div className="bg-gradient-to-br from-black/10 to-black/10 border border-white/20 rounded-2xl p-6 md:p-8 mb-8">
             <div className="flex items-center gap-4 mb-6">
               <div className="p-3 bg-black/5/20 rounded-xl">
                 <Globe className="w-8 h-8 text-black" />
@@ -181,7 +181,7 @@ export default function ModeloNegocios() {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-black/10 to-emerald-500/10 border border-black/10/20 rounded-2xl p-6 md:p-8 mb-8">
+          <div className="bg-gradient-to-br from-black/10 to-black/10 border border-white/20 rounded-2xl p-6 md:p-8 mb-8">
             <div className="flex items-center gap-4 mb-6">
               <div className="p-3 bg-black/20 rounded-xl">
                 <Wallet className="w-8 h-8 text-white/70" />
@@ -246,7 +246,7 @@ export default function ModeloNegocios() {
                   <span className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center text-white/70 font-bold text-sm">2</span>
                   <p className="text-white/70 font-medium">Optimización de capital y tiempos</p>
                 </div>
-                <p className="text-white/60 text-sm pl-11">Para reducir fricción y acelerar cierres, existe <span className="text-amber-400">Last Minute Capital</span>, que entra cuando el proceso ya está avanzado.</p>
+                <p className="text-white/60 text-sm pl-11">Para reducir fricción y acelerar cierres, existe <span className="text-white/70">Last Minute Capital</span>, que entra cuando el proceso ya está avanzado.</p>
               </div>
 
               <div className="bg-white/5 rounded-xl p-4 border-l-4 border-white/20">
@@ -254,7 +254,7 @@ export default function ModeloNegocios() {
                   <span className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center text-white/70 font-bold text-sm">3</span>
                   <p className="text-white/70 font-medium">Selección del activo</p>
                 </div>
-                <p className="text-white/60 text-sm pl-11">El <span className="text-emerald-400">Perfil Asociado Patrimonial</span> integra propiedades al sistema, activándolas bajo el modelo fractional.</p>
+                <p className="text-white/60 text-sm pl-11">El <span className="text-white/70">Perfil Asociado Patrimonial</span> integra propiedades al sistema, activándolas bajo el modelo fractional.</p>
               </div>
 
               <div className="bg-white/5 rounded-xl p-4 border-l-4 border-white/20">

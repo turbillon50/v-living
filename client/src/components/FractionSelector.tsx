@@ -130,9 +130,9 @@ export function FractionSelector({ property, selectedFraction, onSelect }: Fract
                       key={i}
                       className={cn(
                         'w-2 h-2 rounded-full',
-                        w.season === 'high' && 'bg-primary',
-                        w.season === 'mid' && 'bg-amber-500',
-                        w.season === 'low' && 'bg-black'
+                        w.season === 'high' && 'bg-black',
+                        w.season === 'mid' && 'bg-gray-500',
+                        w.season === 'low' && 'bg-gray-200'
                       )}
                     />
                   ))}

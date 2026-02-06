@@ -22,12 +22,12 @@ export default function AutosLujo() {
       <section className="px-4 pt-4 pb-6">
         <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-5 text-center mb-6">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Sparkles className="w-5 h-5 text-yellow-400" />
+            <Sparkles className="w-5 h-5 text-white/70" />
             <h1 className="text-white text-lg font-bold">Autos de Lujo</h1>
           </div>
           <p className="text-white/90 text-sm mb-3">Beneficio exclusivo Fractional Living</p>
-          <div className="bg-yellow-400/20 rounded-xl p-3 border border-yellow-400/30">
-            <p className="text-yellow-400 font-bold text-xl">40% OFF</p>
+          <div className="bg-white/20 rounded-xl p-3 border border-white/30">
+            <p className="text-white font-bold text-xl">40% OFF</p>
             <p className="text-white/80 text-xs">Te conseguimos cualquier auto al mejor precio</p>
           </div>
         </div>

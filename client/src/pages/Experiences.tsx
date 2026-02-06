@@ -85,12 +85,12 @@ export default function Experiences() {
       <section className="px-4 pt-4 pb-3">
         <div className="bg-gradient-to-r from-black to-black rounded-2xl p-5 text-center mb-4">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Sparkles className="w-5 h-5 text-yellow-300" />
+            <Sparkles className="w-5 h-5 text-white/70" />
             <h1 className="text-white text-lg font-bold">Experiencias Exclusivas</h1>
           </div>
           <p className="text-white/90 text-sm mb-2">Beneficio Fractional Living</p>
           <div className="bg-white/20 rounded-xl p-3">
-            <p className="text-yellow-300 font-bold text-lg">Al menos 30% OFF o GRATIS</p>
+            <p className="text-white font-bold text-lg">Al menos 30% OFF o GRATIS</p>
             <p className="text-white/80 text-xs">En todas las experiencias para miembros</p>
           </div>
         </div>
@@ -111,7 +111,7 @@ export default function Experiences() {
                     alt={exp.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-2 right-2 bg-yellow-400 text-gray-900 text-[10px] font-bold px-2 py-1 rounded-full">
+                  <div className="absolute top-2 right-2 bg-black text-white text-[10px] font-bold px-2 py-1 rounded-full">
                     {exp.benefit}
                   </div>
                 </div>

@@ -212,7 +212,7 @@ export default function PropertyDetail() {
                 <Share className="w-4 h-4" />
               </button>
               <button onClick={() => setLiked(!liked)} className="p-2.5 hover:bg-gray-100 rounded-full transition-colors" data-testid="like-button">
-                <Heart className={cn("w-4 h-4", liked && "fill-red-500 text-red-500")} />
+                <Heart className={cn("w-4 h-4", liked && "fill-black text-black")} />
               </button>
             </div>
           </div>

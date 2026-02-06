@@ -31,9 +31,9 @@ export default function ExpConcierge() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-black to-emerald-50 rounded-2xl p-5 mb-6">
+        <div className="bg-gradient-to-br from-black to-gray-50 rounded-2xl p-5 mb-6">
           <div className="flex items-center gap-2 mb-3">
-            <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+            <Star className="w-5 h-5 text-black fill-black" />
             <h2 className="font-bold text-gray-900">Tu Beneficio Fractional Living</h2>
           </div>
           <ul className="space-y-2 text-gray-700 text-sm">
@@ -50,7 +50,7 @@ export default function ExpConcierge() {
         <div className="bg-gray-900 rounded-2xl p-5 mb-6">
           <h2 className="text-white font-bold text-lg mb-3">El Privilegio de Pertenecer</h2>
           <p className="text-gray-300 text-sm leading-relaxed mb-4">
-            La conserjería de <strong className="text-yellow-400">All Global Holding</strong> es 
+            La conserjería de <strong className="text-white/70">All Global Holding</strong> es 
             tu aliado personal en el Caribe. No eres un turista más, eres parte de nuestra familia, 
             y te tratamos como tal.
           </p>

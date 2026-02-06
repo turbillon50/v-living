@@ -47,7 +47,7 @@ export default function PerfilAsociado() {
             Actualmente existen dos tipos de Perfil Asociado, ambos complementarios y estratégicos dentro del sistema.
           </p>
 
-          <div className="bg-gradient-to-br from-black/10 to-black/10 border border-blue-500/20 rounded-2xl p-6 md:p-8 mb-6">
+          <div className="bg-gradient-to-br from-black/10 to-black/10 border border-white/20 rounded-2xl p-6 md:p-8 mb-6">
             <div className="flex items-center gap-4 mb-6">
               <div className="p-3 bg-black/5/20 rounded-xl">
                 <CreditCard className="w-8 h-8 text-black" />
@@ -76,7 +76,7 @@ export default function PerfilAsociado() {
               </p>
             </div>
 
-            <div className="bg-black/5/10 border border-blue-500/20 rounded-xl p-5 mb-6">
+            <div className="bg-black/5/10 border border-white/20 rounded-xl p-5 mb-6">
               <h4 className="text-black font-medium mb-4 flex items-center gap-2">
                 <Percent className="w-4 h-4" />
                 ¿Qué obtiene el Perfil Asociado – Crédito?
@@ -93,7 +93,7 @@ export default function PerfilAsociado() {
                   <span className="text-white/60 text-sm">• 4% adicional al completarse la venta de las fracciones</span>
                 </div>
               </div>
-              <div className="mt-4 pt-4 border-t border-blue-500/20">
+              <div className="mt-4 pt-4 border-t border-white/20">
                 <div className="flex items-center gap-2 text-white/60 text-sm">
                   <Clock className="w-4 h-4 text-black" />
                   Tiempo promedio para generar el ingreso inicial: <span className="text-black font-medium">menor a dos meses</span>
@@ -125,13 +125,13 @@ export default function PerfilAsociado() {
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-emerald-500/10 to-black/10 border border-emerald-500/20 rounded-2xl p-6 md:p-8 mb-8">
+          <div className="bg-gradient-to-br from-white/10 to-black/10 border border-white/20 rounded-2xl p-6 md:p-8 mb-8">
             <div className="flex items-center gap-4 mb-6">
-              <div className="p-3 bg-emerald-500/20 rounded-xl">
-                <Building2 className="w-8 h-8 text-emerald-400" />
+              <div className="p-3 bg-white/10 rounded-xl">
+                <Building2 className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h3 className="text-2xl font-light text-emerald-400">Perfil Asociado – Propietario</h3>
+                <h3 className="text-2xl font-light text-white">Perfil Asociado – Propietario</h3>
                 <p className="text-white/50 text-sm">Vende tu propiedad con estructura, sin fricción y con mayor valor</p>
               </div>
             </div>
@@ -144,22 +144,22 @@ export default function PerfilAsociado() {
               En lugar de competir en el mercado abierto, la propiedad se integra a un modelo de revalorización fractional, donde el activo se optimiza, estructura y comercializa por partes dentro de un sistema operativo activo.
             </p>
 
-            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-5 mb-6">
-              <h4 className="text-emerald-400 font-medium mb-4 flex items-center gap-2">
+            <div className="bg-white/10 border border-white/20 rounded-xl p-5 mb-6">
+              <h4 className="text-white font-medium mb-4 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4" />
                 ¿Qué obtiene el Propietario Asociado?
               </h4>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0" />
-                  <span className="text-white/80">Venta de la propiedad en un plazo <span className="text-emerald-400 font-bold">no mayor a 12 meses</span></span>
+                  <CheckCircle className="w-5 h-5 text-white flex-shrink-0" />
+                  <span className="text-white/80">Venta de la propiedad en un plazo <span className="text-white font-bold">no mayor a 12 meses</span></span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0" />
-                  <span className="text-white/80">Entre <span className="text-emerald-400 font-bold text-lg">7% y 12%</span> por encima del valor comercial tradicional</span>
+                  <CheckCircle className="w-5 h-5 text-white flex-shrink-0" />
+                  <span className="text-white/80">Entre <span className="text-white font-bold text-lg">7% y 12%</span> por encima del valor comercial tradicional</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                  <CheckCircle className="w-5 h-5 text-white flex-shrink-0" />
                   <span className="text-white/80">Acceso a un proceso ordenado, transparente y contractual</span>
                 </div>
               </div>
@@ -168,25 +168,25 @@ export default function PerfilAsociado() {
             <div className="bg-white/5 rounded-xl p-5 mb-6">
               <h4 className="text-white/80 font-medium mb-3">Ejemplo práctico:</h4>
               <p className="text-white/60 text-sm leading-relaxed">
-                Una propiedad valuada en <span className="text-white/80 font-medium">$10,000,000 MXN</span> puede colocarse hasta en <span className="text-emerald-400 font-bold">$11,200,000 MXN</span>, gracias a la reconfiguración del activo dentro del modelo Fractional Living.
+                Una propiedad valuada en <span className="text-white/80 font-medium">$10,000,000 MXN</span> puede colocarse hasta en <span className="text-white font-bold">$11,200,000 MXN</span>, gracias a la reconfiguración del activo dentro del modelo Fractional Living.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-3">
               <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-4 h-4 text-white mt-0.5 flex-shrink-0" />
                 <span className="text-white/60 text-sm">Acceso a beneficios de uso y ocupación dentro del ecosistema</span>
               </div>
               <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-4 h-4 text-white mt-0.5 flex-shrink-0" />
                 <span className="text-white/60 text-sm">Participación preferente en futuras oportunidades</span>
               </div>
               <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-4 h-4 text-white mt-0.5 flex-shrink-0" />
                 <span className="text-white/60 text-sm">Integración a una red de aliados inmobiliarios y financieros</span>
               </div>
               <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-4 h-4 text-white mt-0.5 flex-shrink-0" />
                 <span className="text-white/60 text-sm">Relación directa con un holding operativo, no con intermediarios</span>
               </div>
             </div>

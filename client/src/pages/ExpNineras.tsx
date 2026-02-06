@@ -15,7 +15,7 @@ export default function ExpNineras() {
             <ArrowLeft className="w-5 h-5" />
           </button>
         </Link>
-        <div className="absolute bottom-4 right-4 bg-yellow-400 text-gray-900 text-sm font-bold px-4 py-2 rounded-full">
+        <div className="absolute bottom-4 right-4 bg-black text-white text-sm font-bold px-4 py-2 rounded-full">
           30% OFF
         </div>
       </div>
@@ -31,9 +31,9 @@ export default function ExpNineras() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-rose-50 to-black rounded-2xl p-5 mb-6">
+        <div className="bg-gradient-to-br from-gray-50 to-black rounded-2xl p-5 mb-6">
           <div className="flex items-center gap-2 mb-3">
-            <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+            <Star className="w-5 h-5 text-black fill-black" />
             <h2 className="font-bold text-gray-900">Tu Beneficio Fractional Living</h2>
           </div>
           <ul className="space-y-2 text-gray-700 text-sm">
@@ -49,7 +49,7 @@ export default function ExpNineras() {
         <div className="bg-gray-900 rounded-2xl p-5 mb-6">
           <h2 className="text-white font-bold text-lg mb-3">El Privilegio de Pertenecer</h2>
           <p className="text-gray-300 text-sm leading-relaxed mb-4">
-            <strong className="text-yellow-400">All Global Holding</strong> sabe que tus vacaciones 
+            <strong className="text-white/70">All Global Holding</strong> sabe que tus vacaciones 
             también merecen momentos de pareja o de descanso adulto. Por eso, seleccionamos 
             cuidadosamente a cada niñera de nuestra red.
           </p>
@@ -64,18 +64,18 @@ export default function ExpNineras() {
           </p>
         </div>
 
-        <div className="bg-rose-50 rounded-2xl p-5 mb-6">
+        <div className="bg-gray-50 rounded-2xl p-5 mb-6">
           <h3 className="font-bold text-gray-900 mb-3">Servicios Disponibles</h3>
           <div className="space-y-3">
-            <div className="bg-white rounded-xl p-3 border border-rose-100">
+            <div className="bg-white rounded-xl p-3 border border-gray-200">
               <p className="font-semibold text-sm">Cuidado Por Horas</p>
               <p className="text-xs text-gray-500">Mínimo 3 horas • Ideal para cenas</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-rose-100">
+            <div className="bg-white rounded-xl p-3 border border-gray-200">
               <p className="font-semibold text-sm">Servicio Por Día</p>
               <p className="text-xs text-gray-500">8 horas • Actividades planificadas</p>
             </div>
-            <div className="bg-white rounded-xl p-3 border border-rose-100">
+            <div className="bg-white rounded-xl p-3 border border-gray-200">
               <p className="font-semibold text-sm">Noche Completa</p>
               <p className="text-xs text-gray-500">Hasta 12 horas • Cuidado nocturno</p>
             </div>
@@ -88,7 +88,7 @@ export default function ExpNineras() {
           href="https://wa.me/529984292748?text=Hola,%20soy%20miembro%20Fractional%20Living%20y%20necesito%20servicio%20de%20niñera"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 rounded-xl transition-colors"
+          className="flex items-center justify-center gap-2 w-full bg-black hover:bg-black/90 text-white font-bold py-4 rounded-xl transition-colors"
         >
           <Phone className="w-5 h-5" />
           Reservar Niñera

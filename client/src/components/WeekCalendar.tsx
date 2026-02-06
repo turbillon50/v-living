@@ -80,8 +80,8 @@ export function WeekCalendar({
       {/* Header */}
       <div className="p-4 border-b border-stone-200">
         <div className="flex items-center gap-3 mb-4">
-          <Calendar className="w-5 h-5 text-[#4db6ac]" />
-          <h3 className="text-lg font-medium text-[#2d3a3a]">
+          <Calendar className="w-5 h-5 text-black" />
+          <h3 className="text-lg font-medium text-black">
             {language === 'es' ? 'Calendario de Semanas' : 'Week Calendar'} - {year}
           </h3>
         </div>
@@ -95,7 +95,7 @@ export function WeekCalendar({
               className={cn(
                 "flex-1 py-3 px-4 text-center transition-all",
                 activeQuarter === q.id
-                  ? "bg-[#2d3a3a] text-white"
+                  ? "bg-black text-white"
                   : "bg-stone-100 text-stone-600 hover:bg-stone-200"
               )}
               data-testid={`quarter-${q.id}`}
@@ -108,7 +108,7 @@ export function WeekCalendar({
       </div>
 
       {/* Selection Info */}
-      <div className="p-4 bg-[#f8f7f4] border-b border-stone-200">
+      <div className="p-4 bg-gray-50 border-b border-stone-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-stone-600">
             <Info className="w-4 h-4" />
@@ -120,7 +120,7 @@ export function WeekCalendar({
           </div>
           <div className="flex items-center gap-4 text-xs">
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 bg-[#4db6ac]"></div>
+              <div className="w-3 h-3 bg-black"></div>
               <span>{language === 'es' ? 'Seleccionada' : 'Selected'}</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -145,10 +145,10 @@ export function WeekCalendar({
               disabled={!week.isAvailable}
               className={cn(
                 "relative p-3 text-center transition-all border",
-                week.isSelected && "bg-[#4db6ac] text-white border-[#4db6ac]",
+                week.isSelected && "bg-black text-white border-black",
                 week.isBooked && "bg-stone-200 text-stone-400 cursor-not-allowed border-stone-200",
-                week.isBlocked && "bg-red-100 text-red-400 cursor-not-allowed border-red-200",
-                week.isAvailable && !week.isSelected && "bg-white border-stone-200 hover:border-[#4db6ac] hover:bg-[#4db6ac]/5 cursor-pointer"
+                week.isBlocked && "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200",
+                week.isAvailable && !week.isSelected && "bg-white border-stone-200 hover:border-black hover:bg-black/5 cursor-pointer"
               )}
               data-testid={`week-${week.weekNumber}`}
             >
@@ -171,8 +171,8 @@ export function WeekCalendar({
 
       {/* Selected Summary */}
       {selectedWeeks.length > 0 && (
-        <div className="p-4 bg-[#4db6ac]/10 border-t border-[#4db6ac]/20">
-          <p className="text-sm text-[#2d3a3a] font-medium mb-2">
+        <div className="p-4 bg-gray-100 border-t border-gray-200">
+          <p className="text-sm text-black font-medium mb-2">
             {language === 'es' ? 'Semanas seleccionadas:' : 'Selected weeks:'}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -181,12 +181,12 @@ export function WeekCalendar({
               return (
                 <span 
                   key={weekNum}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-white text-sm text-[#2d3a3a] border border-[#4db6ac]"
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-white text-sm text-black border border-black"
                 >
                   S{weekNum}: {dates.start} - {dates.end}
                   <button 
                     onClick={() => onWeekSelect(weekNum)}
-                    className="ml-1 text-stone-400 hover:text-red-500"
+                    className="ml-1 text-stone-400 hover:text-black"
                   >
                     <X className="w-3 h-3" />
                   </button>

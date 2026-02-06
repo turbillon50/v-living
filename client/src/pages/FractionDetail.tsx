@@ -38,7 +38,7 @@ export default function FractionDetail() {
 
   const statusConfig = {
     available: { label: 'Available', color: 'bg-black', textColor: 'text-black' },
-    reserved: { label: 'Reserved', color: 'bg-amber-500', textColor: 'text-amber-600' },
+    reserved: { label: 'Reserved', color: 'bg-gray-400', textColor: 'text-gray-500' },
     'pre-sale': { label: 'Pre-sale', color: 'bg-black/5', textColor: 'text-black' },
   };
 

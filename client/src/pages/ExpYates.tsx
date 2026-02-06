@@ -15,7 +15,7 @@ export default function ExpYates() {
             <ArrowLeft className="w-5 h-5" />
           </button>
         </Link>
-        <div className="absolute bottom-4 right-4 bg-yellow-400 text-gray-900 text-sm font-bold px-4 py-2 rounded-full">
+        <div className="absolute bottom-4 right-4 bg-black text-white text-sm font-bold px-4 py-2 rounded-full">
           30% OFF o GRATIS
         </div>
       </div>
@@ -33,7 +33,7 @@ export default function ExpYates() {
 
         <div className="bg-gradient-to-br from-black to-black rounded-2xl p-5 mb-6">
           <div className="flex items-center gap-2 mb-3">
-            <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+            <Star className="w-5 h-5 text-white fill-white" />
             <h2 className="font-bold text-gray-900">Tu Beneficio Fractional Living</h2>
           </div>
           <ul className="space-y-2 text-gray-700 text-sm">
@@ -49,7 +49,7 @@ export default function ExpYates() {
         <div className="bg-gray-900 rounded-2xl p-5 mb-6">
           <h2 className="text-white font-bold text-lg mb-3">El Privilegio de Pertenecer</h2>
           <p className="text-gray-300 text-sm leading-relaxed mb-4">
-            Como miembro de la familia <strong className="text-yellow-400">All Global Holding</strong>, 
+            Como miembro de la familia <strong className="text-white/70">All Global Holding</strong>, 
             tienes acceso exclusivo a una red de experiencias que va más allá de lo convencional.
           </p>
           <p className="text-gray-300 text-sm leading-relaxed mb-4">

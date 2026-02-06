@@ -11,18 +11,18 @@ interface SeasonBadgeProps {
 const seasonConfig: Record<Season, { label: string; color: string; bg: string }> = {
   high: {
     label: 'High Season',
-    color: 'text-primary',
-    bg: 'bg-primary/10',
+    color: 'text-white',
+    bg: 'bg-black',
   },
   mid: {
     label: 'Mid Season',
-    color: 'text-amber-600',
-    bg: 'bg-amber-50',
+    color: 'text-white',
+    bg: 'bg-gray-500',
   },
   low: {
     label: 'Low Season',
     color: 'text-black',
-    bg: 'bg-black',
+    bg: 'bg-gray-200',
   },
 };
 
@@ -46,7 +46,7 @@ export function SeasonBadge({ season, size = 'md', showLabel = true }: SeasonBad
       className={cn(
         'inline-flex items-center gap-1.5 rounded-full font-medium',
         config.bg,
-        season === 'low' ? 'text-white' : config.color,
+        config.color,
         sizeClasses[size]
       )}
       data-testid={`badge-season-${season}`}
@@ -55,9 +55,9 @@ export function SeasonBadge({ season, size = 'md', showLabel = true }: SeasonBad
         className={cn(
           'rounded-full',
           dotSizes[size],
-          season === 'high' && 'bg-primary',
-          season === 'mid' && 'bg-amber-500',
-          season === 'low' && 'bg-white'
+          season === 'high' && 'bg-white',
+          season === 'mid' && 'bg-white',
+          season === 'low' && 'bg-black'
         )}
       />
       {showLabel && config.label}
@@ -67,9 +67,9 @@ export function SeasonBadge({ season, size = 'md', showLabel = true }: SeasonBad
 
 export function SeasonIndicator({ season }: { season: Season }) {
   const colors = {
-    high: 'bg-primary',
-    mid: 'bg-amber-500',
-    low: 'bg-black',
+    high: 'bg-black',
+    mid: 'bg-gray-500',
+    low: 'bg-gray-200',
   };
 
   return <span className={cn('w-3 h-3 rounded-full', colors[season])} />;

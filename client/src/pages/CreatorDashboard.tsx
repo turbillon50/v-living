@@ -335,10 +335,10 @@ const INTEREST_LABELS: Record<string, string> = {
 
 const STATUS_OPTIONS = [
   { value: 'lead', label: 'Nuevo', color: 'bg-black/5' },
-  { value: 'contacted', label: 'Contactado', color: 'bg-yellow-500' },
+  { value: 'contacted', label: 'Contactado', color: 'bg-gray-400' },
   { value: 'in_progress', label: 'En proceso', color: 'bg-black' },
   { value: 'converted', label: 'Convertido', color: 'bg-black' },
-  { value: 'lost', label: 'Perdido', color: 'bg-red-500' }
+  { value: 'lost', label: 'Perdido', color: 'bg-gray-500' }
 ];
 
 function UsersCRM({ creatorToken }: { creatorToken: string }) {
@@ -1254,11 +1254,11 @@ export default function CreatorDashboard() {
                     <p className="text-xs text-white/30 mb-3">Precios por temporada (opcional)</p>
                     <div className="grid grid-cols-3 gap-2">
                       <div>
-                        <label className="text-xs text-red-400">Alta</label>
+                        <label className="text-xs text-white/70">Alta</label>
                         <Input type="number" placeholder="0" value={formData.priceHighSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceHighSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-white/10 border-white/20 text-white" />
                       </div>
                       <div>
-                        <label className="text-xs text-yellow-400">Media</label>
+                        <label className="text-xs text-white/70">Media</label>
                         <Input type="number" placeholder="0" value={formData.priceMidSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceMidSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-white/10 border-white/20 text-white" />
                       </div>
                       <div>
@@ -1395,7 +1395,7 @@ export default function CreatorDashboard() {
                     <p className="text-xs text-white/50 mb-3">Semanas reservadas internamente. Se muestran en morado.</p>
                     <div className="grid grid-cols-13 gap-1">
                       {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
-                        <button key={week} onClick={() => toggleCreatorBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.creatorBlockedWeeks.includes(week) ? "bg-black text-white" : formData.blockedWeeks.includes(week) ? "bg-red-500/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
+                        <button key={week} onClick={() => toggleCreatorBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.creatorBlockedWeeks.includes(week) ? "bg-black text-white" : formData.blockedWeeks.includes(week) ? "bg-gray-500/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
                           {week}
                         </button>
                       ))}
@@ -1414,7 +1414,7 @@ export default function CreatorDashboard() {
                         <p className="text-xs text-white/50 mb-3">Semanas no disponibles para reserva. Se muestran en rojo.</p>
                         <div className="grid grid-cols-13 gap-1">
                           {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
-                            <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-red-500 text-white" : formData.creatorBlockedWeeks.includes(week) ? "bg-black/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
+                            <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-gray-500 text-white" : formData.creatorBlockedWeeks.includes(week) ? "bg-black/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
                               {week}
                             </button>
                           ))}
@@ -1562,7 +1562,7 @@ export default function CreatorDashboard() {
                           </div>
                         </div>
                         <div className="flex flex-col items-end gap-2 flex-shrink-0">
-                          <span className={cn("px-2 py-1 rounded-full text-xs font-medium", isExpired ? "bg-red-500/20 text-red-400" : "bg-black/20 text-white/70")}>
+                          <span className={cn("px-2 py-1 rounded-full text-xs font-medium", isExpired ? "bg-white/10 text-white/60" : "bg-black/20 text-white/70")}>
                             {isExpired ? 'Expirada' : 'Activa'}
                           </span>
                           {!isExpired && (

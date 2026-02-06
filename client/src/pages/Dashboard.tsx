@@ -126,7 +126,7 @@ export default function Dashboard() {
                   className="p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-colors"
                   data-testid="button-copy-link"
                 >
-                  {copied ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
+                  {copied ? <Check className="w-5 h-5 text-white" /> : <Copy className="w-5 h-5" />}
                 </button>
                 <button 
                   onClick={shareLink}
@@ -480,7 +480,7 @@ function CommissionsTab({ commissions, totalCommission, commissionStructure, lan
                   <p className="text-[10px] text-white/40">{new Date(c.createdAt).toLocaleDateString('es-MX')}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-bold text-green-400">+${parseFloat(c.amount).toFixed(2)}</p>
+                  <p className="text-sm font-bold text-white">+${parseFloat(c.amount).toFixed(2)}</p>
                   <p className="text-[10px] text-white/40">{c.status}</p>
                 </div>
               </div>
@@ -596,7 +596,7 @@ function ShareTab({ referralCode, referralLink, language, onCopy, onShare, copie
             className="flex-1 py-3 bg-white/10 rounded-xl text-sm font-medium hover:bg-white/20 transition-colors flex items-center justify-center gap-2"
             data-testid="button-copy-share"
           >
-            {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+            {copied ? <Check className="w-4 h-4 text-white" /> : <Copy className="w-4 h-4" />}
             {copied ? (language === 'es' ? 'Copiado' : 'Copied') : (language === 'es' ? 'Copiar' : 'Copy')}
           </button>
           <button
