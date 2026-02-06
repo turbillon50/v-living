@@ -9,6 +9,7 @@ import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 import { sendLeadConfirmationEmail, sendUserRegistrationEmail, sendCampaignEmail } from "./resend";
 import OpenAI from "openai";
 import { clerkMiddleware, getAuth, requireAuth } from "@clerk/express";
+import { registerAlixRoutes } from "./alix-routes";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
@@ -57,6 +58,9 @@ export async function registerRoutes(
   
   // Register object storage routes for file uploads
   registerObjectStorageRoutes(app);
+  
+  // Register ALIX 2.4 integration routes
+  registerAlixRoutes(app);
   
   // Clerk user sync endpoint
   app.post("/api/clerk/sync-user", async (req, res) => {

@@ -102,6 +102,27 @@ Database tables:
 - `POST /api/pre-bookings` - Crear pre-reserva
 - `GET /api/pre-bookings/:email` - Ver reservas por email
 
+### ALIX 2.4 Integration (External AI - https://alix-ai.net)
+
+Key backend files:
+- `server/alix-middleware.ts` - Auth (Bearer token), rate limit (100/min), CORS (alix-ai.net only), logging, custom headers
+- `server/alix-routes.ts` - 4 GET-only endpoints for ALIX
+
+Endpoints (all require `Authorization: Bearer [ALIX_API_KEY]`):
+- `GET /api/alix/status` - App status (online/offline, version, uptime)
+- `GET /api/alix/catalog` - Property catalog (id, nombre, categoría, disponibilidad, url) - NO personal data
+- `GET /api/alix/stats` - Aggregated metrics (total users, active today, total bookings) - NO personal data
+- `GET /api/alix/announcements` - Public announcements (id, título, contenido, fecha, activo)
+
+Security restrictions:
+- ONLY GET endpoints, no POST/PUT/DELETE
+- No personal user data exposed (no names, emails, phones, passwords, tokens)
+- No direct database access
+- API key via environment secret ALIX_API_KEY (never hardcoded)
+- CORS restricted to https://alix-ai.net
+- Rate limited to 100 requests/minute per IP
+- All requests logged with timestamp, endpoint, IP, status
+
 ### Shared Code
 The `shared/` directory contains code used by both frontend and backend:
 - Schema definitions and TypeScript types
