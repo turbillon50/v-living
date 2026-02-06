@@ -321,3 +321,16 @@ export const referralCommissions = pgTable("referral_commissions", {
 export const insertReferralCommissionSchema = createInsertSchema(referralCommissions).omit({ id: true, createdAt: true });
 export type InsertReferralCommission = z.infer<typeof insertReferralCommissionSchema>;
 export type ReferralCommission = typeof referralCommissions.$inferSelect;
+
+// API Keys for external integrations (e.g. ALIX)
+export const apiKeys = pgTable("api_keys", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  key: text("key").notNull().unique(),
+  permissions: jsonb("permissions").$type<string[]>().notNull().default(sql`'["read","write"]'::jsonb`),
+  isActive: boolean("is_active").default(true),
+  lastUsed: timestamp("last_used"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type ApiKey = typeof apiKeys.$inferSelect;

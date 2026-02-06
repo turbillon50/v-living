@@ -109,6 +109,22 @@ export interface IStorage {
   getReferralStats(userId: string): Promise<{ totalReferrals: number; networkSize: number; levels: { level: number; count: number }[] }>;
   getCommissions(userId: string): Promise<ReferralCommission[]>;
   createCommission(commission: InsertReferralCommission): Promise<ReferralCommission>;
+
+  // Announcements extended
+  updateAnnouncement(id: string, data: Partial<InsertAnnouncement>): Promise<Announcement | undefined>;
+  deleteAnnouncement(id: string): Promise<void>;
+
+  // API Keys
+  getApiKeys(): Promise<schema.ApiKey[]>;
+  getApiKeyByKey(key: string): Promise<schema.ApiKey | undefined>;
+  createApiKey(name: string, key: string): Promise<schema.ApiKey>;
+  deactivateApiKey(id: string): Promise<void>;
+  updateApiKeyLastUsed(id: string): Promise<void>;
+
+  // Leads
+  getLeads(): Promise<schema.Lead[]>;
+  updateLead(id: string, data: Partial<schema.InsertLead>): Promise<schema.Lead | undefined>;
+  deleteLead(id: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -553,6 +569,51 @@ export class DatabaseStorage implements IStorage {
   async createCommission(commission: InsertReferralCommission): Promise<ReferralCommission> {
     const results = await db.insert(schema.referralCommissions).values(commission).returning();
     return results[0];
+  }
+
+  // Announcements extended
+  async updateAnnouncement(id: string, data: Partial<InsertAnnouncement>): Promise<Announcement | undefined> {
+    const results = await db.update(schema.announcements).set(data).where(eq(schema.announcements.id, id)).returning();
+    return results[0];
+  }
+
+  async deleteAnnouncement(id: string): Promise<void> {
+    await db.delete(schema.announcements).where(eq(schema.announcements.id, id));
+  }
+
+  // API Keys
+  async getApiKeys(): Promise<schema.ApiKey[]> {
+    return db.select().from(schema.apiKeys).where(eq(schema.apiKeys.isActive, true));
+  }
+
+  async getApiKeyByKey(key: string): Promise<schema.ApiKey | undefined> {
+    const results = await db.select().from(schema.apiKeys)
+      .where(and(eq(schema.apiKeys.key, key), eq(schema.apiKeys.isActive, true)))
+      .limit(1);
+    return results[0];
+  }
+
+  async createApiKey(name: string, key: string): Promise<schema.ApiKey> {
+    const results = await db.insert(schema.apiKeys).values({ name, key }).returning();
+    return results[0];
+  }
+
+  async deactivateApiKey(id: string): Promise<void> {
+    await db.update(schema.apiKeys).set({ isActive: false }).where(eq(schema.apiKeys.id, id));
+  }
+
+  async updateApiKeyLastUsed(id: string): Promise<void> {
+    await db.update(schema.apiKeys).set({ lastUsed: new Date() }).where(eq(schema.apiKeys.id, id));
+  }
+
+  // Leads extended
+  async updateLead(id: string, data: Partial<schema.InsertLead>): Promise<schema.Lead | undefined> {
+    const results = await db.update(schema.leads).set({ ...data, updatedAt: new Date() }).where(eq(schema.leads.id, id)).returning();
+    return results[0];
+  }
+
+  async deleteLead(id: string): Promise<void> {
+    await db.delete(schema.leads).where(eq(schema.leads.id, id));
   }
 }
 

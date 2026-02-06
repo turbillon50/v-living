@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
+import { storage } from "./storage";
 
 const APP_NAME = "Fractional Living";
 const APP_VERSION = "2.1.0";
@@ -7,18 +8,7 @@ const requestCounts = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT_WINDOW = 60 * 1000;
 const RATE_LIMIT_MAX = 100;
 
-export function alixAuthMiddleware(req: Request, res: Response, next: NextFunction) {
-  const apiKey = process.env.ALIX_API_KEY;
-  if (!apiKey) {
-    console.error(`[ALIX] ${new Date().toISOString()} | ALIX_API_KEY not configured`);
-    return res.status(500).json({
-      status: "error",
-      data: null,
-      message: "API key not configured on server",
-      timestamp: new Date().toISOString(),
-    });
-  }
-
+export async function alixAuthMiddleware(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     logAlixRequest(req, 401);
@@ -31,17 +21,29 @@ export function alixAuthMiddleware(req: Request, res: Response, next: NextFuncti
   }
 
   const token = authHeader.slice(7);
-  if (token !== apiKey) {
-    logAlixRequest(req, 401);
-    return res.status(401).json({
-      status: "error",
-      data: null,
-      message: "Invalid API key",
-      timestamp: new Date().toISOString(),
-    });
+
+  const envKey = process.env.ALIX_API_KEY;
+  if (envKey && token === envKey) {
+    return next();
   }
 
-  next();
+  try {
+    const dbKey = await storage.getApiKeyByKey(token);
+    if (dbKey && dbKey.isActive) {
+      await storage.updateApiKeyLastUsed(dbKey.id);
+      return next();
+    }
+  } catch (err) {
+    console.error("[ALIX] Error checking DB API key:", err);
+  }
+
+  logAlixRequest(req, 401);
+  return res.status(401).json({
+    status: "error",
+    data: null,
+    message: "Invalid API key",
+    timestamp: new Date().toISOString(),
+  });
 }
 
 export function alixRateLimitMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -81,7 +83,7 @@ export function alixCorsMiddleware(req: Request, res: Response, next: NextFuncti
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
 
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
   res.setHeader("Access-Control-Max-Age", "86400");
 
