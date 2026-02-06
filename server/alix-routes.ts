@@ -110,11 +110,13 @@ export function registerAlixRoutes(app: Express) {
     res.json({
       status: "ok",
       data: {
-        appName: "Fractional Living",
-        appVersion: APP_VERSION,
+        app: "Fractional Living",
+        version: APP_VERSION,
+        uptime: true,
         state: "online",
-        uptime: process.uptime(),
+        uptimeSeconds: process.uptime(),
         environment: process.env.NODE_ENV || "development",
+        timestamp: new Date().toISOString(),
       },
       message: "Fractional Living is online and operational",
       timestamp: new Date().toISOString(),
