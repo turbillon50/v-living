@@ -262,7 +262,7 @@ function LinksManager({ creatorToken }: { creatorToken: string }) {
             <div>
               <label className="text-xs text-white/50 mb-1 block">Tipo</label>
               <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className="w-full h-10 px-3 rounded-md bg-white/10 border border-white/20 text-white text-sm">
-                {LINK_TYPES.map(t => <option key={t.value} value={t.value} className="bg-gray-900">{t.label}</option>)}
+                {LINK_TYPES.map(t => <option key={t.value} value={t.value} className="bg-[#111]">{t.label}</option>)}
               </select>
             </div>
             <Button onClick={handleSubmit} className="w-full bg-black hover:bg-black/90">
@@ -335,10 +335,10 @@ const INTEREST_LABELS: Record<string, string> = {
 
 const STATUS_OPTIONS = [
   { value: 'lead', label: 'Nuevo', color: 'bg-black/5' },
-  { value: 'contacted', label: 'Contactado', color: 'bg-gray-400' },
+  { value: 'contacted', label: 'Contactado', color: 'bg-[#999]' },
   { value: 'in_progress', label: 'En proceso', color: 'bg-black' },
   { value: 'converted', label: 'Convertido', color: 'bg-black' },
-  { value: 'lost', label: 'Perdido', color: 'bg-gray-500' }
+  { value: 'lost', label: 'Perdido', color: 'bg-[#888]' }
 ];
 
 function UsersCRM({ creatorToken }: { creatorToken: string }) {
@@ -1049,13 +1049,13 @@ export default function CreatorDashboard() {
     return (
       <div className="min-h-screen bg-[#1a1a1a] flex items-center justify-center p-4">
         <div className="w-full max-w-sm">
-          <div className="bg-white rounded-2xl p-8 shadow-xl">
+          <div className="bg-white rounded-md p-8 border border-[#eee]">
             <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gray-900 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#111] rounded-md flex items-center justify-center mx-auto mb-4">
                 <Lock className="w-8 h-8 text-white" />
               </div>
               <h1 className="text-xl font-bold">Modo Creador</h1>
-              <p className="text-gray-500 text-sm mt-1">Ingresa la contraseña</p>
+              <p className="text-[#888] text-sm mt-1 font-light">Ingresa la contraseña</p>
             </div>
             <div className="space-y-4">
               <Input
@@ -1066,7 +1066,7 @@ export default function CreatorDashboard() {
                 onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
                 className="h-12"
               />
-              <Button onClick={handleUnlock} className="w-full h-12 bg-gray-900 hover:bg-gray-800">
+              <Button onClick={handleUnlock} className="w-full h-12 bg-[#111] hover:bg-[#000]">
                 Acceder
               </Button>
               <Button variant="ghost" onClick={() => setLocation('/')} className="w-full">
@@ -1395,7 +1395,7 @@ export default function CreatorDashboard() {
                     <p className="text-xs text-white/50 mb-3">Semanas reservadas internamente. Se muestran en morado.</p>
                     <div className="grid grid-cols-13 gap-1">
                       {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
-                        <button key={week} onClick={() => toggleCreatorBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.creatorBlockedWeeks.includes(week) ? "bg-black text-white" : formData.blockedWeeks.includes(week) ? "bg-gray-500/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
+                        <button key={week} onClick={() => toggleCreatorBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.creatorBlockedWeeks.includes(week) ? "bg-black text-white" : formData.blockedWeeks.includes(week) ? "bg-[#888]/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
                           {week}
                         </button>
                       ))}
@@ -1414,7 +1414,7 @@ export default function CreatorDashboard() {
                         <p className="text-xs text-white/50 mb-3">Semanas no disponibles para reserva. Se muestran en rojo.</p>
                         <div className="grid grid-cols-13 gap-1">
                           {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
-                            <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-gray-500 text-white" : formData.creatorBlockedWeeks.includes(week) ? "bg-black/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
+                            <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-[#888] text-white" : formData.creatorBlockedWeeks.includes(week) ? "bg-black/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
                               {week}
                             </button>
                           ))}
@@ -1664,7 +1664,7 @@ export default function CreatorDashboard() {
       {showPreview && (
         <div className="fixed inset-0 bg-black/80 z-50 overflow-y-auto">
           <div className="min-h-screen p-4">
-            <div className="max-w-2xl mx-auto bg-white rounded-2xl overflow-hidden">
+            <div className="max-w-2xl mx-auto bg-white rounded-md overflow-hidden">
               <div className="flex items-center justify-between p-4 border-b">
                 <h2 className="font-semibold">Vista Previa</h2>
                 <div className="flex gap-2">
@@ -1680,14 +1680,14 @@ export default function CreatorDashboard() {
               )}
               <div className="p-6">
                 <h1 className="text-2xl font-bold mb-2">{formData.title || 'Sin título'}</h1>
-                <p className="text-gray-500 flex items-center gap-1 mb-4"><MapPin className="w-4 h-4" /> {formData.location || 'Sin ubicación'}</p>
-                <div className="flex gap-4 mb-4 text-sm text-gray-600">
+                <p className="text-[#888] flex items-center gap-1 mb-4 font-light"><MapPin className="w-4 h-4" /> {formData.location || 'Sin ubicación'}</p>
+                <div className="flex gap-4 mb-4 text-sm text-[#666]">
                   <span className="flex items-center gap-1"><Bed className="w-4 h-4" /> {formData.bedrooms}</span>
                   <span className="flex items-center gap-1"><Bath className="w-4 h-4" /> {formData.bathrooms}</span>
                   <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {formData.maxGuests}</span>
                 </div>
                 <p className="text-2xl font-bold text-white/70 mb-4">${formData.price.toLocaleString()} USD</p>
-                <p className="text-gray-600 whitespace-pre-wrap">{formData.description}</p>
+                <p className="text-[#666] whitespace-pre-wrap font-light">{formData.description}</p>
               </div>
             </div>
           </div>

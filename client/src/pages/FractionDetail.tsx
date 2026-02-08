@@ -38,7 +38,7 @@ export default function FractionDetail() {
 
   const statusConfig = {
     available: { label: 'Available', color: 'bg-black', textColor: 'text-black' },
-    reserved: { label: 'Reserved', color: 'bg-gray-400', textColor: 'text-gray-500' },
+    reserved: { label: 'Reserved', color: 'bg-[#999]', textColor: 'text-[#888]' },
     'pre-sale': { label: 'Pre-sale', color: 'bg-black/5', textColor: 'text-black' },
   };
 
@@ -57,7 +57,7 @@ export default function FractionDetail() {
                 Back to {property.title}
               </span>
             </Link>
-            <h1 className="text-2xl md:text-3xl font-semibold" data-testid="text-fraction-title">
+            <h1 className="text-2xl md:text-3xl font-semibold" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="text-fraction-title">
               Fraction #{fraction.fractionNumber}
             </h1>
             <p className="text-muted-foreground mt-1">
@@ -83,7 +83,7 @@ export default function FractionDetail() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 rounded-2xl overflow-hidden mb-8 max-h-[400px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 rounded-md overflow-hidden mb-8 max-h-[400px]">
           {property.images.slice(0, 2).map((img, idx) => (
             <img
               key={idx}
@@ -97,7 +97,7 @@ export default function FractionDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-8">
             <div className="flex items-center gap-4">
-              <span className={cn('inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium', status.textColor, 'bg-opacity-10', status.color.replace('bg-', 'bg-opacity-10 bg-'))}>
+              <span className={cn('inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium', status.textColor, 'bg-opacity-10', status.color.replace('bg-', 'bg-opacity-10 bg-'))}>
                 <span className={cn('w-2 h-2 rounded-full', status.color)} />
                 {status.label}
               </span>
@@ -108,7 +108,7 @@ export default function FractionDetail() {
             <Separator />
 
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Ownership Details</h2>
+              <h2 className="text-xl font-semibold" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Ownership Details</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 <div>
                   <p className="text-sm text-muted-foreground mb-1">Ownership Percentage</p>
@@ -128,18 +128,18 @@ export default function FractionDetail() {
             <Separator />
 
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Assigned Usage Weeks</h2>
+              <h2 className="text-xl font-semibold" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Assigned Usage Weeks</h2>
               <div className="space-y-3">
                 {fraction.usageWeeks.map((week, idx) => {
                   const { start, end } = getWeekDateRange(week.weekNumber);
                   return (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-4 bg-muted/50 rounded-xl"
+                      className="flex items-center justify-between p-4 bg-muted/50 rounded-md"
                       data-testid={`week-${idx}`}
                     >
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-md bg-background flex items-center justify-center">
                           <Calendar className="w-6 h-6 text-primary" />
                         </div>
                         <div>
@@ -159,7 +159,7 @@ export default function FractionDetail() {
             <Separator />
 
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Usage Mode</h2>
+              <h2 className="text-xl font-semibold" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Usage Mode</h2>
               <p className="text-muted-foreground">Select how you plan to use this fraction:</p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {usageModes.map(({ mode, icon: Icon, label, description }) => (
@@ -167,7 +167,7 @@ export default function FractionDetail() {
                     key={mode}
                     onClick={() => setSelectedUsage(mode)}
                     className={cn(
-                      'p-4 rounded-xl border text-left transition-all',
+                      'p-4 rounded-md border text-left transition-all',
                       selectedUsage === mode
                         ? 'border-primary bg-primary/5'
                         : 'border-border hover:border-primary/50'
@@ -188,7 +188,7 @@ export default function FractionDetail() {
             <Separator />
 
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Ownership Rules</h2>
+              <h2 className="text-xl font-semibold" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Ownership Rules</h2>
               <div className="space-y-3">
                 {[
                   'Deeded ownership with legal title to your fraction',
@@ -208,7 +208,7 @@ export default function FractionDetail() {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="sticky top-28 border border-border rounded-2xl p-6 shadow-lg">
+            <div className="sticky top-28 border border-border rounded-md p-6">
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="text-3xl font-semibold">{formatPrice(fraction.price)}</span>
               </div>

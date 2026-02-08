@@ -23,9 +23,9 @@ export function SearchBar({ onSearch }: SearchBarProps) {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-3 md:gap-0 md:items-center bg-white border border-border rounded-2xl md:rounded-full p-3 md:p-2 shadow-lg">
-      <div className="flex-1 px-4 py-2 md:border-r border-border">
-        <label className="text-xs font-semibold text-foreground block mb-1">Location</label>
+    <div className="flex flex-col md:flex-row gap-3 md:gap-0 md:items-center bg-white border border-[#eee] rounded-md p-3 md:p-2">
+      <div className="flex-1 px-4 py-2 md:border-r border-[#eee]">
+        <label className="text-xs font-medium text-[#111] block mb-1">Location</label>
         <Select value={location} onValueChange={setLocation}>
           <SelectTrigger className="border-0 p-0 h-auto text-sm shadow-none focus:ring-0" data-testid="select-location">
             <SelectValue placeholder="Search destinations" />
@@ -43,8 +43,8 @@ export function SearchBar({ onSearch }: SearchBarProps) {
         </Select>
       </div>
 
-      <div className="flex-1 px-4 py-2 md:border-r border-border">
-        <label className="text-xs font-semibold text-foreground block mb-1">Season</label>
+      <div className="flex-1 px-4 py-2 md:border-r border-[#eee]">
+        <label className="text-xs font-medium text-[#111] block mb-1">Season</label>
         <Select value={season} onValueChange={setSeason}>
           <SelectTrigger className="border-0 p-0 h-auto text-sm shadow-none focus:ring-0" data-testid="select-season">
             <SelectValue placeholder="Select season" />
@@ -52,19 +52,19 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           <SelectContent>
             <SelectItem value="high">
               <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary" />
+                <span className="w-2 h-2 rounded-full bg-[#111]" />
                 High Season
               </span>
             </SelectItem>
             <SelectItem value="mid">
               <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-gray-500" />
+                <span className="w-2 h-2 rounded-full bg-[#666]" />
                 Mid Season
               </span>
             </SelectItem>
             <SelectItem value="low">
               <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-black" />
+                <span className="w-2 h-2 rounded-full bg-[#ccc]" />
                 Low Season
               </span>
             </SelectItem>
@@ -73,7 +73,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
       </div>
 
       <div className="flex-1 px-4 py-2">
-        <label className="text-xs font-semibold text-foreground block mb-1">Usage Type</label>
+        <label className="text-xs font-medium text-[#111] block mb-1">Usage Type</label>
         <Select value={usage} onValueChange={setUsage}>
           <SelectTrigger className="border-0 p-0 h-auto text-sm shadow-none focus:ring-0" data-testid="select-usage">
             <SelectValue placeholder="Select usage" />
@@ -88,7 +88,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
 
       <Button
         onClick={handleSearch}
-        className="rounded-full h-12 px-6 bg-primary hover:bg-primary/90"
+        className="rounded-md h-12 px-6"
         data-testid="button-search"
       >
         <Search className="w-4 h-4 mr-2" />
@@ -106,7 +106,7 @@ export function FilterBar() {
           key={filter}
           variant={filter === 'All' ? 'default' : 'outline'}
           size="sm"
-          className="rounded-full whitespace-nowrap"
+          className="rounded-md whitespace-nowrap"
           data-testid={`filter-${filter.toLowerCase().replace(' ', '-')}`}
         >
           {filter}

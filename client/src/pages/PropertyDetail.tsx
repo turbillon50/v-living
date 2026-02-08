@@ -172,7 +172,7 @@ export default function PropertyDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+        <Loader2 className="w-8 h-8 animate-spin text-[#999]" />
       </div>
     );
   }
@@ -180,7 +180,7 @@ export default function PropertyDetail() {
   if (!property) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <p className="text-gray-500">Propiedad no encontrada</p>
+        <p className="text-[#888] font-light">Propiedad no encontrada</p>
       </div>
     );
   }
@@ -198,21 +198,21 @@ export default function PropertyDetail() {
 
   return (
     <div className="min-h-screen bg-white">
-      <header className="sticky top-0 z-40 bg-white border-b">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-[#eee]">
         <div className="max-w-[2520px] mx-auto px-6 sm:px-8 md:px-10 lg:px-20">
           <div className="h-16 flex items-center justify-between">
             <Link href="/fractional">
-              <button className="flex items-center gap-2 text-sm font-medium hover:bg-gray-100 px-3 py-2 rounded-full transition-colors" data-testid="back-button">
+              <button className="flex items-center gap-2 text-sm font-light hover:bg-[#f5f5f5] px-3 py-2 rounded-md transition-colors duration-200 text-[#555]" data-testid="back-button">
                 <ChevronLeft className="w-4 h-4" />
-                <span className="hidden sm:inline">Volver</span>
+                <span className="hidden sm:inline tracking-wide">Volver</span>
               </button>
             </Link>
             <div className="flex items-center gap-2">
-              <button className="p-2.5 hover:bg-gray-100 rounded-full transition-colors" data-testid="share-button">
-                <Share className="w-4 h-4" />
+              <button className="p-2.5 hover:bg-[#f5f5f5] rounded-md transition-colors duration-200" data-testid="share-button">
+                <Share className="w-4 h-4 text-[#555]" />
               </button>
-              <button onClick={() => setLiked(!liked)} className="p-2.5 hover:bg-gray-100 rounded-full transition-colors" data-testid="like-button">
-                <Heart className={cn("w-4 h-4", liked && "fill-black text-black")} />
+              <button onClick={() => setLiked(!liked)} className="p-2.5 hover:bg-[#f5f5f5] rounded-md transition-colors duration-200" data-testid="like-button">
+                <Heart className={cn("w-4 h-4 text-[#555]", liked && "fill-[#111] text-[#111]")} />
               </button>
             </div>
           </div>
@@ -221,7 +221,7 @@ export default function PropertyDetail() {
 
       <main className="max-w-[2520px] mx-auto px-6 sm:px-8 md:px-10 lg:px-20 py-6">
         <div 
-          className="grid grid-cols-4 gap-2 rounded-xl overflow-hidden cursor-pointer mb-8"
+          className="grid grid-cols-4 gap-2 rounded-md overflow-hidden cursor-pointer mb-8"
           onClick={() => setShowGallery(true)}
         >
           <div className="col-span-4 md:col-span-2 md:row-span-2 relative aspect-square md:aspect-auto">
@@ -239,7 +239,7 @@ export default function PropertyDetail() {
           ))}
           <button 
             onClick={(e) => { e.stopPropagation(); setShowGallery(true); }}
-            className="absolute bottom-4 right-4 bg-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 border flex items-center gap-2"
+            className="absolute bottom-4 right-4 bg-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#fafafa] border border-[#eee] flex items-center gap-2"
             data-testid="show-all-photos"
           >
             <Grid3X3 className="w-4 h-4" />
@@ -250,14 +250,14 @@ export default function PropertyDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2">
             <div className="pb-6 border-b">
-              <h1 className="text-2xl font-semibold mb-2">{property.title}</h1>
-              <div className="flex flex-wrap items-center gap-2 text-sm">
+              <h1 className="text-2xl mb-2 text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>{property.title}</h1>
+              <div className="flex flex-wrap items-center gap-2 text-sm text-[#888] font-light">
                 <div className="flex items-center gap-1">
-                  <Star className="w-4 h-4 fill-current" />
-                  <span className="font-medium">5.0</span>
+                  <Star className="w-4 h-4 fill-[#111] text-[#111]" />
+                  <span className="font-medium text-[#111]">5.0</span>
                 </div>
-                <span className="text-gray-300">·</span>
-                <span className="underline">{property.location}</span>
+                <span className="text-[#ddd]">·</span>
+                <span>{property.location}</span>
               </div>
             </div>
 
@@ -266,40 +266,40 @@ export default function PropertyDetail() {
                 {property.maxGuests && (
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-2 mb-1">
-                      <Users className="w-5 h-5 text-gray-600" />
-                      <span className="font-medium">{property.maxGuests}</span>
+                      <Users className="w-5 h-5 text-[#555]" />
+                      <span className="font-medium text-[#111]">{property.maxGuests}</span>
                     </div>
-                    <span className="text-sm text-gray-500">huéspedes</span>
+                    <span className="text-sm text-[#888] font-light">huéspedes</span>
                   </div>
                 )}
                 {property.bedrooms && (
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-2 mb-1">
-                      <Bed className="w-5 h-5 text-gray-600" />
-                      <span className="font-medium">{property.bedrooms}</span>
+                      <Bed className="w-5 h-5 text-[#555]" />
+                      <span className="font-medium text-[#111]">{property.bedrooms}</span>
                     </div>
-                    <span className="text-sm text-gray-500">habitaciones</span>
+                    <span className="text-sm text-[#888] font-light">habitaciones</span>
                   </div>
                 )}
                 {property.bathrooms && (
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-2 mb-1">
-                      <Bath className="w-5 h-5 text-gray-600" />
-                      <span className="font-medium">{property.bathrooms}</span>
+                      <Bath className="w-5 h-5 text-[#555]" />
+                      <span className="font-medium text-[#111]">{property.bathrooms}</span>
                     </div>
-                    <span className="text-sm text-gray-500">baños</span>
+                    <span className="text-sm text-[#888] font-light">baños</span>
                   </div>
                 )}
               </div>
             </div>
 
             <div className="py-6 border-b">
-              <h2 className="text-lg font-semibold mb-4">Acerca de esta propiedad</h2>
-              <p className="text-gray-600 leading-relaxed whitespace-pre-line">{property.description}</p>
+              <h2 className="text-lg mb-4 text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Acerca de esta propiedad</h2>
+              <p className="text-[#666] leading-relaxed whitespace-pre-line font-light">{property.description}</p>
               
               <button 
                 onClick={() => setShowBeneficios(true)}
-                className="mt-6 w-full flex items-center justify-center gap-3 py-4 bg-gradient-to-r from-black to-black hover:from-black hover:to-black text-white font-semibold rounded-xl shadow-lg transition-all active:scale-[0.98]"
+                className="mt-6 w-full flex items-center justify-center gap-3 py-4 bg-[#111] hover:bg-[#000] text-white font-medium rounded-md transition-all duration-200 active:scale-[0.98]"
                 data-testid="button-beneficios-property"
               >
                 <Gift className="w-5 h-5" />
@@ -309,14 +309,14 @@ export default function PropertyDetail() {
 
             {amenities.length > 0 && (
               <div className="py-6 border-b">
-                <h2 className="text-lg font-semibold mb-4">Lo que ofrece este lugar</h2>
+                <h2 className="text-lg mb-4 text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Lo que ofrece este lugar</h2>
                 <div className="grid grid-cols-2 gap-4">
                   {amenities.map((amenity: string, i: number) => {
                     const Icon = AMENITY_ICONS[amenity] || Check;
                     return (
                       <div key={i} className="flex items-center gap-4">
-                        <Icon className="w-6 h-6 text-gray-600" />
-                        <span>{amenity}</span>
+                        <Icon className="w-5 h-5 text-[#555]" />
+                        <span className="text-[#555] text-sm font-light">{amenity}</span>
                       </div>
                     );
                   })}
@@ -326,16 +326,16 @@ export default function PropertyDetail() {
 
             {videoUrl && (
               <div className="py-6 border-b">
-                <h2 className="text-lg font-semibold mb-4">Video del tour</h2>
+                <h2 className="text-lg mb-4 text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Video del tour</h2>
                 <button 
                   onClick={() => setShowVideo(true)} 
-                  className="relative w-full aspect-video rounded-xl overflow-hidden group"
+                  className="relative w-full aspect-video rounded-md overflow-hidden group"
                   data-testid="play-video"
                 >
                   <img src={images[0]} alt="" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-colors">
                     <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
-                      <Play className="w-7 h-7 text-gray-900 ml-1" />
+                      <Play className="w-7 h-7 text-[#111] ml-1" />
                     </div>
                   </div>
                 </button>
@@ -344,15 +344,15 @@ export default function PropertyDetail() {
 
             {mapUrl && (
               <div className="py-6 border-b">
-                <h2 className="text-lg font-semibold mb-4">Dónde vas a estar</h2>
-                <div className="aspect-[16/9] rounded-xl overflow-hidden">
+                <h2 className="text-lg mb-4 text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Dónde vas a estar</h2>
+                <div className="aspect-[16/9] rounded-md overflow-hidden">
                   <iframe src={mapUrl} className="w-full h-full border-0" allowFullScreen loading="lazy" />
                 </div>
               </div>
             )}
 
             <div className="py-6">
-              <h2 className="text-lg font-semibold mb-4">Plan de Inversión</h2>
+              <h2 className="text-lg mb-4 text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Plan de Inversión</h2>
               <FinancialCalculator 
                 basePrice={property.fractionPrice || 250000}
                 prices2weeks={Math.round((property.fractionPrice || 250000) * 2 * 0.93)}
@@ -362,51 +362,51 @@ export default function PropertyDetail() {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="sticky top-24 border rounded-xl p-6 shadow-lg">
+            <div className="sticky top-24 border border-[#eee] rounded-md p-6">
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-2xl font-bold text-gray-900">
+                  <span className="text-2xl font-medium text-[#111]">
                     ${((property.fractionPrice || 250000) / 1000).toFixed(0)}K
                   </span>
-                  <span className="text-gray-500">MXN / semana</span>
+                  <span className="text-[#888] font-light">MXN / semana</span>
                 </div>
-                <p className="text-gray-600 text-sm">Preventa · Máxima plusvalía</p>
+                <p className="text-[#999] text-sm font-light">Preventa · Máxima plusvalía</p>
               </div>
 
               <div className="space-y-3 mb-6">
-                <div className="flex items-center gap-3 p-3 bg-black rounded-xl">
+                <div className="flex items-center gap-3 p-3 bg-[#111] rounded-md">
                   <Check className="w-5 h-5 text-white" />
-                  <span className="text-white text-sm">30% enganche</span>
+                  <span className="text-white text-sm font-light">30% enganche</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-black/5 rounded-xl">
-                  <Check className="w-5 h-5 text-black" />
-                  <span className="text-gray-700 text-sm">12 meses sin intereses</span>
+                <div className="flex items-center gap-3 p-3 bg-[#f5f5f5] rounded-md">
+                  <Check className="w-5 h-5 text-[#111]" />
+                  <span className="text-[#555] text-sm font-light">12 meses sin intereses</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-black rounded-xl">
+                <div className="flex items-center gap-3 p-3 bg-[#111] rounded-md">
                   <Check className="w-5 h-5 text-white" />
-                  <span className="text-white text-sm">Propiedad heredable</span>
+                  <span className="text-white text-sm font-light">Propiedad heredable</span>
                 </div>
               </div>
 
               <button 
                 onClick={() => handleContactClick(`https://wa.me/529984292748?text=Hola,%20me%20interesa%20${encodeURIComponent(property.title)}`)}
-                className="block w-full py-4 bg-gradient-to-r from-black to-black hover:from-black hover:to-black text-white font-semibold rounded-xl text-center transition-colors mb-3"
+                className="block w-full py-4 bg-[#111] hover:bg-[#000] text-white font-medium rounded-md text-center transition-colors duration-200 mb-3"
                 data-testid="whatsapp-cta"
               >
-                💬 {isAuthenticated ? 'Hablar por WhatsApp' : 'Registrarme para Contactar'}
+                {isAuthenticated ? 'Hablar por WhatsApp' : 'Registrarme para Contactar'}
               </button>
 
               {!isAuthenticated && (
                 <button 
                   onClick={() => { setAuthModalMode('login'); setShowAuthModal(true); }}
-                  className="w-full py-4 border-2 border-gray-900 text-gray-900 font-semibold rounded-xl hover:bg-gray-900 hover:text-white transition-colors" 
+                  className="w-full py-4 border border-[#111] text-[#111] font-medium rounded-md hover:bg-[#111] hover:text-white transition-all duration-200" 
                   data-testid="login-cta"
                 >
                   Ya tengo cuenta - Iniciar Sesión
                 </button>
               )}
 
-              <p className="text-center text-gray-400 text-xs mt-4">Te contactamos en menos de 24 horas</p>
+              <p className="text-center text-[#bbb] text-xs mt-4 font-light">Te contactamos en menos de 24 horas</p>
             </div>
           </div>
         </div>
@@ -420,7 +420,7 @@ export default function PropertyDetail() {
             </div>
             <button 
               onClick={() => setShowGallery(false)} 
-              className="absolute top-4 left-4 bg-white hover:bg-gray-100 rounded-full p-2 shadow-lg"
+              className="absolute top-4 left-4 bg-white hover:bg-[#f5f5f5] rounded-full p-2"
             >
               <X className="w-5 h-5" />
             </button>
@@ -428,19 +428,19 @@ export default function PropertyDetail() {
               <>
                 <button 
                   onClick={() => setGalleryIndex((galleryIndex - 1 + images.length) % images.length)} 
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-3 shadow-lg"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-[#f5f5f5] rounded-full p-3"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button 
                   onClick={() => setGalleryIndex((galleryIndex + 1) % images.length)} 
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-3 shadow-lg"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-[#f5f5f5] rounded-full p-3"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
               </>
             )}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 px-4 py-2 rounded-full shadow-lg">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 px-4 py-2 rounded-md">
               <span className="text-sm font-medium">{galleryIndex + 1} / {images.length}</span>
             </div>
           </div>
@@ -483,7 +483,7 @@ export default function PropertyDetail() {
               <Check className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-xl font-semibold mb-2">Pre-Reserva Confirmada</h3>
-            <p className="text-gray-500 mb-6">Tienes 5 días para completar tu reserva. Un asesor te contactará pronto.</p>
+            <p className="text-[#888] mb-6 font-light">Tienes 5 días para completar tu reserva. Un asesor te contactará pronto.</p>
             <Button onClick={() => setShowSuccess(false)} className="w-full h-12">Entendido</Button>
           </div>
         </DialogContent>
@@ -491,17 +491,17 @@ export default function PropertyDetail() {
 
       {showBeneficios && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setShowBeneficios(false)}>
-          <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <div className="sticky top-0 bg-white p-4 border-b flex items-center justify-between z-10">
-              <h2 className="text-lg font-bold text-gray-900">Beneficios Fractional Living</h2>
-              <button onClick={() => setShowBeneficios(false)} className="p-2">
-                <X className="w-5 h-5 text-gray-500" />
+          <div className="bg-white rounded-md w-full max-w-md max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white p-5 border-b border-[#eee] flex items-center justify-between z-10">
+              <h2 className="text-lg text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Beneficios Fractional Living</h2>
+              <button onClick={() => setShowBeneficios(false)} className="p-2 hover:bg-[#f5f5f5] rounded-md transition-colors duration-200">
+                <X className="w-5 h-5 text-[#999]" />
               </button>
             </div>
-            <div className="p-4 text-sm text-gray-700 space-y-6">
+            <div className="p-5 text-sm text-[#555] space-y-6 font-light leading-relaxed">
               
-              <div className="bg-gradient-to-r from-black to-black p-4 rounded-xl border border-white/20">
-                <p className="text-center text-black font-bold text-base">
+              <div className="bg-[#111] p-4 rounded-md border border-[#222]">
+                <p className="text-center text-white font-medium text-base">
                   En Fractional Living la experiencia, plusvalía y seguridad son un mismo concepto
                 </p>
               </div>
@@ -541,7 +541,7 @@ export default function PropertyDetail() {
                   <li>Disfrute del uso desde el día uno</li>
                   <li>Preventas con respaldo estructural</li>
                 </ul>
-                <p className="mt-2 text-xs text-gray-500">Si tu fecha llega antes de la entrega, te hospedamos en una propiedad de igual o mejor categoría.</p>
+                <p className="mt-2 text-xs text-[#888]">Si tu fecha llega antes de la entrega, te hospedamos en una propiedad de igual o mejor categoría.</p>
               </div>
 
               <div>
@@ -605,7 +605,7 @@ export default function PropertyDetail() {
 
               <div className="text-center pt-4 border-t">
                 <p className="text-black font-bold text-lg mb-2">Bienvenido a Fractional Living</p>
-                <p className="text-sm text-gray-600 mb-3">Invertir aquí no es entrar a un producto. Es sumarte a una familia inmobiliaria estructurada.</p>
+                <p className="text-sm text-[#888] mb-3">Invertir aquí no es entrar a un producto. Es sumarte a una familia inmobiliaria estructurada.</p>
                 <p className="text-black font-bold">Compra · Vive · Renta · Revende · Repite</p>
               </div>
 

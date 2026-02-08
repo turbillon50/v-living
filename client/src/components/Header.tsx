@@ -32,22 +32,22 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-black/10">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#eee]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
             {(location.startsWith('/property') || location === '/registro' || location === '/creator') && (
               <Link href="/fractional">
-                <button className="p-2 -ml-2 hover:bg-black/5 rounded-full transition-colors" data-testid="button-back">
-                  <ArrowLeft className="w-5 h-5 text-black/60" />
+                <button className="p-2 -ml-2 hover:bg-[#f5f5f5] rounded-md transition-colors duration-200" data-testid="button-back">
+                  <ArrowLeft className="w-5 h-5 text-[#999]" />
                 </button>
               </Link>
             )}
             <Link href="/" data-testid="link-home">
               <span className="flex items-center gap-2.5 cursor-pointer">
-                <AGHLogo size={22} color="#000000" />
-                <span className="text-lg font-bold tracking-tight text-black">
-                  FRACTIONAL LIVING
+                <AGHLogo size={20} color="#111" />
+                <span className="text-base tracking-[0.08em] text-[#111] uppercase" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+                  Fractional Living
                 </span>
               </span>
             </Link>
@@ -55,17 +55,17 @@ export function Header() {
 
           <nav className="hidden md:flex items-center gap-8">
             <Link href="/fractional" data-testid="link-fractional">
-              <span className={`text-sm cursor-pointer transition-colors ${location.startsWith('/fractional') || location.startsWith('/property') ? 'text-black font-medium' : 'text-black/50 hover:text-black'}`}>
+              <span className={`text-xs uppercase tracking-[0.15em] cursor-pointer transition-colors duration-200 ${location.startsWith('/fractional') || location.startsWith('/property') ? 'text-[#111]' : 'text-[#999] hover:text-[#111]'}`}>
                 {language === 'es' ? 'Propiedades' : 'Properties'}
               </span>
             </Link>
             <Link href="/experiences" data-testid="link-experiences">
-              <span className={`text-sm cursor-pointer transition-colors ${location === '/experiences' ? 'text-black font-medium' : 'text-black/50 hover:text-black'}`}>
+              <span className={`text-xs uppercase tracking-[0.15em] cursor-pointer transition-colors duration-200 ${location === '/experiences' ? 'text-[#111]' : 'text-[#999] hover:text-[#111]'}`}>
                 {language === 'es' ? 'Experiencias' : 'Experiences'}
               </span>
             </Link>
             <Link href="/invest" data-testid="link-invest">
-              <span className={`text-sm cursor-pointer transition-colors ${location === '/invest' ? 'text-black font-medium' : 'text-black/50 hover:text-black'}`}>
+              <span className={`text-xs uppercase tracking-[0.15em] cursor-pointer transition-colors duration-200 ${location === '/invest' ? 'text-[#111]' : 'text-[#999] hover:text-[#111]'}`}>
                 {language === 'es' ? 'Invertir' : 'Invest'}
               </span>
             </Link>
@@ -73,28 +73,28 @@ export function Header() {
 
           <div className="flex items-center gap-3">
             <Link href="/creator">
-              <Button variant="ghost" size="icon" className="w-8 h-8 text-black/30 hover:text-black" title="Admin">
+              <Button variant="ghost" size="icon" className="w-8 h-8 text-[#ccc] hover:text-[#111] hover:bg-[#f5f5f5]" title="Admin">
                 <Lock className="w-4 h-4" />
               </Button>
             </Link>
             
             <button 
-              className="flex items-center gap-1 text-sm text-black/50 hover:text-black transition-colors px-2 py-1" 
+              className="flex items-center gap-1 text-xs text-[#999] hover:text-[#111] transition-colors duration-200 px-2 py-1 tracking-wider uppercase" 
               data-testid="button-language"
               onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
             >
-              <Globe className="w-4 h-4" />
+              <Globe className="w-3.5 h-3.5" />
               {language.toUpperCase()}
             </button>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
-                  className="flex items-center gap-2 border border-black/20 rounded-full px-2 py-1.5 hover:shadow-sm transition-shadow"
+                  className="flex items-center gap-2 border border-[#ddd] rounded-md px-2.5 py-1.5 hover:border-[#999] transition-all duration-200"
                   data-testid="button-user-menu"
                 >
-                  <Menu className="w-4 h-4 text-black/60" />
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center ${user ? 'bg-black' : 'bg-black/40'}`}>
+                  <Menu className="w-4 h-4 text-[#999]" />
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center ${user ? 'bg-[#111]' : 'bg-[#ccc]'}`}>
                     <User className="w-4 h-4 text-white" />
                   </div>
                 </button>
@@ -102,9 +102,9 @@ export function Header() {
               <DropdownMenuContent align="end" className="w-56">
                 {user ? (
                   <>
-                    <div className="px-2 py-2">
-                      <p className="font-medium text-black">{user.name}</p>
-                      <p className="text-xs text-black/50">{user.email}</p>
+                    <div className="px-3 py-2">
+                      <p className="font-medium text-[#111]">{user.name}</p>
+                      <p className="text-xs text-[#999]">{user.email}</p>
                     </div>
                     <DropdownMenuSeparator />
                     <Link href="/perfil">

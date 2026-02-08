@@ -25,10 +25,10 @@ export function FractionCalculator({
   const fractionPercentage = (1 / totalFractions) * 100;
 
   const quarters = [
-    { id: 'Q1', label: 'Q1: 25%', percentage: 25, color: '#4db6ac' },
-    { id: 'Q2', label: 'Q2: 25%', percentage: 25, color: '#81c784' },
-    { id: 'Q3', label: 'Q3: 25%', percentage: 25, color: '#ffb74d' },
-    { id: 'Q4', label: 'Q4: 25%', percentage: 25, color: '#90a4ae' },
+    { id: 'Q1', label: 'Q1: 25%', percentage: 25, color: '#111' },
+    { id: 'Q2', label: 'Q2: 25%', percentage: 25, color: '#444' },
+    { id: 'Q3', label: 'Q3: 25%', percentage: 25, color: '#777' },
+    { id: 'Q4', label: 'Q4: 25%', percentage: 25, color: '#aaa' },
   ];
 
   const generatePieSlices = () => {
@@ -65,18 +65,17 @@ export function FractionCalculator({
   };
 
   return (
-    <div className="bg-white border border-stone-200 p-6 md:p-8">
+    <div className="bg-white border border-[#eee] rounded-md p-6 md:p-8">
       <div className="flex items-center gap-3 mb-6">
-        <Calculator className="w-5 h-5 text-[#4db6ac]" />
-        <h3 className="text-lg font-medium text-[#2d3a3a]">
+        <Calculator className="w-5 h-5 text-[#555]" />
+        <h3 className="text-lg text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
           {language === 'es' ? 'Calculadora de Fracciones' : 'Fraction Calculator'}
         </h3>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">
-        {/* Pie Chart */}
         <div className="flex flex-col items-center">
-          <p className="text-sm text-stone-500 mb-4">
+          <p className="text-sm text-[#999] mb-4 font-light">
             {language === 'es' ? 'Property Shares' : 'Property Shares'}
           </p>
           
@@ -94,93 +93,91 @@ export function FractionCalculator({
                   className="w-3 h-3 rounded-full" 
                   style={{ backgroundColor: q.color }}
                 />
-                <span className="text-stone-600">{q.label}</span>
+                <span className="text-[#888] font-light">{q.label}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Payment Options */}
         <div className="space-y-6">
           <div>
-            <p className="text-sm text-stone-500 mb-3">
+            <p className="text-sm text-[#999] mb-3 font-light">
               {language === 'es' ? 'Método de pago' : 'Payment method'}
             </p>
             
             <div className="space-y-3">
               <button
                 onClick={() => setPaymentMethod('fiat')}
-                className={`w-full flex items-center gap-4 p-4 border transition-all ${
+                className={`w-full flex items-center gap-4 p-4 border rounded-md transition-all duration-200 ${
                   paymentMethod === 'fiat' 
-                    ? 'border-[#4db6ac] bg-[#4db6ac]/5' 
-                    : 'border-stone-200 hover:border-stone-300'
+                    ? 'border-[#111] bg-[#fafafa]' 
+                    : 'border-[#eee] hover:border-[#999]'
                 }`}
                 data-testid="payment-fiat"
               >
-                <div className="w-12 h-12 bg-[#4db6ac]/10 flex items-center justify-center">
-                  <DollarSign className="w-6 h-6 text-[#4db6ac]" />
+                <div className="w-12 h-12 bg-[#f5f5f5] flex items-center justify-center rounded-md">
+                  <DollarSign className="w-6 h-6 text-[#555]" />
                 </div>
                 <div className="text-left">
-                  <p className="font-medium text-[#2d3a3a]">
+                  <p className="font-medium text-[#111]">
                     {language === 'es' ? 'Moneda Fiat' : 'Fiat Currency'}
                   </p>
-                  <p className="text-sm text-stone-500">USD, MXN, EUR</p>
+                  <p className="text-sm text-[#999] font-light">USD, MXN, EUR</p>
                 </div>
               </button>
 
               <button
                 onClick={() => setPaymentMethod('crypto')}
-                className={`w-full flex items-center gap-4 p-4 border transition-all ${
+                className={`w-full flex items-center gap-4 p-4 border rounded-md transition-all duration-200 ${
                   paymentMethod === 'crypto' 
-                    ? 'border-[#4db6ac] bg-[#4db6ac]/5' 
-                    : 'border-stone-200 hover:border-stone-300'
+                    ? 'border-[#111] bg-[#fafafa]' 
+                    : 'border-[#eee] hover:border-[#999]'
                 }`}
                 data-testid="payment-crypto"
               >
-                <div className="w-12 h-12 bg-[#4db6ac]/10 flex items-center justify-center">
-                  <Diamond className="w-6 h-6 text-[#4db6ac]" />
+                <div className="w-12 h-12 bg-[#f5f5f5] flex items-center justify-center rounded-md">
+                  <Diamond className="w-6 h-6 text-[#555]" />
                 </div>
                 <div className="text-left">
-                  <p className="font-medium text-[#2d3a3a]">
+                  <p className="font-medium text-[#111]">
                     {language === 'es' ? 'Criptomoneda' : 'Cryptocurrency'}
                   </p>
-                  <p className="text-sm text-stone-500">BTC, ETH, USDT</p>
+                  <p className="text-sm text-[#999] font-light">BTC, ETH, USDT</p>
                 </div>
               </button>
             </div>
           </div>
 
-          {/* Price Summary */}
-          <div className="border-t border-stone-200 pt-4 space-y-3">
+          <div className="border-t border-[#eee] pt-4 space-y-3">
             <div className="flex justify-between text-sm">
-              <span className="text-stone-500">
+              <span className="text-[#999] font-light">
                 {language === 'es' ? 'Valor total propiedad' : 'Total property value'}
               </span>
-              <span className="text-stone-900">${totalValue.toLocaleString()}</span>
+              <span className="text-[#111]">${totalValue.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-stone-500">
+              <span className="text-[#999] font-light">
                 {language === 'es' ? 'Precio por fracción' : 'Price per fraction'}
               </span>
-              <span className="font-medium text-[#2d3a3a]">${fractionPrice.toLocaleString()}</span>
+              <span className="font-medium text-[#111]">${fractionPrice.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-stone-500">
+              <span className="text-[#999] font-light">
                 {language === 'es' ? 'Semanas de uso anual' : 'Annual usage weeks'}
               </span>
-              <span className="text-stone-900">3</span>
+              <span className="text-[#111]">3</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-stone-500">
+              <span className="text-[#999] font-light">
                 {language === 'es' ? 'Fracciones disponibles' : 'Available fractions'}
               </span>
-              <span className="text-[#4db6ac] font-medium">{availableFractions} / {totalFractions}</span>
+              <span className="text-[#111] font-medium">{availableFractions} / {totalFractions}</span>
             </div>
           </div>
 
           <button
             onClick={onProceedToPayment}
-            className="w-full flex items-center justify-center gap-2 py-4 bg-[#2d3a3a] text-white hover:bg-[#3d4a4a] transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-4 bg-[#111] text-white hover:bg-[#000] transition-colors duration-200 rounded-md font-medium"
             data-testid="button-proceed-payment"
           >
             {language === 'es' ? 'Proceder al Pago' : 'Proceed to Payment'}

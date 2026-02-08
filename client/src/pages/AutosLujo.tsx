@@ -20,20 +20,20 @@ export default function AutosLujo() {
       <Header />
 
       <section className="px-4 pt-4 pb-6">
-        <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-5 text-center mb-6">
+        <div className="bg-[#111] rounded-md p-5 text-center mb-6">
           <div className="flex items-center justify-center gap-2 mb-2">
             <Sparkles className="w-5 h-5 text-white/70" />
-            <h1 className="text-white text-lg font-bold">Autos de Lujo</h1>
+            <h1 className="text-white text-lg font-bold" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>Autos de Lujo</h1>
           </div>
           <p className="text-white/90 text-sm mb-3">Beneficio exclusivo Fractional Living</p>
-          <div className="bg-white/20 rounded-xl p-3 border border-white/30">
+          <div className="bg-white/20 rounded-md p-3 border border-white/30">
             <p className="text-white font-bold text-xl">40% OFF</p>
             <p className="text-white/80 text-xs">Te conseguimos cualquier auto al mejor precio</p>
           </div>
         </div>
 
         <div className="relative mb-6">
-          <div className="aspect-[16/10] rounded-2xl overflow-hidden shadow-lg">
+          <div className="aspect-[16/10] rounded-md overflow-hidden">
             <img 
               src={AUTOS[current].image} 
               alt={AUTOS[current].name}
@@ -43,15 +43,15 @@ export default function AutosLujo() {
           
           <button 
             onClick={prev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2"
           >
-            <ChevronLeft className="w-5 h-5 text-gray-700" />
+            <ChevronLeft className="w-5 h-5 text-[#555]" />
           </button>
           <button 
             onClick={next}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2"
           >
-            <ChevronRight className="w-5 h-5 text-gray-700" />
+            <ChevronRight className="w-5 h-5 text-[#555]" />
           </button>
 
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
@@ -66,28 +66,28 @@ export default function AutosLujo() {
         </div>
 
         <div className="text-center mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">{AUTOS[current].name}</h2>
-          <p className="text-gray-500 text-sm">{AUTOS[current].desc}</p>
+          <h2 className="text-xl font-bold text-[#111] mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>{AUTOS[current].name}</h2>
+          <p className="text-[#888] text-sm">{AUTOS[current].desc}</p>
         </div>
 
         <div className="space-y-3 mb-6">
-          <div className="bg-gray-50 rounded-xl p-4">
-            <p className="text-gray-700 text-sm text-center">
+          <div className="bg-[#fafafa] rounded-md p-4">
+            <p className="text-[#555] text-sm text-center">
               Como miembro de <span className="font-bold text-black">Fractional Living</span>, te conseguimos cualquier vehículo de lujo con hasta <span className="font-bold">40% de descuento</span>.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="bg-black/5 rounded-lg p-3">
               <p className="text-black font-bold text-sm">Sedanes</p>
-              <p className="text-gray-500 text-xs">Ejecutivos</p>
+              <p className="text-[#888] text-xs">Ejecutivos</p>
             </div>
             <div className="bg-black/5 rounded-lg p-3">
               <p className="text-black font-bold text-sm">SUVs</p>
-              <p className="text-gray-500 text-xs">Premium</p>
+              <p className="text-[#888] text-xs">Premium</p>
             </div>
             <div className="bg-black/5 rounded-lg p-3">
               <p className="text-black font-bold text-sm">Exóticos</p>
-              <p className="text-gray-500 text-xs">Super Autos</p>
+              <p className="text-[#888] text-xs">Super Autos</p>
             </div>
           </div>
         </div>
@@ -96,14 +96,14 @@ export default function AutosLujo() {
           href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20rentar%20un%20auto%20de%20lujo%20con%20el%20beneficio%20Fractional%20Living"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-3 w-full py-4 bg-gradient-to-r from-black to-black hover:from-black hover:to-black text-white font-semibold rounded-xl shadow-lg transition-all"
+          className="flex items-center justify-center gap-3 w-full py-4 bg-black hover:bg-black/90 text-white font-semibold rounded-md transition-all"
           data-testid="whatsapp-autos"
         >
           <MessageCircle className="w-5 h-5" />
           Cotizar Auto de Lujo
         </a>
 
-        <p className="text-center text-gray-400 text-xs mt-4">
+        <p className="text-center text-[#999] text-xs mt-4">
           Disponible para miembros Fractional Living
         </p>
       </section>

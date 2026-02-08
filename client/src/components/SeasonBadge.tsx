@@ -12,17 +12,17 @@ const seasonConfig: Record<Season, { label: string; color: string; bg: string }>
   high: {
     label: 'High Season',
     color: 'text-white',
-    bg: 'bg-black',
+    bg: 'bg-[#111]',
   },
   mid: {
     label: 'Mid Season',
     color: 'text-white',
-    bg: 'bg-gray-500',
+    bg: 'bg-[#666]',
   },
   low: {
     label: 'Low Season',
-    color: 'text-black',
-    bg: 'bg-gray-200',
+    color: 'text-[#111]',
+    bg: 'bg-[#ddd]',
   },
 };
 
@@ -44,7 +44,7 @@ export function SeasonBadge({ season, size = 'md', showLabel = true }: SeasonBad
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full font-medium',
+        'inline-flex items-center gap-1.5 rounded-md font-medium',
         config.bg,
         config.color,
         sizeClasses[size]
@@ -57,7 +57,7 @@ export function SeasonBadge({ season, size = 'md', showLabel = true }: SeasonBad
           dotSizes[size],
           season === 'high' && 'bg-white',
           season === 'mid' && 'bg-white',
-          season === 'low' && 'bg-black'
+          season === 'low' && 'bg-[#111]'
         )}
       />
       {showLabel && config.label}
@@ -67,9 +67,9 @@ export function SeasonBadge({ season, size = 'md', showLabel = true }: SeasonBad
 
 export function SeasonIndicator({ season }: { season: Season }) {
   const colors = {
-    high: 'bg-black',
-    mid: 'bg-gray-500',
-    low: 'bg-gray-200',
+    high: 'bg-[#111]',
+    mid: 'bg-[#666]',
+    low: 'bg-[#ddd]',
   };
 
   return <span className={cn('w-3 h-3 rounded-full', colors[season])} />;

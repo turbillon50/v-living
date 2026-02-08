@@ -108,7 +108,7 @@ export function FractionSelector({ property, selectedFraction, onSelect }: Fract
             >
               <div
                 className={cn(
-                  'p-3 rounded-xl border cursor-pointer transition-all',
+                  'p-3 rounded-md border cursor-pointer transition-all duration-200',
                   selectedFraction?.id === fraction.id
                     ? 'border-primary bg-primary/5'
                     : 'border-border hover:border-primary/50 hover:shadow-sm'
@@ -131,8 +131,8 @@ export function FractionSelector({ property, selectedFraction, onSelect }: Fract
                       className={cn(
                         'w-2 h-2 rounded-full',
                         w.season === 'high' && 'bg-black',
-                        w.season === 'mid' && 'bg-gray-500',
-                        w.season === 'low' && 'bg-gray-200'
+                        w.season === 'mid' && 'bg-[#666]',
+                        w.season === 'low' && 'bg-[#ddd]'
                       )}
                     />
                   ))}

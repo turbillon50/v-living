@@ -76,41 +76,38 @@ export function WeekCalendar({
   };
 
   return (
-    <div className="bg-white border border-stone-200">
-      {/* Header */}
-      <div className="p-4 border-b border-stone-200">
+    <div className="bg-white border border-[#eee] rounded-md">
+      <div className="p-4 border-b border-[#eee]">
         <div className="flex items-center gap-3 mb-4">
-          <Calendar className="w-5 h-5 text-black" />
-          <h3 className="text-lg font-medium text-black">
+          <Calendar className="w-5 h-5 text-[#555]" />
+          <h3 className="text-lg text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
             {language === 'es' ? 'Calendario de Semanas' : 'Week Calendar'} - {year}
           </h3>
         </div>
 
-        {/* Quarter Tabs */}
         <div className="flex gap-2">
           {quarters.map((q) => (
             <button
               key={q.id}
               onClick={() => setActiveQuarter(q.id)}
               className={cn(
-                "flex-1 py-3 px-4 text-center transition-all",
+                "flex-1 py-3 px-4 text-center transition-all duration-200 rounded-md",
                 activeQuarter === q.id
-                  ? "bg-black text-white"
-                  : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+                  ? "bg-[#111] text-white"
+                  : "bg-[#f5f5f5] text-[#888] hover:bg-[#eee]"
               )}
               data-testid={`quarter-${q.id}`}
             >
-              <p className="font-medium">{q.label}</p>
+              <p className="font-medium text-sm">{q.label}</p>
               <p className="text-xs opacity-70">{q.months}</p>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Selection Info */}
-      <div className="p-4 bg-gray-50 border-b border-stone-200">
+      <div className="p-4 bg-[#fafafa] border-b border-[#eee]">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm text-stone-600">
+          <div className="flex items-center gap-2 text-sm text-[#888] font-light">
             <Info className="w-4 h-4" />
             <span>
               {language === 'es' 
@@ -118,24 +115,23 @@ export function WeekCalendar({
                 : `Select ${maxSelections} weeks for your fraction`}
             </span>
           </div>
-          <div className="flex items-center gap-4 text-xs">
+          <div className="flex items-center gap-4 text-xs text-[#888] font-light">
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 bg-black"></div>
+              <div className="w-3 h-3 bg-[#111] rounded-sm"></div>
               <span>{language === 'es' ? 'Seleccionada' : 'Selected'}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 bg-stone-300"></div>
+              <div className="w-3 h-3 bg-[#ccc] rounded-sm"></div>
               <span>{language === 'es' ? 'Reservada' : 'Booked'}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 border border-stone-300"></div>
+              <div className="w-3 h-3 border border-[#ddd] rounded-sm"></div>
               <span>{language === 'es' ? 'Disponible' : 'Available'}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Weeks Grid */}
       <div className="p-4">
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-2">
           {weeks.map((week) => (
@@ -144,11 +140,11 @@ export function WeekCalendar({
               onClick={() => handleWeekClick(week.weekNumber)}
               disabled={!week.isAvailable}
               className={cn(
-                "relative p-3 text-center transition-all border",
-                week.isSelected && "bg-black text-white border-black",
-                week.isBooked && "bg-stone-200 text-stone-400 cursor-not-allowed border-stone-200",
-                week.isBlocked && "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200",
-                week.isAvailable && !week.isSelected && "bg-white border-stone-200 hover:border-black hover:bg-black/5 cursor-pointer"
+                "relative p-3 text-center transition-all duration-200 border rounded-md",
+                week.isSelected && "bg-[#111] text-white border-[#111]",
+                week.isBooked && "bg-[#eee] text-[#bbb] cursor-not-allowed border-[#eee]",
+                week.isBlocked && "bg-[#f5f5f5] text-[#ccc] cursor-not-allowed border-[#f5f5f5]",
+                week.isAvailable && !week.isSelected && "bg-white border-[#eee] hover:border-[#111] hover:bg-[#fafafa] cursor-pointer"
               )}
               data-testid={`week-${week.weekNumber}`}
             >
@@ -169,10 +165,9 @@ export function WeekCalendar({
         </div>
       </div>
 
-      {/* Selected Summary */}
       {selectedWeeks.length > 0 && (
-        <div className="p-4 bg-gray-100 border-t border-gray-200">
-          <p className="text-sm text-black font-medium mb-2">
+        <div className="p-4 bg-[#fafafa] border-t border-[#eee]">
+          <p className="text-sm text-[#111] font-medium mb-2">
             {language === 'es' ? 'Semanas seleccionadas:' : 'Selected weeks:'}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -181,12 +176,12 @@ export function WeekCalendar({
               return (
                 <span 
                   key={weekNum}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-white text-sm text-black border border-black"
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-white text-sm text-[#111] border border-[#111] rounded-md"
                 >
                   S{weekNum}: {dates.start} - {dates.end}
                   <button 
                     onClick={() => onWeekSelect(weekNum)}
-                    className="ml-1 text-stone-400 hover:text-black"
+                    className="ml-1 text-[#bbb] hover:text-[#111] transition-colors duration-200"
                   >
                     <X className="w-3 h-3" />
                   </button>
