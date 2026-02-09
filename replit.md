@@ -102,6 +102,15 @@ Database tables:
 - `POST /api/pre-bookings` - Crear pre-reserva
 - `GET /api/pre-bookings/:email` - Ver reservas por email
 
+### Clerk Webhook Integration
+
+- `POST /api/clerk/webhook` - Receives Clerk webhook events with svix signature verification
+- Events handled: `user.created`, `user.updated`, `user.deleted`
+- Requires `CLERK_WEBHOOK_SECRET` environment variable (from Clerk Dashboard > Webhooks)
+- On user.created/updated: creates or updates user in DB with clerkId, email, name, phone
+- On user.deleted: marks user status as "inactive"
+- Webhook URL for Clerk Dashboard: `https://allliving.org/api/clerk/webhook`
+
 ### ALIX 2.4 Integration (External AI - https://alix-ai.net)
 
 Key backend files:
