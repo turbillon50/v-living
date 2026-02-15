@@ -105,8 +105,8 @@ export default function Registro() {
                     card: "shadow-none p-0 bg-transparent w-full",
                     headerTitle: "text-[15px] font-medium text-[#1a1a1a] tracking-tight",
                     headerSubtitle: "text-[#1a1a1a]/50 text-xs font-light",
-                    socialButtonsBlockButton: "border border-[#e5e5e5] hover:border-[#1a1a1a]/20 hover:bg-[#fafafa] text-[#1a1a1a] rounded-lg h-10 text-[13px] font-normal transition-all",
-                    socialButtonsBlockButtonText: "text-[#1a1a1a] font-normal text-[13px]",
+                    socialButtonsBlockButton: "hidden",
+                    socialButtonsBlockButtonText: "hidden",
                     formButtonPrimary: "bg-[#1a1a1a] hover:bg-[#333] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all",
                     footerActionLink: "text-black hover:text-black/80 text-[13px] font-normal",
                     formFieldInput: "border border-[#e5e5e5] focus:border-[#1a1a1a] focus:ring-0 rounded-lg h-10 text-[13px] text-[#1a1a1a] bg-white placeholder:text-[#1a1a1a]/30",
@@ -118,7 +118,7 @@ export default function Registro() {
                     footer: "pt-3",
                     footerAction: "text-[12px]",
                     footerActionText: "text-[#1a1a1a]/40 text-[12px]",
-                    socialButtonsProviderIcon: "w-4 h-4",
+                    socialButtonsProviderIcon: "hidden",
                     socialButtonsBlockButtonArrow: "hidden",
                     formFieldErrorText: "text-[11px]",
                     alert: "text-[12px] rounded-lg",
@@ -126,7 +126,7 @@ export default function Registro() {
                     otpCodeFieldInput: "border-[#e5e5e5] rounded-lg text-[#1a1a1a]",
                   },
                   layout: {
-                    socialButtonsPlacement: "top",
+                    socialButtonsPlacement: "bottom",
                     socialButtonsVariant: "blockButton",
                     showOptionalFields: false,
                   }
