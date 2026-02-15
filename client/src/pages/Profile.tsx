@@ -159,11 +159,11 @@ export default function Profile() {
   const config = INTEREST_CONFIG[primaryInterest] || INTEREST_CONFIG['informacion'];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#fafcfd] pb-24">
       <Header />
       
       <div className="px-4 py-6 max-w-lg mx-auto pb-60">
-        <div className={`${config.color} rounded-3xl p-6 mb-6 text-white`}>
+        <div className="fl-gradient-sunset rounded-3xl p-6 mb-6 text-white">
           <div className="flex items-start justify-between mb-4">
             <div>
               <p className="text-white/60 text-xs uppercase tracking-wider mb-1">Bienvenido</p>
@@ -186,10 +186,10 @@ export default function Profile() {
           </div>
         </div>
 
-        <div className="bg-black rounded-2xl p-5 mb-6">
+        <div className="bg-[#0a1628] rounded-2xl p-5 mb-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-white font-semibold">{config.dashboardTitle}</h2>
-            <span className="text-white/70 text-xs font-medium px-2 py-1 bg-white/10 rounded-full">
+            <span className="text-[#22d3ee] text-xs font-medium px-2 py-1 bg-[#0891b2]/10 rounded-full">
               En desarrollo
             </span>
           </div>
@@ -380,11 +380,11 @@ export default function Profile() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white to-transparent">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#fafcfd] via-[#fafcfd] to-transparent">
         <Button 
           onClick={handleLogout}
           variant="outline"
-          className="w-full border-black/20 text-black hover:bg-black/5"
+          className="w-full border-[#e2e8f0] text-[#64748b] hover:bg-[#f0fdfa] hover:text-[#0891b2] hover:border-[#0891b2]/30"
           data-testid="button-logout"
         >
           <LogOut className="w-4 h-4 mr-2" /> Cerrar sesión

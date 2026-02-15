@@ -75,7 +75,7 @@ export default function Multilinks() {
   const displayLinks = activeLinks.length > 0 ? activeLinks : defaultLinks;
 
   return (
-    <div className="min-h-screen bg-white pb-60">
+    <div className="min-h-screen bg-[#fafcfd] pb-60">
       <div className="max-w-md mx-auto px-4 pt-8 pb-12">
         <div className="text-center mb-10">
           <div className="w-28 h-28 mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl border border-black/10">

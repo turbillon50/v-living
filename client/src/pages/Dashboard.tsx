@@ -91,7 +91,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-[#0a1628] text-white">
       <Header />
 
       <main className="pb-32 max-w-4xl mx-auto">
@@ -153,7 +153,7 @@ export default function Dashboard() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg text-xs font-medium transition-all ${
                 activeTab === tab.id
-                  ? 'bg-black text-white shadow-lg'
+                  ? 'bg-[#0891b2] text-white shadow-lg shadow-[#0891b2]/20'
                   : 'text-white/50 hover:text-white/70'
               }`}
               data-testid={`tab-${tab.id}`}
