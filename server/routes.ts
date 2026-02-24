@@ -11,6 +11,7 @@ import OpenAI from "openai";
 import { clerkMiddleware, getAuth, requireAuth } from "@clerk/express";
 import { registerAlixRoutes } from "./alix-routes";
 import { registerEcosystemRoutes } from "./ecosystem-routes";
+import { registerDuffelRoutes } from "./duffel-routes";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
@@ -65,6 +66,9 @@ export async function registerRoutes(
   
   // Register Ecosystem API routes (v1)
   registerEcosystemRoutes(app);
+  
+  // Register Duffel travel routes (flights & hotels)
+  registerDuffelRoutes(app);
   
   // Clerk user sync endpoint
   app.post("/api/clerk/sync-user", async (req, res) => {

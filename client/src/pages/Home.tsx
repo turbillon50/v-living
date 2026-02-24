@@ -22,6 +22,8 @@ export default function Home() {
   const categories = [
     { label: language === 'es' ? 'Propiedades' : 'Properties', href: '/fractional', icon: '🏠' },
     { label: language === 'es' ? 'Experiencias' : 'Experiences', href: '/experiences', icon: '✨' },
+    { label: language === 'es' ? 'Vuelos' : 'Flights', href: '/vuelos', icon: '✈️' },
+    { label: language === 'es' ? 'Hoteles' : 'Hotels', href: '/hoteles', icon: '🏨' },
     { label: language === 'es' ? 'Invertir' : 'Invest', href: '/invest', icon: '📈' },
     { label: 'Last Minute', href: '/last-minute', icon: '⚡' },
     { label: language === 'es' ? 'Asociados' : 'Associates', href: '/perfil-asociado', icon: '🤝' },
