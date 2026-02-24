@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema, insertSubscriberSchema, insertNavButtonSchema, insertCategorySchema, insertLeadSchema, insertUserSchema } from "@shared/schema";
+import { insertPropertySchema, insertPreBookingSchema, insertAnnouncementSchema, insertSubscriberSchema, insertNavButtonSchema, insertCategorySchema, insertLeadSchema, insertUserSchema, insertRealEstateListingSchema, insertCreditApplicationSchema } from "@shared/schema";
 import crypto from "crypto";
 import { z } from "zod";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
@@ -1396,6 +1396,118 @@ NO HAGAS:
     } catch (error) {
       console.error("Error generating referral code:", error);
       res.status(500).json({ error: "Error al generar código de referido" });
+    }
+  });
+
+  // ========== REAL ESTATE LISTINGS ==========
+  app.get("/api/real-estate", async (req, res) => {
+    try {
+      const listings = await storage.getRealEstateListings();
+      res.json(listings);
+    } catch (error) {
+      res.status(500).json({ error: "Error al obtener propiedades" });
+    }
+  });
+
+  app.get("/api/real-estate/:id", async (req, res) => {
+    try {
+      const listing = await storage.getRealEstateListingById(req.params.id);
+      if (!listing) return res.status(404).json({ error: "Propiedad no encontrada" });
+      res.json(listing);
+    } catch (error) {
+      res.status(500).json({ error: "Error al obtener propiedad" });
+    }
+  });
+
+  app.get("/api/real-estate/type/:type", async (req, res) => {
+    try {
+      const listings = await storage.getRealEstateListingsByType(req.params.type);
+      res.json(listings);
+    } catch (error) {
+      res.status(500).json({ error: "Error al filtrar propiedades" });
+    }
+  });
+
+  app.post("/api/real-estate", async (req, res) => {
+    try {
+      const authHeader = req.headers['x-creator-password'] as string;
+      if (!authHeader || authHeader !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "No autorizado" });
+      }
+      const parsed = insertRealEstateListingSchema.parse(req.body);
+      const listing = await storage.createRealEstateListing(parsed);
+      res.status(201).json(listing);
+    } catch (error: any) {
+      if (error?.name === 'ZodError') return res.status(400).json({ error: "Datos inválidos", details: error.errors });
+      res.status(500).json({ error: "Error al crear propiedad" });
+    }
+  });
+
+  app.put("/api/real-estate/:id", async (req, res) => {
+    try {
+      const authHeader = req.headers['x-creator-password'] as string;
+      if (!authHeader || authHeader !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "No autorizado" });
+      }
+      const listing = await storage.updateRealEstateListing(req.params.id, req.body);
+      if (!listing) return res.status(404).json({ error: "Propiedad no encontrada" });
+      res.json(listing);
+    } catch (error) {
+      res.status(500).json({ error: "Error al actualizar propiedad" });
+    }
+  });
+
+  app.delete("/api/real-estate/:id", async (req, res) => {
+    try {
+      const authHeader = req.headers['x-creator-password'] as string;
+      if (!authHeader || authHeader !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "No autorizado" });
+      }
+      await storage.deleteRealEstateListing(req.params.id);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Error al eliminar propiedad" });
+    }
+  });
+
+  // ========== CREDIT APPLICATIONS ==========
+  app.get("/api/credit-applications", async (req, res) => {
+    try {
+      const authHeader = req.headers['x-creator-password'] as string;
+      if (!authHeader || authHeader !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "No autorizado" });
+      }
+      const applications = await storage.getCreditApplications();
+      res.json(applications);
+    } catch (error) {
+      res.status(500).json({ error: "Error al obtener solicitudes" });
+    }
+  });
+
+  app.post("/api/credit-applications", async (req, res) => {
+    try {
+      const parsed = insertCreditApplicationSchema.parse(req.body);
+      const application = await storage.createCreditApplication(parsed);
+      res.status(201).json(application);
+    } catch (error: any) {
+      if (error?.name === 'ZodError') return res.status(400).json({ error: "Datos inválidos", details: error.errors });
+      res.status(500).json({ error: "Error al crear solicitud de crédito" });
+    }
+  });
+
+  app.put("/api/credit-applications/:id/status", async (req, res) => {
+    try {
+      const authHeader = req.headers['x-creator-password'] as string;
+      if (!authHeader || authHeader !== 'lumamijuvisado') {
+        return res.status(401).json({ error: "No autorizado" });
+      }
+      const { status } = req.body;
+      if (!status) return res.status(400).json({ error: "Status requerido" });
+      const application = await storage.updateCreditApplicationStatus(req.params.id, status);
+      if (!application) return res.status(404).json({ error: "Solicitud no encontrada" });
+      res.json(application);
+    } catch (error) {
+      res.status(500).json({ error: "Error al actualizar solicitud" });
     }
   });
 

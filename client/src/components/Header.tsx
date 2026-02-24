@@ -65,6 +65,16 @@ export function Header() {
                 {language === 'es' ? 'Experiencias' : 'Experiences'}
               </span>
             </Link>
+            <Link href="/inmobiliaria" data-testid="link-inmobiliaria">
+              <span className={`text-xs uppercase tracking-[0.15em] cursor-pointer transition-colors duration-200 font-medium ${location === '/inmobiliaria' ? 'text-[#0891b2]' : 'text-[#64748b] hover:text-[#0891b2]'}`}>
+                {language === 'es' ? 'Inmobiliaria' : 'Real Estate'}
+              </span>
+            </Link>
+            <Link href="/creditos" data-testid="link-creditos">
+              <span className={`text-xs uppercase tracking-[0.15em] cursor-pointer transition-colors duration-200 font-medium ${location === '/creditos' ? 'text-[#0891b2]' : 'text-[#64748b] hover:text-[#0891b2]'}`}>
+                {language === 'es' ? 'Créditos' : 'Credits'}
+              </span>
+            </Link>
             <Link href="/invest" data-testid="link-invest">
               <span className={`text-xs uppercase tracking-[0.15em] cursor-pointer transition-colors duration-200 font-medium ${location === '/invest' ? 'text-[#0891b2]' : 'text-[#64748b] hover:text-[#0891b2]'}`}>
                 {language === 'es' ? 'Invertir' : 'Invest'}

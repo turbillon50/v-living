@@ -1,5 +1,6 @@
 import { AGHLogoHorizontal } from '@/components/AGHLogo';
 import { useLanguage } from '@/lib/LanguageContext';
+import { Link } from 'wouter';
 
 export function AGHFooter() {
   const { language } = useLanguage();
@@ -7,7 +8,7 @@ export function AGHFooter() {
   return (
     <footer className="border-t border-[#1e293b] bg-[#0a1628] pb-32">
       <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
           <div>
             <AGHLogoHorizontal height={28} color="#fff" />
             <p className="text-[#64748b] text-sm mt-4 leading-relaxed">
@@ -15,6 +16,44 @@ export function AGHFooter() {
                 ? 'Fracciones inmobiliarias de lujo en el Caribe. Modelo legal, real y heredable.'
                 : 'Luxury fractional real estate in the Caribbean. Legal, real and inheritable model.'}
             </p>
+          </div>
+
+          <div>
+            <h4 className="text-white text-xs font-medium tracking-[0.2em] uppercase mb-5">
+              {language === 'es' ? 'Servicios' : 'Services'}
+            </h4>
+            <div className="space-y-3">
+              <Link href="/fractional">
+                <span className="block text-[#94a3b8] text-sm hover:text-[#22d3ee] transition-colors duration-200 cursor-pointer" data-testid="footer-link-fractional">
+                  {language === 'es' ? 'Fracciones' : 'Fractions'}
+                </span>
+              </Link>
+              <Link href="/inmobiliaria">
+                <span className="block text-[#94a3b8] text-sm hover:text-[#22d3ee] transition-colors duration-200 cursor-pointer" data-testid="footer-link-inmobiliaria">
+                  {language === 'es' ? 'Inmobiliaria' : 'Real Estate'}
+                </span>
+              </Link>
+              <Link href="/creditos">
+                <span className="block text-[#94a3b8] text-sm hover:text-[#22d3ee] transition-colors duration-200 cursor-pointer" data-testid="footer-link-creditos">
+                  {language === 'es' ? 'Créditos Hipotecarios' : 'Mortgage Credits'}
+                </span>
+              </Link>
+              <Link href="/vuelos">
+                <span className="block text-[#94a3b8] text-sm hover:text-[#22d3ee] transition-colors duration-200 cursor-pointer" data-testid="footer-link-vuelos">
+                  {language === 'es' ? 'Vuelos' : 'Flights'}
+                </span>
+              </Link>
+              <Link href="/hoteles">
+                <span className="block text-[#94a3b8] text-sm hover:text-[#22d3ee] transition-colors duration-200 cursor-pointer" data-testid="footer-link-hoteles">
+                  {language === 'es' ? 'Hoteles' : 'Hotels'}
+                </span>
+              </Link>
+              <Link href="/experiences">
+                <span className="block text-[#94a3b8] text-sm hover:text-[#22d3ee] transition-colors duration-200 cursor-pointer" data-testid="footer-link-experiences">
+                  {language === 'es' ? 'Experiencias' : 'Experiences'}
+                </span>
+              </Link>
+            </div>
           </div>
 
           <div>

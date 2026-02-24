@@ -40,6 +40,8 @@ import Dashboard from "@/pages/Dashboard";
 import ReferralLanding from "@/pages/ReferralLanding";
 import Flights from "@/pages/Flights";
 import Hotels from "@/pages/Hotels";
+import Inmobiliaria from "@/pages/Inmobiliaria";
+import Creditos from "@/pages/Creditos";
 import NotFound from "@/pages/not-found";
 import { BottomNav } from "@/components/BottomNav";
 import { FloatingAI } from "@/components/FloatingAI";
@@ -79,6 +81,8 @@ function Router() {
       <Route path="/ref/:code" component={ReferralLanding} />
       <Route path="/vuelos" component={Flights} />
       <Route path="/hoteles" component={Hotels} />
+      <Route path="/inmobiliaria" component={Inmobiliaria} />
+      <Route path="/creditos" component={Creditos} />
       <Route component={NotFound} />
     </Switch>
   );

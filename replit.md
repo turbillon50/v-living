@@ -102,6 +102,27 @@ Database tables:
 - `POST /api/pre-bookings` - Crear pre-reserva
 - `GET /api/pre-bookings/:email` - Ver reservas por email
 
+### Real Estate & Banking Module
+
+Key frontend pages:
+- `/inmobiliaria` - Real estate listings (properties for sale, NOT fractional)
+- `/creditos` - Mortgage simulator and pre-approval application
+
+Key backend endpoints:
+- `GET /api/real-estate` - List all active real estate listings
+- `GET /api/real-estate/:id` - Get single listing
+- `GET /api/real-estate/type/:type` - Filter by property type (casa, departamento, penthouse, terreno, comercial)
+- `POST /api/real-estate` - Create listing (Creator Mode)
+- `PUT /api/real-estate/:id` - Update listing
+- `DELETE /api/real-estate/:id` - Delete listing
+- `GET /api/credit-applications` - List all credit applications
+- `POST /api/credit-applications` - Submit credit pre-approval request
+- `PUT /api/credit-applications/:id/status` - Update application status
+
+Database tables:
+- `real_estate_listings` - Properties for sale with price, type, location, images, amenities, features, contact info
+- `credit_applications` - Mortgage requests with property value, down payment, loan amount, term, income, employment type
+
 ### Duffel Travel Integration
 
 Key backend file:
