@@ -3,7 +3,7 @@ import { Link } from 'wouter';
 import { useLanguage } from '@/lib/LanguageContext';
 import { Header } from '@/components/Header';
 import { AGHFooter } from '@/components/AGHFooter';
-import { ArrowLeft, Hotel, Search, MapPin, Calendar, Users, Loader2, Star, Info } from 'lucide-react';
+import { ArrowLeft, Hotel, Search, MapPin, Calendar, Users, Loader2, Star, Info, Shield, Sparkles, Award, Heart } from 'lucide-react';
 
 interface HotelResult {
   id: string;
@@ -19,12 +19,12 @@ interface HotelResult {
 }
 
 const POPULAR_DESTINATIONS = [
-  { name: 'Cancun', lat: 21.1619, lng: -86.8515, img: 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=300&h=200&fit=crop' },
-  { name: 'Tulum', lat: 20.2114, lng: -87.4654, img: 'https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=300&h=200&fit=crop' },
-  { name: 'Playa del Carmen', lat: 20.6296, lng: -87.0739, img: 'https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=300&h=200&fit=crop' },
-  { name: 'Miami', lat: 25.7617, lng: -80.1918, img: 'https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?w=300&h=200&fit=crop' },
-  { name: 'Punta Cana', lat: 18.5601, lng: -68.3725, img: 'https://images.unsplash.com/photo-1590523278191-995a2e635a28?w=300&h=200&fit=crop' },
-  { name: 'Los Cabos', lat: 22.8905, lng: -109.9167, img: 'https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=300&h=200&fit=crop' },
+  { name: 'Cancun', lat: 21.1619, lng: -86.8515, img: 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=400&h=300&fit=crop', desc: 'Riviera Maya' },
+  { name: 'Tulum', lat: 20.2114, lng: -87.4654, img: 'https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=400&h=300&fit=crop', desc: 'Quintana Roo' },
+  { name: 'Playa del Carmen', lat: 20.6296, lng: -87.0739, img: 'https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=400&h=300&fit=crop', desc: 'Riviera Maya' },
+  { name: 'Miami', lat: 25.7617, lng: -80.1918, img: 'https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?w=400&h=300&fit=crop', desc: 'Florida, USA' },
+  { name: 'Punta Cana', lat: 18.5601, lng: -68.3725, img: 'https://images.unsplash.com/photo-1590523278191-995a2e635a28?w=400&h=300&fit=crop', desc: 'Rep. Dominicana' },
+  { name: 'Los Cabos', lat: 22.8905, lng: -109.9167, img: 'https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=400&h=300&fit=crop', desc: 'Baja California' },
 ];
 
 export default function Hotels() {
@@ -93,57 +93,95 @@ export default function Hotels() {
     <div className="min-h-screen bg-[#0a1628] text-white">
       <Header />
 
-      <main className="pb-32 max-w-4xl mx-auto">
-        <div className="px-4 pt-4 pb-2 flex items-center gap-3">
-          <Link href="/home">
-            <span className="p-2 hover:bg-white/5 rounded-full transition-colors cursor-pointer" data-testid="button-back-hotels">
-              <ArrowLeft className="w-5 h-5" />
-            </span>
-          </Link>
-          <div>
-            <h1 className="text-lg font-semibold tracking-tight flex items-center gap-2" data-testid="text-hotels-title">
-              <Hotel className="w-5 h-5 text-[#22d3ee]" />
-              {language === 'es' ? 'Hoteles' : 'Hotels'}
-            </h1>
-            <p className="text-white/40 text-xs">
-              {language === 'es' ? 'Encuentra hospedaje en los mejores destinos' : 'Find accommodation in the best destinations'}
-            </p>
+      <section className="relative overflow-hidden">
+        <div className="relative h-[380px] md:h-[440px]">
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1400&h=600&fit=crop)' }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/60 via-[#0a1628]/30 to-[#0a1628]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0891b2]/10 via-transparent to-[#0891b2]/10" />
+          <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-[#0891b2]/5 blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-48 h-48 rounded-full bg-[#22d3ee]/5 blur-3xl" />
+
+          <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-12">
+            <div className="fl-fade-in">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center mx-auto mb-5 shadow-xl shadow-[#0891b2]/30">
+                <Hotel className="w-8 h-8 text-white" />
+              </div>
+              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living Stays</p>
+              <h1 className="text-4xl md:text-5xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="text-hotels-title">
+                {language === 'es' ? 'Hoteles de Lujo' : 'Luxury Hotels'}
+              </h1>
+              <p className="text-white/50 text-sm font-light max-w-lg mx-auto mb-6">
+                {language === 'es' 
+                  ? 'Descubre los mejores resorts y hoteles boutique en el Caribe. Hospedaje premium para miembros Fractional Living.' 
+                  : 'Discover the best resorts and boutique hotels in the Caribbean. Premium accommodation for Fractional Living members.'}
+              </p>
+              <div className="flex items-center justify-center gap-6 text-[10px] text-white/40 uppercase tracking-wider">
+                <span className="flex items-center gap-1.5"><Award className="w-3 h-3 text-[#22d3ee]" /> {language === 'es' ? 'Resorts premium' : 'Premium resorts'}</span>
+                <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-[#22d3ee]" /> {language === 'es' ? 'Precio garantizado' : 'Price guaranteed'}</span>
+                <span className="flex items-center gap-1.5"><Sparkles className="w-3 h-3 text-[#22d3ee]" /> {language === 'es' ? 'Experiencia VIP' : 'VIP experience'}</span>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div className="mx-4 mt-4">
-          <p className="text-[10px] text-white/40 uppercase tracking-wider mb-2">
-            {language === 'es' ? 'Destinos populares' : 'Popular destinations'}
-          </p>
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+      <main className="pb-32 max-w-4xl mx-auto -mt-6 relative z-20">
+        <div className="mx-4 mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
+                {language === 'es' ? 'Destinos' : 'Destinations'}
+              </p>
+              <h3 className="text-white text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
+                {language === 'es' ? 'Caribe y Más' : 'Caribbean & More'}
+              </h3>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
             {POPULAR_DESTINATIONS.map((dest) => (
               <button
                 key={dest.name}
                 onClick={() => setSelectedDest(dest)}
-                className={`flex-shrink-0 relative rounded-xl overflow-hidden w-28 h-20 border-2 transition-all ${
+                className={`group relative rounded-2xl overflow-hidden aspect-[3/4] border-2 transition-all ${
                   selectedDest?.name === dest.name
-                    ? 'border-[#0891b2] shadow-lg shadow-[#0891b2]/20'
+                    ? 'border-[#0891b2] shadow-lg shadow-[#0891b2]/20 scale-[1.02]'
                     : 'border-transparent hover:border-white/20'
                 }`}
                 data-testid={`button-dest-${dest.name.toLowerCase().replace(/\s/g, '-')}`}
               >
-                <img src={dest.img} alt={dest.name} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <span className="absolute bottom-1.5 left-2 text-[11px] font-medium text-white">{dest.name}</span>
+                <img src={dest.img} alt={dest.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628]/90 via-[#0a1628]/20 to-transparent" />
+                {selectedDest?.name === dest.name && (
+                  <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+                    <Heart className="w-2.5 h-2.5 text-white fill-white" />
+                  </div>
+                )}
+                <div className="absolute bottom-2 left-2 right-2">
+                  <span className="text-white text-[11px] font-medium block leading-tight">{dest.name}</span>
+                  <span className="text-white/40 text-[9px]">{dest.desc}</span>
+                </div>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="mx-4 mt-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5">
-          {selectedDest && (
-            <div className="flex items-center gap-2 mb-3 text-[#22d3ee] text-sm">
-              <MapPin className="w-4 h-4" />
-              <span className="font-medium">{selectedDest.name}</span>
+        <div className="mx-4 bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl shadow-black/20">
+          <div className="flex items-center gap-2 mb-5">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+              <Search className="w-4 h-4 text-white" />
             </div>
-          )}
+            <h2 className="text-white/80 text-sm font-medium tracking-wide">
+              {language === 'es' ? 'Buscar Hospedaje' : 'Search Accommodation'}
+            </h2>
+            {selectedDest && (
+              <div className="ml-auto flex items-center gap-1.5 text-[#22d3ee] text-xs bg-[#0891b2]/10 px-3 py-1 rounded-full">
+                <MapPin className="w-3 h-3" />
+                <span className="font-medium">{selectedDest.name}</span>
+              </div>
+            )}
+          </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
             <div>
               <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">
                 <Calendar className="w-3 h-3 inline mr-1" />
@@ -190,7 +228,7 @@ export default function Hotels() {
             <div>
               <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">
                 <Users className="w-3 h-3 inline mr-1" />
-                {language === 'es' ? 'Huespedes' : 'Guests'}
+                {language === 'es' ? 'Huéspedes' : 'Guests'}
               </label>
               <select
                 value={guests}
@@ -208,11 +246,11 @@ export default function Hotels() {
           <button
             onClick={searchHotels}
             disabled={loading || !selectedDest}
-            className="w-full fl-btn-primary py-3.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full py-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 disabled:opacity-50 bg-gradient-to-r from-[#0891b2] to-[#22d3ee] hover:from-[#0e7490] hover:to-[#0891b2] transition-all shadow-lg shadow-[#0891b2]/25 text-white"
             data-testid="button-search-hotels"
           >
             {loading ? (
-              <><Loader2 className="w-4 h-4 animate-spin" /> {language === 'es' ? 'Buscando...' : 'Searching...'}</>
+              <><Loader2 className="w-4 h-4 animate-spin" /> {language === 'es' ? 'Buscando hoteles...' : 'Searching hotels...'}</>
             ) : (
               <><Search className="w-4 h-4" /> {language === 'es' ? 'Buscar Hoteles' : 'Search Hotels'}</>
             )}
@@ -234,61 +272,82 @@ export default function Hotels() {
 
         {loading && (
           <div className="flex flex-col items-center justify-center py-16">
-            <div className="w-12 h-12 border-2 border-[#0891b2]/20 border-t-[#0891b2] rounded-full animate-spin mb-4" />
-            <p className="text-white/50 text-sm">{language === 'es' ? 'Buscando hoteles disponibles...' : 'Finding available hotels...'}</p>
+            <div className="relative">
+              <div className="w-16 h-16 border-2 border-[#0891b2]/20 border-t-[#0891b2] rounded-full animate-spin" />
+              <Hotel className="w-6 h-6 text-[#22d3ee] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            </div>
+            <p className="text-white/50 text-sm mt-4">{language === 'es' ? 'Buscando hoteles disponibles...' : 'Finding available hotels...'}</p>
+            <p className="text-white/20 text-[10px] mt-1">{language === 'es' ? 'Comparando precios en tiempo real' : 'Comparing prices in real time'}</p>
           </div>
         )}
 
         {searched && !loading && results.length === 0 && !error && !message && (
           <div className="text-center py-16 px-4">
-            <Hotel className="w-12 h-12 text-white/10 mx-auto mb-4" />
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center mx-auto mb-4">
+              <Hotel className="w-8 h-8 text-[#0891b2]/30" />
+            </div>
             <p className="text-white/40 text-sm">{language === 'es' ? 'No se encontraron hoteles disponibles' : 'No hotels available'}</p>
+            <p className="text-white/20 text-xs mt-1">{language === 'es' ? 'Intenta con otras fechas o destinos' : 'Try different dates or destinations'}</p>
           </div>
         )}
 
         {results.length > 0 && (
-          <div className="mx-4 mt-4">
-            <p className="text-white/40 text-xs mb-3">
-              {results.length} {language === 'es' ? 'hoteles encontrados' : 'hotels found'}
-            </p>
-            <div className="space-y-3">
-              {results.map((hotel) => (
+          <div className="mx-4 mt-6" data-testid="section-hotel-results">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
+                  {language === 'es' ? 'Resultados' : 'Results'}
+                </p>
+                <h3 className="text-white text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
+                  {results.length} {language === 'es' ? 'hoteles encontrados' : 'hotels found'}
+                </h3>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {results.map((hotel, idx) => (
                 <div
                   key={hotel.id}
-                  className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-[#0891b2]/30 transition-all"
+                  className={`bg-white/[0.03] border rounded-2xl overflow-hidden hover:border-[#0891b2]/30 transition-all group ${idx === 0 ? 'border-[#0891b2]/20 sm:col-span-2' : 'border-white/5'}`}
                   data-testid={`card-hotel-${hotel.id}`}
                 >
                   {hotel.accommodation?.photos?.[0]?.url && (
-                    <div className="relative h-40">
+                    <div className={`relative ${idx === 0 ? 'h-56' : 'h-44'}`}>
                       <img
                         src={hotel.accommodation.photos[0].url}
                         alt={hotel.accommodation.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-[#0a1628]/10 to-transparent" />
                       {hotel.accommodation?.rating && (
-                        <div className="absolute top-3 right-3 bg-[#0891b2] text-white text-xs font-semibold px-2 py-1 rounded-lg flex items-center gap-1">
+                        <div className="absolute top-3 right-3 bg-gradient-to-r from-[#0891b2] to-[#22d3ee] text-white text-xs font-semibold px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-lg">
                           <Star className="w-3 h-3 fill-current" />
                           {hotel.accommodation.rating.value}
                         </div>
                       )}
+                      {idx === 0 && (
+                        <div className="absolute top-3 left-3 bg-white/10 backdrop-blur-sm text-white text-[10px] font-medium px-2.5 py-1 rounded-lg tracking-wider uppercase">
+                          {language === 'es' ? 'Recomendado' : 'Recommended'}
+                        </div>
+                      )}
                     </div>
                   )}
-                  <div className="p-4">
-                    <h3 className="text-white font-semibold text-sm mb-1">{hotel.accommodation?.name}</h3>
+                  <div className="p-5">
+                    <h3 className="text-white font-semibold text-sm mb-1.5" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }}>
+                      {hotel.accommodation?.name}
+                    </h3>
                     {hotel.accommodation?.location && (
                       <p className="text-white/40 text-xs flex items-center gap-1 mb-2">
-                        <MapPin className="w-3 h-3" />
+                        <MapPin className="w-3 h-3 text-[#22d3ee]" />
                         {hotel.accommodation.location.city_name || hotel.accommodation.location.address}
                       </p>
                     )}
                     {hotel.accommodation?.description && (
-                      <p className="text-white/30 text-xs line-clamp-2 mb-3">{hotel.accommodation.description}</p>
+                      <p className="text-white/25 text-xs line-clamp-2 mb-4">{hotel.accommodation.description}</p>
                     )}
                     <div className="flex items-end justify-between">
                       {hotel.cheapest_rate_total_amount ? (
                         <div>
-                          <span className="text-lg font-semibold text-[#22d3ee]">
+                          <span className="text-xl font-semibold bg-gradient-to-r from-[#22d3ee] to-[#0891b2] bg-clip-text text-transparent">
                             ${parseFloat(hotel.cheapest_rate_total_amount).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                           </span>
                           <span className="text-white/30 text-xs ml-1">{hotel.cheapest_rate_currency}</span>
@@ -308,16 +367,36 @@ export default function Hotels() {
         )}
 
         {searched && !loading && results.length === 0 && message && (
-          <div className="mx-4 mt-6 bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-            <Hotel className="w-10 h-10 text-[#0891b2]/30 mx-auto mb-3" />
-            <h3 className="text-white/70 text-sm font-medium mb-2">
+          <div className="mx-4 mt-6 bg-white/[0.03] border border-white/10 rounded-2xl p-8 text-center">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center mx-auto mb-4">
+              <Hotel className="w-8 h-8 text-[#0891b2]/30" />
+            </div>
+            <h3 className="text-white/70 text-sm font-medium mb-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? 'Hoteles en modo prueba' : 'Hotels in test mode'}
             </h3>
-            <p className="text-white/30 text-xs leading-relaxed">
+            <p className="text-white/30 text-xs leading-relaxed max-w-sm mx-auto">
               {language === 'es'
-                ? 'La API de hoteles est\u00e1 en modo test. Los resultados reales estar\u00e1n disponibles cuando se active en modo live.'
+                ? 'La API de hoteles está en modo test. Los resultados reales estarán disponibles cuando se active en modo live.'
                 : 'The hotels API is in test mode. Real results will be available when activated in live mode.'}
             </p>
+          </div>
+        )}
+
+        {!searched && !loading && (
+          <div className="mx-4 mt-8 grid grid-cols-3 gap-3" data-testid="section-hotel-trust-badges">
+            {[
+              { icon: Award, title: language === 'es' ? 'Hoteles 5 Estrellas' : '5 Star Hotels', desc: language === 'es' ? 'Los mejores del Caribe' : 'Best in the Caribbean' },
+              { icon: Shield, title: language === 'es' ? 'Precio Garantizado' : 'Price Guaranteed', desc: language === 'es' ? 'Sin cargos ocultos' : 'No hidden charges' },
+              { icon: Sparkles, title: language === 'es' ? 'Trato VIP' : 'VIP Treatment', desc: language === 'es' ? 'Beneficios exclusivos' : 'Exclusive benefits' },
+            ].map((item, i) => (
+              <div key={i} className="bg-white/[0.03] border border-white/5 rounded-2xl p-4 text-center" data-testid={`badge-hotel-trust-${i}`}>
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2]/20 to-[#22d3ee]/20 flex items-center justify-center mx-auto mb-2">
+                  <item.icon className="w-5 h-5 text-[#22d3ee]" />
+                </div>
+                <p className="text-white/80 text-xs font-medium mb-0.5">{item.title}</p>
+                <p className="text-white/30 text-[10px]">{item.desc}</p>
+              </div>
+            ))}
           </div>
         )}
       </main>

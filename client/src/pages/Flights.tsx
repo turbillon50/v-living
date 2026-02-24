@@ -3,7 +3,7 @@ import { Link } from 'wouter';
 import { useLanguage } from '@/lib/LanguageContext';
 import { Header } from '@/components/Header';
 import { AGHFooter } from '@/components/AGHFooter';
-import { ArrowLeft, Plane, Search, ArrowRight, Clock, Users, ChevronDown, Loader2, ArrowLeftRight, Calendar } from 'lucide-react';
+import { ArrowLeft, Plane, Search, ArrowRight, Clock, Users, ChevronDown, Loader2, ArrowLeftRight, Calendar, Shield, Zap, Globe, Star, MapPin } from 'lucide-react';
 
 interface Airport {
   iata_code: string;
@@ -124,6 +124,13 @@ function AirportInput({ value, onChange, placeholder, label }: {
   );
 }
 
+const POPULAR_ROUTES = [
+  { from: 'CUN', fromCity: 'Cancún', to: 'MIA', toCity: 'Miami', img: 'https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?w=400&h=250&fit=crop' },
+  { from: 'MEX', fromCity: 'CDMX', to: 'CUN', toCity: 'Cancún', img: 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=400&h=250&fit=crop' },
+  { from: 'CUN', fromCity: 'Cancún', to: 'BOG', toCity: 'Bogotá', img: 'https://images.unsplash.com/photo-1583531352515-8884af319dc1?w=400&h=250&fit=crop' },
+  { from: 'MIA', fromCity: 'Miami', to: 'PUJ', toCity: 'Punta Cana', img: 'https://images.unsplash.com/photo-1590523278191-995a2e635a28?w=400&h=250&fit=crop' },
+];
+
 export default function Flights() {
   const { language } = useLanguage();
   const [origin, setOrigin] = useState('');
@@ -188,26 +195,50 @@ export default function Flights() {
     <div className="min-h-screen bg-[#0a1628] text-white">
       <Header />
 
-      <main className="pb-32 max-w-4xl mx-auto">
-        <div className="px-4 pt-4 pb-2 flex items-center gap-3">
-          <Link href="/home">
-            <span className="p-2 hover:bg-white/5 rounded-full transition-colors cursor-pointer" data-testid="button-back-flights">
-              <ArrowLeft className="w-5 h-5" />
-            </span>
-          </Link>
-          <div>
-            <h1 className="text-lg font-semibold tracking-tight flex items-center gap-2" data-testid="text-flights-title">
-              <Plane className="w-5 h-5 text-[#22d3ee]" />
-              {language === 'es' ? 'Vuelos' : 'Flights'}
-            </h1>
-            <p className="text-white/40 text-xs">
-              {language === 'es' ? 'Busca vuelos reales con las mejores tarifas' : 'Search real flights with the best fares'}
-            </p>
+      <section className="relative overflow-hidden">
+        <div className="relative h-[380px] md:h-[440px]">
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=1400&h=600&fit=crop)' }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/70 via-[#0a1628]/40 to-[#0a1628]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0891b2]/10 via-transparent to-[#0891b2]/10" />
+          <div className="absolute top-20 right-10 w-64 h-64 rounded-full bg-[#0891b2]/5 blur-3xl" />
+          <div className="absolute bottom-10 left-10 w-48 h-48 rounded-full bg-[#22d3ee]/5 blur-3xl" />
+
+          <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-12">
+            <div className="fl-fade-in">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center mx-auto mb-5 shadow-xl shadow-[#0891b2]/30">
+                <Plane className="w-8 h-8 text-white" />
+              </div>
+              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living Travel</p>
+              <h1 className="text-4xl md:text-5xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="text-flights-title">
+                {language === 'es' ? 'Vuelos al Caribe' : 'Caribbean Flights'}
+              </h1>
+              <p className="text-white/50 text-sm font-light max-w-lg mx-auto mb-6">
+                {language === 'es' 
+                  ? 'Busca vuelos reales con las mejores aerolíneas del mundo. Tarifas en tiempo real, reserva directa.' 
+                  : 'Search real flights with the world\'s best airlines. Real-time fares, direct booking.'}
+              </p>
+              <div className="flex items-center justify-center gap-6 text-[10px] text-white/40 uppercase tracking-wider">
+                <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-[#22d3ee]" /> {language === 'es' ? 'Tarifas reales' : 'Real fares'}</span>
+                <span className="flex items-center gap-1.5"><Globe className="w-3 h-3 text-[#22d3ee]" /> +300 {language === 'es' ? 'aerolíneas' : 'airlines'}</span>
+                <span className="flex items-center gap-1.5"><Zap className="w-3 h-3 text-[#22d3ee]" /> {language === 'es' ? 'Reserva directa' : 'Direct booking'}</span>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div className="mx-4 mt-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5">
-          <div className="flex flex-col sm:flex-row gap-3 mb-3">
+      <main className="pb-32 max-w-4xl mx-auto -mt-8 relative z-20">
+        <div className="mx-4 bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl shadow-black/20">
+          <div className="flex items-center gap-2 mb-5">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+              <Search className="w-4 h-4 text-white" />
+            </div>
+            <h2 className="text-white/80 text-sm font-medium tracking-wide">
+              {language === 'es' ? 'Buscar Vuelos' : 'Search Flights'}
+            </h2>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 mb-4">
             <AirportInput
               value={origin}
               onChange={(code, name) => { setOrigin(code); setOriginName(name); }}
@@ -215,7 +246,9 @@ export default function Flights() {
               label={language === 'es' ? 'Origen' : 'Origin'}
             />
             <div className="flex items-end justify-center pb-3">
-              <ArrowLeftRight className="w-4 h-4 text-[#22d3ee]" />
+              <div className="w-8 h-8 rounded-full bg-[#0891b2]/10 flex items-center justify-center">
+                <ArrowLeftRight className="w-4 h-4 text-[#22d3ee]" />
+              </div>
             </div>
             <AirportInput
               value={destination}
@@ -225,7 +258,7 @@ export default function Flights() {
             />
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
             <div>
               <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">
                 <Calendar className="w-3 h-3 inline mr-1" />
@@ -290,16 +323,73 @@ export default function Flights() {
           <button
             onClick={searchFlights}
             disabled={loading}
-            className="w-full fl-btn-primary py-3.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full py-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 disabled:opacity-50 bg-gradient-to-r from-[#0891b2] to-[#22d3ee] hover:from-[#0e7490] hover:to-[#0891b2] transition-all shadow-lg shadow-[#0891b2]/25 text-white"
             data-testid="button-search-flights"
           >
             {loading ? (
-              <><Loader2 className="w-4 h-4 animate-spin" /> {language === 'es' ? 'Buscando...' : 'Searching...'}</>
+              <><Loader2 className="w-4 h-4 animate-spin" /> {language === 'es' ? 'Buscando mejores tarifas...' : 'Finding best fares...'}</>
             ) : (
               <><Search className="w-4 h-4" /> {language === 'es' ? 'Buscar Vuelos' : 'Search Flights'}</>
             )}
           </button>
         </div>
+
+        {!searched && !loading && (
+          <div className="mx-4 mt-8" data-testid="section-popular-routes">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
+                  {language === 'es' ? 'Populares' : 'Popular'}
+                </p>
+                <h3 className="text-white text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
+                  {language === 'es' ? 'Rutas Destacadas' : 'Featured Routes'}
+                </h3>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {POPULAR_ROUTES.map((route, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setOrigin(route.from);
+                    setOriginName(`${route.fromCity} (${route.from})`);
+                    setDestination(route.to);
+                    setDestName(`${route.toCity} (${route.to})`);
+                  }}
+                  className="group relative rounded-2xl overflow-hidden aspect-[16/10] text-left border border-white/5 hover:border-[#0891b2]/30 transition-all"
+                  data-testid={`route-${route.from}-${route.to}`}
+                >
+                  <img src={route.img} alt={`${route.fromCity} - ${route.toCity}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628]/90 via-[#0a1628]/30 to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <div className="flex items-center gap-1.5 text-white text-xs font-medium">
+                      <span>{route.fromCity}</span>
+                      <ArrowRight className="w-3 h-3 text-[#22d3ee]" />
+                      <span>{route.toCity}</span>
+                    </div>
+                    <p className="text-white/40 text-[10px] mt-0.5">{route.from} - {route.to}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-8 grid grid-cols-3 gap-3">
+              {[
+                { icon: Star, title: language === 'es' ? 'Mejores Precios' : 'Best Prices', desc: language === 'es' ? 'Comparamos aerolíneas' : 'We compare airlines' },
+                { icon: Shield, title: language === 'es' ? 'Reserva Segura' : 'Secure Booking', desc: language === 'es' ? 'Pago protegido' : 'Protected payment' },
+                { icon: Globe, title: language === 'es' ? 'Cobertura Global' : 'Global Coverage', desc: language === 'es' ? '+300 aerolíneas' : '+300 airlines' },
+              ].map((item, i) => (
+                <div key={i} className="bg-white/[0.03] border border-white/5 rounded-2xl p-4 text-center" data-testid={`badge-flights-trust-${i}`}>
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2]/20 to-[#22d3ee]/20 flex items-center justify-center mx-auto mb-2">
+                    <item.icon className="w-5 h-5 text-[#22d3ee]" />
+                  </div>
+                  <p className="text-white/80 text-xs font-medium mb-0.5">{item.title}</p>
+                  <p className="text-white/30 text-[10px]">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {error && (
           <div className="mx-4 mt-4 bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-sm" data-testid="text-flight-error">
@@ -309,41 +399,63 @@ export default function Flights() {
 
         {loading && (
           <div className="flex flex-col items-center justify-center py-16">
-            <div className="w-12 h-12 border-2 border-[#0891b2]/20 border-t-[#0891b2] rounded-full animate-spin mb-4" />
-            <p className="text-white/50 text-sm">{language === 'es' ? 'Buscando las mejores tarifas...' : 'Finding the best fares...'}</p>
+            <div className="relative">
+              <div className="w-16 h-16 border-2 border-[#0891b2]/20 border-t-[#0891b2] rounded-full animate-spin" />
+              <Plane className="w-6 h-6 text-[#22d3ee] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            </div>
+            <p className="text-white/50 text-sm mt-4">{language === 'es' ? 'Buscando las mejores tarifas...' : 'Finding the best fares...'}</p>
+            <p className="text-white/20 text-[10px] mt-1">{language === 'es' ? 'Comparando aerolíneas en tiempo real' : 'Comparing airlines in real time'}</p>
           </div>
         )}
 
         {searched && !loading && offers.length === 0 && !error && (
           <div className="text-center py-16 px-4">
-            <Plane className="w-12 h-12 text-white/10 mx-auto mb-4" />
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center mx-auto mb-4">
+              <Plane className="w-8 h-8 text-[#0891b2]/30" />
+            </div>
             <p className="text-white/40 text-sm">{language === 'es' ? 'No se encontraron vuelos para esta ruta' : 'No flights found for this route'}</p>
+            <p className="text-white/20 text-xs mt-1">{language === 'es' ? 'Intenta con otras fechas o destinos' : 'Try different dates or destinations'}</p>
           </div>
         )}
 
         {offers.length > 0 && (
-          <div className="mx-4 mt-4">
-            <p className="text-white/40 text-xs mb-3">
-              {offers.length} {language === 'es' ? 'vuelos encontrados' : 'flights found'}
-            </p>
+          <div className="mx-4 mt-6" data-testid="section-flight-results">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
+                  {language === 'es' ? 'Resultados' : 'Results'}
+                </p>
+                <h3 className="text-white text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
+                  {offers.length} {language === 'es' ? 'vuelos encontrados' : 'flights found'}
+                </h3>
+              </div>
+              <div className="text-[10px] text-white/30 uppercase tracking-wider">
+                {language === 'es' ? 'Ordenado por precio' : 'Sorted by price'}
+              </div>
+            </div>
             <div className="space-y-3">
-              {offers.map((offer) => (
+              {offers.map((offer, idx) => (
                 <div
                   key={offer.id}
-                  className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-[#0891b2]/30 transition-all"
+                  className={`bg-white/[0.03] border rounded-2xl overflow-hidden hover:border-[#0891b2]/30 transition-all ${idx === 0 ? 'border-[#0891b2]/20 ring-1 ring-[#0891b2]/10' : 'border-white/5'}`}
                   data-testid={`card-flight-${offer.id}`}
                 >
+                  {idx === 0 && (
+                    <div className="bg-gradient-to-r from-[#0891b2] to-[#22d3ee] px-4 py-1.5 text-[10px] font-medium tracking-wider uppercase text-center">
+                      {language === 'es' ? 'Mejor precio' : 'Best price'}
+                    </div>
+                  )}
                   <button
                     onClick={() => setExpandedOffer(expandedOffer === offer.id ? null : offer.id)}
-                    className="w-full text-left p-4"
+                    className="w-full text-left p-5"
                   >
                     {offer.slices.map((slice, si) => (
                       <div key={si} className={`flex items-center gap-3 ${si > 0 ? 'mt-3 pt-3 border-t border-white/5' : ''}`}>
                         <div className="flex-shrink-0">
                           {offer.owner.logo_symbol_url ? (
-                            <img src={offer.owner.logo_symbol_url} alt={offer.owner.name} className="w-8 h-8 rounded-lg object-contain bg-white p-0.5" />
+                            <img src={offer.owner.logo_symbol_url} alt={offer.owner.name} className="w-10 h-10 rounded-xl object-contain bg-white p-1 shadow-sm" />
                           ) : (
-                            <div className="w-8 h-8 rounded-lg bg-[#0891b2]/20 flex items-center justify-center text-[#22d3ee] text-xs font-bold">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2]/20 to-[#22d3ee]/20 flex items-center justify-center text-[#22d3ee] text-xs font-bold">
                               {offer.owner.iata_code}
                             </div>
                           )}
@@ -351,28 +463,28 @@ export default function Flights() {
 
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 text-sm">
-                            <span className="font-medium">{slice.segments?.[0] ? formatTime(slice.segments[0].departing_at) : ''}</span>
-                            <span className="text-white/30 text-xs">{slice.origin.iata_code}</span>
+                            <span className="font-semibold text-white">{slice.segments?.[0] ? formatTime(slice.segments[0].departing_at) : ''}</span>
+                            <span className="text-white/40 text-xs">{slice.origin.iata_code}</span>
                             <div className="flex-1 flex items-center gap-1 px-2">
-                              <div className="flex-1 h-px bg-white/10" />
-                              <span className="text-[10px] text-white/30 whitespace-nowrap flex items-center gap-0.5">
+                              <div className="flex-1 h-px bg-gradient-to-r from-[#0891b2]/30 to-[#22d3ee]/30" />
+                              <span className="text-[10px] text-white/30 whitespace-nowrap flex items-center gap-0.5 bg-white/5 px-2 py-0.5 rounded-full">
                                 <Clock className="w-2.5 h-2.5" />
                                 {formatDuration(slice.duration)}
                               </span>
-                              <div className="flex-1 h-px bg-white/10" />
+                              <div className="flex-1 h-px bg-gradient-to-r from-[#22d3ee]/30 to-[#0891b2]/30" />
                             </div>
-                            <span className="text-white/30 text-xs">{slice.destination.iata_code}</span>
-                            <span className="font-medium">{slice.segments?.[slice.segments.length - 1] ? formatTime(slice.segments[slice.segments.length - 1].arriving_at) : ''}</span>
+                            <span className="text-white/40 text-xs">{slice.destination.iata_code}</span>
+                            <span className="font-semibold text-white">{slice.segments?.[slice.segments.length - 1] ? formatTime(slice.segments[slice.segments.length - 1].arriving_at) : ''}</span>
                           </div>
-                          <div className="flex items-center gap-2 mt-0.5">
+                          <div className="flex items-center gap-2 mt-1">
                             <span className="text-white/30 text-[10px]">{offer.owner.name}</span>
                             {slice.segments && slice.segments.length > 1 && (
-                              <span className="text-amber-400/70 text-[10px]">
+                              <span className="text-amber-400/70 text-[10px] bg-amber-400/10 px-1.5 py-0.5 rounded">
                                 {slice.segments.length - 1} {language === 'es' ? 'escala(s)' : 'stop(s)'}
                               </span>
                             )}
                             {slice.segments && slice.segments.length === 1 && (
-                              <span className="text-emerald-400/70 text-[10px]">
+                              <span className="text-emerald-400/70 text-[10px] bg-emerald-400/10 px-1.5 py-0.5 rounded">
                                 {language === 'es' ? 'Directo' : 'Direct'}
                               </span>
                             )}
@@ -381,7 +493,7 @@ export default function Flights() {
 
                         {si === 0 && (
                           <div className="text-right flex-shrink-0">
-                            <div className="text-lg font-semibold text-[#22d3ee]">
+                            <div className="text-xl font-semibold bg-gradient-to-r from-[#22d3ee] to-[#0891b2] bg-clip-text text-transparent">
                               ${parseFloat(offer.total_amount).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                             </div>
                             <div className="text-[10px] text-white/30 uppercase">{offer.total_currency}</div>
@@ -392,18 +504,19 @@ export default function Flights() {
                   </button>
 
                   {expandedOffer === offer.id && (
-                    <div className="px-4 pb-4 border-t border-white/5 pt-3">
+                    <div className="px-5 pb-5 border-t border-white/5 pt-4">
                       {offer.slices.map((slice, si) => (
                         <div key={si} className={si > 0 ? 'mt-4' : ''}>
-                          <div className="text-[10px] text-[#22d3ee] uppercase tracking-wider mb-2 font-medium">
+                          <div className="text-[10px] text-[#22d3ee] uppercase tracking-wider mb-3 font-medium flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#22d3ee]" />
                             {si === 0 ? (language === 'es' ? 'Ida' : 'Outbound') : (language === 'es' ? 'Vuelta' : 'Return')}
                           </div>
                           {slice.segments?.map((seg, segi) => (
                             <div key={segi} className="flex items-start gap-3 mb-2 last:mb-0">
                               <div className="flex flex-col items-center">
-                                <div className="w-2 h-2 rounded-full bg-[#0891b2]" />
-                                <div className="w-px h-8 bg-white/10" />
-                                <div className="w-2 h-2 rounded-full bg-[#22d3ee]" />
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#0891b2] to-[#22d3ee]" />
+                                <div className="w-px h-8 bg-gradient-to-b from-[#0891b2]/40 to-[#22d3ee]/40" />
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#22d3ee] to-[#0891b2]" />
                               </div>
                               <div className="flex-1 text-xs">
                                 <div className="flex justify-between">
@@ -418,20 +531,20 @@ export default function Flights() {
                         </div>
                       ))}
 
-                      <div className="flex gap-2 mt-3">
+                      <div className="flex flex-wrap gap-2 mt-4">
                         {offer.conditions?.refund_before_departure?.allowed && (
-                          <span className="text-[10px] text-emerald-400/70 bg-emerald-400/10 px-2 py-1 rounded-full">
+                          <span className="text-[10px] text-emerald-400/70 bg-emerald-400/10 px-2.5 py-1 rounded-full">
                             {language === 'es' ? 'Reembolsable' : 'Refundable'}
                           </span>
                         )}
                         {offer.conditions?.change_before_departure?.allowed && (
-                          <span className="text-[10px] text-blue-400/70 bg-blue-400/10 px-2 py-1 rounded-full">
+                          <span className="text-[10px] text-blue-400/70 bg-blue-400/10 px-2.5 py-1 rounded-full">
                             {language === 'es' ? 'Cambios permitidos' : 'Changes allowed'}
                           </span>
                         )}
                         {offer.cabin_class && (
-                          <span className="text-[10px] text-white/40 bg-white/5 px-2 py-1 rounded-full">
-                            {offer.cabin_class}
+                          <span className="text-[10px] text-white/40 bg-white/5 px-2.5 py-1 rounded-full capitalize">
+                            {offer.cabin_class.replace('_', ' ')}
                           </span>
                         )}
                       </div>
