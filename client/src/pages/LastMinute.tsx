@@ -1,66 +1,251 @@
 import { Header } from '@/components/Header';
-import { BottomNav } from '@/components/BottomNav';
-import { Button } from '@/components/ui/button';
-import { Zap, Clock, ArrowRight } from 'lucide-react';
+import { AGHFooter } from '@/components/AGHFooter';
+import { useLanguage } from '@/lib/LanguageContext';
+import { Link } from 'wouter';
 
 export default function LastMinute() {
+  const { language } = useLanguage();
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50/30 pb-60">
+    <div className="min-h-screen bg-[#fafcfd]">
       <Header />
 
-      <main className="max-w-2xl mx-auto px-4 pt-6">
-        <div className="mb-8 text-center">
-          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-gray-400 to-black rounded-full flex items-center justify-center">
-            <Zap className="w-8 h-8 text-white" />
+      <section className="relative overflow-hidden">
+        <div className="relative h-[420px] md:h-[500px]">
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/hero-ocean.jpg)' }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/60 via-[#0a1628]/30 to-[#fafcfd]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0891b2]/20 via-transparent to-[#0891b2]/20" />
+
+          <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-16">
+            <div className="fl-fade-in">
+              <div className="flex justify-center mb-5">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center shadow-lg shadow-[#0891b2]/30">
+                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
+                </div>
+              </div>
+              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">All Global Holding LLC</p>
+              <h1 className="text-4xl md:text-5xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="hero-title-lastminute">
+                Last Minute Capital
+              </h1>
+              <p className="text-white/70 max-w-lg mx-auto font-light text-sm md:text-base">
+                {language === 'es'
+                  ? 'Inversión operativa diseñada para el momento correcto, dentro de un sistema institucional en operación.'
+                  : 'Operational investment designed for the right moment, within an institutional system in operation.'}
+              </p>
+              <div className="flex items-center justify-center gap-6 mt-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#22d3ee]" />
+                  <span className="text-white/60 text-xs">7%-12% {language === 'es' ? 'rendimiento' : 'returns'}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#0891b2]" />
+                  <span className="text-white/60 text-xs">$20K-$100K MXN</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <h1 className="text-2xl font-medium mb-2 bg-gradient-to-r from-gray-600 to-black/90 bg-clip-text text-transparent">
-            Last Minute Capital
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Programa diseñado para procesos de escrituración y adquisición inmobiliaria
+        </div>
+      </section>
+
+      <main className="max-w-4xl mx-auto px-6 -mt-8 relative z-20">
+        <div className="bg-white/80 backdrop-blur-sm border border-[#e2e8f0] rounded-2xl p-6 md:p-8 mb-8 shadow-lg" data-testid="card-intro">
+          <p className="text-[#334155] leading-relaxed text-sm md:text-base">
+            {language === 'es'
+              ? 'All Global Holding LLC diseña, estructura y opera sistemas de capital vinculados a activos reales bajo el ecosistema Fractional Living. Nuestro enfoque integra adquisición, estructuración fiduciaria, operación y optimización de activos.'
+              : 'All Global Holding LLC designs, structures and operates capital systems linked to real assets under the Fractional Living ecosystem.'}
+          </p>
+          <p className="text-[#64748b] text-sm mt-3 italic">
+            {language === 'es' ? 'Last Minute Capital forma parte de ese sistema.' : 'Last Minute Capital is part of that system.'}
           </p>
         </div>
 
-        <div className="space-y-4 mb-8">
-          <div className="p-6 bg-white border border-border rounded-2xl shadow-sm">
-            <div className="flex items-start gap-4">
-              <Clock className="w-6 h-6 text-black flex-shrink-0 mt-1" />
+        <section className="mb-10">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <h2 className="text-2xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+              {language === 'es' ? '¿Qué es Last Minute Capital?' : 'What is Last Minute Capital?'}
+            </h2>
+          </div>
+          <p className="text-[#475569] leading-relaxed text-sm md:text-base">
+            {language === 'es'
+              ? 'Es una inversión operativa que se integra en etapas finales de procesos de adquisición y activación. Su función es aportar liquidez estratégica cuando el valor del activo ya está construido y el objetivo es acelerar cierres, formalizaciones y puesta en marcha.'
+              : 'An operational investment that integrates in the final stages of acquisition and activation processes. Its function is to provide strategic liquidity when the asset value is already built.'}
+          </p>
+          <p className="text-[#64748b] leading-relaxed text-sm mt-3">
+            {language === 'es'
+              ? 'Este producto aprovecha el factor tiempo como ventaja competitiva. Al integrarse al final del ciclo, el capital entra con alta visibilidad operativa.'
+              : 'This product leverages the time factor as a competitive advantage. By integrating at the end of the cycle, capital enters with high operational visibility.'}
+          </p>
+        </section>
+
+        <section className="mb-10">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
+              </svg>
+            </div>
+            <h2 className="text-2xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+              {language === 'es' ? '¿Por qué es relevante ahora?' : 'Why is it relevant now?'}
+            </h2>
+          </div>
+          <p className="text-[#475569] leading-relaxed text-sm md:text-base">
+            {language === 'es'
+              ? 'El ecosistema se encuentra en fase activa de crecimiento y consolidación. Existen procesos avanzados que requieren capital oportuno.'
+              : 'The ecosystem is in an active growth and consolidation phase. There are advanced processes that require timely capital.'}
+          </p>
+          <div className="mt-4 bg-gradient-to-r from-[#f0fdfa] to-[#ecfeff] border border-[#0891b2]/20 rounded-xl p-4">
+            <p className="text-[#0e7490] font-medium text-sm">
+              {language === 'es' ? 'Ventana de participación limitada: 67 procesos disponibles' : 'Limited participation window: 67 processes available'}
+            </p>
+            <p className="text-[#64748b] text-xs mt-1">
+              {language === 'es'
+                ? 'La disponibilidad está ligada a la existencia de estos procesos. Cuando la fase concluye, la ventana se cierra.'
+                : 'Availability is tied to the existence of these processes. When the phase concludes, the window closes.'}
+            </p>
+          </div>
+        </section>
+
+        <section className="mb-10">
+          <h2 className="text-2xl text-[#0a1628] mb-6" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+            {language === 'es' ? 'Propuesta de Valor' : 'Value Proposition'}
+          </h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-gradient-to-br from-[#0891b2] to-[#0e7490] rounded-2xl p-6 text-white" data-testid="card-returns">
+              <p className="text-3xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>7% - 12%</p>
+              <p className="text-white/80 text-sm">{language === 'es' ? 'Rendimiento estimado bimestral' : 'Estimated bi-monthly return'}</p>
+              <p className="text-white/50 text-xs mt-1">{language === 'es' ? 'Según monto y proceso específico' : 'Based on amount and specific process'}</p>
+            </div>
+            <div className="bg-gradient-to-br from-[#0a1628] to-[#1e293b] rounded-2xl p-6 text-white" data-testid="card-amounts">
+              <p className="text-3xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>$20K - $100K</p>
+              <p className="text-white/80 text-sm">{language === 'es' ? 'Montos de participación en MXN' : 'Participation amounts in MXN'}</p>
+              <p className="text-white/50 text-xs mt-1">{language === 'es' ? 'Integración ágil e inmediata' : 'Agile and immediate integration'}</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="mb-10">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h2 className="text-2xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+              {language === 'es' ? 'Estructura y Seguridad' : 'Structure & Security'}
+            </h2>
+          </div>
+          <p className="text-[#475569] leading-relaxed text-sm md:text-base mb-4">
+            {language === 'es'
+              ? 'Las operaciones se desarrollan dentro de marcos fiduciarios, bancarios y contractuales formales, con procesos mercantiles alineados a regulación financiera vigente.'
+              : 'Operations are conducted within formal fiduciary, banking and contractual frameworks, with commercial processes aligned to current financial regulation.'}
+          </p>
+          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 shadow-sm">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center flex-shrink-0">
+                <svg className="w-5 h-5 text-[#0891b2]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+              </div>
               <div>
-                <h3 className="font-medium mb-1">Oportunidades Exclusivas</h3>
-                <p className="text-sm text-muted-foreground">
-                  Accede a fracciones con condiciones especiales de financiamiento para cierre rápido
+                <p className="text-[#0a1628] font-medium text-sm">All Global Holding LLC</p>
+                <p className="text-[#64748b] text-xs mt-1">
+                  {language === 'es'
+                    ? 'LLC constituida en Estados Unidos. Operaciones articuladas con entidades y procesos regulados.'
+                    : 'LLC incorporated in the United States. Operations articulated with regulated entities and processes.'}
                 </p>
               </div>
             </div>
           </div>
+        </section>
 
-          <div className="p-6 bg-white border border-border rounded-2xl shadow-sm">
-            <div className="flex items-start gap-4">
-              <ArrowRight className="w-6 h-6 text-black flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="font-medium mb-1">Proceso Acelerado</h3>
-                <p className="text-sm text-muted-foreground">
-                  Acompañamiento completo en escrituración y formalización legal
-                </p>
-              </div>
+        <section className="mb-10">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
             </div>
+            <h2 className="text-2xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+              {language === 'es' ? 'Participación en el Ecosistema' : 'Ecosystem Participation'}
+            </h2>
           </div>
-        </div>
-
-        <div className="p-6 bg-gradient-to-r from-gray-200 to-gray-100 rounded-2xl text-center">
-          <p className="text-black font-medium mb-3">
-            ¿Interesado en Last Minute Capital?
+          <p className="text-[#475569] leading-relaxed text-sm md:text-base mb-4">
+            {language === 'es'
+              ? 'Además del componente de inversión, Last Minute Capital funciona como membresía operativa dentro de Fractional Living.'
+              : 'Beyond the investment component, Last Minute Capital works as an operational membership within Fractional Living.'}
           </p>
-          <Button
-            className="bg-gradient-to-r from-black to-black/90"
-            onClick={() => window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20Last%20Minute%20Capital', '_blank')}
-          >
-            Contactar Asesor
-          </Button>
+          <div className="space-y-3">
+            {[
+              language === 'es' ? 'Acceso preferente a oportunidades del ecosistema' : 'Preferential access to ecosystem opportunities',
+              language === 'es' ? 'Condiciones especiales de ocupación' : 'Special occupancy conditions',
+              language === 'es' ? 'Desde $50,000 MXN: hasta una semana anual de estancia' : 'From $50,000 MXN: up to one annual week of stay',
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <p className="text-[#475569] text-sm">{item}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-[#94a3b8] text-sm mt-4 italic">
+            {language === 'es'
+              ? 'La participación permite utilizar el sistema, incluso sin ser propietario de una fracción.'
+              : 'Participation allows using the system, even without owning a fraction.'}
+          </p>
+        </section>
+
+        <section className="bg-gradient-to-br from-[#0a1628] to-[#0e7490] rounded-2xl p-8 text-center mb-10" data-testid="card-synthesis">
+          <h2 className="text-2xl text-white mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
+            {language === 'es' ? 'Síntesis' : 'Synthesis'}
+          </h2>
+          <div className="space-y-2 text-white/80 italic font-light">
+            <p>{language === 'es' ? 'Last Minute Capital integra capital cuando el proceso ya está definido,' : 'Last Minute Capital integrates capital when the process is already defined,'}</p>
+            <p>{language === 'es' ? 'cuando el tiempo impulsa el valor,' : 'when time drives value,'}</p>
+            <p>{language === 'es' ? 'y cuando la ejecución es la prioridad.' : 'and when execution is the priority.'}</p>
+          </div>
+          <div className="mt-6 pt-6 border-t border-white/20">
+            <p className="text-white/60 text-sm">
+              {language === 'es'
+                ? 'Una solución de capital diseñada para el momento correcto, dentro de un sistema institucional en operación.'
+                : 'A capital solution designed for the right moment, within an institutional system in operation.'}
+            </p>
+          </div>
+        </section>
+
+        <div className="text-center mb-16">
+          <p className="text-[#64748b] text-sm mb-4">
+            {language === 'es' ? '¿Tienes preguntas? Habla con ALIX o contacta a un representante.' : 'Have questions? Talk to ALIX or contact a representative.'}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20Last%20Minute%20Capital"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-gradient-to-r from-[#0891b2] to-[#22d3ee] text-white text-sm font-medium rounded-xl hover:shadow-lg hover:shadow-[#0891b2]/25 transition-all"
+              data-testid="cta-whatsapp-lastminute"
+            >
+              {language === 'es' ? 'Contactar Asesor' : 'Contact Advisor'}
+            </a>
+            <Link href="/">
+              <span className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-[#e2e8f0] text-[#475569] text-sm font-medium rounded-xl hover:bg-[#f8fafc] transition-all cursor-pointer" data-testid="button-back-lastminute">
+                {language === 'es' ? 'Volver al Inicio' : 'Back to Home'}
+              </span>
+            </Link>
+          </div>
         </div>
       </main>
 
-      <BottomNav />
+      <AGHFooter />
     </div>
   );
 }

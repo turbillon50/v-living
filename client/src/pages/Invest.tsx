@@ -8,7 +8,7 @@ import { WeekCalendar } from '@/components/WeekCalendar';
 import { useLanguage } from '@/lib/LanguageContext';
 import { getProperties } from '@/lib/api';
 import { Property } from '@shared/schema';
-import { ChevronRight, Building2, MapPin, Bed, Bath, Waves } from 'lucide-react';
+import { ChevronRight, MapPin, Bed, Bath, Waves } from 'lucide-react';
 
 export default function Invest() {
   const { language } = useLanguage();
@@ -37,21 +37,42 @@ export default function Invest() {
     <div className="min-h-screen bg-[#fafcfd] pb-24">
       <Header />
 
-      <section className="py-20 border-b border-[#e2e8f0] fl-fade-in">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <div className="flex justify-center mb-6">
-            <div className="w-14 h-14 rounded-2xl fl-gradient-turquoise flex items-center justify-center shadow-lg shadow-[#0891b2]/25">
-              <Waves className="w-7 h-7 text-white" />
+      <section className="relative overflow-hidden">
+        <div className="relative h-[420px] md:h-[500px]">
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/hero-ocean.jpg)' }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/60 via-[#0a1628]/20 to-[#fafcfd]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0891b2]/15 via-transparent to-[#0891b2]/15" />
+          
+          <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-16">
+            <div className="fl-fade-in">
+              <div className="flex justify-center mb-5">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center shadow-lg shadow-[#0891b2]/30">
+                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
+                  </svg>
+                </div>
+              </div>
+              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living</p>
+              <h1 className="text-4xl md:text-5xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="hero-title-invest">
+                {language === 'es' ? 'Compra \u00b7 Vive \u00b7 Renta \u00b7 Revende' : 'Buy \u00b7 Live \u00b7 Rent \u00b7 Resell'}
+              </h1>
+              <p className="text-white/70 max-w-xl mx-auto font-light text-sm md:text-base">
+                {language === 'es' 
+                  ? 'Servicio llave en mano. Nosotros rentamos por ti. Plusvalía garantizada.'
+                  : 'Turnkey service. We rent for you. Guaranteed appreciation.'}
+              </p>
+              <div className="flex items-center justify-center gap-6 mt-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#22d3ee]" />
+                  <span className="text-white/60 text-xs">{language === 'es' ? 'Llave en mano' : 'Turnkey'}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#0891b2]" />
+                  <span className="text-white/60 text-xs">{language === 'es' ? 'Plusvalía real' : 'Real appreciation'}</span>
+                </div>
+              </div>
             </div>
           </div>
-          <h1 className="text-3xl md:text-4xl text-[#0a1628] tracking-wide mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
-            Compra &middot; Vive &middot; Renta &middot; Revende &middot; Repite
-          </h1>
-          <p className="text-[#94a3b8] max-w-xl mx-auto font-light">
-            {language === 'es' 
-              ? 'Servicio llave en mano. Nosotros rentamos por ti. Plusvalía garantizada.'
-              : 'Turnkey service. We rent for you. Guaranteed appreciation.'}
-          </p>
         </div>
       </section>
 

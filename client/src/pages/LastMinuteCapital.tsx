@@ -1,114 +1,121 @@
 import { useLanguage } from '@/lib/LanguageContext';
+import { Header } from '@/components/Header';
+import { AGHFooter } from '@/components/AGHFooter';
 import { Link } from 'wouter';
-import { ArrowLeft, Shield, Clock, TrendingUp, Users, Check, Globe, Settings } from 'lucide-react';
 
 export default function LastMinuteCapital() {
   const { language } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] text-white">
-      <header className="px-6 py-4 flex items-center justify-between border-b border-white/10">
-        <div className="flex items-center gap-4">
-          <Link href="/">
-            <span className="p-2 hover:bg-white/5 rounded-full transition-colors cursor-pointer" data-testid="button-back">
-              <ArrowLeft className="w-5 h-5" />
-            </span>
-          </Link>
-          <h1 className="text-lg font-light tracking-wide">Last Minute Capital</h1>
-        </div>
-        <button className="flex items-center gap-1.5 text-sm text-white/60">
-          <Globe className="w-4 h-4" />
-        </button>
-      </header>
+    <div className="min-h-screen bg-[#fafcfd]">
+      <Header />
 
-      <main className="px-6 py-10 max-w-3xl mx-auto">
-        <div className="text-center mb-12">
-          <p className="text-xs text-white/40 uppercase tracking-[0.3em] mb-4">All Global Holding LLC</p>
-          <h2 className="text-3xl md:text-4xl font-extralight mb-6" data-testid="text-title">
-            Last Minute Capital
+      <section className="relative overflow-hidden">
+        <div className="relative h-[420px] md:h-[500px]">
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/hero-ocean.jpg)' }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/60 via-[#0a1628]/30 to-[#fafcfd]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0891b2]/20 via-transparent to-[#0891b2]/20" />
+
+          <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-16">
+            <div className="fl-fade-in">
+              <div className="flex justify-center mb-5">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center shadow-lg shadow-[#0891b2]/30">
+                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
+                </div>
+              </div>
+              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">All Global Holding LLC</p>
+              <h1 className="text-4xl md:text-5xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="hero-title-lmc">
+                Last Minute Capital
+              </h1>
+              <p className="text-white/70 max-w-lg mx-auto font-light text-sm md:text-base">
+                {language === 'es'
+                  ? 'Capital estratégico para etapas finales de adquisición inmobiliaria'
+                  : 'Strategic capital for final stages of real estate acquisition'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <main className="max-w-4xl mx-auto px-6 -mt-8 relative z-20">
+        <div className="bg-white/80 backdrop-blur-sm border border-[#e2e8f0] rounded-2xl p-6 md:p-8 mb-8 shadow-lg" data-testid="card-lmc-intro">
+          <p className="text-[#334155] leading-relaxed text-sm md:text-base">
+            {language === 'es'
+              ? 'All Global Holding LLC diseña, estructura y opera sistemas de capital vinculados a activos reales bajo el ecosistema Fractional Living. Nuestro enfoque integra adquisición, estructuración fiduciaria, operación y optimización de activos, con soluciones de capital diseñadas para cada etapa del proceso.'
+              : 'All Global Holding LLC designs, structures and operates capital systems linked to real assets under the Fractional Living ecosystem.'}
+          </p>
+          <p className="text-[#64748b] text-sm mt-4 italic">
+            Last Minute Capital {language === 'es' ? 'forma parte de ese sistema.' : 'is part of that system.'}
+          </p>
+        </div>
+
+        <section className="mb-10">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <h2 className="text-2xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+              {language === 'es' ? '¿Qué es Last Minute Capital?' : 'What is Last Minute Capital?'}
+            </h2>
+          </div>
+          <p className="text-[#475569] leading-relaxed text-sm md:text-base">
+            {language === 'es'
+              ? 'Es una inversión operativa que se integra en etapas finales de procesos de adquisición y activación. Su función es aportar liquidez estratégica cuando el valor del activo ya está construido y el objetivo es acelerar cierres, formalizaciones y puesta en marcha.'
+              : 'It is an operational investment integrated in the final stages of acquisition and activation processes.'}
+          </p>
+        </section>
+
+        <section className="mb-10">
+          <h2 className="text-2xl text-[#0a1628] mb-6" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+            {language === 'es' ? 'Propuesta de Valor' : 'Value Proposition'}
           </h2>
-          <p className="text-white/60 font-light leading-relaxed">
-            Inversión operativa diseñada para el momento correcto, dentro de un sistema institucional en operación.
-          </p>
-        </div>
-
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-8">
-          <p className="text-white/70 leading-relaxed text-sm md:text-base">
-            All Global Holding LLC diseña, estructura y opera sistemas de capital vinculados a activos reales bajo el ecosistema Fractional Living. Nuestro enfoque integra adquisición, estructuración fiduciaria, operación y optimización de activos, con soluciones de capital diseñadas para cada etapa del proceso.
-          </p>
-          <p className="text-white/50 text-sm mt-4 italic">
-            Last Minute Capital forma parte de ese sistema.
-          </p>
-        </div>
-
-        <section className="mb-10">
-          <h3 className="text-xl font-light mb-4 flex items-center gap-3">
-            <Clock className="w-5 h-5 text-white/70" />
-            ¿Qué es Last Minute Capital?
-          </h3>
-          <p className="text-white/60 leading-relaxed text-sm md:text-base">
-            Es una inversión operativa que se integra en etapas finales de procesos de adquisición y activación. Su función es aportar liquidez estratégica cuando el valor del activo ya está construido y el objetivo es acelerar cierres, formalizaciones y puesta en marcha.
-          </p>
-          <p className="text-white/50 leading-relaxed text-sm mt-4">
-            Este producto aprovecha el factor tiempo como ventaja competitiva. Al integrarse al final del ciclo, el capital entra con alta visibilidad operativa y se orienta a ejecución concreta.
-          </p>
-        </section>
-
-        <section className="mb-10">
-          <h3 className="text-xl font-light mb-4 flex items-center gap-3">
-            <TrendingUp className="w-5 h-5 text-white/70" />
-            ¿Por qué es relevante ahora?
-          </h3>
-          <p className="text-white/60 leading-relaxed text-sm md:text-base">
-            El ecosistema se encuentra en fase activa de crecimiento y consolidación. Existen procesos avanzados que requieren capital oportuno para mantener ritmo y eficiencia.
-          </p>
-          <div className="mt-4 bg-white/10 border border-white/20 rounded-xl p-4">
-            <p className="text-white/70 font-medium text-sm">
-              Ventana de participación limitada: 67 procesos disponibles
-            </p>
-            <p className="text-white/50 text-xs mt-1">
-              La disponibilidad está ligada a la existencia de estos procesos. Cuando la fase concluye, la ventana se cierra.
-            </p>
-          </div>
-        </section>
-
-        <section className="mb-10">
-          <h3 className="text-xl font-light mb-4">Propuesta de Valor</h3>
-          <p className="text-white/60 leading-relaxed text-sm md:text-base mb-6">
-            Last Minute Capital busca una asimetría favorable al participar en fases finales del proceso.
-          </p>
-          
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-              <p className="text-2xl font-light text-white/70 mb-1">7% - 12%</p>
-              <p className="text-white/50 text-sm">Rendimiento estimado bimestral</p>
-              <p className="text-white/30 text-xs mt-1">Según monto y proceso específico</p>
+            <div className="bg-gradient-to-br from-[#0891b2] to-[#0e7490] rounded-2xl p-6 text-white" data-testid="card-lmc-returns">
+              <p className="text-3xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>7% - 12%</p>
+              <p className="text-white/80 text-sm">{language === 'es' ? 'Rendimiento estimado bimestral' : 'Estimated bi-monthly return'}</p>
+              <p className="text-white/50 text-xs mt-1">{language === 'es' ? 'Según monto y proceso específico' : 'Based on specific amount and process'}</p>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-              <p className="text-2xl font-light text-white mb-1">$20K - $100K</p>
-              <p className="text-white/50 text-sm">Montos de participación en MXN</p>
-              <p className="text-white/30 text-xs mt-1">Integración ágil e inmediata</p>
+            <div className="bg-gradient-to-br from-[#0a1628] to-[#1e293b] rounded-2xl p-6 text-white" data-testid="card-lmc-amounts">
+              <p className="text-3xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>$20K - $100K</p>
+              <p className="text-white/80 text-sm">{language === 'es' ? 'Montos de participación en MXN' : 'Participation amounts in MXN'}</p>
+              <p className="text-white/50 text-xs mt-1">{language === 'es' ? 'Integración ágil e inmediata' : 'Agile and immediate integration'}</p>
             </div>
           </div>
         </section>
 
         <section className="mb-10">
-          <h3 className="text-xl font-light mb-4 flex items-center gap-3">
-            <Shield className="w-5 h-5 text-white/70" />
-            Estructura y Seguridad
-          </h3>
-          <p className="text-white/60 leading-relaxed text-sm md:text-base mb-4">
-            Las operaciones donde se integra Last Minute Capital se desarrollan dentro de marcos fiduciarios, bancarios y contractuales formales, con procesos mercantiles y flujos operativos alineados a regulación financiera vigente.
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h2 className="text-2xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+              {language === 'es' ? 'Estructura y Seguridad' : 'Structure & Security'}
+            </h2>
+          </div>
+          <p className="text-[#475569] leading-relaxed text-sm md:text-base mb-4">
+            {language === 'es'
+              ? 'Las operaciones donde se integra Last Minute Capital se desarrollan dentro de marcos fiduciarios, bancarios y contractuales formales.'
+              : 'Operations where Last Minute Capital integrates are conducted within formal fiduciary, banking and contractual frameworks.'}
           </p>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 shadow-sm">
             <div className="flex items-start gap-3">
-              <div className="p-2 bg-white/10 rounded-lg">
-                <Globe className="w-4 h-4 text-white/60" />
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center flex-shrink-0">
+                <svg className="w-5 h-5 text-[#0891b2]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
               </div>
               <div>
-                <p className="text-white/80 font-medium text-sm">All Global Holding LLC</p>
-                <p className="text-white/50 text-xs mt-1">
-                  LLC constituida en Estados Unidos. Operaciones articuladas con entidades y procesos regulados, aportando control, trazabilidad y solidez institucional.
+                <p className="text-[#0a1628] font-medium text-sm">All Global Holding LLC</p>
+                <p className="text-[#64748b] text-xs mt-1">
+                  {language === 'es'
+                    ? 'LLC constituida en Estados Unidos. Operaciones articuladas con entidades y procesos regulados, aportando control, trazabilidad y solidez institucional.'
+                    : 'LLC incorporated in the United States. Operations articulated with regulated entities and processes.'}
                 </p>
               </div>
             </div>
@@ -116,58 +123,74 @@ export default function LastMinuteCapital() {
         </section>
 
         <section className="mb-10">
-          <h3 className="text-xl font-light mb-4 flex items-center gap-3">
-            <Users className="w-5 h-5 text-white/70" />
-            Participación en el Ecosistema
-          </h3>
-          <p className="text-white/60 leading-relaxed text-sm md:text-base mb-4">
-            Además del componente de inversión, Last Minute Capital funciona como membresía operativa dentro de Fractional Living.
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <h2 className="text-2xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+              {language === 'es' ? 'Participación en el Ecosistema' : 'Ecosystem Participation'}
+            </h2>
+          </div>
+          <p className="text-[#475569] leading-relaxed text-sm md:text-base mb-4">
+            {language === 'es'
+              ? 'Last Minute Capital funciona como membresía operativa dentro de Fractional Living.'
+              : 'Last Minute Capital works as an operational membership within Fractional Living.'}
           </p>
-          
           <div className="space-y-3">
-            <div className="flex items-start gap-3">
-              <Check className="w-4 h-4 text-white/70 mt-0.5 flex-shrink-0" />
-              <p className="text-white/60 text-sm">Acceso preferente a oportunidades del ecosistema</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <Check className="w-4 h-4 text-white/70 mt-0.5 flex-shrink-0" />
-              <p className="text-white/60 text-sm">Condiciones especiales de ocupación</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <Check className="w-4 h-4 text-white/70 mt-0.5 flex-shrink-0" />
-              <p className="text-white/60 text-sm">Desde $50,000 MXN: hasta una semana anual de estancia (sujeta a disponibilidad)</p>
-            </div>
+            {[
+              language === 'es' ? 'Acceso preferente a oportunidades del ecosistema' : 'Preferential access to ecosystem opportunities',
+              language === 'es' ? 'Condiciones especiales de ocupación' : 'Special occupancy conditions',
+              language === 'es' ? 'Desde $50,000 MXN: hasta una semana anual de estancia (sujeta a disponibilidad)' : 'From $50,000 MXN: up to one annual week of stay (subject to availability)',
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <p className="text-[#475569] text-sm">{item}</p>
+              </div>
+            ))}
           </div>
-          
-          <p className="text-white/40 text-sm mt-4 italic">
-            La participación permite utilizar el sistema, incluso sin ser propietario de una fracción.
+        </section>
+
+        <section className="bg-gradient-to-br from-[#0a1628] to-[#0e7490] rounded-2xl p-8 text-center mb-10" data-testid="card-lmc-synthesis">
+          <h2 className="text-2xl text-white mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
+            {language === 'es' ? 'Síntesis' : 'Synthesis'}
+          </h2>
+          <div className="space-y-2 text-white/80 italic font-light">
+            <p>{language === 'es' ? 'Last Minute Capital integra capital cuando el proceso ya está definido,' : 'Last Minute Capital integrates capital when the process is already defined,'}</p>
+            <p>{language === 'es' ? 'cuando el tiempo impulsa el valor,' : 'when time drives value,'}</p>
+            <p>{language === 'es' ? 'y cuando la ejecución es la prioridad.' : 'and when execution is the priority.'}</p>
+          </div>
+        </section>
+
+        <div className="text-center mb-16">
+          <p className="text-[#64748b] text-sm mb-4">
+            {language === 'es' ? '¿Tienes preguntas? Habla con ALIX o contacta a un representante.' : 'Have questions? Talk to ALIX or contact a representative.'}
           </p>
-        </section>
-
-        <section className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-2xl p-8 text-center">
-          <h3 className="text-xl font-light mb-4">Síntesis</h3>
-          <div className="space-y-2 text-white/70 italic">
-            <p>Last Minute Capital integra capital cuando el proceso ya está definido,</p>
-            <p>cuando el tiempo impulsa el valor,</p>
-            <p>y cuando la ejecución es la prioridad.</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20Last%20Minute%20Capital"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-gradient-to-r from-[#0891b2] to-[#22d3ee] text-white text-sm font-medium rounded-xl hover:shadow-lg hover:shadow-[#0891b2]/25 transition-all"
+              data-testid="cta-whatsapp-lmc"
+            >
+              {language === 'es' ? 'Contactar Asesor' : 'Contact Advisor'}
+            </a>
+            <Link href="/">
+              <span className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-[#e2e8f0] text-[#475569] text-sm font-medium rounded-xl hover:bg-[#f8fafc] transition-all cursor-pointer" data-testid="button-back-lmc">
+                {language === 'es' ? 'Volver al Inicio' : 'Back to Home'}
+              </span>
+            </Link>
           </div>
-          <div className="mt-6 pt-6 border-t border-white/10">
-            <p className="text-white/50 text-sm">
-              Una solución de capital diseñada para el momento correcto,<br />
-              dentro de un sistema institucional en operación.
-            </p>
-          </div>
-        </section>
-
-        <div className="mt-10 text-center">
-          <p className="text-white/40 text-xs mb-4">¿Tienes preguntas? Habla con ALIX o contacta a un representante.</p>
-          <Link href="/">
-            <span className="inline-flex items-center gap-2 px-8 py-3 bg-white text-[#0f0f0f] text-sm font-medium rounded-lg hover:bg-white/90 transition-colors cursor-pointer">
-              Volver al Inicio
-            </span>
-          </Link>
         </div>
       </main>
+
+      <AGHFooter />
     </div>
   );
 }

@@ -1,262 +1,302 @@
+import { useLanguage } from '@/lib/LanguageContext';
+import { Header } from '@/components/Header';
+import { AGHFooter } from '@/components/AGHFooter';
 import { Link } from 'wouter';
-import { ArrowLeft, CreditCard, Home, TrendingUp, Shield, Clock, Users, CheckCircle, Percent, Building2, Handshake } from 'lucide-react';
 
 export default function PerfilAsociado() {
+  const { language } = useLanguage();
+
   return (
-    <div className="min-h-screen bg-[#0f0f0f] text-white">
-      <header className="px-6 py-4 flex items-center gap-4 border-b border-white/10">
-        <Link href="/">
-          <span className="p-2 hover:bg-white/5 rounded-full transition-colors cursor-pointer" data-testid="button-back">
-            <ArrowLeft className="w-5 h-5" />
-          </span>
-        </Link>
-        <h1 className="text-lg font-light tracking-wide">Perfil Asociado</h1>
-      </header>
+    <div className="min-h-screen bg-[#fafcfd]">
+      <Header />
 
-      <main className="px-6 py-8">
-        <div className="max-w-4xl mx-auto">
-          
-          <div className="text-center mb-12">
-            <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-black to-black rounded-full flex items-center justify-center">
-              <Handshake className="w-10 h-10 text-white" />
+      <section className="relative overflow-hidden">
+        <div className="relative h-[420px] md:h-[500px]">
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/hero-ocean.jpg)' }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/60 via-[#0a1628]/30 to-[#fafcfd]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0891b2]/20 via-transparent to-[#0891b2]/20" />
+
+          <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-16">
+            <div className="fl-fade-in">
+              <div className="flex justify-center mb-5">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center shadow-lg shadow-[#0891b2]/30">
+                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                  </svg>
+                </div>
+              </div>
+              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">All Global Holding LLC</p>
+              <h1 className="text-4xl md:text-5xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="hero-title-asociado">
+                {language === 'es' ? 'Perfil Asociado' : 'Associate Profile'}
+              </h1>
+              <p className="text-white/70 max-w-lg mx-auto font-light text-sm md:text-base">
+                {language === 'es'
+                  ? 'El modelo de alianza dentro de All Global Holding LLC'
+                  : 'The alliance model within All Global Holding LLC'}
+              </p>
             </div>
-            <h2 className="text-3xl md:text-4xl font-extralight mb-4" data-testid="text-title">
-              Perfil Asociado
-            </h2>
-            <p className="text-xl text-white/60 font-light">
-              El modelo de alianza dentro de All Global Holding LLC
-            </p>
+          </div>
+        </div>
+      </section>
+
+      <main className="max-w-4xl mx-auto px-6 -mt-8 relative z-20">
+        <div className="bg-white/80 backdrop-blur-sm border border-[#e2e8f0] rounded-2xl p-6 md:p-8 mb-8 shadow-lg" data-testid="card-asociado-intro">
+          <p className="text-[#334155] leading-relaxed mb-4">
+            {language === 'es'
+              ? 'Si llegaste hasta aquí, es porque estás evaluando algo más que una inversión aislada. Estás explorando una forma de asociación dentro de un sistema inmobiliario–financiero estructurado.'
+              : 'If you made it here, you are evaluating more than an isolated investment. You are exploring a form of partnership within a structured real estate-financial system.'}
+          </p>
+          <p className="text-[#475569] leading-relaxed mb-4 text-sm">
+            {language === 'es'
+              ? 'En All Global Holding LLC no operamos productos sueltos. Diseñamos modelos de participación que integran a personas, propiedades y capital dentro de procesos fiduciarios, bancarios y mercantiles formales.'
+              : 'At All Global Holding LLC we do not operate standalone products. We design participation models that integrate people, properties and capital.'}
+          </p>
+          <p className="text-[#64748b] text-sm italic">
+            {language === 'es'
+              ? 'Actualmente existen dos tipos de Perfil Asociado, ambos complementarios y estratégicos dentro del sistema.'
+              : 'There are currently two types of Associate Profiles, both complementary and strategic within the system.'}
+          </p>
+        </div>
+
+        <div className="bg-gradient-to-br from-[#0891b2] to-[#0e7490] rounded-2xl p-6 md:p-8 mb-6 text-white" data-testid="card-credito">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+              <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2" /><line x1="1" y1="10" x2="23" y2="10" />
+              </svg>
+            </div>
+            <div>
+              <h2 className="text-2xl" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+                {language === 'es' ? 'Perfil Asociado – Crédito' : 'Associate Profile – Credit'}
+              </h2>
+              <p className="text-white/70 text-sm">
+                {language === 'es' ? 'Monetiza tu historial financiero dentro de un activo real' : 'Monetize your financial history within a real asset'}
+              </p>
+            </div>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-8">
-            <p className="text-white/70 leading-relaxed mb-6">
-              Si llegaste hasta aquí, es porque estás evaluando algo más que una inversión aislada.
-              Estás explorando una forma de asociación dentro de un sistema inmobiliario–financiero estructurado, donde el capital, el crédito y los activos reales trabajan de manera coordinada.
-            </p>
-            <p className="text-white/70 leading-relaxed mb-6">
-              En All Global Holding LLC no operamos productos sueltos.
-              Diseñamos modelos de participación que integran a personas, propiedades y capital dentro de procesos fiduciarios, bancarios y mercantiles formales.
-            </p>
-            <p className="text-white/70 leading-relaxed">
-              El <span className="text-white/70 font-medium">Perfil Asociado</span> es uno de los pilares del ecosistema Fractional Living.
-              Un modelo pensado para quienes entienden el valor de participar desde la estructura, no solo desde la compra o la venta.
-            </p>
-          </div>
-
-          <p className="text-center text-white/50 mb-8 italic">
-            Actualmente existen dos tipos de Perfil Asociado, ambos complementarios y estratégicos dentro del sistema.
+          <p className="text-white/80 leading-relaxed mb-6 text-sm">
+            {language === 'es'
+              ? 'Diseñado para personas con buen historial crediticio que desean utilizar su capacidad financiera de forma inteligente, respaldada por bienes inmuebles y procesos formales.'
+              : 'Designed for people with good credit history who want to use their financial capacity intelligently, backed by real estate.'}
           </p>
 
-          <div className="bg-gradient-to-br from-black/10 to-black/10 border border-white/20 rounded-2xl p-6 md:p-8 mb-6">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="p-3 bg-black/5/20 rounded-xl">
-                <CreditCard className="w-8 h-8 text-black" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-light text-black">Perfil Asociado – Crédito</h3>
-                <p className="text-white/50 text-sm">Monetiza tu historial financiero dentro de un activo real</p>
-              </div>
-            </div>
-
-            <p className="text-white/70 leading-relaxed mb-6">
-              Este perfil está diseñado para personas con buen historial crediticio que desean utilizar su capacidad financiera de forma inteligente, respaldada por bienes inmuebles y procesos formales.
-            </p>
-
-            <div className="bg-white/5 rounded-xl p-5 mb-6">
-              <h4 className="text-white/80 font-medium mb-3 flex items-center gap-2">
-                <Shield className="w-4 h-4 text-black" />
-                ¿Cómo funciona?
-              </h4>
-              <p className="text-white/60 text-sm leading-relaxed mb-3">
-                El asociado pone a disposición su perfil crediticio, el cual es previamente evaluado y estructurado por el equipo de All Global Holding.
-                Ese crédito se utiliza para la adquisición de propiedades que posteriormente se integran al esquema Fractional Living.
-              </p>
-              <p className="text-white/60 text-sm leading-relaxed">
-                La clave está en que el crédito no se diluye en consumo, sino que se ancla a un activo inmobiliario que entra en un proceso de revalorización y comercialización fraccionada.
-              </p>
-            </div>
-
-            <div className="bg-black/5/10 border border-white/20 rounded-xl p-5 mb-6">
-              <h4 className="text-black font-medium mb-4 flex items-center gap-2">
-                <Percent className="w-4 h-4" />
-                ¿Qué obtiene el Perfil Asociado – Crédito?
-              </h4>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-black flex-shrink-0" />
-                  <span className="text-white/80">Hasta <span className="text-black font-bold text-lg">8%</span> del monto total del crédito utilizado</span>
-                </div>
-                <div className="flex items-center gap-3 pl-8">
-                  <span className="text-white/60 text-sm">• 4% al momento de la firma de la escritura</span>
-                </div>
-                <div className="flex items-center gap-3 pl-8">
-                  <span className="text-white/60 text-sm">• 4% adicional al completarse la venta de las fracciones</span>
-                </div>
-              </div>
-              <div className="mt-4 pt-4 border-t border-white/20">
-                <div className="flex items-center gap-2 text-white/60 text-sm">
-                  <Clock className="w-4 h-4 text-black" />
-                  Tiempo promedio para generar el ingreso inicial: <span className="text-black font-medium">menor a dos meses</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-3">
-              <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
-                <span className="text-white/60 text-sm">Posibilidad de acceso y optimización de líneas de crédito</span>
-              </div>
-              <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
-                <span className="text-white/60 text-sm">Participación preferente en oportunidades del ecosistema</span>
-              </div>
-              <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
-                <span className="text-white/60 text-sm">Beneficios de uso y ocupación dentro del portafolio</span>
-              </div>
-              <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
-                <span className="text-white/60 text-sm">Integración a una alianza de largo plazo</span>
-              </div>
-            </div>
-
-            <p className="text-white/40 text-xs mt-4 text-center">
-              Todo el proceso se desarrolla bajo marcos fiduciarios, bancarios y contratos mercantiles, alineados a regulación financiera vigente.
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-white/10 to-black/10 border border-white/20 rounded-2xl p-6 md:p-8 mb-8">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="p-3 bg-white/10 rounded-xl">
-                <Building2 className="w-8 h-8 text-white" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-light text-white">Perfil Asociado – Propietario</h3>
-                <p className="text-white/50 text-sm">Vende tu propiedad con estructura, sin fricción y con mayor valor</p>
-              </div>
-            </div>
-
-            <p className="text-white/70 leading-relaxed mb-6">
-              Este perfil está diseñado para propietarios que desean colocar su inmueble de forma eficiente, sin los problemas tradicionales del mercado: regateos, tiempos indefinidos, intermediación desordenada o pérdida de valor.
-            </p>
-
-            <p className="text-white/70 leading-relaxed mb-6">
-              En lugar de competir en el mercado abierto, la propiedad se integra a un modelo de revalorización fractional, donde el activo se optimiza, estructura y comercializa por partes dentro de un sistema operativo activo.
-            </p>
-
-            <div className="bg-white/10 border border-white/20 rounded-xl p-5 mb-6">
-              <h4 className="text-white font-medium mb-4 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4" />
-                ¿Qué obtiene el Propietario Asociado?
-              </h4>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-white flex-shrink-0" />
-                  <span className="text-white/80">Venta de la propiedad en un plazo <span className="text-white font-bold">no mayor a 12 meses</span></span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-white flex-shrink-0" />
-                  <span className="text-white/80">Entre <span className="text-white font-bold text-lg">7% y 12%</span> por encima del valor comercial tradicional</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-white flex-shrink-0" />
-                  <span className="text-white/80">Acceso a un proceso ordenado, transparente y contractual</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white/5 rounded-xl p-5 mb-6">
-              <h4 className="text-white/80 font-medium mb-3">Ejemplo práctico:</h4>
-              <p className="text-white/60 text-sm leading-relaxed">
-                Una propiedad valuada en <span className="text-white/80 font-medium">$10,000,000 MXN</span> puede colocarse hasta en <span className="text-white font-bold">$11,200,000 MXN</span>, gracias a la reconfiguración del activo dentro del modelo Fractional Living.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-3">
-              <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-white mt-0.5 flex-shrink-0" />
-                <span className="text-white/60 text-sm">Acceso a beneficios de uso y ocupación dentro del ecosistema</span>
-              </div>
-              <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-white mt-0.5 flex-shrink-0" />
-                <span className="text-white/60 text-sm">Participación preferente en futuras oportunidades</span>
-              </div>
-              <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-white mt-0.5 flex-shrink-0" />
-                <span className="text-white/60 text-sm">Integración a una red de aliados inmobiliarios y financieros</span>
-              </div>
-              <div className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                <CheckCircle className="w-4 h-4 text-white mt-0.5 flex-shrink-0" />
-                <span className="text-white/60 text-sm">Relación directa con un holding operativo, no con intermediarios</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-8">
-            <h3 className="text-xl font-light text-center mb-6 text-white/70">
-              ¿Por qué este modelo es posible?
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-5 mb-6">
+            <h3 className="text-white font-medium mb-3 flex items-center gap-2 text-sm">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              {language === 'es' ? '¿Cómo funciona?' : 'How does it work?'}
             </h3>
-            <p className="text-center text-white/70 mb-6 text-lg italic">
-              Porque el valor no se crea solo en la compra o en la venta, sino en la estructura.
+            <p className="text-white/70 text-sm leading-relaxed">
+              {language === 'es'
+                ? 'El asociado pone a disposición su perfil crediticio, el cual es evaluado y estructurado por el equipo de All Global Holding. Ese crédito se utiliza para adquisición de propiedades que se integran al esquema Fractional Living.'
+                : 'The associate provides their credit profile, which is evaluated and structured by the All Global Holding team.'}
             </p>
-            
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-              <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-white/70 text-sm font-medium">Revalorizar</p>
-                <p className="text-white/40 text-xs">el activo</p>
+          </div>
+
+          <div className="bg-white/15 backdrop-blur-sm rounded-xl p-5 mb-6">
+            <h3 className="text-white font-medium mb-4 text-sm">
+              {language === 'es' ? '¿Qué obtiene el Perfil Asociado – Crédito?' : 'What does the Credit Associate get?'}
+            </h3>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <span className="text-white/90 text-sm">
+                  {language === 'es' ? 'Hasta' : 'Up to'} <span className="text-white font-bold text-lg">8%</span> {language === 'es' ? 'del monto total del crédito utilizado' : 'of total credit used'}
+                </span>
               </div>
-              <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-white/70 text-sm font-medium">Acelerar</p>
-                <p className="text-white/40 text-xs">liquidez</p>
-              </div>
-              <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-white/70 text-sm font-medium">Distribuir</p>
-                <p className="text-white/40 text-xs">riesgos</p>
-              </div>
-              <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-white/70 text-sm font-medium">Optimizar</p>
-                <p className="text-white/40 text-xs">tiempos</p>
-              </div>
-              <div className="bg-white/5 rounded-lg p-3 text-center col-span-2 md:col-span-1">
-                <p className="text-white/70 text-sm font-medium">Alinear</p>
-                <p className="text-white/40 text-xs">intereses</p>
+              <div className="pl-8 space-y-1">
+                <span className="text-white/70 text-sm block">• 4% {language === 'es' ? 'al momento de la firma de la escritura' : 'at signing'}</span>
+                <span className="text-white/70 text-sm block">• 4% {language === 'es' ? 'al completarse la venta de las fracciones' : 'upon fraction sales completion'}</span>
               </div>
             </div>
-
-            <p className="text-white/50 text-sm text-center">
-              Todo esto se ejecuta dentro de procesos fiduciarios y bancarios formales, con contratos claros y trazabilidad completa.
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-r from-black/20 to-black/20 border border-white/20 rounded-2xl p-6 md:p-8 mb-8">
-            <h3 className="text-xl font-light text-center mb-4 text-white/70">Síntesis</h3>
-            <p className="text-white/70 leading-relaxed mb-4 text-center">
-              El Perfil Asociado no es un rol pasivo.<br />
-              Es una alianza estratégica dentro de un sistema diseñado para operar activos reales con visión institucional.
-            </p>
-            <p className="text-white/70 leading-relaxed mb-4 text-center">
-              All Global Holding integra personas, propiedades y capital cuando el proceso ya está definido, cuando la ejecución es prioritaria y cuando el valor se construye desde la estructura.
-            </p>
-            <p className="text-white/50 text-center italic">
-              Si estás aquí, no es casualidad.<br />
-              Estás evaluando formar parte de un modelo que piensa en sistema, no en promesas.
-            </p>
-          </div>
-
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-            <Users className="w-10 h-10 mx-auto mb-4 text-white/70" />
-            <h3 className="text-lg font-light mb-2">¿Tienes dudas?</h3>
-            <p className="text-white/60 text-sm mb-4">
-              Habla con <span className="text-white/70 font-medium">ALIX</span>, nuestra inteligencia artificial disponible 24/7, o con un asesor humano para evaluar cuál perfil se alinea mejor contigo.
-            </p>
-            <div className="flex flex-col gap-2 text-white/50 text-xs">
-              <p>🟣 <span className="text-white/70">ALIX</span> — Botón morado en la esquina inferior derecha</p>
-              <p>🟢 <span className="text-white/70">WhatsApp</span> — Botón verde en la esquina inferior izquierda</p>
+            <div className="mt-4 pt-4 border-t border-white/20 flex items-center gap-2 text-white/70 text-sm">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+              </svg>
+              {language === 'es' ? 'Tiempo promedio para generar ingreso inicial:' : 'Average time for initial income:'} <span className="text-white font-medium">{language === 'es' ? 'menor a dos meses' : 'less than two months'}</span>
             </div>
           </div>
 
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              language === 'es' ? 'Optimización de líneas de crédito' : 'Credit line optimization',
+              language === 'es' ? 'Participación preferente' : 'Preferential participation',
+              language === 'es' ? 'Beneficios de uso y ocupación' : 'Use and occupancy benefits',
+              language === 'es' ? 'Alianza de largo plazo' : 'Long-term alliance',
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-2 bg-white/10 rounded-lg p-3">
+                <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <span className="text-white/80 text-xs">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-[#0a1628] to-[#1e293b] rounded-2xl p-6 md:p-8 mb-8 text-white" data-testid="card-propietario">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-14 h-14 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
+              <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+            </div>
+            <div>
+              <h2 className="text-2xl" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+                {language === 'es' ? 'Perfil Asociado – Propietario' : 'Associate Profile – Owner'}
+              </h2>
+              <p className="text-white/60 text-sm">
+                {language === 'es' ? 'Vende tu propiedad con estructura, sin fricción y con mayor valor' : 'Sell your property with structure, no friction and greater value'}
+              </p>
+            </div>
+          </div>
+
+          <p className="text-white/70 leading-relaxed mb-6 text-sm">
+            {language === 'es'
+              ? 'Diseñado para propietarios que desean colocar su inmueble de forma eficiente, sin los problemas tradicionales del mercado.'
+              : 'Designed for owners who want to place their property efficiently, without traditional market problems.'}
+          </p>
+
+          <div className="bg-white/10 rounded-xl p-5 mb-6">
+            <h3 className="text-white font-medium mb-4 text-sm">
+              {language === 'es' ? '¿Qué obtiene el Propietario Asociado?' : 'What does the Owner Associate get?'}
+            </h3>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 rounded-full bg-[#0891b2]/30 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-3 h-3 text-[#22d3ee]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <span className="text-white/80 text-sm">
+                  {language === 'es' ? 'Venta en plazo' : 'Sale within'} <span className="text-white font-bold">{language === 'es' ? 'no mayor a 12 meses' : 'no more than 12 months'}</span>
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 rounded-full bg-[#0891b2]/30 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-3 h-3 text-[#22d3ee]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <span className="text-white/80 text-sm">
+                  <span className="text-[#22d3ee] font-bold text-lg">7% - 12%</span> {language === 'es' ? 'por encima del valor comercial' : 'above commercial value'}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 rounded-full bg-[#0891b2]/30 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-3 h-3 text-[#22d3ee]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <span className="text-white/80 text-sm">{language === 'es' ? 'Proceso ordenado, transparente y contractual' : 'Organized, transparent and contractual process'}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white/5 rounded-xl p-5 mb-6">
+            <h3 className="text-white/80 font-medium mb-2 text-sm">{language === 'es' ? 'Ejemplo práctico:' : 'Practical example:'}</h3>
+            <p className="text-white/60 text-sm leading-relaxed">
+              {language === 'es'
+                ? 'Una propiedad valuada en $10,000,000 MXN puede colocarse hasta en $11,200,000 MXN, gracias a la reconfiguración del activo dentro del modelo Fractional Living.'
+                : 'A property valued at $10,000,000 MXN can be placed at up to $11,200,000 MXN through the Fractional Living model.'}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              language === 'es' ? 'Beneficios de uso y ocupación' : 'Use and occupancy benefits',
+              language === 'es' ? 'Participación preferente' : 'Preferential participation',
+              language === 'es' ? 'Red de aliados inmobiliarios' : 'Real estate allies network',
+              language === 'es' ? 'Relación directa con holding' : 'Direct holding relationship',
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-2 bg-white/5 rounded-lg p-3">
+                <div className="w-4 h-4 rounded-full bg-[#0891b2]/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-2.5 h-2.5 text-[#22d3ee]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <span className="text-white/70 text-xs">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 md:p-8 mb-8 shadow-sm">
+          <h2 className="text-2xl text-[#0a1628] text-center mb-6" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+            {language === 'es' ? '¿Por qué este modelo es posible?' : 'Why is this model possible?'}
+          </h2>
+          <p className="text-center text-[#475569] mb-6 italic">
+            {language === 'es'
+              ? 'Porque el valor no se crea solo en la compra o en la venta, sino en la estructura.'
+              : 'Because value is not created only in buying or selling, but in the structure.'}
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+            {[
+              { label: language === 'es' ? 'Revalorizar' : 'Revalue', sub: language === 'es' ? 'el activo' : 'the asset' },
+              { label: language === 'es' ? 'Acelerar' : 'Accelerate', sub: language === 'es' ? 'liquidez' : 'liquidity' },
+              { label: language === 'es' ? 'Distribuir' : 'Distribute', sub: language === 'es' ? 'riesgos' : 'risks' },
+              { label: language === 'es' ? 'Optimizar' : 'Optimize', sub: language === 'es' ? 'tiempos' : 'times' },
+              { label: language === 'es' ? 'Alinear' : 'Align', sub: language === 'es' ? 'intereses' : 'interests' },
+            ].map((item, i) => (
+              <div key={i} className="bg-gradient-to-br from-[#f0fdfa] to-[#ecfeff] rounded-lg p-3 text-center">
+                <p className="text-[#0e7490] text-sm font-medium">{item.label}</p>
+                <p className="text-[#94a3b8] text-xs">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-[#64748b] text-sm text-center">
+            {language === 'es'
+              ? 'Todo esto se ejecuta dentro de procesos fiduciarios y bancarios formales.'
+              : 'All executed within formal fiduciary and banking processes.'}
+          </p>
+        </div>
+
+        <section className="bg-gradient-to-br from-[#0a1628] to-[#0e7490] rounded-2xl p-8 text-center mb-10" data-testid="card-asociado-synthesis">
+          <h2 className="text-2xl text-white mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
+            {language === 'es' ? 'Síntesis' : 'Synthesis'}
+          </h2>
+          <p className="text-white/80 leading-relaxed mb-4">
+            {language === 'es'
+              ? 'El Perfil Asociado no es un rol pasivo. Es una alianza estratégica dentro de un sistema diseñado para operar activos reales con visión institucional.'
+              : 'The Associate Profile is not a passive role. It is a strategic alliance within a system designed to operate real assets with institutional vision.'}
+          </p>
+          <p className="text-white/60 italic text-sm">
+            {language === 'es' ? 'Si estás aquí, no es casualidad.' : 'If you are here, it is no coincidence.'}
+          </p>
+        </section>
+
+        <div className="text-center mb-16">
+          <p className="text-[#64748b] text-sm mb-4">
+            {language === 'es' ? '¿Tienes dudas? Habla con ALIX o contacta a un asesor.' : 'Questions? Talk to ALIX or contact an advisor.'}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="https://wa.me/529984292748?text=Hola,%20me%20interesa%20el%20Perfil%20Asociado"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-gradient-to-r from-[#0891b2] to-[#22d3ee] text-white text-sm font-medium rounded-xl hover:shadow-lg hover:shadow-[#0891b2]/25 transition-all"
+              data-testid="cta-whatsapp-asociado"
+            >
+              {language === 'es' ? 'Contactar Asesor' : 'Contact Advisor'}
+            </a>
+            <Link href="/">
+              <span className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-[#e2e8f0] text-[#475569] text-sm font-medium rounded-xl hover:bg-[#f8fafc] transition-all cursor-pointer" data-testid="button-back-asociado">
+                {language === 'es' ? 'Volver al Inicio' : 'Back to Home'}
+              </span>
+            </Link>
+          </div>
         </div>
       </main>
+
+      <AGHFooter />
     </div>
   );
 }
