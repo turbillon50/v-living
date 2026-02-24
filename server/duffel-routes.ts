@@ -19,7 +19,17 @@ function applyMarkup(amount: string): string {
 
 export function registerDuffelRoutes(app: Express) {
 
+  if (!process.env.DUFFEL_API_KEY_LIVE) {
+    console.warn("DUFFEL_API_KEY_LIVE not set - flight search will not work");
+  }
+  if (!process.env.DUFFEL_API_KEY_TEST) {
+    console.warn("DUFFEL_API_KEY_TEST not set - hotel search will not work");
+  }
+
   app.get("/api/duffel/airports", async (req: Request, res: Response) => {
+    if (!process.env.DUFFEL_API_KEY_LIVE) {
+      return res.status(503).json({ error: "Servicio de vuelos no configurado" });
+    }
     try {
       const query = (req.query.q as string || "").trim();
       if (query.length < 2) {
@@ -44,6 +54,9 @@ export function registerDuffelRoutes(app: Express) {
   });
 
   app.post("/api/duffel/flights/search", async (req: Request, res: Response) => {
+    if (!process.env.DUFFEL_API_KEY_LIVE) {
+      return res.status(503).json({ error: "Servicio de vuelos no configurado" });
+    }
     try {
       const { origin, destination, departure_date, return_date, passengers, cabin_class, max_connections } = req.body;
 
@@ -139,6 +152,9 @@ export function registerDuffelRoutes(app: Express) {
   });
 
   app.get("/api/duffel/flights/offer/:id", async (req: Request, res: Response) => {
+    if (!process.env.DUFFEL_API_KEY_LIVE) {
+      return res.status(503).json({ error: "Servicio de vuelos no configurado" });
+    }
     try {
       const offer = await duffelLive.offers.get(req.params.id, { return_available_services: true });
       const data = offer.data;
@@ -162,6 +178,9 @@ export function registerDuffelRoutes(app: Express) {
   });
 
   app.post("/api/duffel/stays/search", async (req: Request, res: Response) => {
+    if (!process.env.DUFFEL_API_KEY_TEST) {
+      return res.status(503).json({ error: "Servicio de hoteles no configurado" });
+    }
     try {
       const { location, check_in_date, check_out_date, rooms, guests } = req.body;
 

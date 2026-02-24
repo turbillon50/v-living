@@ -102,6 +102,29 @@ Database tables:
 - `POST /api/pre-bookings` - Crear pre-reserva
 - `GET /api/pre-bookings/:email` - Ver reservas por email
 
+### Duffel Travel Integration
+
+Key backend file:
+- `server/duffel-routes.ts` - Flight search (live) and hotel search (test) routes with 8% markup
+
+Endpoints:
+- `GET /api/duffel/config` - Check Duffel service status and markup config
+- `GET /api/duffel/airports?q=` - Search airports/cities by name (autocomplete)
+- `POST /api/duffel/flights/search` - Search flights (uses DUFFEL_API_KEY_LIVE)
+- `GET /api/duffel/flights/offer/:id` - Get flight offer details with available services
+- `POST /api/duffel/stays/search` - Search hotels (uses DUFFEL_API_KEY_TEST, test mode)
+
+Business Model:
+- 8% markup applied to all flight and hotel prices
+- Duffel Payments model: Duffel handles payment collection directly from customers
+- No Stripe needed for travel bookings
+- DUFFEL_API_KEY_LIVE = real flight purchases
+- DUFFEL_API_KEY_TEST = test mode for flights and hotels
+
+Frontend Pages:
+- `/vuelos` - Flight search with airport autocomplete, date/passenger/class selection
+- `/hoteles` - Hotel search with popular Caribbean destinations, date/room selection
+
 ### Clerk Webhook Integration
 
 - `POST /api/clerk/webhook` - Receives Clerk webhook events with svix signature verification
