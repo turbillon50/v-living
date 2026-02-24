@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
 import { AGHFooter } from '@/components/AGHFooter';
 import { useLanguage } from '@/lib/LanguageContext';
-import { Calculator, Send, CheckCircle, Building2, Clock, Percent, DollarSign, FileText, Phone, ArrowRight, Shield, ChevronRight } from 'lucide-react';
+import { Calculator, Send, CheckCircle, Building2, Clock, Percent, DollarSign, FileText, Phone, ArrowRight, Shield, ChevronRight, Landmark, TrendingUp, CreditCard } from 'lucide-react';
 import { Link } from 'wouter';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
@@ -82,17 +82,22 @@ export default function Creditos() {
       <Header />
       
       <section className="relative overflow-hidden">
-        <div className="relative h-[280px] md:h-[340px]">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0891b2]/70 to-[#06b6d4]" />
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNCI+PHBhdGggZD0iTTM2IDE0djZoLTZWMTRoNnptMCAxMHY2aC02di02aDZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30" />
+        <div className="relative h-[320px] md:h-[380px]">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0a1628]/95 to-[#0891b2]/40" />
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[#0891b2]/8 blur-[100px] -translate-y-1/2 translate-x-1/4" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full bg-[#22d3ee]/6 blur-[80px] translate-y-1/2 -translate-x-1/4" />
           
           <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
             <div className="fl-fade-in">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center mx-auto mb-5 shadow-lg shadow-[#0891b2]/30">
+                <Landmark className="w-8 h-8 text-white" />
+              </div>
               <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living</p>
               <h1 className="text-3xl md:text-4xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="hero-title-creditos">
-                🏦 {language === 'es' ? 'Gestión Bancaria' : 'Banking Services'}
+                {language === 'es' ? 'Gestión Bancaria' : 'Banking Services'}
               </h1>
-              <p className="text-white/70 text-sm font-light max-w-md mx-auto">
+              <p className="text-white/50 text-sm font-light max-w-md mx-auto">
                 {language === 'es' ? 'Simulador de crédito hipotecario y pre-aprobación' : 'Mortgage simulator and pre-approval'}
               </p>
             </div>
@@ -368,8 +373,8 @@ export default function Creditos() {
               <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
                 <p className="text-xs text-amber-800">
                   {language === 'es'
-                    ? '📋 Resumen: Propiedad de ' + formatCurrency(propertyValue) + ' con enganche de ' + formatCurrency(downPayment) + ' (' + downPaymentPercent + '%). Crédito de ' + formatCurrency(loanAmount) + ' a ' + termYears + ' años. Pago mensual estimado: ' + formatCurrency(monthlyPayment)
-                    : '📋 Summary: Property of ' + formatCurrency(propertyValue) + ' with down payment of ' + formatCurrency(downPayment) + ' (' + downPaymentPercent + '%). Loan of ' + formatCurrency(loanAmount) + ' over ' + termYears + ' years. Estimated monthly: ' + formatCurrency(monthlyPayment)}
+                    ? 'Resumen: Propiedad de ' + formatCurrency(propertyValue) + ' con enganche de ' + formatCurrency(downPayment) + ' (' + downPaymentPercent + '%). Crédito de ' + formatCurrency(loanAmount) + ' a ' + termYears + ' años. Pago mensual estimado: ' + formatCurrency(monthlyPayment)
+                    : 'Summary: Property of ' + formatCurrency(propertyValue) + ' with down payment of ' + formatCurrency(downPayment) + ' (' + downPaymentPercent + '%). Loan of ' + formatCurrency(loanAmount) + ' over ' + termYears + ' years. Estimated monthly: ' + formatCurrency(monthlyPayment)}
                 </p>
               </div>
 
@@ -394,8 +399,8 @@ export default function Creditos() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-white rounded-2xl p-6 border border-[#e2e8f0]/60 text-center">
-            <div className="w-12 h-12 rounded-xl bg-[#0891b2]/10 flex items-center justify-center mx-auto mb-3">
-              <Clock className="w-6 h-6 text-[#0891b2]" />
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#06b6d4] flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#0891b2]/15">
+              <Clock className="w-6 h-6 text-white" />
             </div>
             <h3 className="font-medium text-[#0a1628] mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? 'Respuesta Rápida' : 'Quick Response'}
@@ -405,8 +410,8 @@ export default function Creditos() {
             </p>
           </div>
           <div className="bg-white rounded-2xl p-6 border border-[#e2e8f0]/60 text-center">
-            <div className="w-12 h-12 rounded-xl bg-[#0891b2]/10 flex items-center justify-center mx-auto mb-3">
-              <Shield className="w-6 h-6 text-[#0891b2]" />
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0a1628] to-[#0891b2] flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#0891b2]/15">
+              <Shield className="w-6 h-6 text-white" />
             </div>
             <h3 className="font-medium text-[#0a1628] mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? '100% Confidencial' : '100% Confidential'}
@@ -416,8 +421,8 @@ export default function Creditos() {
             </p>
           </div>
           <div className="bg-white rounded-2xl p-6 border border-[#e2e8f0]/60 text-center">
-            <div className="w-12 h-12 rounded-xl bg-[#0891b2]/10 flex items-center justify-center mx-auto mb-3">
-              <Building2 className="w-6 h-6 text-[#0891b2]" />
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#0891b2]/15">
+              <TrendingUp className="w-6 h-6 text-white" />
             </div>
             <h3 className="font-medium text-[#0a1628] mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? 'Múltiples Opciones' : 'Multiple Options'}
@@ -437,7 +442,7 @@ export default function Creditos() {
           </p>
           <Link href="/inmobiliaria">
             <button className="px-8 py-3 bg-white text-[#0891b2] rounded-xl text-sm font-medium hover:bg-white/90 transition-colors inline-flex items-center gap-2" data-testid="button-go-realestate">
-              🏠 {language === 'es' ? 'Ver Propiedades' : 'View Properties'}
+              {language === 'es' ? 'Ver Propiedades' : 'View Properties'}
               <ChevronRight className="w-4 h-4" />
             </button>
           </Link>

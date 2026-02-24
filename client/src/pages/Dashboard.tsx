@@ -6,7 +6,8 @@ import { Header } from '@/components/Header';
 import { 
   ArrowLeft, Copy, Share2, Users, TrendingUp, Gift, 
   ChevronDown, ChevronRight, Check, 
-  Network, Star, Wallet, UserPlus, LinkIcon, Shield
+  Network, Star, Wallet, UserPlus, LinkIcon, Shield,
+  Crown, Tag, Megaphone, Gem, Handshake, Home as HomeIcon, type LucideIcon
 } from 'lucide-react';
 
 const COMMISSION_LEVELS = [
@@ -17,13 +18,13 @@ const COMMISSION_LEVELS = [
   { level: 5, percentage: 0.6, color: '#FFE4C7' },
 ];
 
-const INTEREST_OPTIONS = [
-  { id: 'comprar', label: 'Comprar una fracción', labelEn: 'Buy a fraction', icon: '🏠' },
-  { id: 'invertir', label: 'Invertir en propiedades', labelEn: 'Invest in properties', icon: '📈' },
-  { id: 'vender', label: 'Vender mi propiedad', labelEn: 'Sell my property', icon: '🏷️' },
-  { id: 'promocionar', label: 'Promocionar propiedades', labelEn: 'Promote properties', icon: '📣' },
-  { id: 'vivir', label: 'Vivir experiencias de lujo', labelEn: 'Live luxury experiences', icon: '✨' },
-  { id: 'referir', label: 'Referir amigos y ganar', labelEn: 'Refer friends & earn', icon: '🤝' },
+const INTEREST_OPTIONS: Array<{ id: string; label: string; labelEn: string; Icon: LucideIcon }> = [
+  { id: 'comprar', label: 'Comprar una fracción', labelEn: 'Buy a fraction', Icon: Crown },
+  { id: 'invertir', label: 'Invertir en propiedades', labelEn: 'Invest in properties', Icon: TrendingUp },
+  { id: 'vender', label: 'Vender mi propiedad', labelEn: 'Sell my property', Icon: Tag },
+  { id: 'promocionar', label: 'Promocionar propiedades', labelEn: 'Promote properties', Icon: Megaphone },
+  { id: 'vivir', label: 'Vivir experiencias de lujo', labelEn: 'Live luxury experiences', Icon: Gem },
+  { id: 'referir', label: 'Referir amigos y ganar', labelEn: 'Refer friends & earn', Icon: Handshake },
 ];
 
 export default function Dashboard() {
@@ -236,7 +237,7 @@ function ProfileTab({ user, stats, language, isLoading }: any) {
           />
           <InfoCard 
             label={language === 'es' ? 'Fuente' : 'Source'} 
-            value={user?.source === 'referral' ? '🤝 Referido' : '🌐 Web'} 
+            value={user?.source === 'referral' ? 'Referido' : 'Web'} 
           />
         </div>
       </div>
@@ -276,7 +277,7 @@ function ProfileTab({ user, stats, language, isLoading }: any) {
                 }`}
                 data-testid={`interest-${opt.id}`}
               >
-                <span>{opt.icon}</span>
+                <opt.Icon className="w-3.5 h-3.5 text-white/50" />
                 <span>{language === 'es' ? opt.label : opt.labelEn}</span>
               </div>
             );
@@ -395,14 +396,14 @@ function NetworkTab({ network, stats, language, isLoading, expandedLevel, setExp
         </h4>
         <div className="space-y-2">
           {[
-            { es: 'Un amigo quiere comprar una fracción', en: 'A friend wants to buy a fraction', icon: '🏠' },
-            { es: 'Alguien quiere vender su propiedad', en: 'Someone wants to sell their property', icon: '🏷️' },
-            { es: 'Un conocido busca invertir', en: 'Someone looking to invest', icon: '📈' },
-            { es: 'Una persona quiere promocionar propiedades', en: 'Someone wants to promote properties', icon: '📣' },
-            { es: 'Cualquier persona curiosa por el modelo', en: 'Anyone curious about the model', icon: '🤔' },
+            { es: 'Un amigo quiere comprar una fracción', en: 'A friend wants to buy a fraction', Icon: Crown },
+            { es: 'Alguien quiere vender su propiedad', en: 'Someone wants to sell their property', Icon: Tag },
+            { es: 'Un conocido busca invertir', en: 'Someone looking to invest', Icon: TrendingUp },
+            { es: 'Una persona quiere promocionar propiedades', en: 'Someone wants to promote properties', Icon: Megaphone },
+            { es: 'Cualquier persona curiosa por el modelo', en: 'Anyone curious about the model', Icon: Gem },
           ].map((reason, i) => (
             <div key={i} className="flex items-center gap-2 text-xs text-white/60">
-              <span>{reason.icon}</span>
+              <reason.Icon className="w-3.5 h-3.5 text-white/40" />
               <span>{language === 'es' ? reason.es : reason.en}</span>
             </div>
           ))}
@@ -531,35 +532,35 @@ function ShareTab({ referralCode, referralLink, language, onCopy, onShare, copie
   const shareMessages = [
     {
       label: language === 'es' ? 'Para un amigo que quiere comprar' : 'For a friend who wants to buy',
-      icon: '🏠',
+      Icon: Crown,
       message: language === 'es'
         ? `Hola! Mira esta oportunidad de tener una fracción de propiedad de lujo en el Caribe. Es legal, heredable y accesible. Regístrate con mi enlace: ${referralLink}`
         : `Hey! Check out this opportunity to own a fraction of luxury property in the Caribbean. It's legal, inheritable and accessible. Register with my link: ${referralLink}`,
     },
     {
       label: language === 'es' ? 'Para alguien que quiere vender' : 'For someone who wants to sell',
-      icon: '🏷️',
+      Icon: Tag,
       message: language === 'es'
         ? `Tienes una propiedad que quieres vender? En Fractional Living la venden por ti con un modelo innovador que puede darte hasta 12% más de su valor. Info: ${referralLink}`
         : `Have a property you want to sell? Fractional Living sells it for you with an innovative model that can give you up to 12% more. Info: ${referralLink}`,
     },
     {
       label: language === 'es' ? 'Para un inversionista' : 'For an investor',
-      icon: '📈',
+      Icon: TrendingUp,
       message: language === 'es'
         ? `Si buscas invertir en bienes raíces de lujo en el Caribe sin complicaciones, conoce el modelo Fractional Living. Activos reales, estructura legal. ${referralLink}`
         : `If you're looking to invest in luxury Caribbean real estate hassle-free, check out the Fractional Living model. Real assets, legal structure. ${referralLink}`,
     },
     {
       label: language === 'es' ? 'Para promocionar' : 'To promote',
-      icon: '📣',
+      Icon: Megaphone,
       message: language === 'es'
         ? `Te gustaría ganar comisiones promoviendo propiedades de lujo en el Caribe? Únete a la red de Fractional Living. Es gratis registrarse: ${referralLink}`
         : `Want to earn commissions promoting luxury Caribbean properties? Join the Fractional Living network. Free to register: ${referralLink}`,
     },
     {
       label: language === 'es' ? 'General' : 'General',
-      icon: '✨',
+      Icon: Gem,
       message: language === 'es'
         ? `Te invito a conocer Fractional Living - propiedades de lujo fraccionadas en el Caribe. Vive, invierte y construye patrimonio. ${referralLink}`
         : `Check out Fractional Living - fractional luxury properties in the Caribbean. Live, invest and build wealth. ${referralLink}`,
@@ -620,7 +621,7 @@ function ShareTab({ referralCode, referralLink, language, onCopy, onShare, copie
             <div key={i} className="bg-white/[0.03] border border-white/5 rounded-xl p-3">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-medium flex items-center gap-1.5">
-                  <span>{msg.icon}</span>
+                  <msg.Icon className="w-3.5 h-3.5 text-white/50" />
                   {msg.label}
                 </span>
                 <button
@@ -644,15 +645,15 @@ function ShareTab({ referralCode, referralLink, language, onCopy, onShare, copie
         </h4>
         <div className="grid grid-cols-2 gap-2">
           {[
-            { es: 'Compradores', en: 'Buyers', icon: '🏠' },
-            { es: 'Vendedores', en: 'Sellers', icon: '🏷️' },
-            { es: 'Inversionistas', en: 'Investors', icon: '💰' },
-            { es: 'Promotores', en: 'Promoters', icon: '📣' },
-            { es: 'Brokers', en: 'Brokers', icon: '🤝' },
-            { es: 'Curiosos', en: 'Curious', icon: '🔍' },
+            { es: 'Compradores', en: 'Buyers', Icon: Crown },
+            { es: 'Vendedores', en: 'Sellers', Icon: Tag },
+            { es: 'Inversionistas', en: 'Investors', Icon: TrendingUp },
+            { es: 'Promotores', en: 'Promoters', Icon: Megaphone },
+            { es: 'Brokers', en: 'Brokers', Icon: Handshake },
+            { es: 'Curiosos', en: 'Curious', Icon: Gem },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-2 p-2.5 bg-white/[0.03] rounded-lg text-xs text-white/60">
-              <span>{item.icon}</span>
+              <item.Icon className="w-3.5 h-3.5 text-white/40" />
               <span>{language === 'es' ? item.es : item.en}</span>
             </div>
           ))}

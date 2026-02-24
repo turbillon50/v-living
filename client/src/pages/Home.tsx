@@ -4,7 +4,7 @@ import { Header } from '@/components/Header';
 import { AGHFooter } from '@/components/AGHFooter';
 import { useLanguage } from '@/lib/LanguageContext';
 import { Property } from '@shared/schema';
-import { ChevronRight, MapPin, TrendingUp, Calendar, ChevronDown, X, Waves, Shield, Sun, Star, ArrowRight } from 'lucide-react';
+import { ChevronRight, MapPin, TrendingUp, Calendar, ChevronDown, X, Waves, Shield, Sun, Star, ArrowRight, Crown, Plane, Hotel, Building2, Zap, Handshake, Briefcase, Gem, Compass } from 'lucide-react';
 import { useState, useRef } from 'react';
 
 export default function Home() {
@@ -20,16 +20,16 @@ export default function Home() {
   const featuredProperties = properties.slice(0, 6);
 
   const categories = [
-    { label: language === 'es' ? 'Propiedades' : 'Properties', href: '/fractional', icon: '🏠' },
-    { label: language === 'es' ? 'Experiencias' : 'Experiences', href: '/experiences', icon: '✨' },
-    { label: language === 'es' ? 'Inmobiliaria' : 'Real Estate', href: '/inmobiliaria', icon: '🏡' },
-    { label: language === 'es' ? 'Créditos' : 'Credits', href: '/creditos', icon: '🏦' },
-    { label: language === 'es' ? 'Vuelos' : 'Flights', href: '/vuelos', icon: '✈️' },
-    { label: language === 'es' ? 'Hoteles' : 'Hotels', href: '/hoteles', icon: '🏨' },
-    { label: language === 'es' ? 'Invertir' : 'Invest', href: '/invest', icon: '📈' },
-    { label: 'Last Minute', href: '/last-minute', icon: '⚡' },
-    { label: language === 'es' ? 'Asociados' : 'Associates', href: '/perfil-asociado', icon: '🤝' },
-    { label: language === 'es' ? 'Modelo' : 'Model', href: '/modelo-negocios', icon: '💼' },
+    { label: language === 'es' ? 'Propiedades' : 'Properties', href: '/fractional', Icon: Crown, gradient: 'from-[#0891b2] to-[#06b6d4]' },
+    { label: language === 'es' ? 'Experiencias' : 'Experiences', href: '/experiences', Icon: Gem, gradient: 'from-[#06b6d4] to-[#22d3ee]' },
+    { label: language === 'es' ? 'Inmobiliaria' : 'Real Estate', href: '/inmobiliaria', Icon: Building2, gradient: 'from-[#0e7490] to-[#0891b2]' },
+    { label: language === 'es' ? 'Créditos' : 'Credits', href: '/creditos', Icon: Shield, gradient: 'from-[#0a1628] to-[#0891b2]' },
+    { label: language === 'es' ? 'Vuelos' : 'Flights', href: '/vuelos', Icon: Plane, gradient: 'from-[#0891b2] to-[#22d3ee]' },
+    { label: language === 'es' ? 'Hoteles' : 'Hotels', href: '/hoteles', Icon: Hotel, gradient: 'from-[#06b6d4] to-[#0891b2]' },
+    { label: language === 'es' ? 'Invertir' : 'Invest', href: '/invest', Icon: TrendingUp, gradient: 'from-[#0891b2] to-[#0e7490]' },
+    { label: 'Last Minute', href: '/last-minute', Icon: Zap, gradient: 'from-[#22d3ee] to-[#06b6d4]' },
+    { label: language === 'es' ? 'Asociados' : 'Associates', href: '/perfil-asociado', Icon: Handshake, gradient: 'from-[#0e7490] to-[#06b6d4]' },
+    { label: language === 'es' ? 'Modelo' : 'Model', href: '/modelo-negocios', Icon: Briefcase, gradient: 'from-[#0a1628] to-[#0e7490]' },
   ];
 
   return (
@@ -66,8 +66,10 @@ export default function Home() {
           <div className="flex gap-3 px-2 pb-2" style={{ width: 'max-content' }}>
             {categories.map((cat, i) => (
               <Link key={i} href={cat.href}>
-                <div className="flex flex-col items-center gap-2 min-w-[72px] py-3 px-3 bg-white rounded-2xl shadow-sm shadow-[#0891b2]/8 border border-[#e2e8f0] hover:shadow-md hover:border-[#0891b2]/20 transition-all duration-300 active:scale-95 cursor-pointer">
-                  <span className="text-xl">{cat.icon}</span>
+                <div className="flex flex-col items-center gap-2 min-w-[72px] py-3 px-3 bg-white rounded-2xl shadow-sm shadow-[#0891b2]/8 border border-[#e2e8f0] hover:shadow-md hover:border-[#0891b2]/20 transition-all duration-300 active:scale-95 cursor-pointer group">
+                  <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${cat.gradient} flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300`}>
+                    <cat.Icon className="w-4 h-4 text-white" />
+                  </div>
                   <span className="text-[10px] text-[#475569] font-medium tracking-wide whitespace-nowrap">{cat.label}</span>
                 </div>
               </Link>

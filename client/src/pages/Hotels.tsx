@@ -3,7 +3,7 @@ import { Link } from 'wouter';
 import { useLanguage } from '@/lib/LanguageContext';
 import { Header } from '@/components/Header';
 import { AGHFooter } from '@/components/AGHFooter';
-import { ArrowLeft, Building2, Search, MapPin, Calendar, Users, Loader2, Star, Info } from 'lucide-react';
+import { ArrowLeft, Hotel, Search, MapPin, Calendar, Users, Loader2, Star, Info } from 'lucide-react';
 
 interface HotelResult {
   id: string;
@@ -102,7 +102,7 @@ export default function Hotels() {
           </Link>
           <div>
             <h1 className="text-lg font-semibold tracking-tight flex items-center gap-2" data-testid="text-hotels-title">
-              <Building2 className="w-5 h-5 text-[#22d3ee]" />
+              <Hotel className="w-5 h-5 text-[#22d3ee]" />
               {language === 'es' ? 'Hoteles' : 'Hotels'}
             </h1>
             <p className="text-white/40 text-xs">
@@ -241,7 +241,7 @@ export default function Hotels() {
 
         {searched && !loading && results.length === 0 && !error && !message && (
           <div className="text-center py-16 px-4">
-            <Building2 className="w-12 h-12 text-white/10 mx-auto mb-4" />
+            <Hotel className="w-12 h-12 text-white/10 mx-auto mb-4" />
             <p className="text-white/40 text-sm">{language === 'es' ? 'No se encontraron hoteles disponibles' : 'No hotels available'}</p>
           </div>
         )}
@@ -309,7 +309,7 @@ export default function Hotels() {
 
         {searched && !loading && results.length === 0 && message && (
           <div className="mx-4 mt-6 bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-            <Building2 className="w-10 h-10 text-[#0891b2]/30 mx-auto mb-3" />
+            <Hotel className="w-10 h-10 text-[#0891b2]/30 mx-auto mb-3" />
             <h3 className="text-white/70 text-sm font-medium mb-2">
               {language === 'es' ? 'Hoteles en modo prueba' : 'Hotels in test mode'}
             </h3>

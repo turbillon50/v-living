@@ -4,18 +4,18 @@ import { Header } from '@/components/Header';
 import { AGHFooter } from '@/components/AGHFooter';
 import { useLanguage } from '@/lib/LanguageContext';
 import { RealEstateListing } from '@shared/schema';
-import { MapPin, Bed, Bath, Maximize, Filter, Search, Phone, Mail, ChevronRight, Building2, Home as HomeIcon, TreePine, Store, ArrowLeft, X, Heart } from 'lucide-react';
+import { MapPin, Bed, Bath, Maximize, Filter, Search, Phone, Mail, ChevronRight, Building2, Home as HomeIcon, TreePine, Store, ArrowLeft, X, Heart, Crown, LayoutGrid, Landmark, Palmtree, Warehouse } from 'lucide-react';
 import { Link } from 'wouter';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 
 const propertyTypes = [
-  { value: 'todos', label: 'Todos', labelEn: 'All', icon: '🏘️' },
-  { value: 'casa', label: 'Casa', labelEn: 'House', icon: '🏠' },
-  { value: 'departamento', label: 'Departamento', labelEn: 'Apartment', icon: '🏢' },
-  { value: 'penthouse', label: 'Penthouse', labelEn: 'Penthouse', icon: '🌇' },
-  { value: 'terreno', label: 'Terreno', labelEn: 'Land', icon: '🌴' },
-  { value: 'comercial', label: 'Comercial', labelEn: 'Commercial', icon: '🏪' },
+  { value: 'todos', label: 'Todos', labelEn: 'All', Icon: LayoutGrid },
+  { value: 'casa', label: 'Casa', labelEn: 'House', Icon: HomeIcon },
+  { value: 'departamento', label: 'Departamento', labelEn: 'Apartment', Icon: Building2 },
+  { value: 'penthouse', label: 'Penthouse', labelEn: 'Penthouse', Icon: Crown },
+  { value: 'terreno', label: 'Terreno', labelEn: 'Land', Icon: Palmtree },
+  { value: 'comercial', label: 'Comercial', labelEn: 'Commercial', Icon: Warehouse },
 ];
 
 function formatPrice(price: number, currency: string = 'USD') {
@@ -72,8 +72,10 @@ export default function Inmobiliaria() {
               </div>
             </div>
           ) : (
-            <div className="rounded-2xl bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 h-[300px] flex items-center justify-center mb-6">
-              <Building2 className="w-16 h-16 text-[#0891b2]/30" />
+            <div className="rounded-2xl bg-gradient-to-br from-[#0a1628]/5 via-[#0891b2]/10 to-[#22d3ee]/5 h-[300px] flex items-center justify-center mb-6">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#0891b2]/20 to-[#22d3ee]/20 flex items-center justify-center">
+                <Building2 className="w-10 h-10 text-[#0891b2]/40" />
+              </div>
             </div>
           )}
 
@@ -194,7 +196,7 @@ export default function Inmobiliaria() {
 
             <Link href="/creditos">
               <button className="w-full mt-3 py-3 bg-[#0a1628] text-white rounded-xl text-sm flex items-center justify-center gap-2 hover:bg-[#0a1628]/90 transition-colors" data-testid="button-simulate-credit">
-                🏦 {language === 'es' ? 'Simular Crédito Hipotecario' : 'Simulate Mortgage'}
+                {language === 'es' ? 'Simular Crédito Hipotecario' : 'Simulate Mortgage'}
               </button>
             </Link>
           </div>
@@ -209,17 +211,22 @@ export default function Inmobiliaria() {
       <Header />
       
       <section className="relative overflow-hidden">
-        <div className="relative h-[280px] md:h-[340px]">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0891b2]/80 to-[#22d3ee]" />
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNCI+PHBhdGggZD0iTTM2IDE0djZoLTZWMTRoNnptMCAxMHY2aC02di02aDZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30" />
+        <div className="relative h-[320px] md:h-[380px]">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0a1628]/95 to-[#0891b2]/30" />
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+          <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full bg-[#0891b2]/8 blur-[100px] -translate-y-1/3 -translate-x-1/4" />
+          <div className="absolute bottom-0 right-0 w-[350px] h-[350px] rounded-full bg-[#22d3ee]/6 blur-[80px] translate-y-1/3 translate-x-1/4" />
           
           <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
             <div className="fl-fade-in">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center mx-auto mb-5 shadow-lg shadow-[#0891b2]/30">
+                <Building2 className="w-8 h-8 text-white" />
+              </div>
               <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living</p>
               <h1 className="text-3xl md:text-4xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="hero-title-inmobiliaria">
                 {language === 'es' ? 'Inmobiliaria' : 'Real Estate'}
               </h1>
-              <p className="text-white/70 text-sm font-light max-w-md mx-auto">
+              <p className="text-white/50 text-sm font-light max-w-md mx-auto">
                 {language === 'es' ? 'Propiedades premium en venta en el Caribe y más' : 'Premium properties for sale in the Caribbean and beyond'}
               </p>
             </div>
@@ -255,7 +262,7 @@ export default function Inmobiliaria() {
                 }`}
                 data-testid={`button-filter-${type.value}`}
               >
-                <span>{type.icon}</span>
+                <type.Icon className="w-3.5 h-3.5" />
                 {language === 'es' ? type.label : type.labelEn}
               </button>
             ))}
@@ -277,7 +284,9 @@ export default function Inmobiliaria() {
           </div>
         ) : filteredListings.length === 0 ? (
           <div className="text-center py-20">
-            <Building2 className="w-16 h-16 text-[#cbd5e1] mx-auto mb-4" />
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center mx-auto mb-4">
+              <Building2 className="w-10 h-10 text-[#0891b2]/30" />
+            </div>
             <h3 className="text-xl text-[#0a1628] mb-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? 'No hay propiedades disponibles' : 'No properties available'}
             </h3>
@@ -304,8 +313,10 @@ export default function Inmobiliaria() {
                   {(listing.images as string[])?.length > 0 ? (
                     <img src={(listing.images as string[])[0]} alt={listing.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center">
-                      <Building2 className="w-10 h-10 text-[#0891b2]/30" />
+                    <div className="w-full h-full bg-gradient-to-br from-[#0a1628]/5 via-[#0891b2]/10 to-[#22d3ee]/5 flex items-center justify-center">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#0891b2]/15 to-[#22d3ee]/15 flex items-center justify-center">
+                        <Building2 className="w-7 h-7 text-[#0891b2]/30" />
+                      </div>
                     </div>
                   )}
                   <div className="absolute top-3 left-3">
@@ -322,7 +333,7 @@ export default function Inmobiliaria() {
                   {listing.isFeatured && (
                     <div className="absolute top-3 right-3">
                       <span className="px-2.5 py-1 rounded-full text-[10px] font-medium bg-[#0891b2] text-white">
-                        ⭐ {language === 'es' ? 'Destacada' : 'Featured'}
+                        {language === 'es' ? 'Destacada' : 'Featured'}
                       </span>
                     </div>
                   )}
@@ -364,7 +375,7 @@ export default function Inmobiliaria() {
           </p>
           <Link href="/creditos">
             <button className="px-8 py-3 bg-white text-[#0891b2] rounded-xl text-sm font-medium hover:bg-white/90 transition-colors inline-flex items-center gap-2" data-testid="button-go-credits">
-              🏦 {language === 'es' ? 'Simulador de Crédito' : 'Credit Simulator'}
+              {language === 'es' ? 'Simulador de Crédito' : 'Credit Simulator'}
               <ChevronRight className="w-4 h-4" />
             </button>
           </Link>
