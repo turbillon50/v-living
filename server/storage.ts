@@ -154,6 +154,19 @@ export interface IStorage {
   createEcosystemEvent(data: schema.InsertEcosystemEvent): Promise<schema.EcosystemEvent>;
   updateEcosystemEventDelivery(id: string, deliveredTo: string[]): Promise<void>;
   getRecentEvents(limit?: number): Promise<schema.EcosystemEvent[]>;
+
+  // Real Estate Listings
+  getRealEstateListings(): Promise<schema.RealEstateListing[]>;
+  getRealEstateListingById(id: string): Promise<schema.RealEstateListing | undefined>;
+  getRealEstateListingsByType(propertyType: string): Promise<schema.RealEstateListing[]>;
+  createRealEstateListing(listing: schema.InsertRealEstateListing): Promise<schema.RealEstateListing>;
+  updateRealEstateListing(id: string, data: Partial<schema.InsertRealEstateListing>): Promise<schema.RealEstateListing | undefined>;
+  deleteRealEstateListing(id: string): Promise<void>;
+
+  // Credit Applications
+  getCreditApplications(): Promise<schema.CreditApplication[]>;
+  createCreditApplication(application: schema.InsertCreditApplication): Promise<schema.CreditApplication>;
+  updateCreditApplicationStatus(id: string, status: string): Promise<schema.CreditApplication | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -765,6 +778,51 @@ export class DatabaseStorage implements IStorage {
 
   async getRecentEvents(limit: number = 50): Promise<schema.EcosystemEvent[]> {
     return db.select().from(schema.ecosystemEvents).orderBy(sql`created_at DESC`).limit(limit);
+  }
+
+  // Real Estate Listings
+  async getRealEstateListings(): Promise<schema.RealEstateListing[]> {
+    return db.select().from(schema.realEstateListings).where(eq(schema.realEstateListings.isActive, true));
+  }
+
+  async getRealEstateListingById(id: string): Promise<schema.RealEstateListing | undefined> {
+    const results = await db.select().from(schema.realEstateListings).where(eq(schema.realEstateListings.id, id)).limit(1);
+    return results[0];
+  }
+
+  async getRealEstateListingsByType(propertyType: string): Promise<schema.RealEstateListing[]> {
+    return db.select().from(schema.realEstateListings).where(
+      and(eq(schema.realEstateListings.propertyType, propertyType), eq(schema.realEstateListings.isActive, true))
+    );
+  }
+
+  async createRealEstateListing(listing: schema.InsertRealEstateListing): Promise<schema.RealEstateListing> {
+    const results = await db.insert(schema.realEstateListings).values(listing as any).returning();
+    return results[0];
+  }
+
+  async updateRealEstateListing(id: string, data: Partial<schema.InsertRealEstateListing>): Promise<schema.RealEstateListing | undefined> {
+    const results = await db.update(schema.realEstateListings).set(data as any).where(eq(schema.realEstateListings.id, id)).returning();
+    return results[0];
+  }
+
+  async deleteRealEstateListing(id: string): Promise<void> {
+    await db.delete(schema.realEstateListings).where(eq(schema.realEstateListings.id, id));
+  }
+
+  // Credit Applications
+  async getCreditApplications(): Promise<schema.CreditApplication[]> {
+    return db.select().from(schema.creditApplications).orderBy(sql`created_at DESC`);
+  }
+
+  async createCreditApplication(application: schema.InsertCreditApplication): Promise<schema.CreditApplication> {
+    const results = await db.insert(schema.creditApplications).values(application as any).returning();
+    return results[0];
+  }
+
+  async updateCreditApplicationStatus(id: string, status: string): Promise<schema.CreditApplication | undefined> {
+    const results = await db.update(schema.creditApplications).set({ status }).where(eq(schema.creditApplications.id, id)).returning();
+    return results[0];
   }
 }
 

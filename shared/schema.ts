@@ -221,6 +221,60 @@ export type NavButton = typeof navButtons.$inferSelect;
 export type InsertSiteSetting = z.infer<typeof insertSiteSettingSchema>;
 export type SiteSetting = typeof siteSettings.$inferSelect;
 
+// Real Estate Listings - traditional real estate properties (NOT fractional)
+export const realEstateListings = pgTable("real_estate_listings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  location: text("location").notNull(),
+  country: text("country").default("México"),
+  propertyType: text("property_type").default("casa"),
+  price: integer("price").notNull(),
+  currency: text("currency").default("USD"),
+  bedrooms: integer("bedrooms"),
+  bathrooms: integer("bathrooms"),
+  sqMeters: integer("sq_meters"),
+  images: jsonb("images").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+  amenities: jsonb("amenities").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+  features: jsonb("features").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+  yearBuilt: integer("year_built"),
+  status: text("status").default("disponible"),
+  contactName: text("contact_name"),
+  contactPhone: text("contact_phone"),
+  contactEmail: text("contact_email"),
+  isFeatured: boolean("is_featured").default(false),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Credit Applications - mortgage/credit applications
+export const creditApplications = pgTable("credit_applications", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  propertyValue: integer("property_value").notNull(),
+  downPayment: integer("down_payment").notNull(),
+  loanAmount: integer("loan_amount").notNull(),
+  termYears: integer("term_years").notNull(),
+  monthlyIncome: integer("monthly_income"),
+  employmentType: text("employment_type").default("empleado"),
+  propertyType: text("property_type").default("casa"),
+  notes: text("notes"),
+  status: text("status").default("nueva"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Insert schemas for real estate listings and credit applications
+export const insertRealEstateListingSchema = createInsertSchema(realEstateListings).omit({ id: true, createdAt: true });
+export const insertCreditApplicationSchema = createInsertSchema(creditApplications).omit({ id: true, createdAt: true });
+
+// Types for real estate listings and credit applications
+export type InsertRealEstateListing = z.infer<typeof insertRealEstateListingSchema>;
+export type RealEstateListing = typeof realEstateListings.$inferSelect;
+export type InsertCreditApplication = z.infer<typeof insertCreditApplicationSchema>;
+export type CreditApplication = typeof creditApplications.$inferSelect;
+
 // Multilinks - social media and video links for /links page
 export const multilinks = pgTable("multilinks", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
