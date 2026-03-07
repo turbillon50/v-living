@@ -6,8 +6,8 @@ interface Message {
   content: string;
 }
 
-export function FloatingAI() {
-  const [isOpen, setIsOpen] = useState(false);
+export function FloatingAI({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const setIsOpen = (v: boolean) => { if (!v) onClose(); };
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: '¡Hola! Soy Alix, tu asesora virtual de Fractional Living. ¿En qué puedo ayudarte hoy?' }
   ]);
@@ -60,40 +60,7 @@ export function FloatingAI() {
 
   return (
     <>
-      <style>{`
-        @keyframes alix-glow {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.1), 0 4px 20px rgba(0,0,0,0.3); }
-          50% { box-shadow: 0 0 0 6px rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.4); }
-        }
-        @keyframes alix-ring {
-          0% { transform: scale(1); opacity: 0.6; }
-          100% { transform: scale(1.8); opacity: 0; }
-        }
-        .alix-btn {
-          animation: alix-glow 3s ease-in-out infinite;
-        }
-        .alix-ring {
-          animation: alix-ring 2.5s ease-out infinite;
-        }
-      `}</style>
-
-      <button
-        onClick={() => setIsOpen(true)}
-        className={`alix-btn fixed bottom-32 right-5 z-[60] w-14 h-14 rounded-full flex items-center justify-center transition-all duration-500 ${isOpen ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100'}`}
-        style={{
-          background: 'linear-gradient(145deg, #1a1a1a 0%, #000000 50%, #1a1a1a 100%)',
-          border: '1.5px solid rgba(255,255,255,0.15)',
-        }}
-        data-testid="button-ai-open"
-      >
-        <div className="absolute inset-0 rounded-full alix-ring border border-white/20" />
-        <div className="relative flex flex-col items-center justify-center">
-          <span className="text-white font-bold text-[11px] tracking-[0.15em] leading-none">ALIX</span>
-          <span className="w-4 h-[1px] bg-white/40 mt-0.5" />
-        </div>
-      </button>
-
-      <div className={`fixed bottom-28 left-3 right-3 sm:bottom-8 sm:right-6 sm:left-auto z-50 sm:w-[380px] max-h-[70vh] flex flex-col overflow-hidden transition-all duration-400 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}
+      <div className={`fixed bottom-20 left-3 right-3 sm:bottom-8 sm:right-6 sm:left-auto z-[70] sm:w-[380px] max-h-[70vh] flex flex-col overflow-hidden transition-all duration-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}
         style={{
           borderRadius: '20px',
           background: '#0a0a0a',

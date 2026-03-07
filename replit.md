@@ -32,9 +32,16 @@ La plataforma cuenta con un sistema de pre-reserva basado en semanas (56 semanas
    - Reserva con hold de 5 días automático
    - Las reservas expiran automáticamente después de 5 días
 
-4. **Asistente Alex AI**
-   - Botón flotante para asistencia
+4. **Asistente ALIX AI**
+   - Botón integrado en la barra de navegación inferior
+   - Chat panel que se abre sobre la barra inferior
    - Guía a los usuarios durante el proceso
+
+5. **Barra de Navegación Inferior (BottomNav)**
+   - 5 botones fijos: Inicio, Invertir, ALIX, Compartir, WhatsApp
+   - ALIX: abre el chat de asistencia AI
+   - Compartir: Web Share API con fallback a WhatsApp
+   - WhatsApp: contacto directo al +529984292748
 
 ### Para Creadores (Modo Creador)
 

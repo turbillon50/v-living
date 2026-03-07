@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -102,6 +103,8 @@ function ClerkAuthModalWrapper() {
 }
 
 function App() {
+  const [alixOpen, setAlixOpen] = useState(false);
+
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
@@ -111,8 +114,8 @@ function App() {
               <TooltipProvider>
                 <Toaster />
                 <Router />
-                <FloatingAI />
-                <BottomNav />
+                <FloatingAI isOpen={alixOpen} onClose={() => setAlixOpen(false)} />
+                <BottomNav onOpenAlix={() => setAlixOpen(true)} />
                 <ClerkAuthModalWrapper />
               </TooltipProvider>
             </ClerkAuthProvider>
@@ -120,8 +123,8 @@ function App() {
             <TooltipProvider>
               <Toaster />
               <Router />
-              <FloatingAI />
-              <BottomNav />
+              <FloatingAI isOpen={alixOpen} onClose={() => setAlixOpen(false)} />
+              <BottomNav onOpenAlix={() => setAlixOpen(true)} />
               <AuthModal />
             </TooltipProvider>
           )}
