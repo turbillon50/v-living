@@ -7,14 +7,13 @@ export default function PerfilAsociado() {
   const { language } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-[#fafcfd]">
+    <div className="min-h-screen bg-[#030810] pt-14">
       <Header />
 
       <section className="relative overflow-hidden">
         <div className="relative h-[420px] md:h-[500px]">
-          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/hero-ocean.jpg)' }} />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/60 via-[#0a1628]/30 to-[#fafcfd]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0891b2]/20 via-transparent to-[#0891b2]/20" />
+          <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: 'url(/hero-ocean.jpg)' }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#030810]/60 via-[#030810]/30 to-[#030810]" />
 
           <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-16">
             <div className="fl-fade-in">
@@ -29,7 +28,7 @@ export default function PerfilAsociado() {
               <h1 className="text-4xl md:text-5xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="hero-title-asociado">
                 {language === 'es' ? 'Perfil Asociado' : 'Associate Profile'}
               </h1>
-              <p className="text-white/70 max-w-lg mx-auto font-light text-sm md:text-base">
+              <p className="text-[#94a3b8] max-w-lg mx-auto font-light text-sm md:text-base">
                 {language === 'es'
                   ? 'El modelo de alianza dentro de All Global Holding LLC'
                   : 'The alliance model within All Global Holding LLC'}
@@ -40,18 +39,18 @@ export default function PerfilAsociado() {
       </section>
 
       <main className="max-w-4xl mx-auto px-6 -mt-8 relative z-20">
-        <div className="bg-white/80 backdrop-blur-sm border border-[#e2e8f0] rounded-2xl p-6 md:p-8 mb-8 shadow-lg" data-testid="card-asociado-intro">
-          <p className="text-[#334155] leading-relaxed mb-4">
+        <div className="fl-glass-card p-6 md:p-8 mb-8" data-testid="card-asociado-intro">
+          <p className="text-[#94a3b8] leading-relaxed mb-4">
             {language === 'es'
               ? 'Si llegaste hasta aquí, es porque estás evaluando algo más que una inversión aislada. Estás explorando una forma de asociación dentro de un sistema inmobiliario–financiero estructurado.'
               : 'If you made it here, you are evaluating more than an isolated investment. You are exploring a form of partnership within a structured real estate-financial system.'}
           </p>
-          <p className="text-[#475569] leading-relaxed mb-4 text-sm">
+          <p className="text-[#64748b] leading-relaxed mb-4 text-sm">
             {language === 'es'
               ? 'En All Global Holding LLC no operamos productos sueltos. Diseñamos modelos de participación que integran a personas, propiedades y capital dentro de procesos fiduciarios, bancarios y mercantiles formales.'
               : 'At All Global Holding LLC we do not operate standalone products. We design participation models that integrate people, properties and capital.'}
           </p>
-          <p className="text-[#64748b] text-sm italic">
+          <p className="text-[#475569] text-sm italic">
             {language === 'es'
               ? 'Actualmente existen dos tipos de Perfil Asociado, ambos complementarios y estratégicos dentro del sistema.'
               : 'There are currently two types of Associate Profiles, both complementary and strategic within the system.'}
@@ -142,7 +141,7 @@ export default function PerfilAsociado() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-[#0a1628] to-[#1e293b] rounded-2xl p-6 md:p-8 mb-8 text-white" data-testid="card-propietario">
+        <div className="bg-gradient-to-br from-[#0a1628] to-[#030810] rounded-2xl p-6 md:p-8 mb-8 text-white" data-testid="card-propietario">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-14 h-14 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
               <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -153,7 +152,7 @@ export default function PerfilAsociado() {
               <h2 className="text-2xl" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
                 {language === 'es' ? 'Perfil Asociado – Propietario' : 'Associate Profile – Owner'}
               </h2>
-              <p className="text-white/60 text-sm">
+              <p className="text-[#94a3b8] text-sm">
                 {language === 'es' ? 'Vende tu propiedad con estructura, sin fricción y con mayor valor' : 'Sell your property with structure, no friction and greater value'}
               </p>
             </div>
@@ -229,11 +228,11 @@ export default function PerfilAsociado() {
           </div>
         </div>
 
-        <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 md:p-8 mb-8 shadow-sm">
-          <h2 className="text-2xl text-[#0a1628] text-center mb-6" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+        <div className="fl-glass-card p-6 md:p-8 mb-8 shadow-sm">
+          <h2 className="text-2xl text-white text-center mb-6" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
             {language === 'es' ? '¿Por qué este modelo es posible?' : 'Why is this model possible?'}
           </h2>
-          <p className="text-center text-[#475569] mb-6 italic">
+          <p className="text-center text-[#94a3b8] mb-6 italic">
             {language === 'es'
               ? 'Porque el valor no se crea solo en la compra o en la venta, sino en la estructura.'
               : 'Because value is not created only in buying or selling, but in the structure.'}
@@ -246,9 +245,9 @@ export default function PerfilAsociado() {
               { label: language === 'es' ? 'Optimizar' : 'Optimize', sub: language === 'es' ? 'tiempos' : 'times' },
               { label: language === 'es' ? 'Alinear' : 'Align', sub: language === 'es' ? 'intereses' : 'interests' },
             ].map((item, i) => (
-              <div key={i} className="bg-gradient-to-br from-[#f0fdfa] to-[#ecfeff] rounded-lg p-3 text-center">
-                <p className="text-[#0e7490] text-sm font-medium">{item.label}</p>
-                <p className="text-[#94a3b8] text-xs">{item.sub}</p>
+              <div key={i} className="bg-[rgba(6,182,212,0.06)] border border-[rgba(6,182,212,0.08)] rounded-lg p-3 text-center">
+                <p className="text-[#22d3ee] text-sm font-medium">{item.label}</p>
+                <p className="text-[#64748b] text-xs">{item.sub}</p>
               </div>
             ))}
           </div>
@@ -259,7 +258,7 @@ export default function PerfilAsociado() {
           </p>
         </div>
 
-        <section className="bg-gradient-to-br from-[#0a1628] to-[#0e7490] rounded-2xl p-8 text-center mb-10" data-testid="card-asociado-synthesis">
+        <section className="bg-gradient-to-br from-[#030810] to-[#0e7490] rounded-2xl p-8 text-center mb-10" data-testid="card-asociado-synthesis">
           <h2 className="text-2xl text-white mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
             {language === 'es' ? 'Síntesis' : 'Synthesis'}
           </h2>
@@ -288,7 +287,7 @@ export default function PerfilAsociado() {
               {language === 'es' ? 'Contactar Asesor' : 'Contact Advisor'}
             </a>
             <Link href="/">
-              <span className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-[#e2e8f0] text-[#475569] text-sm font-medium rounded-xl hover:bg-[#f8fafc] transition-all cursor-pointer" data-testid="button-back-asociado">
+              <span className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-[rgba(6,182,212,0.12)] text-[#64748b] text-sm font-medium rounded-xl hover:bg-white/5 transition-all cursor-pointer" data-testid="button-back-asociado">
                 {language === 'es' ? 'Volver al Inicio' : 'Back to Home'}
               </span>
             </Link>

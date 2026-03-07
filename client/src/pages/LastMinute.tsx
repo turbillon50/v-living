@@ -7,14 +7,13 @@ export default function LastMinute() {
   const { language } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-[#fafcfd]">
+    <div className="min-h-screen bg-[#030810] pt-14">
       <Header />
 
       <section className="relative overflow-hidden">
         <div className="relative h-[420px] md:h-[500px]">
-          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/hero-ocean.jpg)' }} />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/60 via-[#0a1628]/30 to-[#fafcfd]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0891b2]/20 via-transparent to-[#0891b2]/20" />
+          <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: 'url(/hero-ocean.jpg)' }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#030810]/60 via-[#030810]/30 to-[#030810]" />
 
           <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-16">
             <div className="fl-fade-in">
@@ -50,8 +49,8 @@ export default function LastMinute() {
       </section>
 
       <main className="max-w-4xl mx-auto px-6 -mt-8 relative z-20">
-        <div className="bg-white/80 backdrop-blur-sm border border-[#e2e8f0] rounded-2xl p-6 md:p-8 mb-8 shadow-lg" data-testid="card-intro">
-          <p className="text-[#334155] leading-relaxed text-sm md:text-base">
+        <div className="fl-glass-card p-6 md:p-8 mb-8" data-testid="card-intro">
+          <p className="text-[#94a3b8] leading-relaxed text-sm md:text-base">
             {language === 'es'
               ? 'All Global Holding LLC diseña, estructura y opera sistemas de capital vinculados a activos reales bajo el ecosistema Fractional Living. Nuestro enfoque integra adquisición, estructuración fiduciaria, operación y optimización de activos.'
               : 'All Global Holding LLC designs, structures and operates capital systems linked to real assets under the Fractional Living ecosystem.'}
@@ -68,11 +67,11 @@ export default function LastMinute() {
                 <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
               </svg>
             </div>
-            <h2 className="text-2xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+            <h2 className="text-2xl text-white" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
               {language === 'es' ? '¿Qué es Last Minute Capital?' : 'What is Last Minute Capital?'}
             </h2>
           </div>
-          <p className="text-[#475569] leading-relaxed text-sm md:text-base">
+          <p className="text-[#64748b] leading-relaxed text-sm md:text-base">
             {language === 'es'
               ? 'Es una inversión operativa que se integra en etapas finales de procesos de adquisición y activación. Su función es aportar liquidez estratégica cuando el valor del activo ya está construido y el objetivo es acelerar cierres, formalizaciones y puesta en marcha.'
               : 'An operational investment that integrates in the final stages of acquisition and activation processes. Its function is to provide strategic liquidity when the asset value is already built.'}
@@ -91,17 +90,17 @@ export default function LastMinute() {
                 <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
               </svg>
             </div>
-            <h2 className="text-2xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+            <h2 className="text-2xl text-white" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
               {language === 'es' ? '¿Por qué es relevante ahora?' : 'Why is it relevant now?'}
             </h2>
           </div>
-          <p className="text-[#475569] leading-relaxed text-sm md:text-base">
+          <p className="text-[#64748b] leading-relaxed text-sm md:text-base">
             {language === 'es'
               ? 'El ecosistema se encuentra en fase activa de crecimiento y consolidación. Existen procesos avanzados que requieren capital oportuno.'
               : 'The ecosystem is in an active growth and consolidation phase. There are advanced processes that require timely capital.'}
           </p>
-          <div className="mt-4 bg-gradient-to-r from-[#f0fdfa] to-[#ecfeff] border border-[#0891b2]/20 rounded-xl p-4">
-            <p className="text-[#0e7490] font-medium text-sm">
+          <div className="mt-4 bg-[rgba(6,182,212,0.06)] border border-[rgba(6,182,212,0.12)] rounded-xl p-4">
+            <p className="text-[#22d3ee] font-medium text-sm">
               {language === 'es' ? 'Ventana de participación limitada: 67 procesos disponibles' : 'Limited participation window: 67 processes available'}
             </p>
             <p className="text-[#64748b] text-xs mt-1">
@@ -113,7 +112,7 @@ export default function LastMinute() {
         </section>
 
         <section className="mb-10">
-          <h2 className="text-2xl text-[#0a1628] mb-6" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+          <h2 className="text-2xl text-white mb-6" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
             {language === 'es' ? 'Propuesta de Valor' : 'Value Proposition'}
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
@@ -122,7 +121,7 @@ export default function LastMinute() {
               <p className="text-white/80 text-sm">{language === 'es' ? 'Rendimiento estimado bimestral' : 'Estimated bi-monthly return'}</p>
               <p className="text-white/50 text-xs mt-1">{language === 'es' ? 'Según monto y proceso específico' : 'Based on amount and specific process'}</p>
             </div>
-            <div className="bg-gradient-to-br from-[#0a1628] to-[#1e293b] rounded-2xl p-6 text-white" data-testid="card-amounts">
+            <div className="bg-gradient-to-br from-[#030810] to-[#1e293b] rounded-2xl p-6 text-white" data-testid="card-amounts">
               <p className="text-3xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>$20K - $100K</p>
               <p className="text-white/80 text-sm">{language === 'es' ? 'Montos de participación en MXN' : 'Participation amounts in MXN'}</p>
               <p className="text-white/50 text-xs mt-1">{language === 'es' ? 'Integración ágil e inmediata' : 'Agile and immediate integration'}</p>
@@ -137,16 +136,16 @@ export default function LastMinute() {
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
             </div>
-            <h2 className="text-2xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+            <h2 className="text-2xl text-white" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
               {language === 'es' ? 'Estructura y Seguridad' : 'Structure & Security'}
             </h2>
           </div>
-          <p className="text-[#475569] leading-relaxed text-sm md:text-base mb-4">
+          <p className="text-[#64748b] leading-relaxed text-sm md:text-base mb-4">
             {language === 'es'
               ? 'Las operaciones se desarrollan dentro de marcos fiduciarios, bancarios y contractuales formales, con procesos mercantiles alineados a regulación financiera vigente.'
               : 'Operations are conducted within formal fiduciary, banking and contractual frameworks, with commercial processes aligned to current financial regulation.'}
           </p>
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 shadow-sm">
+          <div className="fl-glass-card p-5">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center flex-shrink-0">
                 <svg className="w-5 h-5 text-[#0891b2]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -154,7 +153,7 @@ export default function LastMinute() {
                 </svg>
               </div>
               <div>
-                <p className="text-[#0a1628] font-medium text-sm">All Global Holding LLC</p>
+                <p className="text-white font-medium text-sm">All Global Holding LLC</p>
                 <p className="text-[#64748b] text-xs mt-1">
                   {language === 'es'
                     ? 'LLC constituida en Estados Unidos. Operaciones articuladas con entidades y procesos regulados.'
@@ -172,11 +171,11 @@ export default function LastMinute() {
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
             </div>
-            <h2 className="text-2xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+            <h2 className="text-2xl text-white" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
               {language === 'es' ? 'Participación en el Ecosistema' : 'Ecosystem Participation'}
             </h2>
           </div>
-          <p className="text-[#475569] leading-relaxed text-sm md:text-base mb-4">
+          <p className="text-[#64748b] leading-relaxed text-sm md:text-base mb-4">
             {language === 'es'
               ? 'Además del componente de inversión, Last Minute Capital funciona como membresía operativa dentro de Fractional Living.'
               : 'Beyond the investment component, Last Minute Capital works as an operational membership within Fractional Living.'}
@@ -193,7 +192,7 @@ export default function LastMinute() {
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </div>
-                <p className="text-[#475569] text-sm">{item}</p>
+                <p className="text-[#94a3b8] text-sm">{item}</p>
               </div>
             ))}
           </div>
@@ -204,7 +203,7 @@ export default function LastMinute() {
           </p>
         </section>
 
-        <section className="bg-gradient-to-br from-[#0a1628] to-[#0e7490] rounded-2xl p-8 text-center mb-10" data-testid="card-synthesis">
+        <section className="bg-gradient-to-br from-[#030810] to-[#0e7490] rounded-2xl p-8 text-center mb-10" data-testid="card-synthesis">
           <h2 className="text-2xl text-white mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
             {language === 'es' ? 'Síntesis' : 'Synthesis'}
           </h2>
@@ -237,7 +236,7 @@ export default function LastMinute() {
               {language === 'es' ? 'Contactar Asesor' : 'Contact Advisor'}
             </a>
             <Link href="/">
-              <span className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-[#e2e8f0] text-[#475569] text-sm font-medium rounded-xl hover:bg-[#f8fafc] transition-all cursor-pointer" data-testid="button-back-lastminute">
+              <span className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-[rgba(6,182,212,0.12)] text-[#64748b] text-sm font-medium rounded-xl hover:bg-white/5 transition-all cursor-pointer" data-testid="button-back-lastminute">
                 {language === 'es' ? 'Volver al Inicio' : 'Back to Home'}
               </span>
             </Link>
