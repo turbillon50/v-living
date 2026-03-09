@@ -104,6 +104,13 @@ export async function registerRoutes(
         });
         await storage.generateReferralCode(user.id);
         user = await storage.getUserById(user.id);
+
+        try {
+          await sendUserRegistrationEmail(email.toLowerCase(), name || 'Usuario', []);
+          console.log(`[Clerk Sync] Welcome email sent to ${email}`);
+        } catch (emailError) {
+          console.error("[Clerk Sync] Error sending welcome email:", emailError);
+        }
       }
       
       const { password: _, ...safeUser } = user!;

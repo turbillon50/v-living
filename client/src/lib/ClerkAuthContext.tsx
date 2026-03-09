@@ -73,10 +73,18 @@ export function ClerkAuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
+const defaultContext: ClerkAuthContextType = {
+  user: null,
+  isAuthenticated: false,
+  isLoading: false,
+  logout: () => {},
+  showAuthModal: false,
+  setShowAuthModal: () => {},
+  authModalMode: 'sign-up',
+  setAuthModalMode: () => {},
+};
+
 export function useClerkAuth() {
   const context = useContext(ClerkAuthContext);
-  if (context === undefined) {
-    throw new Error('useClerkAuth must be used within a ClerkAuthProvider');
-  }
-  return context;
+  return context ?? defaultContext;
 }

@@ -6,29 +6,33 @@ import { Download, Smartphone, Share, Plus, ChevronDown, ChevronUp } from 'lucid
 
 const CLERK_ENABLED = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
-export default function Registro() {
+function ClerkRegistro() {
   const { language } = useLanguage();
   const [, navigate] = useLocation();
   const [showPwa, setShowPwa] = useState(false);
-  
-  const clerkUser = CLERK_ENABLED ? useUser() : { isSignedIn: false, isLoaded: true };
-  const { isSignedIn, isLoaded } = clerkUser;
+  const [clerkTimedOut, setClerkTimedOut] = useState(false);
+  const { isSignedIn, isLoaded, user } = useUser();
 
   const referralCode = localStorage.getItem('fl_referral_code') || '';
 
   useEffect(() => {
-    if (isLoaded && isSignedIn) {
+    const timer = setTimeout(() => {
+      if (!isLoaded) setClerkTimedOut(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
       syncUserToDatabase().then(() => {
         navigate('/dashboard');
       });
     }
-  }, [isSignedIn, isLoaded, navigate]);
+  }, [isSignedIn, isLoaded]);
 
   const syncUserToDatabase = async () => {
-    if (!CLERK_ENABLED) return;
+    if (!user) return;
     try {
-      const user = (clerkUser as any).user;
-      if (!user) return;
       const res = await fetch('/api/clerk/sync-user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,23 +54,122 @@ export default function Registro() {
     }
   };
 
-  if (!isLoaded) {
+  if (!isLoaded && !clerkTimedOut) {
+    return <RegistroLoading language={language} />;
+  }
+
+  if (clerkTimedOut && !isLoaded) {
     return (
-      <div className="min-h-screen bg-[#0a1628] flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-10 h-10 border border-[#0891b2]/30 border-t-[#0891b2] rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-white/40 text-xs tracking-widest uppercase">
-            {language === 'es' ? 'Cargando' : 'Loading'}
+      <RegistroLayout language={language} referralCode={referralCode} showPwa={showPwa} setShowPwa={setShowPwa}>
+        <div className="p-6 text-center space-y-4">
+          <p className="text-[#1a1a1a] text-sm font-medium">
+            {language === 'es' ? 'No se pudo conectar al servicio de registro' : 'Could not connect to registration service'}
           </p>
+          <p className="text-[#1a1a1a]/50 text-xs">
+            {language === 'es' ? 'Por favor visita allliving.org directamente o contáctanos por WhatsApp' : 'Please visit allliving.org directly or contact us via WhatsApp'}
+          </p>
+          <a href="https://wa.me/529984292748?text=Hola%2C%20quiero%20registrarme%20en%20Fractional%20Living"
+            target="_blank" rel="noopener noreferrer"
+            className="inline-block bg-[#25D366] text-white px-6 py-2.5 rounded-lg text-sm font-medium"
+            data-testid="button-whatsapp-register"
+          >
+            {language === 'es' ? 'Registrarme por WhatsApp' : 'Register via WhatsApp'}
+          </a>
         </div>
-      </div>
+      </RegistroLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0a1628] text-white flex flex-col">
-      <div className="flex-1 flex flex-col items-center justify-start px-5 pt-10 pb-8 max-w-md mx-auto w-full">
+    <RegistroLayout language={language} referralCode={referralCode} showPwa={showPwa} setShowPwa={setShowPwa}>
+      <div className="p-5">
+        <SignUp
+          appearance={{
+            elements: {
+              rootBox: "w-full",
+              card: "shadow-none p-0 bg-transparent w-full",
+              headerTitle: "text-[15px] font-medium text-[#1a1a1a] tracking-tight",
+              headerSubtitle: "text-[#1a1a1a]/50 text-xs font-light",
+              socialButtonsBlockButton: "hidden",
+              socialButtonsBlockButtonText: "hidden",
+              formButtonPrimary: "bg-[#1a1a1a] hover:bg-[#333] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all",
+              footerActionLink: "text-black hover:text-black/80 text-[13px] font-normal",
+              formFieldInput: "border border-[#e5e5e5] focus:border-[#1a1a1a] focus:ring-0 rounded-lg h-10 text-[13px] text-[#1a1a1a] bg-white placeholder:text-[#1a1a1a]/30",
+              formFieldLabel: "text-[#1a1a1a]/60 text-[12px] font-normal",
+              dividerLine: "bg-[#e5e5e5]",
+              dividerText: "text-[#1a1a1a]/30 text-[11px] font-light",
+              identityPreviewText: "text-[#1a1a1a] text-[13px]",
+              identityPreviewEditButton: "text-black text-[12px]",
+              footer: "pt-3",
+              footerAction: "text-[12px]",
+              footerActionText: "text-[#1a1a1a]/40 text-[12px]",
+              socialButtonsProviderIcon: "hidden",
+              socialButtonsBlockButtonArrow: "hidden",
+              formFieldErrorText: "text-[11px]",
+              alert: "text-[12px] rounded-lg",
+              formFieldSuccessText: "text-[11px]",
+              otpCodeFieldInput: "border-[#e5e5e5] rounded-lg text-[#1a1a1a]",
+            },
+            layout: {
+              socialButtonsPlacement: "bottom",
+              socialButtonsVariant: "blockButton",
+              showOptionalFields: false,
+            }
+          }}
+          routing="path"
+          path="/registro"
+          signInUrl="/login"
+          afterSignUpUrl="/dashboard"
+        />
+      </div>
+    </RegistroLayout>
+  );
+}
 
+function FallbackRegistro() {
+  const { language } = useLanguage();
+  const [showPwa, setShowPwa] = useState(false);
+
+  return (
+    <RegistroLayout language={language} referralCode="" showPwa={showPwa} setShowPwa={setShowPwa}>
+      <div className="p-8 text-center">
+        <p className="text-[#1a1a1a]/50 text-sm font-light">
+          {language === 'es'
+            ? 'El sistema de registro está siendo configurado.'
+            : 'Registration system is being configured.'}
+        </p>
+      </div>
+    </RegistroLayout>
+  );
+}
+
+export default function Registro() {
+  return CLERK_ENABLED ? <ClerkRegistro /> : <FallbackRegistro />;
+}
+
+function RegistroLoading({ language }: { language: string }) {
+  return (
+    <div className="min-h-screen bg-[#030810] flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-10 h-10 border border-[#0891b2]/30 border-t-[#0891b2] rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-white/40 text-xs tracking-widest uppercase">
+          {language === 'es' ? 'Cargando' : 'Loading'}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function RegistroLayout({ language, referralCode, showPwa, setShowPwa, children }: {
+  language: string;
+  referralCode: string;
+  showPwa: boolean;
+  setShowPwa: (v: boolean) => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen bg-[#030810] text-white flex flex-col">
+      <div className="flex-1 flex flex-col items-center justify-start px-5 pt-10 pb-8 max-w-md mx-auto w-full">
         <div className="text-center mb-8 w-full">
           <Link href="/home">
             <span className="cursor-pointer" data-testid="link-logo-home">
@@ -81,7 +184,7 @@ export default function Registro() {
 
         <div className="w-full mb-6">
           <p className="text-center text-sm text-white/50 font-light leading-relaxed">
-            {language === 'es' 
+            {language === 'es'
               ? 'Crea tu cuenta y accede al ecosistema de propiedades fraccionadas de lujo en el Caribe.'
               : 'Create your account and access the luxury fractional property ecosystem in the Caribbean.'}
           </p>
@@ -96,56 +199,7 @@ export default function Registro() {
         </div>
 
         <div className="w-full bg-white rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(8,145,178,0.15)]" data-testid="card-registro">
-          {CLERK_ENABLED ? (
-            <div className="p-5">
-              <SignUp 
-                appearance={{
-                  elements: {
-                    rootBox: "w-full",
-                    card: "shadow-none p-0 bg-transparent w-full",
-                    headerTitle: "text-[15px] font-medium text-[#1a1a1a] tracking-tight",
-                    headerSubtitle: "text-[#1a1a1a]/50 text-xs font-light",
-                    socialButtonsBlockButton: "hidden",
-                    socialButtonsBlockButtonText: "hidden",
-                    formButtonPrimary: "bg-[#1a1a1a] hover:bg-[#333] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all",
-                    footerActionLink: "text-black hover:text-black/80 text-[13px] font-normal",
-                    formFieldInput: "border border-[#e5e5e5] focus:border-[#1a1a1a] focus:ring-0 rounded-lg h-10 text-[13px] text-[#1a1a1a] bg-white placeholder:text-[#1a1a1a]/30",
-                    formFieldLabel: "text-[#1a1a1a]/60 text-[12px] font-normal",
-                    dividerLine: "bg-[#e5e5e5]",
-                    dividerText: "text-[#1a1a1a]/30 text-[11px] font-light",
-                    identityPreviewText: "text-[#1a1a1a] text-[13px]",
-                    identityPreviewEditButton: "text-black text-[12px]",
-                    footer: "pt-3",
-                    footerAction: "text-[12px]",
-                    footerActionText: "text-[#1a1a1a]/40 text-[12px]",
-                    socialButtonsProviderIcon: "hidden",
-                    socialButtonsBlockButtonArrow: "hidden",
-                    formFieldErrorText: "text-[11px]",
-                    alert: "text-[12px] rounded-lg",
-                    formFieldSuccessText: "text-[11px]",
-                    otpCodeFieldInput: "border-[#e5e5e5] rounded-lg text-[#1a1a1a]",
-                  },
-                  layout: {
-                    socialButtonsPlacement: "bottom",
-                    socialButtonsVariant: "blockButton",
-                    showOptionalFields: false,
-                  }
-                }}
-                routing="path"
-                path="/registro"
-                signInUrl="/login"
-                afterSignUpUrl="/dashboard"
-              />
-            </div>
-          ) : (
-            <div className="p-8 text-center">
-              <p className="text-[#1a1a1a]/50 text-sm font-light">
-                {language === 'es' 
-                  ? 'El sistema de registro está siendo configurado.' 
-                  : 'Registration system is being configured.'}
-              </p>
-            </div>
-          )}
+          {children}
         </div>
 
         <div className="w-full mt-8">
@@ -167,8 +221,8 @@ export default function Registro() {
                 </p>
               </div>
             </div>
-            {showPwa 
-              ? <ChevronUp className="w-4 h-4 text-white/20" /> 
+            {showPwa
+              ? <ChevronUp className="w-4 h-4 text-white/20" />
               : <ChevronDown className="w-4 h-4 text-white/20" />
             }
           </button>
@@ -202,8 +256,8 @@ export default function Registro() {
               </div>
 
               <p className="text-[10px] text-white/20 text-center pt-1">
-                {language === 'es' 
-                  ? 'La app funciona sin conexión y se actualiza automáticamente.' 
+                {language === 'es'
+                  ? 'La app funciona sin conexión y se actualiza automáticamente.'
                   : 'The app works offline and updates automatically.'}
               </p>
             </div>
@@ -212,7 +266,7 @@ export default function Registro() {
 
         <div className="mt-6 text-center space-y-3">
           <p className="text-[10px] text-white/20 leading-relaxed max-w-xs mx-auto">
-            {language === 'es' 
+            {language === 'es'
               ? 'Al registrarte recibes tu código único para construir tu red y acceder al 4% de comisiones en 5 niveles.'
               : 'By registering you receive your unique code to build your network and access 4% commissions across 5 levels.'}
           </p>

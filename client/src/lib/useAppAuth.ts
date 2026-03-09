@@ -4,8 +4,7 @@ import { useClerkAuth } from './ClerkAuthContext';
 const CLERK_ENABLED = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 export function useAppAuth() {
-  if (CLERK_ENABLED) {
-    return useClerkAuth();
-  }
-  return useAuth();
+  const authContext = useAuth();
+  const clerkContext = useClerkAuth();
+  return CLERK_ENABLED ? clerkContext : authContext;
 }

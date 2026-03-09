@@ -1,28 +1,32 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'wouter';
 import { SignIn, useUser } from '@clerk/clerk-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 const CLERK_ENABLED = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
-export default function Login() {
+function ClerkLogin() {
   const { language } = useLanguage();
   const [, navigate] = useLocation();
-  
-  const clerkUser = CLERK_ENABLED ? useUser() : { isSignedIn: false, isLoaded: true };
-  const { isSignedIn, isLoaded } = clerkUser;
+  const [clerkTimedOut, setClerkTimedOut] = useState(false);
+  const { isSignedIn, isLoaded, user } = useUser();
 
   useEffect(() => {
-    if (isLoaded && isSignedIn) {
+    const timer = setTimeout(() => {
+      if (!isLoaded) setClerkTimedOut(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
       syncAndNavigate();
     }
-  }, [isSignedIn, isLoaded, navigate]);
+  }, [isSignedIn, isLoaded]);
 
   const syncAndNavigate = async () => {
-    if (!CLERK_ENABLED) return;
+    if (!user) return;
     try {
-      const user = (clerkUser as any).user;
-      if (!user) return;
       const res = await fetch('/api/clerk/sync-user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -44,23 +48,112 @@ export default function Login() {
     navigate('/dashboard');
   };
 
-  if (!isLoaded) {
+  if (!isLoaded && !clerkTimedOut) {
+    return <LoginLoading language={language} />;
+  }
+
+  if (clerkTimedOut && !isLoaded) {
     return (
-      <div className="min-h-screen bg-[#0a1628] flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-10 h-10 border border-[#0891b2]/30 border-t-[#0891b2] rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-white/40 text-xs tracking-widest uppercase">
-            {language === 'es' ? 'Cargando' : 'Loading'}
+      <LoginLayout language={language}>
+        <div className="p-6 text-center space-y-4">
+          <p className="text-[#1a1a1a] text-sm font-medium">
+            {language === 'es' ? 'No se pudo conectar al servicio de login' : 'Could not connect to login service'}
           </p>
+          <p className="text-[#1a1a1a]/50 text-xs">
+            {language === 'es' ? 'Por favor visita allliving.org directamente o contáctanos por WhatsApp' : 'Please visit allliving.org directly or contact us via WhatsApp'}
+          </p>
+          <a href="https://wa.me/529984292748?text=Hola%2C%20necesito%20ayuda%20con%20mi%20cuenta%20en%20Fractional%20Living"
+            target="_blank" rel="noopener noreferrer"
+            className="inline-block bg-[#25D366] text-white px-6 py-2.5 rounded-lg text-sm font-medium"
+            data-testid="button-whatsapp-login"
+          >
+            {language === 'es' ? 'Contactar por WhatsApp' : 'Contact via WhatsApp'}
+          </a>
         </div>
-      </div>
+      </LoginLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0a1628] text-white flex flex-col">
-      <div className="flex-1 flex flex-col items-center justify-start px-5 pt-14 pb-8 max-w-md mx-auto w-full">
+    <LoginLayout language={language}>
+      <div className="p-5">
+        <SignIn
+          appearance={{
+            elements: {
+              rootBox: "w-full",
+              card: "shadow-none p-0 bg-transparent w-full",
+              headerTitle: "text-[15px] font-medium text-[#1a1a1a] tracking-tight",
+              headerSubtitle: "text-[#1a1a1a]/50 text-xs font-light",
+              socialButtonsBlockButton: "hidden",
+              socialButtonsBlockButtonText: "hidden",
+              formButtonPrimary: "bg-[#1a1a1a] hover:bg-[#333] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all",
+              footerActionLink: "text-black hover:text-black/80 text-[13px] font-normal",
+              formFieldInput: "border border-[#e5e5e5] focus:border-[#1a1a1a] focus:ring-0 rounded-lg h-10 text-[13px] text-[#1a1a1a] bg-white placeholder:text-[#1a1a1a]/30",
+              formFieldLabel: "text-[#1a1a1a]/60 text-[12px] font-normal",
+              dividerLine: "bg-[#e5e5e5]",
+              dividerText: "text-[#1a1a1a]/30 text-[11px] font-light",
+              identityPreviewText: "text-[#1a1a1a] text-[13px]",
+              identityPreviewEditButton: "text-black text-[12px]",
+              footer: "pt-3",
+              footerAction: "text-[12px]",
+              footerActionText: "text-[#1a1a1a]/40 text-[12px]",
+              socialButtonsProviderIcon: "hidden",
+              socialButtonsBlockButtonArrow: "hidden",
+              formFieldErrorText: "text-[11px]",
+              alert: "text-[12px] rounded-lg",
+              otpCodeFieldInput: "border-[#e5e5e5] rounded-lg text-[#1a1a1a]",
+            },
+            layout: {
+              socialButtonsPlacement: "bottom",
+              socialButtonsVariant: "blockButton",
+            }
+          }}
+          routing="path"
+          path="/login"
+          signUpUrl="/registro"
+          afterSignInUrl="/dashboard"
+        />
+      </div>
+    </LoginLayout>
+  );
+}
 
+function FallbackLogin() {
+  const { language } = useLanguage();
+  return (
+    <LoginLayout language={language}>
+      <div className="p-8 text-center">
+        <p className="text-[#1a1a1a]/50 text-sm font-light">
+          {language === 'es'
+            ? 'El sistema de login está siendo configurado.'
+            : 'Login system is being configured.'}
+        </p>
+      </div>
+    </LoginLayout>
+  );
+}
+
+export default function Login() {
+  return CLERK_ENABLED ? <ClerkLogin /> : <FallbackLogin />;
+}
+
+function LoginLoading({ language }: { language: string }) {
+  return (
+    <div className="min-h-screen bg-[#030810] flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-10 h-10 border border-[#0891b2]/30 border-t-[#0891b2] rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-white/40 text-xs tracking-widest uppercase">
+          {language === 'es' ? 'Cargando' : 'Loading'}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function LoginLayout({ language, children }: { language: string; children: React.ReactNode }) {
+  return (
+    <div className="min-h-screen bg-[#030810] text-white flex flex-col">
+      <div className="flex-1 flex flex-col items-center justify-start px-5 pt-14 pb-8 max-w-md mx-auto w-full">
         <div className="text-center mb-10 w-full">
           <Link href="/home">
             <span className="cursor-pointer" data-testid="link-logo-home-login">
@@ -75,61 +168,14 @@ export default function Login() {
 
         <div className="w-full mb-6">
           <p className="text-center text-sm text-white/50 font-light">
-            {language === 'es' 
+            {language === 'es'
               ? 'Accede a tu cuenta y gestiona tu red.'
               : 'Access your account and manage your network.'}
           </p>
         </div>
 
         <div className="w-full bg-white rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(8,145,178,0.15)]" data-testid="card-login">
-          {CLERK_ENABLED ? (
-            <div className="p-5">
-              <SignIn 
-                appearance={{
-                  elements: {
-                    rootBox: "w-full",
-                    card: "shadow-none p-0 bg-transparent w-full",
-                    headerTitle: "text-[15px] font-medium text-[#1a1a1a] tracking-tight",
-                    headerSubtitle: "text-[#1a1a1a]/50 text-xs font-light",
-                    socialButtonsBlockButton: "hidden",
-                    socialButtonsBlockButtonText: "hidden",
-                    formButtonPrimary: "bg-[#1a1a1a] hover:bg-[#333] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all",
-                    footerActionLink: "text-black hover:text-black/80 text-[13px] font-normal",
-                    formFieldInput: "border border-[#e5e5e5] focus:border-[#1a1a1a] focus:ring-0 rounded-lg h-10 text-[13px] text-[#1a1a1a] bg-white placeholder:text-[#1a1a1a]/30",
-                    formFieldLabel: "text-[#1a1a1a]/60 text-[12px] font-normal",
-                    dividerLine: "bg-[#e5e5e5]",
-                    dividerText: "text-[#1a1a1a]/30 text-[11px] font-light",
-                    identityPreviewText: "text-[#1a1a1a] text-[13px]",
-                    identityPreviewEditButton: "text-black text-[12px]",
-                    footer: "pt-3",
-                    footerAction: "text-[12px]",
-                    footerActionText: "text-[#1a1a1a]/40 text-[12px]",
-                    socialButtonsProviderIcon: "hidden",
-                    socialButtonsBlockButtonArrow: "hidden",
-                    formFieldErrorText: "text-[11px]",
-                    alert: "text-[12px] rounded-lg",
-                    otpCodeFieldInput: "border-[#e5e5e5] rounded-lg text-[#1a1a1a]",
-                  },
-                  layout: {
-                    socialButtonsPlacement: "bottom",
-                    socialButtonsVariant: "blockButton",
-                  }
-                }}
-                routing="path"
-                path="/login"
-                signUpUrl="/registro"
-                afterSignInUrl="/dashboard"
-              />
-            </div>
-          ) : (
-            <div className="p-8 text-center">
-              <p className="text-[#1a1a1a]/50 text-sm font-light">
-                {language === 'es' 
-                  ? 'El sistema de login está siendo configurado.' 
-                  : 'Login system is being configured.'}
-              </p>
-            </div>
-          )}
+          {children}
         </div>
 
         <div className="mt-8 text-center">
