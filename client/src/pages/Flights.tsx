@@ -91,18 +91,18 @@ function AirportInput({ value, onChange, placeholder, label }: {
 
   return (
     <div ref={containerRef} className="relative flex-1">
-      <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">{label}</label>
+      <label className="block text-[10px] text-[#999] uppercase tracking-wider mb-1.5">{label}</label>
       <input
         type="text"
         value={displayName || query}
         onChange={(e) => { setQuery(e.target.value); setDisplayName(''); searchAirports(e.target.value); }}
         onFocus={() => { if (results.length) setShowDropdown(true); }}
         placeholder={placeholder}
-        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-[#0891b2]/50 focus:ring-1 focus:ring-[#0891b2]/20 transition-all"
+        className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-4 py-3 text-[#222] text-sm placeholder:text-[#bbb] focus:outline-none focus:border-[#059669]/50 focus:ring-1 focus:ring-[#059669]/20 transition-all"
         data-testid={`input-airport-${label.toLowerCase()}`}
       />
       {showDropdown && results.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-[#1e293b] border border-white/10 rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#ebebeb] rounded-xl shadow-lg z-50 max-h-60 overflow-y-auto">
           {results.map((a) => (
             <button
               key={a.iata_code}
@@ -112,10 +112,10 @@ function AirportInput({ value, onChange, placeholder, label }: {
                 setShowDropdown(false);
                 setQuery('');
               }}
-              className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
+              className="w-full text-left px-4 py-3 hover:bg-[#f7f7f7] transition-colors border-b border-[#f7f7f7] last:border-0"
             >
-              <div className="text-white text-sm font-medium">{a.city_name}</div>
-              <div className="text-white/40 text-xs">{a.name} ({a.iata_code})</div>
+              <div className="text-[#222] text-sm font-medium">{a.city_name}</div>
+              <div className="text-[#999] text-xs">{a.name} ({a.iata_code})</div>
             </button>
           ))}
         </div>
@@ -192,35 +192,35 @@ export default function Flights() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a1628] text-white">
+    <div className="min-h-screen bg-white text-[#222]">
       <Header />
 
       <section className="relative overflow-hidden">
         <div className="relative h-[380px] md:h-[440px]">
           <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=1400&h=600&fit=crop)' }} />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/70 via-[#0a1628]/40 to-[#0a1628]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0891b2]/10 via-transparent to-[#0891b2]/10" />
-          <div className="absolute top-20 right-10 w-64 h-64 rounded-full bg-[#0891b2]/5 blur-3xl" />
-          <div className="absolute bottom-10 left-10 w-48 h-48 rounded-full bg-[#22d3ee]/5 blur-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/40 to-white" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#059669]/10 via-transparent to-[#059669]/10" />
+          <div className="absolute top-20 right-10 w-64 h-64 rounded-full bg-[#059669]/5 blur-3xl" />
+          <div className="absolute bottom-10 left-10 w-48 h-48 rounded-full bg-[#06b6d4]/5 blur-3xl" />
 
           <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-12">
             <div className="fl-fade-in">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center mx-auto mb-5 shadow-xl shadow-[#0891b2]/30">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center mx-auto mb-5 shadow-xl shadow-[#059669]/30">
                 <Plane className="w-8 h-8 text-white" />
               </div>
-              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living Travel</p>
-              <h1 className="text-4xl md:text-5xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="text-flights-title">
+              <p className="text-[#059669] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living Travel</p>
+              <h1 className="text-4xl md:text-5xl text-[#222] tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="text-flights-title">
                 {language === 'es' ? 'Vuelos al Caribe' : 'Caribbean Flights'}
               </h1>
-              <p className="text-white/50 text-sm font-light max-w-lg mx-auto mb-6">
+              <p className="text-[#717171] text-sm font-light max-w-lg mx-auto mb-6">
                 {language === 'es' 
                   ? 'Busca vuelos reales con las mejores aerolíneas del mundo. Tarifas en tiempo real, reserva directa.' 
                   : 'Search real flights with the world\'s best airlines. Real-time fares, direct booking.'}
               </p>
-              <div className="flex items-center justify-center gap-6 text-[10px] text-white/40 uppercase tracking-wider">
-                <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-[#22d3ee]" /> {language === 'es' ? 'Tarifas reales' : 'Real fares'}</span>
-                <span className="flex items-center gap-1.5"><Globe className="w-3 h-3 text-[#22d3ee]" /> +300 {language === 'es' ? 'aerolíneas' : 'airlines'}</span>
-                <span className="flex items-center gap-1.5"><Zap className="w-3 h-3 text-[#22d3ee]" /> {language === 'es' ? 'Reserva directa' : 'Direct booking'}</span>
+              <div className="flex items-center justify-center gap-6 text-[10px] text-[#999] uppercase tracking-wider">
+                <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-[#059669]" /> {language === 'es' ? 'Tarifas reales' : 'Real fares'}</span>
+                <span className="flex items-center gap-1.5"><Globe className="w-3 h-3 text-[#059669]" /> +300 {language === 'es' ? 'aerolíneas' : 'airlines'}</span>
+                <span className="flex items-center gap-1.5"><Zap className="w-3 h-3 text-[#059669]" /> {language === 'es' ? 'Reserva directa' : 'Direct booking'}</span>
               </div>
             </div>
           </div>
@@ -228,12 +228,12 @@ export default function Flights() {
       </section>
 
       <main className="pb-32 max-w-4xl mx-auto -mt-8 relative z-20">
-        <div className="mx-4 bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl shadow-black/20">
+        <div className="mx-4 bg-white border border-[#ebebeb] rounded-3xl p-6 shadow-lg">
           <div className="flex items-center gap-2 mb-5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center">
               <Search className="w-4 h-4 text-white" />
             </div>
-            <h2 className="text-white/80 text-sm font-medium tracking-wide">
+            <h2 className="text-[#444] text-sm font-medium tracking-wide">
               {language === 'es' ? 'Buscar Vuelos' : 'Search Flights'}
             </h2>
           </div>
@@ -246,8 +246,8 @@ export default function Flights() {
               label={language === 'es' ? 'Origen' : 'Origin'}
             />
             <div className="flex items-end justify-center pb-3">
-              <div className="w-8 h-8 rounded-full bg-[#0891b2]/10 flex items-center justify-center">
-                <ArrowLeftRight className="w-4 h-4 text-[#22d3ee]" />
+              <div className="w-8 h-8 rounded-full bg-[#059669]/10 flex items-center justify-center">
+                <ArrowLeftRight className="w-4 h-4 text-[#059669]" />
               </div>
             </div>
             <AirportInput
@@ -260,7 +260,7 @@ export default function Flights() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
             <div>
-              <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">
+              <label className="block text-[10px] text-[#999] uppercase tracking-wider mb-1.5">
                 <Calendar className="w-3 h-3 inline mr-1" />
                 {language === 'es' ? 'Ida' : 'Departure'}
               </label>
@@ -269,12 +269,12 @@ export default function Flights() {
                 value={departureDate}
                 min={getTomorrow()}
                 onChange={(e) => setDepartureDate(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-[#0891b2]/50 transition-all [color-scheme:dark]"
+                className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-3 py-3 text-[#222] text-sm focus:outline-none focus:border-[#059669]/50 transition-all"
                 data-testid="input-departure-date"
               />
             </div>
             <div>
-              <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">
+              <label className="block text-[10px] text-[#999] uppercase tracking-wider mb-1.5">
                 <Calendar className="w-3 h-3 inline mr-1" />
                 {language === 'es' ? 'Vuelta' : 'Return'}
               </label>
@@ -283,38 +283,38 @@ export default function Flights() {
                 value={returnDate}
                 min={departureDate || getTomorrow()}
                 onChange={(e) => setReturnDate(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-[#0891b2]/50 transition-all [color-scheme:dark]"
+                className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-3 py-3 text-[#222] text-sm focus:outline-none focus:border-[#059669]/50 transition-all"
                 data-testid="input-return-date"
               />
             </div>
             <div>
-              <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">
+              <label className="block text-[10px] text-[#999] uppercase tracking-wider mb-1.5">
                 <Users className="w-3 h-3 inline mr-1" />
                 {language === 'es' ? 'Pasajeros' : 'Passengers'}
               </label>
               <select
                 value={adults}
                 onChange={(e) => setAdults(Number(e.target.value))}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-[#0891b2]/50 transition-all appearance-none"
+                className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-3 py-3 text-[#222] text-sm focus:outline-none focus:border-[#059669]/50 transition-all appearance-none"
                 data-testid="select-passengers"
               >
                 {[1,2,3,4,5,6,7,8].map(n => (
-                  <option key={n} value={n} className="bg-[#1e293b]">{n} {n === 1 ? (language === 'es' ? 'adulto' : 'adult') : (language === 'es' ? 'adultos' : 'adults')}</option>
+                  <option key={n} value={n} className="bg-white text-[#222]">{n} {n === 1 ? (language === 'es' ? 'adulto' : 'adult') : (language === 'es' ? 'adultos' : 'adults')}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">
+              <label className="block text-[10px] text-[#999] uppercase tracking-wider mb-1.5">
                 {language === 'es' ? 'Clase' : 'Class'}
               </label>
               <select
                 value={cabinClass}
                 onChange={(e) => setCabinClass(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-[#0891b2]/50 transition-all appearance-none"
+                className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-3 py-3 text-[#222] text-sm focus:outline-none focus:border-[#059669]/50 transition-all appearance-none"
                 data-testid="select-cabin"
               >
                 {cabinOptions.map(o => (
-                  <option key={o.value} value={o.value} className="bg-[#1e293b]">{o.label}</option>
+                  <option key={o.value} value={o.value} className="bg-white text-[#222]">{o.label}</option>
                 ))}
               </select>
             </div>
@@ -323,7 +323,7 @@ export default function Flights() {
           <button
             onClick={searchFlights}
             disabled={loading}
-            className="w-full py-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 disabled:opacity-50 bg-gradient-to-r from-[#0891b2] to-[#22d3ee] hover:from-[#0e7490] hover:to-[#0891b2] transition-all shadow-lg shadow-[#0891b2]/25 text-white"
+            className="w-full py-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 disabled:opacity-50 bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:from-[#047857] hover:to-[#059669] transition-all shadow-lg shadow-[#059669]/25 text-white"
             data-testid="button-search-flights"
           >
             {loading ? (
@@ -338,10 +338,10 @@ export default function Flights() {
           <div className="mx-4 mt-8" data-testid="section-popular-routes">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
+                <p className="text-[#059669] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
                   {language === 'es' ? 'Populares' : 'Popular'}
                 </p>
-                <h3 className="text-white text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
+                <h3 className="text-[#222] text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
                   {language === 'es' ? 'Rutas Destacadas' : 'Featured Routes'}
                 </h3>
               </div>
@@ -356,18 +356,18 @@ export default function Flights() {
                     setDestination(route.to);
                     setDestName(`${route.toCity} (${route.to})`);
                   }}
-                  className="group relative rounded-2xl overflow-hidden aspect-[16/10] text-left border border-white/5 hover:border-[#0891b2]/30 transition-all"
+                  className="group relative rounded-2xl overflow-hidden aspect-[16/10] text-left border border-[#ebebeb] hover:border-[#059669]/30 transition-all"
                   data-testid={`route-${route.from}-${route.to}`}
                 >
                   <img src={route.img} alt={`${route.fromCity} - ${route.toCity}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628]/90 via-[#0a1628]/30 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                   <div className="absolute bottom-3 left-3 right-3">
                     <div className="flex items-center gap-1.5 text-white text-xs font-medium">
                       <span>{route.fromCity}</span>
-                      <ArrowRight className="w-3 h-3 text-[#22d3ee]" />
+                      <ArrowRight className="w-3 h-3 text-[#06b6d4]" />
                       <span>{route.toCity}</span>
                     </div>
-                    <p className="text-white/40 text-[10px] mt-0.5">{route.from} - {route.to}</p>
+                    <p className="text-white/70 text-[10px] mt-0.5">{route.from} - {route.to}</p>
                   </div>
                 </button>
               ))}
@@ -379,12 +379,12 @@ export default function Flights() {
                 { icon: Shield, title: language === 'es' ? 'Reserva Segura' : 'Secure Booking', desc: language === 'es' ? 'Pago protegido' : 'Protected payment' },
                 { icon: Globe, title: language === 'es' ? 'Cobertura Global' : 'Global Coverage', desc: language === 'es' ? '+300 aerolíneas' : '+300 airlines' },
               ].map((item, i) => (
-                <div key={i} className="bg-white/[0.03] border border-white/5 rounded-2xl p-4 text-center" data-testid={`badge-flights-trust-${i}`}>
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2]/20 to-[#22d3ee]/20 flex items-center justify-center mx-auto mb-2">
-                    <item.icon className="w-5 h-5 text-[#22d3ee]" />
+                <div key={i} className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-4 text-center" data-testid={`badge-flights-trust-${i}`}>
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#059669]/20 to-[#06b6d4]/20 flex items-center justify-center mx-auto mb-2">
+                    <item.icon className="w-5 h-5 text-[#059669]" />
                   </div>
-                  <p className="text-white/80 text-xs font-medium mb-0.5">{item.title}</p>
-                  <p className="text-white/30 text-[10px]">{item.desc}</p>
+                  <p className="text-[#444] text-xs font-medium mb-0.5">{item.title}</p>
+                  <p className="text-[#bbb] text-[10px]">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -400,21 +400,21 @@ export default function Flights() {
         {loading && (
           <div className="flex flex-col items-center justify-center py-16">
             <div className="relative">
-              <div className="w-16 h-16 border-2 border-[#0891b2]/20 border-t-[#0891b2] rounded-full animate-spin" />
-              <Plane className="w-6 h-6 text-[#22d3ee] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+              <div className="w-16 h-16 border-2 border-[#059669]/20 border-t-[#059669] rounded-full animate-spin" />
+              <Plane className="w-6 h-6 text-[#059669] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             </div>
-            <p className="text-white/50 text-sm mt-4">{language === 'es' ? 'Buscando las mejores tarifas...' : 'Finding the best fares...'}</p>
-            <p className="text-white/20 text-[10px] mt-1">{language === 'es' ? 'Comparando aerolíneas en tiempo real' : 'Comparing airlines in real time'}</p>
+            <p className="text-[#717171] text-sm mt-4">{language === 'es' ? 'Buscando las mejores tarifas...' : 'Finding the best fares...'}</p>
+            <p className="text-[#ccc] text-[10px] mt-1">{language === 'es' ? 'Comparando aerolíneas en tiempo real' : 'Comparing airlines in real time'}</p>
           </div>
         )}
 
         {searched && !loading && offers.length === 0 && !error && (
           <div className="text-center py-16 px-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center mx-auto mb-4">
-              <Plane className="w-8 h-8 text-[#0891b2]/30" />
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#059669]/10 to-[#06b6d4]/10 flex items-center justify-center mx-auto mb-4">
+              <Plane className="w-8 h-8 text-[#059669]/30" />
             </div>
-            <p className="text-white/40 text-sm">{language === 'es' ? 'No se encontraron vuelos para esta ruta' : 'No flights found for this route'}</p>
-            <p className="text-white/20 text-xs mt-1">{language === 'es' ? 'Intenta con otras fechas o destinos' : 'Try different dates or destinations'}</p>
+            <p className="text-[#999] text-sm">{language === 'es' ? 'No se encontraron vuelos para esta ruta' : 'No flights found for this route'}</p>
+            <p className="text-[#ccc] text-xs mt-1">{language === 'es' ? 'Intenta con otras fechas o destinos' : 'Try different dates or destinations'}</p>
           </div>
         )}
 
@@ -422,14 +422,14 @@ export default function Flights() {
           <div className="mx-4 mt-6" data-testid="section-flight-results">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
+                <p className="text-[#059669] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
                   {language === 'es' ? 'Resultados' : 'Results'}
                 </p>
-                <h3 className="text-white text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
+                <h3 className="text-[#222] text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
                   {offers.length} {language === 'es' ? 'vuelos encontrados' : 'flights found'}
                 </h3>
               </div>
-              <div className="text-[10px] text-white/30 uppercase tracking-wider">
+              <div className="text-[10px] text-[#bbb] uppercase tracking-wider">
                 {language === 'es' ? 'Ordenado por precio' : 'Sorted by price'}
               </div>
             </div>
@@ -437,11 +437,11 @@ export default function Flights() {
               {offers.map((offer, idx) => (
                 <div
                   key={offer.id}
-                  className={`bg-white/[0.03] border rounded-2xl overflow-hidden hover:border-[#0891b2]/30 transition-all ${idx === 0 ? 'border-[#0891b2]/20 ring-1 ring-[#0891b2]/10' : 'border-white/5'}`}
+                  className={`bg-white border rounded-2xl overflow-hidden hover:border-[#059669]/30 transition-all shadow-sm ${idx === 0 ? 'border-[#059669]/20 ring-1 ring-[#059669]/10' : 'border-[#ebebeb]'}`}
                   data-testid={`card-flight-${offer.id}`}
                 >
                   {idx === 0 && (
-                    <div className="bg-gradient-to-r from-[#0891b2] to-[#22d3ee] px-4 py-1.5 text-[10px] font-medium tracking-wider uppercase text-center">
+                    <div className="bg-gradient-to-r from-[#059669] to-[#06b6d4] px-4 py-1.5 text-[10px] font-medium tracking-wider uppercase text-center text-white">
                       {language === 'es' ? 'Mejor precio' : 'Best price'}
                     </div>
                   )}
@@ -450,12 +450,12 @@ export default function Flights() {
                     className="w-full text-left p-5"
                   >
                     {offer.slices.map((slice, si) => (
-                      <div key={si} className={`flex items-center gap-3 ${si > 0 ? 'mt-3 pt-3 border-t border-white/5' : ''}`}>
+                      <div key={si} className={`flex items-center gap-3 ${si > 0 ? 'mt-3 pt-3 border-t border-[#ebebeb]' : ''}`}>
                         <div className="flex-shrink-0">
                           {offer.owner.logo_symbol_url ? (
                             <img src={offer.owner.logo_symbol_url} alt={offer.owner.name} className="w-10 h-10 rounded-xl object-contain bg-white p-1 shadow-sm" />
                           ) : (
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2]/20 to-[#22d3ee]/20 flex items-center justify-center text-[#22d3ee] text-xs font-bold">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#059669]/20 to-[#06b6d4]/20 flex items-center justify-center text-[#059669] text-xs font-bold">
                               {offer.owner.iata_code}
                             </div>
                           )}
@@ -463,21 +463,21 @@ export default function Flights() {
 
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 text-sm">
-                            <span className="font-semibold text-white">{slice.segments?.[0] ? formatTime(slice.segments[0].departing_at) : ''}</span>
-                            <span className="text-white/40 text-xs">{slice.origin.iata_code}</span>
+                            <span className="font-semibold text-[#222]">{slice.segments?.[0] ? formatTime(slice.segments[0].departing_at) : ''}</span>
+                            <span className="text-[#999] text-xs">{slice.origin.iata_code}</span>
                             <div className="flex-1 flex items-center gap-1 px-2">
-                              <div className="flex-1 h-px bg-gradient-to-r from-[#0891b2]/30 to-[#22d3ee]/30" />
-                              <span className="text-[10px] text-white/30 whitespace-nowrap flex items-center gap-0.5 bg-white/5 px-2 py-0.5 rounded-full">
+                              <div className="flex-1 h-px bg-gradient-to-r from-[#059669]/30 to-[#06b6d4]/30" />
+                              <span className="text-[10px] text-[#bbb] whitespace-nowrap flex items-center gap-0.5 bg-[#f7f7f7] px-2 py-0.5 rounded-full">
                                 <Clock className="w-2.5 h-2.5" />
                                 {formatDuration(slice.duration)}
                               </span>
-                              <div className="flex-1 h-px bg-gradient-to-r from-[#22d3ee]/30 to-[#0891b2]/30" />
+                              <div className="flex-1 h-px bg-gradient-to-r from-[#06b6d4]/30 to-[#059669]/30" />
                             </div>
-                            <span className="text-white/40 text-xs">{slice.destination.iata_code}</span>
-                            <span className="font-semibold text-white">{slice.segments?.[slice.segments.length - 1] ? formatTime(slice.segments[slice.segments.length - 1].arriving_at) : ''}</span>
+                            <span className="text-[#999] text-xs">{slice.destination.iata_code}</span>
+                            <span className="font-semibold text-[#222]">{slice.segments?.[slice.segments.length - 1] ? formatTime(slice.segments[slice.segments.length - 1].arriving_at) : ''}</span>
                           </div>
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="text-white/30 text-[10px]">{offer.owner.name}</span>
+                            <span className="text-[#bbb] text-[10px]">{offer.owner.name}</span>
                             {slice.segments && slice.segments.length > 1 && (
                               <span className="text-amber-400/70 text-[10px] bg-amber-400/10 px-1.5 py-0.5 rounded">
                                 {slice.segments.length - 1} {language === 'es' ? 'escala(s)' : 'stop(s)'}
@@ -493,10 +493,10 @@ export default function Flights() {
 
                         {si === 0 && (
                           <div className="text-right flex-shrink-0">
-                            <div className="text-xl font-semibold bg-gradient-to-r from-[#22d3ee] to-[#0891b2] bg-clip-text text-transparent">
+                            <div className="text-xl font-semibold bg-gradient-to-r from-[#059669] to-[#06b6d4] bg-clip-text text-transparent">
                               ${parseFloat(offer.total_amount).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                             </div>
-                            <div className="text-[10px] text-white/30 uppercase">{offer.total_currency}</div>
+                            <div className="text-[10px] text-[#bbb] uppercase">{offer.total_currency}</div>
                           </div>
                         )}
                       </div>
@@ -504,27 +504,27 @@ export default function Flights() {
                   </button>
 
                   {expandedOffer === offer.id && (
-                    <div className="px-5 pb-5 border-t border-white/5 pt-4">
+                    <div className="px-5 pb-5 border-t border-[#ebebeb] pt-4">
                       {offer.slices.map((slice, si) => (
                         <div key={si} className={si > 0 ? 'mt-4' : ''}>
-                          <div className="text-[10px] text-[#22d3ee] uppercase tracking-wider mb-3 font-medium flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#22d3ee]" />
+                          <div className="text-[10px] text-[#059669] uppercase tracking-wider mb-3 font-medium flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#059669]" />
                             {si === 0 ? (language === 'es' ? 'Ida' : 'Outbound') : (language === 'es' ? 'Vuelta' : 'Return')}
                           </div>
                           {slice.segments?.map((seg, segi) => (
                             <div key={segi} className="flex items-start gap-3 mb-2 last:mb-0">
                               <div className="flex flex-col items-center">
-                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#0891b2] to-[#22d3ee]" />
-                                <div className="w-px h-8 bg-gradient-to-b from-[#0891b2]/40 to-[#22d3ee]/40" />
-                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#22d3ee] to-[#0891b2]" />
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#059669] to-[#06b6d4]" />
+                                <div className="w-px h-8 bg-gradient-to-b from-[#059669]/40 to-[#06b6d4]/40" />
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#06b6d4] to-[#059669]" />
                               </div>
                               <div className="flex-1 text-xs">
                                 <div className="flex justify-between">
-                                  <span className="text-white/70">{formatTime(seg.departing_at)} - {seg.origin.iata_code}</span>
-                                  <span className="text-white/30">{seg.marketing_carrier?.iata_code}{seg.marketing_carrier_flight_number}</span>
+                                  <span className="text-[#555]">{formatTime(seg.departing_at)} - {seg.origin.iata_code}</span>
+                                  <span className="text-[#bbb]">{seg.marketing_carrier?.iata_code}{seg.marketing_carrier_flight_number}</span>
                                 </div>
-                                <div className="text-white/20 text-[10px] my-0.5">{formatDuration(seg.duration)}</div>
-                                <div className="text-white/70">{formatTime(seg.arriving_at)} - {seg.destination.iata_code}</div>
+                                <div className="text-[#ccc] text-[10px] my-0.5">{formatDuration(seg.duration)}</div>
+                                <div className="text-[#555]">{formatTime(seg.arriving_at)} - {seg.destination.iata_code}</div>
                               </div>
                             </div>
                           ))}
@@ -543,7 +543,7 @@ export default function Flights() {
                           </span>
                         )}
                         {offer.cabin_class && (
-                          <span className="text-[10px] text-white/40 bg-white/5 px-2.5 py-1 rounded-full capitalize">
+                          <span className="text-[10px] text-[#999] bg-[#f7f7f7] px-2.5 py-1 rounded-full capitalize">
                             {offer.cabin_class.replace('_', ' ')}
                           </span>
                         )}

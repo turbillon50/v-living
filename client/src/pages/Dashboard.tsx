@@ -92,13 +92,13 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a1628] text-white">
+    <div className="min-h-screen bg-white text-[#222]">
       <Header />
 
       <main className="pb-32 max-w-4xl mx-auto">
         <div className="px-4 pt-4 pb-2 flex items-center gap-3">
           <Link href="/home">
-            <span className="p-2 hover:bg-white/5 rounded-full transition-colors cursor-pointer" data-testid="button-back-dashboard">
+            <span className="p-2 hover:bg-[#f7f7f7] rounded-full transition-colors cursor-pointer" data-testid="button-back-dashboard">
               <ArrowLeft className="w-5 h-5" />
             </span>
           </Link>
@@ -106,56 +106,56 @@ export default function Dashboard() {
             <h1 className="text-lg font-semibold tracking-tight" data-testid="text-dashboard-title">
               {language === 'es' ? 'Mi Dashboard' : 'My Dashboard'}
             </h1>
-            <p className="text-[10px] text-white/40 uppercase tracking-[0.2em]">FRACTIONAL LIVING NETWORK</p>
+            <p className="text-[10px] text-[#999] uppercase tracking-[0.2em]">FRACTIONAL LIVING NETWORK</p>
           </div>
         </div>
 
         {dashboardData?.referralCode && (
-          <div className="mx-4 mt-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/10 rounded-2xl p-4" data-testid="card-referral-code">
+          <div className="mx-4 mt-3 bg-gradient-to-r from-[#f0f0f0] to-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-4" data-testid="card-referral-code">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[10px] text-white/50 uppercase tracking-wider mb-1">
+                <p className="text-[10px] text-[#717171] uppercase tracking-wider mb-1">
                   {language === 'es' ? 'Tu código único' : 'Your unique code'}
                 </p>
-                <p className="text-2xl font-bold text-white/70 tracking-widest font-mono" data-testid="text-referral-code">
+                <p className="text-2xl font-bold text-[#555] tracking-widest font-mono" data-testid="text-referral-code">
                   {dashboardData.referralCode}
                 </p>
               </div>
               <div className="flex gap-2">
                 <button 
                   onClick={copyLink} 
-                  className="p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-colors"
+                  className="p-3 bg-[#f0f0f0] rounded-xl hover:bg-[#ebebeb] transition-colors"
                   data-testid="button-copy-link"
                 >
-                  {copied ? <Check className="w-5 h-5 text-white" /> : <Copy className="w-5 h-5" />}
+                  {copied ? <Check className="w-5 h-5 text-[#059669]" /> : <Copy className="w-5 h-5" />}
                 </button>
                 <button 
                   onClick={shareLink}
-                  className="p-3 bg-black rounded-xl hover:bg-black/90 transition-colors"
+                  className="p-3 bg-gradient-to-r from-[#059669] to-[#06b6d4] rounded-xl hover:opacity-90 transition-colors"
                   data-testid="button-share-link"
                 >
                   <Share2 className="w-5 h-5 text-white" />
                 </button>
               </div>
             </div>
-            <div className="mt-2 flex items-center gap-2 bg-black/30 rounded-lg px-3 py-2">
-              <LinkIcon className="w-3 h-3 text-white/40 flex-shrink-0" />
-              <p className="text-xs text-white/50 truncate" data-testid="text-referral-link">
+            <div className="mt-2 flex items-center gap-2 bg-[#f7f7f7] rounded-lg px-3 py-2">
+              <LinkIcon className="w-3 h-3 text-[#999] flex-shrink-0" />
+              <p className="text-xs text-[#717171] truncate" data-testid="text-referral-link">
                 {dashboardData.referralLink}
               </p>
             </div>
           </div>
         )}
 
-        <div className="flex gap-1 mx-4 mt-4 bg-white/5 rounded-xl p-1" data-testid="tabs-dashboard">
+        <div className="flex gap-1 mx-4 mt-4 bg-[#f7f7f7] rounded-xl p-1" data-testid="tabs-dashboard">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg text-xs font-medium transition-all ${
                 activeTab === tab.id
-                  ? 'bg-[#0891b2] text-white shadow-lg shadow-[#0891b2]/20'
-                  : 'text-white/50 hover:text-white/70'
+                  ? 'bg-[#059669] text-white shadow-lg shadow-[#059669]/20'
+                  : 'text-[#717171] hover:text-[#555]'
               }`}
               data-testid={`tab-${tab.id}`}
             >
@@ -214,15 +214,15 @@ function ProfileTab({ user, stats, language, isLoading }: any) {
   
   return (
     <div className="space-y-4" data-testid="tab-content-perfil">
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+      <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-5">
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center text-2xl font-bold">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center text-2xl font-bold text-white">
             {user?.name?.charAt(0)?.toUpperCase() || 'U'}
           </div>
           <div className="flex-1 min-w-0">
             <h2 className="text-xl font-semibold truncate" data-testid="text-user-name">{user?.name || 'Usuario'}</h2>
-            <p className="text-sm text-white/50 truncate" data-testid="text-user-email">{user?.email}</p>
-            <p className="text-xs text-white/70 mt-1">
+            <p className="text-sm text-[#717171] truncate" data-testid="text-user-email">{user?.email}</p>
+            <p className="text-xs text-[#555] mt-1">
               {language === 'es' ? 'Miembro de la Red FL' : 'FL Network Member'}
             </p>
           </div>
@@ -244,24 +244,24 @@ function ProfileTab({ user, stats, language, isLoading }: any) {
 
       <div className="grid grid-cols-3 gap-3">
         <StatCard 
-          icon={<UserPlus className="w-5 h-5 text-white/70" />}
+          icon={<UserPlus className="w-5 h-5 text-[#555]" />}
           value={stats?.totalReferrals || 0}
           label={language === 'es' ? 'Directos' : 'Direct'}
         />
         <StatCard 
-          icon={<Users className="w-5 h-5 text-white/70" />}
+          icon={<Users className="w-5 h-5 text-[#555]" />}
           value={stats?.networkSize || 0}
           label={language === 'es' ? 'Red Total' : 'Network'}
         />
         <StatCard 
-          icon={<TrendingUp className="w-5 h-5 text-white/70" />}
+          icon={<TrendingUp className="w-5 h-5 text-[#555]" />}
           value={stats?.levels?.length || 0}
           label={language === 'es' ? 'Niveles' : 'Levels'}
         />
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-        <h3 className="text-sm font-semibold mb-3 text-white/80">
+      <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-5">
+        <h3 className="text-sm font-semibold mb-3 text-[#444]">
           {language === 'es' ? 'Mis Intereses' : 'My Interests'}
         </h3>
         <div className="grid grid-cols-2 gap-2">
@@ -272,12 +272,12 @@ function ProfileTab({ user, stats, language, isLoading }: any) {
                 key={opt.id}
                 className={`flex items-center gap-2 p-3 rounded-xl border transition-all text-xs ${
                   isSelected 
-                    ? 'bg-white/5 border-white/10 text-white/60' 
-                    : 'bg-white/[0.03] border-white/5 text-white/40'
+                    ? 'bg-[#f0fdf4] border-[#059669]/15 text-[#555]' 
+                    : 'bg-[#f7f7f7] border-[#ebebeb] text-[#999]'
                 }`}
                 data-testid={`interest-${opt.id}`}
               >
-                <opt.Icon className="w-3.5 h-3.5 text-white/50" />
+                <opt.Icon className="w-3.5 h-3.5 text-[#717171]" />
                 <span>{language === 'es' ? opt.label : opt.labelEn}</span>
               </div>
             );
@@ -285,14 +285,14 @@ function ProfileTab({ user, stats, language, isLoading }: any) {
         </div>
       </div>
 
-      <div className="bg-gradient-to-r from-white/5 to-transparent border border-white/10 rounded-2xl p-5">
+      <div className="bg-gradient-to-r from-[#f7f7f7] to-transparent border border-[#ebebeb] rounded-2xl p-5">
         <div className="flex items-start gap-3">
-          <Gift className="w-6 h-6 text-white/70 flex-shrink-0 mt-0.5" />
+          <Gift className="w-6 h-6 text-[#059669] flex-shrink-0 mt-0.5" />
           <div>
-            <h3 className="text-sm font-semibold text-white/70 mb-1">
+            <h3 className="text-sm font-semibold text-[#555] mb-1">
               {language === 'es' ? 'Gana compartiendo!' : 'Earn by sharing!'}
             </h3>
-            <p className="text-xs text-white/60 leading-relaxed">
+            <p className="text-xs text-[#717171] leading-relaxed">
               {language === 'es' 
                 ? 'Comparte tu enlace único con amigos, familia o conocidos. Por cada persona que se registre y cualquier actividad en tu red de 5 niveles, accedes al 4% en comisiones. No necesitan comprar para que tú ganes!'
                 : 'Share your unique link with friends, family or contacts. For every person who registers and any activity in your 5-level network, you access 4% in commissions. They don\'t need to buy for you to earn!'}
@@ -309,9 +309,9 @@ function NetworkTab({ network, stats, language, isLoading, expandedLevel, setExp
 
   return (
     <div className="space-y-4" data-testid="tab-content-red">
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+      <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-5">
         <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
-          <Network className="w-4 h-4 text-white/70" />
+          <Network className="w-4 h-4 text-[#555]" />
           {language === 'es' ? 'Mi Red de 5 Niveles' : 'My 5-Level Network'}
         </h3>
         
@@ -326,7 +326,7 @@ function NetworkTab({ network, stats, language, isLoading, expandedLevel, setExp
               <div key={level}>
                 <button
                   onClick={() => setExpandedLevel(isExpanded ? null : level)}
-                  className="w-full flex items-center gap-3 p-3 bg-white/[0.03] hover:bg-white/5 rounded-xl transition-all"
+                  className="w-full flex items-center gap-3 p-3 bg-white hover:bg-[#f0f0f0] rounded-xl transition-all"
                   data-testid={`network-level-${level}`}
                 >
                   <div 
@@ -339,31 +339,31 @@ function NetworkTab({ network, stats, language, isLoading, expandedLevel, setExp
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium">
                         {language === 'es' ? `Nivel ${level}` : `Level ${level}`}
-                        {level === 1 && <span className="text-white/70 text-xs ml-1">({language === 'es' ? 'Directos' : 'Direct'})</span>}
+                        {level === 1 && <span className="text-[#555] text-xs ml-1">({language === 'es' ? 'Directos' : 'Direct'})</span>}
                       </span>
-                      <span className="text-sm font-bold text-white/70" data-testid={`text-level-${level}-count`}>{count}</span>
+                      <span className="text-sm font-bold text-[#555]" data-testid={`text-level-${level}-count`}>{count}</span>
                     </div>
                     <div className="flex items-center justify-between mt-0.5">
-                      <span className="text-xs text-white/40">{commission?.percentage}% {language === 'es' ? 'comisión' : 'commission'}</span>
+                      <span className="text-xs text-[#999]">{commission?.percentage}% {language === 'es' ? 'comisión' : 'commission'}</span>
                       {count > 0 && (
-                        isExpanded ? <ChevronDown className="w-3 h-3 text-white/40" /> : <ChevronRight className="w-3 h-3 text-white/40" />
+                        isExpanded ? <ChevronDown className="w-3 h-3 text-[#999]" /> : <ChevronRight className="w-3 h-3 text-[#999]" />
                       )}
                     </div>
                   </div>
                 </button>
 
                 {isExpanded && levelData?.users && (
-                  <div className="mt-1 space-y-1 pl-4 ml-5 border-l border-white/10">
+                  <div className="mt-1 space-y-1 pl-4 ml-5 border-l border-[#ebebeb]">
                     {levelData.users.map((u: any) => (
-                      <div key={u.id} className="flex items-center gap-3 p-2 bg-white/[0.03] rounded-lg text-xs">
-                        <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-bold">
+                      <div key={u.id} className="flex items-center gap-3 p-2 bg-white rounded-lg text-xs">
+                        <div className="w-7 h-7 rounded-full bg-[#f0f0f0] flex items-center justify-center text-[10px] font-bold">
                           {u.name?.charAt(0)?.toUpperCase()}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white/80 truncate">{u.name}</p>
-                          <p className="text-white/30 truncate">{u.email}</p>
+                          <p className="text-[#444] truncate">{u.name}</p>
+                          <p className="text-[#bbb] truncate">{u.email}</p>
                         </div>
-                        <span className="text-[10px] text-white/30">
+                        <span className="text-[10px] text-[#bbb]">
                           {new Date(u.createdAt).toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })}
                         </span>
                       </div>
@@ -377,12 +377,12 @@ function NetworkTab({ network, stats, language, isLoading, expandedLevel, setExp
       </div>
 
       {stats?.networkSize === 0 && (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-          <Users className="w-12 h-12 text-white/20 mx-auto mb-3" />
+        <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-6 text-center">
+          <Users className="w-12 h-12 text-[#ccc] mx-auto mb-3" />
           <h3 className="text-sm font-semibold mb-2">
             {language === 'es' ? 'Tu red está vacía' : 'Your network is empty'}
           </h3>
-          <p className="text-xs text-white/50 mb-4 max-w-xs mx-auto">
+          <p className="text-xs text-[#717171] mb-4 max-w-xs mx-auto">
             {language === 'es' 
               ? 'Comparte tu enlace único y comienza a construir tu red. Cada registro cuenta.'
               : 'Share your unique link and start building your network. Every registration counts.'}
@@ -390,8 +390,8 @@ function NetworkTab({ network, stats, language, isLoading, expandedLevel, setExp
         </div>
       )}
 
-      <div className="bg-gradient-to-br from-white/5 to-transparent border border-white/5 rounded-2xl p-5">
-        <h4 className="text-xs font-semibold text-white/70 mb-3 uppercase tracking-wider">
+      <div className="bg-gradient-to-br from-[#f7f7f7] to-transparent border border-[#ebebeb] rounded-2xl p-5">
+        <h4 className="text-xs font-semibold text-[#555] mb-3 uppercase tracking-wider">
           {language === 'es' ? 'Razones para compartir tu enlace' : 'Reasons to share your link'}
         </h4>
         <div className="space-y-2">
@@ -402,8 +402,8 @@ function NetworkTab({ network, stats, language, isLoading, expandedLevel, setExp
             { es: 'Una persona quiere promocionar propiedades', en: 'Someone wants to promote properties', Icon: Megaphone },
             { es: 'Cualquier persona curiosa por el modelo', en: 'Anyone curious about the model', Icon: Gem },
           ].map((reason, i) => (
-            <div key={i} className="flex items-center gap-2 text-xs text-white/60">
-              <reason.Icon className="w-3.5 h-3.5 text-white/40" />
+            <div key={i} className="flex items-center gap-2 text-xs text-[#717171]">
+              <reason.Icon className="w-3.5 h-3.5 text-[#999]" />
               <span>{language === 'es' ? reason.es : reason.en}</span>
             </div>
           ))}
@@ -418,19 +418,19 @@ function CommissionsTab({ commissions, totalCommission, commissionStructure, lan
 
   return (
     <div className="space-y-4" data-testid="tab-content-comisiones">
-      <div className="bg-gradient-to-br from-white/10 to-white/5 border border-white/10 rounded-2xl p-5">
-        <p className="text-[10px] text-white/50 uppercase tracking-wider mb-1">
+      <div className="bg-gradient-to-br from-[#059669] to-[#047857] border border-[#059669]/20 rounded-2xl p-5">
+        <p className="text-[10px] text-white/70 uppercase tracking-wider mb-1">
           {language === 'es' ? 'Total Comisiones Acumuladas' : 'Total Accumulated Commissions'}
         </p>
         <p className="text-3xl font-bold text-white" data-testid="text-total-commissions">
           ${totalCommission.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-          <span className="text-sm text-white/40 ml-1">USD</span>
+          <span className="text-sm text-white/60 ml-1">USD</span>
         </p>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+      <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-5">
         <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
-          <TrendingUp className="w-4 h-4 text-white/70" />
+          <TrendingUp className="w-4 h-4 text-[#555]" />
           {language === 'es' ? 'Estructura de Comisiones - 4% Total' : 'Commission Structure - 4% Total'}
         </h3>
 
@@ -445,13 +445,13 @@ function CommissionsTab({ commissions, totalCommission, commissionStructure, lan
               </div>
               <div className="flex-1">
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-xs text-white/70">
+                  <span className="text-xs text-[#555]">
                     {language === 'es' ? `Nivel ${level.level}` : `Level ${level.level}`}
                     {level.level === 1 && ` (${language === 'es' ? 'Directos' : 'Direct'})`}
                   </span>
-                  <span className="text-xs font-bold text-white/70">{level.percentage}%</span>
+                  <span className="text-xs font-bold text-[#555]">{level.percentage}%</span>
                 </div>
-                <div className="w-full bg-white/5 rounded-full h-2">
+                <div className="w-full bg-[#ebebeb] rounded-full h-2">
                   <div 
                     className="h-2 rounded-full transition-all"
                     style={{ width: `${(level.percentage / 1.2) * 100}%`, backgroundColor: level.color }}
@@ -462,39 +462,39 @@ function CommissionsTab({ commissions, totalCommission, commissionStructure, lan
           ))}
         </div>
 
-        <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
-          <span className="text-xs text-white/50">{language === 'es' ? 'Total por transacción' : 'Total per transaction'}</span>
-          <span className="text-sm font-bold text-white/70">4.0%</span>
+        <div className="mt-4 pt-4 border-t border-[#ebebeb] flex justify-between items-center">
+          <span className="text-xs text-[#717171]">{language === 'es' ? 'Total por transacción' : 'Total per transaction'}</span>
+          <span className="text-sm font-bold text-[#555]">4.0%</span>
         </div>
       </div>
 
       {commissions.length > 0 ? (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-5">
           <h3 className="text-sm font-semibold mb-3">
             {language === 'es' ? 'Historial de Comisiones' : 'Commission History'}
           </h3>
           <div className="space-y-2">
             {commissions.map((c: any) => (
-              <div key={c.id} className="flex items-center justify-between p-3 bg-white/[0.03] rounded-xl">
+              <div key={c.id} className="flex items-center justify-between p-3 bg-white rounded-xl">
                 <div>
                   <p className="text-xs font-medium">Nivel {c.level}</p>
-                  <p className="text-[10px] text-white/40">{new Date(c.createdAt).toLocaleDateString('es-MX')}</p>
+                  <p className="text-[10px] text-[#999]">{new Date(c.createdAt).toLocaleDateString('es-MX')}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-bold text-white">+${parseFloat(c.amount).toFixed(2)}</p>
-                  <p className="text-[10px] text-white/40">{c.status}</p>
+                  <p className="text-sm font-bold text-[#059669]">+${parseFloat(c.amount).toFixed(2)}</p>
+                  <p className="text-[10px] text-[#999]">{c.status}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
       ) : (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-          <Wallet className="w-12 h-12 text-white/20 mx-auto mb-3" />
+        <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-6 text-center">
+          <Wallet className="w-12 h-12 text-[#ccc] mx-auto mb-3" />
           <h3 className="text-sm font-semibold mb-2">
             {language === 'es' ? 'Sin comisiones aún' : 'No commissions yet'}
           </h3>
-          <p className="text-xs text-white/50 max-w-xs mx-auto">
+          <p className="text-xs text-[#717171] max-w-xs mx-auto">
             {language === 'es' 
               ? 'Las comisiones se generan cuando hay actividad en tu red. Comienza compartiendo tu enlace!'
               : 'Commissions are generated when there is activity in your network. Start sharing your link!'}
@@ -502,11 +502,11 @@ function CommissionsTab({ commissions, totalCommission, commissionStructure, lan
         </div>
       )}
 
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-        <h4 className="text-xs font-semibold text-white/70 mb-3">
+      <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-5">
+        <h4 className="text-xs font-semibold text-[#555] mb-3">
           {language === 'es' ? 'Cómo funcionan las comisiones?' : 'How do commissions work?'}
         </h4>
-        <div className="space-y-3 text-xs text-white/60">
+        <div className="space-y-3 text-xs text-[#717171]">
           <p>
             {language === 'es' 
               ? '- Cada vez que alguien en tu red realiza una transacción (compra, venta, inversión), se genera un 4% de comisión distribuido en 5 niveles.'
@@ -573,36 +573,36 @@ function ShareTab({ referralCode, referralLink, language, onCopy, onShare, copie
 
   return (
     <div className="space-y-4" data-testid="tab-content-compartir">
-      <div className="bg-gradient-to-r from-white/10 to-white/5 border border-white/10 rounded-2xl p-5 text-center">
-        <Share2 className="w-10 h-10 text-white/70 mx-auto mb-3" />
+      <div className="bg-gradient-to-r from-[#f0f0f0] to-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-5 text-center">
+        <Share2 className="w-10 h-10 text-[#059669] mx-auto mb-3" />
         <h3 className="text-lg font-semibold mb-2">
           {language === 'es' ? 'Comparte y Gana' : 'Share & Earn'}
         </h3>
-        <p className="text-xs text-white/60 mb-4 max-w-sm mx-auto">
+        <p className="text-xs text-[#717171] mb-4 max-w-sm mx-auto">
           {language === 'es'
             ? 'Cada persona que se registre con tu enlace se convierte en parte de tu red. Ganas comisiones por la actividad de hasta 5 niveles de profundidad.'
             : 'Every person who registers with your link becomes part of your network. You earn commissions from activity up to 5 levels deep.'}
         </p>
 
-        <div className="bg-black/30 rounded-xl p-4 mb-4">
-          <p className="text-[10px] text-white/40 mb-1 uppercase tracking-wider">
+        <div className="bg-[#f7f7f7] rounded-xl p-4 mb-4">
+          <p className="text-[10px] text-[#999] mb-1 uppercase tracking-wider">
             {language === 'es' ? 'Tu enlace único' : 'Your unique link'}
           </p>
-          <p className="text-sm text-white/70 font-mono break-all" data-testid="text-share-link">{referralLink}</p>
+          <p className="text-sm text-[#555] font-mono break-all" data-testid="text-share-link">{referralLink}</p>
         </div>
 
         <div className="flex gap-3">
           <button
             onClick={onCopy}
-            className="flex-1 py-3 bg-white/10 rounded-xl text-sm font-medium hover:bg-white/20 transition-colors flex items-center justify-center gap-2"
+            className="flex-1 py-3 bg-[#f0f0f0] rounded-xl text-sm font-medium hover:bg-[#ebebeb] transition-colors flex items-center justify-center gap-2"
             data-testid="button-copy-share"
           >
-            {copied ? <Check className="w-4 h-4 text-white" /> : <Copy className="w-4 h-4" />}
+            {copied ? <Check className="w-4 h-4 text-[#059669]" /> : <Copy className="w-4 h-4" />}
             {copied ? (language === 'es' ? 'Copiado' : 'Copied') : (language === 'es' ? 'Copiar' : 'Copy')}
           </button>
           <button
             onClick={onShare}
-            className="flex-1 py-3 bg-black rounded-xl text-sm font-medium hover:bg-black/90 transition-colors flex items-center justify-center gap-2"
+            className="flex-1 py-3 bg-gradient-to-r from-[#059669] to-[#06b6d4] rounded-xl text-sm font-medium text-white hover:opacity-90 transition-colors flex items-center justify-center gap-2"
             data-testid="button-share-native"
           >
             <Share2 className="w-4 h-4" />
@@ -611,36 +611,36 @@ function ShareTab({ referralCode, referralLink, language, onCopy, onShare, copie
         </div>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+      <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-5">
         <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
-          <Star className="w-4 h-4 text-white/70" />
+          <Star className="w-4 h-4 text-[#555]" />
           {language === 'es' ? 'Mensajes listos para compartir' : 'Ready-to-share messages'}
         </h3>
         <div className="space-y-3">
           {shareMessages.map((msg, i) => (
-            <div key={i} className="bg-white/[0.03] border border-white/5 rounded-xl p-3">
+            <div key={i} className="bg-white border border-[#ebebeb] rounded-xl p-3">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-medium flex items-center gap-1.5">
-                  <msg.Icon className="w-3.5 h-3.5 text-white/50" />
+                  <msg.Icon className="w-3.5 h-3.5 text-[#717171]" />
                   {msg.label}
                 </span>
                 <button
                   onClick={() => copyMessage(msg.message)}
-                  className="text-[10px] text-white/70 hover:text-white/60 flex items-center gap-1"
+                  className="text-[10px] text-[#059669] hover:text-[#047857] flex items-center gap-1"
                   data-testid={`button-copy-message-${i}`}
                 >
                   <Copy className="w-3 h-3" />
                   {language === 'es' ? 'Copiar' : 'Copy'}
                 </button>
               </div>
-              <p className="text-[11px] text-white/50 leading-relaxed">{msg.message}</p>
+              <p className="text-[11px] text-[#717171] leading-relaxed">{msg.message}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-        <h4 className="text-xs font-semibold text-white/70 mb-3">
+      <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-5">
+        <h4 className="text-xs font-semibold text-[#555] mb-3">
           {language === 'es' ? 'Quién puede beneficiarse?' : 'Who can benefit?'}
         </h4>
         <div className="grid grid-cols-2 gap-2">
@@ -652,8 +652,8 @@ function ShareTab({ referralCode, referralLink, language, onCopy, onShare, copie
             { es: 'Brokers', en: 'Brokers', Icon: Handshake },
             { es: 'Curiosos', en: 'Curious', Icon: Gem },
           ].map((item, i) => (
-            <div key={i} className="flex items-center gap-2 p-2.5 bg-white/[0.03] rounded-lg text-xs text-white/60">
-              <item.Icon className="w-3.5 h-3.5 text-white/40" />
+            <div key={i} className="flex items-center gap-2 p-2.5 bg-white rounded-lg text-xs text-[#717171]">
+              <item.Icon className="w-3.5 h-3.5 text-[#999]" />
               <span>{language === 'es' ? item.es : item.en}</span>
             </div>
           ))}
@@ -665,8 +665,8 @@ function ShareTab({ referralCode, referralLink, language, onCopy, onShare, copie
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-white/[0.03] rounded-xl p-3">
-      <p className="text-[10px] text-white/40 mb-0.5">{label}</p>
+    <div className="bg-white rounded-xl p-3">
+      <p className="text-[10px] text-[#999] mb-0.5">{label}</p>
       <p className="text-sm font-medium truncate">{value}</p>
     </div>
   );
@@ -674,10 +674,10 @@ function InfoCard({ label, value }: { label: string; value: string }) {
 
 function StatCard({ icon, value, label }: { icon: React.ReactNode; value: number; label: string }) {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center" data-testid={`stat-${label.toLowerCase().replace(/\s/g, '-')}`}>
+    <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-4 text-center" data-testid={`stat-${label.toLowerCase().replace(/\s/g, '-')}`}>
       <div className="flex justify-center mb-2">{icon}</div>
       <p className="text-2xl font-bold">{value}</p>
-      <p className="text-[10px] text-white/50">{label}</p>
+      <p className="text-[10px] text-[#717171]">{label}</p>
     </div>
   );
 }
@@ -686,10 +686,10 @@ function LoadingSkeleton() {
   return (
     <div className="space-y-4">
       {[1, 2, 3].map(i => (
-        <div key={i} className="bg-white/5 rounded-2xl p-5 animate-pulse">
-          <div className="h-4 bg-white/10 rounded w-1/3 mb-3" />
-          <div className="h-3 bg-white/5 rounded w-2/3 mb-2" />
-          <div className="h-3 bg-white/5 rounded w-1/2" />
+        <div key={i} className="bg-[#f7f7f7] rounded-2xl p-5 animate-pulse">
+          <div className="h-4 bg-[#ebebeb] rounded w-1/3 mb-3" />
+          <div className="h-3 bg-[#f0f0f0] rounded w-2/3 mb-2" />
+          <div className="h-3 bg-[#f0f0f0] rounded w-1/2" />
         </div>
       ))}
     </div>

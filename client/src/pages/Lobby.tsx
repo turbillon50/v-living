@@ -10,7 +10,7 @@ const lobbyLinks = [
     description: { es: 'Propiedad fraccionada de lujo en el Caribe', en: 'Luxury fractional ownership in the Caribbean' },
     href: '/fractional',
     icon: (
-      <svg className="w-5 h-5 text-[#22d3ee]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-5 h-5 text-[#059669]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" />
       </svg>
     ),
@@ -21,7 +21,7 @@ const lobbyLinks = [
     description: { es: 'Yates, restaurantes, eventos y más', en: 'Yachts, restaurants, events and more' },
     href: '/experiences',
     icon: (
-      <svg className="w-5 h-5 text-[#22d3ee]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-5 h-5 text-[#059669]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
       </svg>
     ),
@@ -32,7 +32,7 @@ const lobbyLinks = [
     description: { es: 'Inversión operativa para escrituración', en: 'Operational investment for notarization' },
     href: '/last-minute',
     icon: (
-      <svg className="w-5 h-5 text-[#22d3ee]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-5 h-5 text-[#059669]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
       </svg>
     ),
@@ -43,7 +43,7 @@ const lobbyLinks = [
     description: { es: 'Propiedades en venta en el Caribe', en: 'Properties for sale in the Caribbean' },
     href: '/inmobiliaria',
     icon: (
-      <svg className="w-5 h-5 text-[#22d3ee]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-5 h-5 text-[#059669]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="1" y="2" width="22" height="20" rx="2" ry="2" /><line x1="1" y1="12" x2="23" y2="12" /><line x1="12" y1="2" x2="12" y2="22" />
       </svg>
     ),
@@ -76,21 +76,21 @@ export default function Lobby() {
   const { language } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-[#030810] pt-14">
+    <div className="min-h-screen bg-white pt-14">
       <Header />
 
       <section className="relative overflow-hidden">
         <div className="relative h-[320px] md:h-[380px]">
-          <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: 'url(/hero-ocean.jpg)' }} />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#030810]/40 via-[#030810]/60 to-[#030810]" />
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/hero-ocean.jpg)' }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/40 to-white" />
 
           <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-8">
             <div className="fl-fade-in">
-              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">All Global Holding LLC</p>
-              <h1 className="text-4xl md:text-5xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="hero-title-lobby">
+              <p className="text-[#059669] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">All Global Holding LLC</p>
+              <h1 className="text-4xl md:text-5xl text-[#222] tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="hero-title-lobby">
                 Lobby
               </h1>
-              <p className="text-[#64748b] max-w-md mx-auto font-light text-sm">
+              <p className="text-[#717171] max-w-md mx-auto font-light text-sm">
                 {language === 'es'
                   ? 'El punto central del ecosistema. Desde aquí accedes a todo.'
                   : 'The central hub of the ecosystem. Access everything from here.'}
@@ -105,20 +105,20 @@ export default function Lobby() {
           {lobbyLinks.map((item) => {
             const isExternal = item.href.startsWith('http');
             const card = (
-              <div className="group cursor-pointer fl-glass-card p-5" data-testid={`lobby-card-${item.id}`}>
+              <div className="group cursor-pointer bg-white border border-[#ebebeb] rounded-2xl shadow-sm p-5 hover:shadow-md transition-all" data-testid={`lobby-card-${item.id}`}>
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-[rgba(6,182,212,0.06)] flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-lg bg-[#f0fdf4] flex items-center justify-center flex-shrink-0">
                     {item.icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-white text-sm mb-0.5 group-hover:text-[#22d3ee] transition-colors" style={{ fontFamily: 'Inter, sans-serif' }}>
+                    <h3 className="font-medium text-[#222] text-sm mb-0.5 group-hover:text-[#059669] transition-colors" style={{ fontFamily: 'Inter, sans-serif' }}>
                       {item.title[language as 'es' | 'en'] || item.title.es}
                     </h3>
-                    <p className="text-xs text-[#64748b]">
+                    <p className="text-xs text-[#717171]">
                       {item.description[language as 'es' | 'en'] || item.description.es}
                     </p>
                   </div>
-                  <svg className="w-4 h-4 text-[#334155] group-hover:text-[#22d3ee] transition-colors flex-shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg className="w-4 h-4 text-[#ccc] group-hover:text-[#059669] transition-colors flex-shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 18 15 12 9 6" />
                   </svg>
                 </div>

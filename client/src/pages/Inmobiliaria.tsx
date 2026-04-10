@@ -195,7 +195,7 @@ export default function Inmobiliaria() {
             )}
 
             <Link href="/creditos">
-              <button className="w-full mt-3 py-3 bg-[#0a1628] text-white rounded-xl text-sm flex items-center justify-center gap-2 hover:bg-[#0a1628]/90 transition-colors" data-testid="button-simulate-credit">
+              <button className="w-full mt-3 py-3 bg-gradient-to-r from-[#059669] to-[#06b6d4] text-white rounded-xl text-sm flex items-center justify-center gap-2 hover:from-[#047857] hover:to-[#0891b2] transition-colors" data-testid="button-simulate-credit">
                 {language === 'es' ? 'Simular Crédito Hipotecario' : 'Simulate Mortgage'}
               </button>
             </Link>
@@ -219,10 +219,10 @@ export default function Inmobiliaria() {
           
           <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
             <div className="fl-fade-in">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center mx-auto mb-5 shadow-lg shadow-[#0891b2]/30">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center mx-auto mb-5 shadow-lg shadow-[#059669]/30">
                 <Building2 className="w-8 h-8 text-white" />
               </div>
-              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living</p>
+              <p className="text-[#059669] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living</p>
               <h1 className="text-3xl md:text-4xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="hero-title-inmobiliaria">
                 {language === 'es' ? 'Inmobiliaria' : 'Real Estate'}
               </h1>

@@ -90,10 +90,10 @@ export default function Creditos() {
           
           <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
             <div className="fl-fade-in">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center mx-auto mb-5 shadow-lg shadow-[#0891b2]/30">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center mx-auto mb-5 shadow-lg shadow-[#059669]/30">
                 <Landmark className="w-8 h-8 text-white" />
               </div>
-              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living</p>
+              <p className="text-[#059669] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living</p>
               <h1 className="text-3xl md:text-4xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="hero-title-creditos">
                 {language === 'es' ? 'Gestión Bancaria' : 'Banking Services'}
               </h1>
@@ -421,7 +421,7 @@ export default function Creditos() {
             </p>
           </div>
           <div className="bg-white rounded-2xl p-6 border border-[#e2e8f0]/60 text-center">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#0891b2]/15">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#059669]/15">
               <TrendingUp className="w-6 h-6 text-white" />
             </div>
             <h3 className="font-medium text-[#0a1628] mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>

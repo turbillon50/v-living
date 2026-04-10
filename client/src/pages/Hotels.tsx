@@ -90,35 +90,33 @@ export default function Hotels() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a1628] text-white">
+    <div className="min-h-screen bg-white text-[#222]">
       <Header />
 
       <section className="relative overflow-hidden">
         <div className="relative h-[380px] md:h-[440px]">
           <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1400&h=600&fit=crop)' }} />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/60 via-[#0a1628]/30 to-[#0a1628]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0891b2]/10 via-transparent to-[#0891b2]/10" />
-          <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-[#0891b2]/5 blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-48 h-48 rounded-full bg-[#22d3ee]/5 blur-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/40 to-white" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#059669]/10 via-transparent to-[#059669]/10" />
 
           <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-12">
             <div className="fl-fade-in">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center mx-auto mb-5 shadow-xl shadow-[#0891b2]/30">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center mx-auto mb-5 shadow-xl shadow-[#059669]/30">
                 <Hotel className="w-8 h-8 text-white" />
               </div>
-              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living Stays</p>
-              <h1 className="text-4xl md:text-5xl text-white tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="text-hotels-title">
+              <p className="text-[#059669] text-[10px] uppercase tracking-[0.35em] mb-3 font-medium">Fractional Living Stays</p>
+              <h1 className="text-4xl md:text-5xl text-[#222] tracking-wide mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }} data-testid="text-hotels-title">
                 {language === 'es' ? 'Hoteles de Lujo' : 'Luxury Hotels'}
               </h1>
-              <p className="text-white/50 text-sm font-light max-w-lg mx-auto mb-6">
+              <p className="text-[#717171] text-sm font-light max-w-lg mx-auto mb-6">
                 {language === 'es' 
                   ? 'Descubre los mejores resorts y hoteles boutique en el Caribe. Hospedaje premium para miembros Fractional Living.' 
                   : 'Discover the best resorts and boutique hotels in the Caribbean. Premium accommodation for Fractional Living members.'}
               </p>
-              <div className="flex items-center justify-center gap-6 text-[10px] text-white/40 uppercase tracking-wider">
-                <span className="flex items-center gap-1.5"><Award className="w-3 h-3 text-[#22d3ee]" /> {language === 'es' ? 'Resorts premium' : 'Premium resorts'}</span>
-                <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-[#22d3ee]" /> {language === 'es' ? 'Precio garantizado' : 'Price guaranteed'}</span>
-                <span className="flex items-center gap-1.5"><Sparkles className="w-3 h-3 text-[#22d3ee]" /> {language === 'es' ? 'Experiencia VIP' : 'VIP experience'}</span>
+              <div className="flex items-center justify-center gap-6 text-[10px] text-[#999] uppercase tracking-wider">
+                <span className="flex items-center gap-1.5"><Award className="w-3 h-3 text-[#059669]" /> {language === 'es' ? 'Resorts premium' : 'Premium resorts'}</span>
+                <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-[#059669]" /> {language === 'es' ? 'Precio garantizado' : 'Price guaranteed'}</span>
+                <span className="flex items-center gap-1.5"><Sparkles className="w-3 h-3 text-[#059669]" /> {language === 'es' ? 'Experiencia VIP' : 'VIP experience'}</span>
               </div>
             </div>
           </div>
@@ -129,10 +127,10 @@ export default function Hotels() {
         <div className="mx-4 mb-6">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
+              <p className="text-[#059669] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
                 {language === 'es' ? 'Destinos' : 'Destinations'}
               </p>
-              <h3 className="text-white text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
+              <h3 className="text-[#222] text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
                 {language === 'es' ? 'Caribe y Más' : 'Caribbean & More'}
               </h3>
             </div>
@@ -144,37 +142,37 @@ export default function Hotels() {
                 onClick={() => setSelectedDest(dest)}
                 className={`group relative rounded-2xl overflow-hidden aspect-[3/4] border-2 transition-all ${
                   selectedDest?.name === dest.name
-                    ? 'border-[#0891b2] shadow-lg shadow-[#0891b2]/20 scale-[1.02]'
-                    : 'border-transparent hover:border-white/20'
+                    ? 'border-[#059669] shadow-lg shadow-[#059669]/20 scale-[1.02]'
+                    : 'border-transparent hover:border-[#ddd]'
                 }`}
                 data-testid={`button-dest-${dest.name.toLowerCase().replace(/\s/g, '-')}`}
               >
                 <img src={dest.img} alt={dest.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628]/90 via-[#0a1628]/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 {selectedDest?.name === dest.name && (
-                  <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+                  <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center">
                     <Heart className="w-2.5 h-2.5 text-white fill-white" />
                   </div>
                 )}
                 <div className="absolute bottom-2 left-2 right-2">
                   <span className="text-white text-[11px] font-medium block leading-tight">{dest.name}</span>
-                  <span className="text-white/40 text-[9px]">{dest.desc}</span>
+                  <span className="text-white/60 text-[9px]">{dest.desc}</span>
                 </div>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="mx-4 bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl shadow-black/20">
+        <div className="mx-4 bg-[#f7f7f7] border border-[#ebebeb] rounded-3xl p-6 shadow-lg">
           <div className="flex items-center gap-2 mb-5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center">
               <Search className="w-4 h-4 text-white" />
             </div>
-            <h2 className="text-white/80 text-sm font-medium tracking-wide">
+            <h2 className="text-[#444] text-sm font-medium tracking-wide">
               {language === 'es' ? 'Buscar Hospedaje' : 'Search Accommodation'}
             </h2>
             {selectedDest && (
-              <div className="ml-auto flex items-center gap-1.5 text-[#22d3ee] text-xs bg-[#0891b2]/10 px-3 py-1 rounded-full">
+              <div className="ml-auto flex items-center gap-1.5 text-[#059669] text-xs bg-[#059669]/10 px-3 py-1 rounded-full">
                 <MapPin className="w-3 h-3" />
                 <span className="font-medium">{selectedDest.name}</span>
               </div>
@@ -183,7 +181,7 @@ export default function Hotels() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
             <div>
-              <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">
+              <label className="block text-[10px] text-[#999] uppercase tracking-wider mb-1.5">
                 <Calendar className="w-3 h-3 inline mr-1" />
                 Check-in
               </label>
@@ -192,12 +190,12 @@ export default function Hotels() {
                 value={checkIn}
                 min={getTomorrow()}
                 onChange={(e) => setCheckIn(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-[#0891b2]/50 transition-all [color-scheme:dark]"
+                className="w-full bg-white border border-[#ebebeb] rounded-xl px-3 py-3 text-[#222] text-sm focus:outline-none focus:border-[#059669]/50 transition-all"
                 data-testid="input-checkin"
               />
             </div>
             <div>
-              <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">
+              <label className="block text-[10px] text-[#999] uppercase tracking-wider mb-1.5">
                 <Calendar className="w-3 h-3 inline mr-1" />
                 Check-out
               </label>
@@ -206,38 +204,38 @@ export default function Hotels() {
                 value={checkOut}
                 min={checkIn || getDayAfter()}
                 onChange={(e) => setCheckOut(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-[#0891b2]/50 transition-all [color-scheme:dark]"
+                className="w-full bg-white border border-[#ebebeb] rounded-xl px-3 py-3 text-[#222] text-sm focus:outline-none focus:border-[#059669]/50 transition-all"
                 data-testid="input-checkout"
               />
             </div>
             <div>
-              <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">
+              <label className="block text-[10px] text-[#999] uppercase tracking-wider mb-1.5">
                 {language === 'es' ? 'Habitaciones' : 'Rooms'}
               </label>
               <select
                 value={rooms}
                 onChange={(e) => setRooms(Number(e.target.value))}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-[#0891b2]/50 transition-all appearance-none"
+                className="w-full bg-white border border-[#ebebeb] rounded-xl px-3 py-3 text-[#222] text-sm focus:outline-none focus:border-[#059669]/50 transition-all appearance-none"
                 data-testid="select-rooms"
               >
                 {[1,2,3,4].map(n => (
-                  <option key={n} value={n} className="bg-[#1e293b]">{n}</option>
+                  <option key={n} value={n} className="bg-white text-[#222]">{n}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-[10px] text-white/40 uppercase tracking-wider mb-1.5">
+              <label className="block text-[10px] text-[#999] uppercase tracking-wider mb-1.5">
                 <Users className="w-3 h-3 inline mr-1" />
                 {language === 'es' ? 'Huéspedes' : 'Guests'}
               </label>
               <select
                 value={guests}
                 onChange={(e) => setGuests(Number(e.target.value))}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-[#0891b2]/50 transition-all appearance-none"
+                className="w-full bg-white border border-[#ebebeb] rounded-xl px-3 py-3 text-[#222] text-sm focus:outline-none focus:border-[#059669]/50 transition-all appearance-none"
                 data-testid="select-guests"
               >
                 {[1,2,3,4,5,6].map(n => (
-                  <option key={n} value={n} className="bg-[#1e293b]">{n}</option>
+                  <option key={n} value={n} className="bg-white text-[#222]">{n}</option>
                 ))}
               </select>
             </div>
@@ -246,7 +244,7 @@ export default function Hotels() {
           <button
             onClick={searchHotels}
             disabled={loading || !selectedDest}
-            className="w-full py-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 disabled:opacity-50 bg-gradient-to-r from-[#0891b2] to-[#22d3ee] hover:from-[#0e7490] hover:to-[#0891b2] transition-all shadow-lg shadow-[#0891b2]/25 text-white"
+            className="w-full py-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 disabled:opacity-50 bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:from-[#047857] hover:to-[#059669] transition-all shadow-lg shadow-[#059669]/25 text-white"
             data-testid="button-search-hotels"
           >
             {loading ? (
@@ -273,21 +271,21 @@ export default function Hotels() {
         {loading && (
           <div className="flex flex-col items-center justify-center py-16">
             <div className="relative">
-              <div className="w-16 h-16 border-2 border-[#0891b2]/20 border-t-[#0891b2] rounded-full animate-spin" />
-              <Hotel className="w-6 h-6 text-[#22d3ee] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+              <div className="w-16 h-16 border-2 border-[#059669]/20 border-t-[#059669] rounded-full animate-spin" />
+              <Hotel className="w-6 h-6 text-[#059669] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             </div>
-            <p className="text-white/50 text-sm mt-4">{language === 'es' ? 'Buscando hoteles disponibles...' : 'Finding available hotels...'}</p>
-            <p className="text-white/20 text-[10px] mt-1">{language === 'es' ? 'Comparando precios en tiempo real' : 'Comparing prices in real time'}</p>
+            <p className="text-[#717171] text-sm mt-4">{language === 'es' ? 'Buscando hoteles disponibles...' : 'Finding available hotels...'}</p>
+            <p className="text-[#ccc] text-[10px] mt-1">{language === 'es' ? 'Comparando precios en tiempo real' : 'Comparing prices in real time'}</p>
           </div>
         )}
 
         {searched && !loading && results.length === 0 && !error && !message && (
           <div className="text-center py-16 px-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center mx-auto mb-4">
-              <Hotel className="w-8 h-8 text-[#0891b2]/30" />
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#059669]/10 to-[#06b6d4]/10 flex items-center justify-center mx-auto mb-4">
+              <Hotel className="w-8 h-8 text-[#059669]/30" />
             </div>
-            <p className="text-white/40 text-sm">{language === 'es' ? 'No se encontraron hoteles disponibles' : 'No hotels available'}</p>
-            <p className="text-white/20 text-xs mt-1">{language === 'es' ? 'Intenta con otras fechas o destinos' : 'Try different dates or destinations'}</p>
+            <p className="text-[#999] text-sm">{language === 'es' ? 'No se encontraron hoteles disponibles' : 'No hotels available'}</p>
+            <p className="text-[#ccc] text-xs mt-1">{language === 'es' ? 'Intenta con otras fechas o destinos' : 'Try different dates or destinations'}</p>
           </div>
         )}
 
@@ -295,10 +293,10 @@ export default function Hotels() {
           <div className="mx-4 mt-6" data-testid="section-hotel-results">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-[#22d3ee] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
+                <p className="text-[#059669] text-[10px] uppercase tracking-[0.25em] font-medium mb-1">
                   {language === 'es' ? 'Resultados' : 'Results'}
                 </p>
-                <h3 className="text-white text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
+                <h3 className="text-[#222] text-lg" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
                   {results.length} {language === 'es' ? 'hoteles encontrados' : 'hotels found'}
                 </h3>
               </div>
@@ -307,7 +305,7 @@ export default function Hotels() {
               {results.map((hotel, idx) => (
                 <div
                   key={hotel.id}
-                  className={`bg-white/[0.03] border rounded-2xl overflow-hidden hover:border-[#0891b2]/30 transition-all group ${idx === 0 ? 'border-[#0891b2]/20 sm:col-span-2' : 'border-white/5'}`}
+                  className={`bg-[#f7f7f7] border rounded-2xl overflow-hidden hover:border-[#059669]/30 transition-all group ${idx === 0 ? 'border-[#059669]/20 sm:col-span-2' : 'border-[#ebebeb]'}`}
                   data-testid={`card-hotel-${hotel.id}`}
                 >
                   {hotel.accommodation?.photos?.[0]?.url && (
@@ -317,46 +315,46 @@ export default function Hotels() {
                         alt={hotel.accommodation.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-[#0a1628]/10 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
                       {hotel.accommodation?.rating && (
-                        <div className="absolute top-3 right-3 bg-gradient-to-r from-[#0891b2] to-[#22d3ee] text-white text-xs font-semibold px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-lg">
+                        <div className="absolute top-3 right-3 bg-gradient-to-r from-[#059669] to-[#06b6d4] text-white text-xs font-semibold px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-lg">
                           <Star className="w-3 h-3 fill-current" />
                           {hotel.accommodation.rating.value}
                         </div>
                       )}
                       {idx === 0 && (
-                        <div className="absolute top-3 left-3 bg-white/10 backdrop-blur-sm text-white text-[10px] font-medium px-2.5 py-1 rounded-lg tracking-wider uppercase">
+                        <div className="absolute top-3 left-3 bg-white/80 text-[#222] text-[10px] font-medium px-2.5 py-1 rounded-lg tracking-wider uppercase">
                           {language === 'es' ? 'Recomendado' : 'Recommended'}
                         </div>
                       )}
                     </div>
                   )}
                   <div className="p-5">
-                    <h3 className="text-white font-semibold text-sm mb-1.5" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }}>
+                    <h3 className="text-[#222] font-semibold text-sm mb-1.5" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }}>
                       {hotel.accommodation?.name}
                     </h3>
                     {hotel.accommodation?.location && (
-                      <p className="text-white/40 text-xs flex items-center gap-1 mb-2">
-                        <MapPin className="w-3 h-3 text-[#22d3ee]" />
+                      <p className="text-[#999] text-xs flex items-center gap-1 mb-2">
+                        <MapPin className="w-3 h-3 text-[#059669]" />
                         {hotel.accommodation.location.city_name || hotel.accommodation.location.address}
                       </p>
                     )}
                     {hotel.accommodation?.description && (
-                      <p className="text-white/25 text-xs line-clamp-2 mb-4">{hotel.accommodation.description}</p>
+                      <p className="text-[#bbb] text-xs line-clamp-2 mb-4">{hotel.accommodation.description}</p>
                     )}
                     <div className="flex items-end justify-between">
                       {hotel.cheapest_rate_total_amount ? (
                         <div>
-                          <span className="text-xl font-semibold bg-gradient-to-r from-[#22d3ee] to-[#0891b2] bg-clip-text text-transparent">
+                          <span className="text-xl font-semibold bg-gradient-to-r from-[#059669] to-[#06b6d4] bg-clip-text text-transparent">
                             ${parseFloat(hotel.cheapest_rate_total_amount).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                           </span>
-                          <span className="text-white/30 text-xs ml-1">{hotel.cheapest_rate_currency}</span>
-                          <span className="text-white/20 text-[10px] block">
+                          <span className="text-[#bbb] text-xs ml-1">{hotel.cheapest_rate_currency}</span>
+                          <span className="text-[#ccc] text-[10px] block">
                             {language === 'es' ? 'por estancia' : 'per stay'}
                           </span>
                         </div>
                       ) : (
-                        <span className="text-white/30 text-xs">{language === 'es' ? 'Precio no disponible' : 'Price not available'}</span>
+                        <span className="text-[#bbb] text-xs">{language === 'es' ? 'Precio no disponible' : 'Price not available'}</span>
                       )}
                     </div>
                   </div>
@@ -367,14 +365,14 @@ export default function Hotels() {
         )}
 
         {searched && !loading && results.length === 0 && message && (
-          <div className="mx-4 mt-6 bg-white/[0.03] border border-white/10 rounded-2xl p-8 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center mx-auto mb-4">
-              <Hotel className="w-8 h-8 text-[#0891b2]/30" />
+          <div className="mx-4 mt-6 bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-8 text-center">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#059669]/10 to-[#06b6d4]/10 flex items-center justify-center mx-auto mb-4">
+              <Hotel className="w-8 h-8 text-[#059669]/30" />
             </div>
-            <h3 className="text-white/70 text-sm font-medium mb-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+            <h3 className="text-[#555] text-sm font-medium mb-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? 'Hoteles en modo prueba' : 'Hotels in test mode'}
             </h3>
-            <p className="text-white/30 text-xs leading-relaxed max-w-sm mx-auto">
+            <p className="text-[#bbb] text-xs leading-relaxed max-w-sm mx-auto">
               {language === 'es'
                 ? 'La API de hoteles está en modo test. Los resultados reales estarán disponibles cuando se active en modo live.'
                 : 'The hotels API is in test mode. Real results will be available when activated in live mode.'}
@@ -389,12 +387,12 @@ export default function Hotels() {
               { icon: Shield, title: language === 'es' ? 'Precio Garantizado' : 'Price Guaranteed', desc: language === 'es' ? 'Sin cargos ocultos' : 'No hidden charges' },
               { icon: Sparkles, title: language === 'es' ? 'Trato VIP' : 'VIP Treatment', desc: language === 'es' ? 'Beneficios exclusivos' : 'Exclusive benefits' },
             ].map((item, i) => (
-              <div key={i} className="bg-white/[0.03] border border-white/5 rounded-2xl p-4 text-center" data-testid={`badge-hotel-trust-${i}`}>
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0891b2]/20 to-[#22d3ee]/20 flex items-center justify-center mx-auto mb-2">
-                  <item.icon className="w-5 h-5 text-[#22d3ee]" />
+              <div key={i} className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-4 text-center" data-testid={`badge-hotel-trust-${i}`}>
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#059669]/20 to-[#06b6d4]/20 flex items-center justify-center mx-auto mb-2">
+                  <item.icon className="w-5 h-5 text-[#059669]" />
                 </div>
-                <p className="text-white/80 text-xs font-medium mb-0.5">{item.title}</p>
-                <p className="text-white/30 text-[10px]">{item.desc}</p>
+                <p className="text-[#444] text-xs font-medium mb-0.5">{item.title}</p>
+                <p className="text-[#bbb] text-[10px]">{item.desc}</p>
               </div>
             ))}
           </div>

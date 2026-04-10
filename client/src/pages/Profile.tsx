@@ -37,7 +37,7 @@ const INTEREST_CONFIG: Record<string, {
   'last_minute_capital': {
     label: 'Inversionista Capital',
     icon: Wallet,
-    color: 'bg-gradient-to-r from-black to-gray-800',
+    color: 'bg-gradient-to-r from-[#059669]/20 to-[#06b6d4]/10',
     description: 'Tus inversiones de capital',
     dashboardTitle: 'Mis Inversiones',
     features: [
@@ -50,7 +50,7 @@ const INTEREST_CONFIG: Record<string, {
   'property_associate': {
     label: 'Property Associate',
     icon: Building2,
-    color: 'bg-gradient-to-r from-black/15 to-black/10',
+    color: 'bg-gradient-to-r from-[#059669]/15 to-[#06b6d4]/10',
     description: 'Estado de tu propiedad asociada',
     dashboardTitle: 'Mi Propiedad',
     features: [
@@ -186,27 +186,27 @@ export default function Profile() {
           </div>
         </div>
 
-        <div className="bg-[#0a1628] rounded-2xl p-5 mb-6">
+        <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-5 mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-white font-semibold">{config.dashboardTitle}</h2>
-            <span className="text-[#22d3ee] text-xs font-medium px-2 py-1 bg-[#0891b2]/10 rounded-full">
+            <h2 className="text-[#222] font-semibold">{config.dashboardTitle}</h2>
+            <span className="text-[#059669] text-xs font-medium px-2 py-1 bg-[#059669]/10 rounded-full">
               En desarrollo
             </span>
           </div>
           
           <div className="space-y-3">
             {config.features.map((feat, idx) => (
-              <div key={idx} className="flex items-center justify-between py-3 border-b border-white/10 last:border-0">
+              <div key={idx} className="flex items-center justify-between py-3 border-b border-[#ebebeb] last:border-0">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
-                    <feat.icon className="w-5 h-5 text-white/70" />
+                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center border border-[#ebebeb]">
+                    <feat.icon className="w-5 h-5 text-[#717171]" />
                   </div>
                   <div>
-                    <p className="text-white/60 text-xs">{feat.label}</p>
-                    <p className="text-white font-medium">{feat.value}</p>
+                    <p className="text-[#717171] text-xs">{feat.label}</p>
+                    <p className="text-[#222] font-medium">{feat.value}</p>
                   </div>
                 </div>
-                <div className={`w-2 h-2 rounded-full ${feat.status === 'active' ? 'bg-white' : 'bg-white/40'}`} />
+                <div className={`w-2 h-2 rounded-full ${feat.status === 'active' ? 'bg-[#059669]' : 'bg-[#ccc]'}`} />
               </div>
             ))}
           </div>
@@ -380,11 +380,11 @@ export default function Profile() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#fafcfd] via-[#fafcfd] to-transparent">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white to-transparent">
         <Button 
           onClick={handleLogout}
           variant="outline"
-          className="w-full border-[#e2e8f0] text-[#64748b] hover:bg-[#f0fdfa] hover:text-[#0891b2] hover:border-[#0891b2]/30"
+          className="w-full border-[#ebebeb] text-[#717171] hover:bg-[#f0fdf4] hover:text-[#059669] hover:border-[#059669]/30"
           data-testid="button-logout"
         >
           <LogOut className="w-4 h-4 mr-2" /> Cerrar sesión

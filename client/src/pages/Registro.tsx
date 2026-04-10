@@ -92,14 +92,14 @@ function ClerkRegistro() {
               headerSubtitle: "text-[#1a1a1a]/50 text-xs font-light",
               socialButtonsBlockButton: "hidden",
               socialButtonsBlockButtonText: "hidden",
-              formButtonPrimary: "bg-[#1a1a1a] hover:bg-[#333] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all",
-              footerActionLink: "text-black hover:text-black/80 text-[13px] font-normal",
-              formFieldInput: "border border-[#e5e5e5] focus:border-[#1a1a1a] focus:ring-0 rounded-lg h-10 text-[13px] text-[#1a1a1a] bg-white placeholder:text-[#1a1a1a]/30",
+              formButtonPrimary: "bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:from-[#047857] hover:to-[#0891b2] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all",
+              footerActionLink: "text-[#059669] hover:text-[#047857] text-[13px] font-normal",
+              formFieldInput: "border border-[#e5e5e5] focus:border-[#059669] focus:ring-0 rounded-lg h-10 text-[13px] text-[#1a1a1a] bg-white placeholder:text-[#1a1a1a]/30",
               formFieldLabel: "text-[#1a1a1a]/60 text-[12px] font-normal",
               dividerLine: "bg-[#e5e5e5]",
               dividerText: "text-[#1a1a1a]/30 text-[11px] font-light",
               identityPreviewText: "text-[#1a1a1a] text-[13px]",
-              identityPreviewEditButton: "text-black text-[12px]",
+              identityPreviewEditButton: "text-[#059669] text-[12px]",
               footer: "pt-3",
               footerAction: "text-[12px]",
               footerActionText: "text-[#1a1a1a]/40 text-[12px]",
@@ -133,7 +133,7 @@ function FallbackRegistro() {
   return (
     <RegistroLayout language={language} referralCode="" showPwa={showPwa} setShowPwa={setShowPwa}>
       <div className="p-8 text-center">
-        <p className="text-[#1a1a1a]/50 text-sm font-light">
+        <p className="text-[#717171] text-sm font-light">
           {language === 'es'
             ? 'El sistema de registro está siendo configurado.'
             : 'Registration system is being configured.'}
@@ -149,10 +149,10 @@ export default function Registro() {
 
 function RegistroLoading({ language }: { language: string }) {
   return (
-    <div className="min-h-screen bg-[#030810] flex items-center justify-center">
+    <div className="min-h-screen bg-white flex items-center justify-center">
       <div className="text-center">
-        <div className="w-10 h-10 border border-[#0891b2]/30 border-t-[#0891b2] rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-white/40 text-xs tracking-widest uppercase">
+        <div className="w-10 h-10 border border-[#059669]/30 border-t-[#059669] rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-[#717171] text-xs tracking-widest uppercase">
           {language === 'es' ? 'Cargando' : 'Loading'}
         </p>
       </div>
@@ -168,37 +168,37 @@ function RegistroLayout({ language, referralCode, showPwa, setShowPwa, children 
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#030810] text-white flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <div className="flex-1 flex flex-col items-center justify-start px-5 pt-10 pb-8 max-w-md mx-auto w-full">
         <div className="text-center mb-8 w-full">
           <Link href="/home">
             <span className="cursor-pointer" data-testid="link-logo-home">
-              <h1 className="text-xl font-extralight tracking-[0.2em] text-white" data-testid="text-brand">
+              <h1 className="text-xl font-extralight tracking-[0.2em] text-[#222]" data-testid="text-brand">
                 FRACTIONAL LIVING
               </h1>
-              <div className="w-8 h-[0.5px] bg-[#0891b2] mx-auto mt-2 mb-1" />
-              <p className="text-[8px] text-white/25 uppercase tracking-[0.4em]">All Global Holding LLC</p>
+              <div className="w-8 h-[0.5px] bg-gradient-to-r from-[#059669] to-[#06b6d4] mx-auto mt-2 mb-1" />
+              <p className="text-[8px] text-[#999] uppercase tracking-[0.4em]">All Global Holding LLC</p>
             </span>
           </Link>
         </div>
 
         <div className="w-full mb-6">
-          <p className="text-center text-sm text-white/50 font-light leading-relaxed">
+          <p className="text-center text-sm text-[#717171] font-light leading-relaxed">
             {language === 'es'
               ? 'Crea tu cuenta y accede al ecosistema de propiedades fraccionadas de lujo en el Caribe.'
               : 'Create your account and access the luxury fractional property ecosystem in the Caribbean.'}
           </p>
           {referralCode && (
             <div className="mt-3 flex items-center justify-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#0891b2]" />
-              <p className="text-xs text-white/60">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#059669]" />
+              <p className="text-xs text-[#717171]">
                 {language === 'es' ? `Invitado con código: ${referralCode}` : `Invited with code: ${referralCode}`}
               </p>
             </div>
           )}
         </div>
 
-        <div className="w-full bg-white rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(8,145,178,0.15)]" data-testid="card-registro">
+        <div className="w-full bg-white rounded-2xl overflow-hidden border border-[#ebebeb] shadow-[0_8px_40px_rgba(5,150,105,0.08)]" data-testid="card-registro">
           {children}
         </div>
 
@@ -209,30 +209,30 @@ function RegistroLayout({ language, referralCode, showPwa, setShowPwa, children 
             data-testid="button-toggle-pwa"
           >
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center">
-                <Download className="w-3.5 h-3.5 text-white/70" />
+              <div className="w-8 h-8 rounded-lg bg-[#f7f7f7] border border-[#ebebeb] flex items-center justify-center">
+                <Download className="w-3.5 h-3.5 text-[#717171]" />
               </div>
               <div>
-                <p className="text-[13px] text-white/70 font-light">
+                <p className="text-[13px] text-[#555] font-light">
                   {language === 'es' ? 'Instalar como app' : 'Install as app'}
                 </p>
-                <p className="text-[10px] text-white/30">
+                <p className="text-[10px] text-[#999]">
                   {language === 'es' ? 'Acceso directo desde tu pantalla' : 'Direct access from your screen'}
                 </p>
               </div>
             </div>
             {showPwa
-              ? <ChevronUp className="w-4 h-4 text-white/20" />
-              : <ChevronDown className="w-4 h-4 text-white/20" />
+              ? <ChevronUp className="w-4 h-4 text-[#ccc]" />
+              : <ChevronDown className="w-4 h-4 text-[#ccc]" />
             }
           </button>
 
           {showPwa && (
-            <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 mt-1 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200" data-testid="card-pwa-instructions">
+            <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-xl p-4 mt-1 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200" data-testid="card-pwa-instructions">
               <div>
                 <div className="flex items-center gap-2 mb-2.5">
-                  <Smartphone className="w-3.5 h-3.5 text-white/70" />
-                  <p className="text-[11px] font-medium text-white/60 uppercase tracking-wider">iPhone / iPad</p>
+                  <Smartphone className="w-3.5 h-3.5 text-[#717171]" />
+                  <p className="text-[11px] font-medium text-[#717171] uppercase tracking-wider">iPhone / iPad</p>
                 </div>
                 <div className="space-y-2 pl-5">
                   <Step number={1} text={language === 'es' ? 'Abre allliving.org en Safari' : 'Open allliving.org in Safari'} />
@@ -241,12 +241,12 @@ function RegistroLayout({ language, referralCode, showPwa, setShowPwa, children 
                 </div>
               </div>
 
-              <div className="h-[0.5px] bg-white/[0.06]" />
+              <div className="h-[0.5px] bg-[#ebebeb]" />
 
               <div>
                 <div className="flex items-center gap-2 mb-2.5">
-                  <Smartphone className="w-3.5 h-3.5 text-white/70" />
-                  <p className="text-[11px] font-medium text-white/60 uppercase tracking-wider">Android</p>
+                  <Smartphone className="w-3.5 h-3.5 text-[#717171]" />
+                  <p className="text-[11px] font-medium text-[#717171] uppercase tracking-wider">Android</p>
                 </div>
                 <div className="space-y-2 pl-5">
                   <Step number={1} text={language === 'es' ? 'Abre allliving.org en Chrome' : 'Open allliving.org in Chrome'} />
@@ -255,7 +255,7 @@ function RegistroLayout({ language, referralCode, showPwa, setShowPwa, children 
                 </div>
               </div>
 
-              <p className="text-[10px] text-white/20 text-center pt-1">
+              <p className="text-[10px] text-[#999] text-center pt-1">
                 {language === 'es'
                   ? 'La app funciona sin conexión y se actualiza automáticamente.'
                   : 'The app works offline and updates automatically.'}
@@ -265,14 +265,14 @@ function RegistroLayout({ language, referralCode, showPwa, setShowPwa, children 
         </div>
 
         <div className="mt-6 text-center space-y-3">
-          <p className="text-[10px] text-white/20 leading-relaxed max-w-xs mx-auto">
+          <p className="text-[10px] text-[#bbb] leading-relaxed max-w-xs mx-auto">
             {language === 'es'
               ? 'Al registrarte recibes tu código único para construir tu red y acceder al 4% de comisiones en 5 niveles.'
               : 'By registering you receive your unique code to build your network and access 4% commissions across 5 levels.'}
           </p>
-          <div className="flex items-center justify-center gap-4 text-[10px] text-white/15">
+          <div className="flex items-center justify-center gap-4 text-[10px] text-[#ccc]">
             <span>allliving.org</span>
-            <span className="w-0.5 h-0.5 rounded-full bg-white/15" />
+            <span className="w-0.5 h-0.5 rounded-full bg-[#ccc]" />
             <span>Tulum, MX</span>
           </div>
         </div>
@@ -284,11 +284,11 @@ function RegistroLayout({ language, referralCode, showPwa, setShowPwa, children 
 function Step({ number, text, icon }: { number: number; text: string; icon?: React.ReactNode }) {
   return (
     <div className="flex items-center gap-2.5">
-      <span className="w-4 h-4 rounded-full bg-white/[0.06] flex items-center justify-center text-[9px] text-white/40 font-medium flex-shrink-0">
+      <span className="w-4 h-4 rounded-full bg-[#ebebeb] flex items-center justify-center text-[9px] text-[#717171] font-medium flex-shrink-0">
         {number}
       </span>
-      {icon && <span className="text-white/30">{icon}</span>}
-      <span className="text-[11px] text-white/45 font-light">{text}</span>
+      {icon && <span className="text-[#999]">{icon}</span>}
+      <span className="text-[11px] text-[#717171] font-light">{text}</span>
     </div>
   );
 }

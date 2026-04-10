@@ -227,45 +227,45 @@ function LinksManager({ creatorToken }: { creatorToken: string }) {
   };
 
   if (isLoading) {
-    return <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-white/70" /></div>;
+    return <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-[#555]" /></div>;
   }
 
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
         <div>
-          <p className="text-sm text-white/50">{links.length} links</p>
-          <p className="text-xs text-white/30">Página: /links</p>
+          <p className="text-sm text-[#717171]">{links.length} links</p>
+          <p className="text-xs text-[#bbb]">Página: /links</p>
         </div>
-        <Button onClick={() => { setIsAdding(true); setEditingLink(null); setForm({ title: '', url: '', type: 'link', position: 0 }); }} size="sm" className="bg-black hover:bg-black/90">
+        <Button onClick={() => { setIsAdding(true); setEditingLink(null); setForm({ title: '', url: '', type: 'link', position: 0 }); }} size="sm" className="bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:opacity-90">
           <Plus className="w-4 h-4 mr-1" /> Nuevo
         </Button>
       </div>
 
       {isAdding && (
-        <div className="bg-white/5 rounded-xl border border-white/10 p-4 mb-4">
+        <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4 mb-4">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-white">{editingLink ? 'Editar Link' : 'Nuevo Link'}</h3>
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-white/50" onClick={() => { setIsAdding(false); setEditingLink(null); }}>
+            <h3 className="font-semibold text-[#222]">{editingLink ? 'Editar Link' : 'Nuevo Link'}</h3>
+            <Button variant="ghost" size="icon" className="h-8 w-8 text-[#717171]" onClick={() => { setIsAdding(false); setEditingLink(null); }}>
               <X className="w-4 h-4" />
             </Button>
           </div>
           <div className="space-y-3">
             <div>
-              <label className="text-xs text-white/50 mb-1 block">Título</label>
-              <Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Instagram" className="bg-white/10 border-white/20 text-white" />
+              <label className="text-xs text-[#717171] mb-1 block">Título</label>
+              <Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Instagram" className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
             </div>
             <div>
-              <label className="text-xs text-white/50 mb-1 block">URL</label>
-              <Input value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} placeholder="https://instagram.com/..." className="bg-white/10 border-white/20 text-white" />
+              <label className="text-xs text-[#717171] mb-1 block">URL</label>
+              <Input value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} placeholder="https://instagram.com/..." className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
             </div>
             <div>
-              <label className="text-xs text-white/50 mb-1 block">Tipo</label>
-              <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className="w-full h-10 px-3 rounded-md bg-white/10 border border-white/20 text-white text-sm">
-                {LINK_TYPES.map(t => <option key={t.value} value={t.value} className="bg-[#111]">{t.label}</option>)}
+              <label className="text-xs text-[#717171] mb-1 block">Tipo</label>
+              <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className="w-full h-10 px-3 rounded-md bg-[#f0f0f0] border border-[#ddd] text-[#222] text-sm">
+                {LINK_TYPES.map(t => <option key={t.value} value={t.value} className="bg-white text-[#222]">{t.label}</option>)}
               </select>
             </div>
-            <Button onClick={handleSubmit} className="w-full bg-black hover:bg-black/90">
+            <Button onClick={handleSubmit} className="w-full bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:opacity-90">
               <Save className="w-4 h-4 mr-1" /> {editingLink ? 'Actualizar' : 'Guardar'}
             </Button>
           </div>
@@ -273,30 +273,30 @@ function LinksManager({ creatorToken }: { creatorToken: string }) {
       )}
 
       {links.length === 0 && !isAdding ? (
-        <div className="bg-white/5 rounded-xl border border-white/10 border-dashed p-12 text-center">
-          <Link2 className="w-12 h-12 mx-auto mb-4 text-white/30" />
-          <p className="text-white/50 mb-2">No hay links</p>
-          <p className="text-xs text-white/30 mb-4">Agrega redes sociales y videos de interés</p>
-          <Button onClick={() => setIsAdding(true)} className="bg-black" size="sm">
+        <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] border-dashed p-12 text-center">
+          <Link2 className="w-12 h-12 mx-auto mb-4 text-[#bbb]" />
+          <p className="text-[#717171] mb-2">No hay links</p>
+          <p className="text-xs text-[#bbb] mb-4">Agrega redes sociales y videos de interés</p>
+          <Button onClick={() => setIsAdding(true)} className="bg-gradient-to-r from-[#059669] to-[#06b6d4]" size="sm">
             <Plus className="w-4 h-4 mr-1" /> Agregar Link
           </Button>
         </div>
       ) : (
         <div className="space-y-2">
           {links.map((link) => (
-            <div key={link.id} className={cn("bg-white/5 rounded-xl border p-3 flex items-center gap-3", link.isActive ? "border-white/10" : "border-white/5 opacity-50")}>
-              <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-                <Link2 className="w-5 h-5 text-white/70" />
+            <div key={link.id} className={cn("bg-[#f7f7f7] rounded-xl border p-3 flex items-center gap-3", link.isActive ? "border-[#ebebeb]" : "border-[#ebebeb] opacity-50")}>
+              <div className="w-10 h-10 rounded-lg bg-[#f0f0f0] flex items-center justify-center flex-shrink-0">
+                <Link2 className="w-5 h-5 text-[#555]" />
               </div>
               <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-sm text-white truncate">{link.title}</h4>
-                <p className="text-xs text-white/40 truncate">{link.url}</p>
+                <h4 className="font-medium text-sm text-[#222] truncate">{link.title}</h4>
+                <p className="text-xs text-[#999] truncate">{link.url}</p>
               </div>
               <div className="flex gap-1">
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-white/50 hover:bg-white/10" onClick={() => toggleActive(link)}>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-[#717171] hover:bg-[#f0f0f0]" onClick={() => toggleActive(link)}>
                   {link.isActive ? <Eye className="w-4 h-4" /> : <CalendarOff className="w-4 h-4" />}
                 </Button>
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-white/50 hover:bg-white/10" onClick={() => handleEdit(link)}>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-[#717171] hover:bg-[#f0f0f0]" onClick={() => handleEdit(link)}>
                   <Edit className="w-4 h-4" />
                 </Button>
                 <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400 hover:bg-red-500/20" onClick={() => deleteMutation.mutate(link.id)}>
@@ -336,8 +336,8 @@ const INTEREST_LABELS: Record<string, string> = {
 const STATUS_OPTIONS = [
   { value: 'lead', label: 'Nuevo', color: 'bg-black/5' },
   { value: 'contacted', label: 'Contactado', color: 'bg-[#999]' },
-  { value: 'in_progress', label: 'En proceso', color: 'bg-black' },
-  { value: 'converted', label: 'Convertido', color: 'bg-black' },
+  { value: 'in_progress', label: 'En proceso', color: 'bg-[#059669]' },
+  { value: 'converted', label: 'Convertido', color: 'bg-[#059669]' },
   { value: 'lost', label: 'Perdido', color: 'bg-[#888]' }
 ];
 
@@ -423,7 +423,7 @@ function UsersCRM({ creatorToken }: { creatorToken: string }) {
   if (isLoading) {
     return (
       <div className="flex justify-center py-20">
-        <Loader2 className="w-8 h-8 animate-spin text-white/70" />
+        <Loader2 className="w-8 h-8 animate-spin text-[#555]" />
       </div>
     );
   }
@@ -431,8 +431,8 @@ function UsersCRM({ creatorToken }: { creatorToken: string }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap gap-3 items-center justify-between">
-        <h2 className="text-lg font-semibold text-white">CRM - {users.length} usuarios registrados</h2>
-        <Button onClick={exportToCSV} size="sm" variant="outline" className="bg-white/5 border-white/20 text-white">
+        <h2 className="text-lg font-semibold text-[#222]">CRM - {users.length} usuarios registrados</h2>
+        <Button onClick={exportToCSV} size="sm" variant="outline" className="bg-[#f7f7f7] border-[#ddd] text-[#222]">
           <Copy className="w-4 h-4 mr-1" /> Exportar CSV
         </Button>
       </div>
@@ -441,54 +441,54 @@ function UsersCRM({ creatorToken }: { creatorToken: string }) {
         <select
           value={filterInterest}
           onChange={(e) => setFilterInterest(e.target.value)}
-          className="px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm"
+          className="px-3 py-2 bg-[#f7f7f7] border border-[#ddd] rounded-lg text-[#222] text-sm"
         >
-          <option value="" className="bg-[#1a1a1a]">Todos los intereses</option>
+          <option value="" className="bg-white">Todos los intereses</option>
           {Object.entries(INTEREST_LABELS).map(([key, label]) => (
-            <option key={key} value={key} className="bg-[#1a1a1a]">{label}</option>
+            <option key={key} value={key} className="bg-white">{label}</option>
           ))}
         </select>
 
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
-          className="px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm"
+          className="px-3 py-2 bg-[#f7f7f7] border border-[#ddd] rounded-lg text-[#222] text-sm"
         >
-          <option value="" className="bg-[#1a1a1a]">Todos los estados</option>
+          <option value="" className="bg-white">Todos los estados</option>
           {STATUS_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value} className="bg-[#1a1a1a]">{opt.label}</option>
+            <option key={opt.value} value={opt.value} className="bg-white">{opt.label}</option>
           ))}
         </select>
       </div>
 
       {filteredUsers.length === 0 ? (
-        <div className="bg-white/5 rounded-xl p-8 text-center">
-          <Users className="w-12 h-12 mx-auto mb-4 text-white/30" />
-          <p className="text-white/50">No hay usuarios registrados aún</p>
+        <div className="bg-[#f7f7f7] rounded-xl p-8 text-center">
+          <Users className="w-12 h-12 mx-auto mb-4 text-[#bbb]" />
+          <p className="text-[#717171]">No hay usuarios registrados aún</p>
         </div>
       ) : (
         <div className="space-y-3">
           {filteredUsers.map((user) => {
             const statusInfo = STATUS_OPTIONS.find(s => s.value === user.status) || STATUS_OPTIONS[0];
             return (
-              <div key={user.id} className="bg-white/5 rounded-xl border border-white/10 p-4">
+              <div key={user.id} className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
                 <div className="flex flex-wrap gap-3 items-start justify-between mb-3">
                   <div>
-                    <h3 className="font-medium text-white">{user.name}</h3>
-                    <p className="text-sm text-white/60">{user.email}</p>
-                    <p className="text-sm text-white/40">{user.phone} • {user.country}</p>
+                    <h3 className="font-medium text-[#222]">{user.name}</h3>
+                    <p className="text-sm text-[#717171]">{user.email}</p>
+                    <p className="text-sm text-[#999]">{user.phone} • {user.country}</p>
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <select
                       value={user.status}
                       onChange={(e) => updateStatusMutation.mutate({ id: user.id, status: e.target.value })}
-                      className={cn("px-3 py-1 rounded-full text-xs font-medium text-white", statusInfo.color)}
+                      className={cn("px-3 py-1 rounded-full text-xs font-medium text-[#222]", statusInfo.color)}
                     >
                       {STATUS_OPTIONS.map((opt) => (
-                        <option key={opt.value} value={opt.value} className="bg-[#1a1a1a] text-white">{opt.label}</option>
+                        <option key={opt.value} value={opt.value} className="bg-white text-[#222]">{opt.label}</option>
                       ))}
                     </select>
-                    <span className="text-xs text-white/40">
+                    <span className="text-xs text-[#999]">
                       {new Date(user.createdAt).toLocaleDateString()}
                     </span>
                   </div>
@@ -497,7 +497,7 @@ function UsersCRM({ creatorToken }: { creatorToken: string }) {
                 {user.interests.length > 0 && (
                   <div className="flex flex-wrap gap-1 mb-3">
                     {user.interests.map((interest) => (
-                      <span key={interest} className="px-2 py-1 bg-white/10 text-white/70 rounded text-xs">
+                      <span key={interest} className="px-2 py-1 bg-[#f0f0f0] text-[#555] rounded text-xs">
                         {INTEREST_LABELS[interest] || interest}
                       </span>
                     ))}
@@ -509,19 +509,19 @@ function UsersCRM({ creatorToken }: { creatorToken: string }) {
                     href={`https://wa.me/${user.phone.replace(/\D/g, '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 bg-black hover:bg-black text-white rounded text-xs flex items-center gap-1"
+                    className="px-3 py-1.5 bg-gradient-to-r from-[#059669] to-[#06b6d4] text-white rounded text-xs flex items-center gap-1"
                   >
                     <MessageCircle className="w-3 h-3" /> WhatsApp
                   </a>
                   <a
                     href={`mailto:${user.email}`}
-                    className="px-3 py-1.5 bg-black/5 hover:bg-black/5 text-white rounded text-xs"
+                    className="px-3 py-1.5 bg-[#f0f0f0] hover:bg-[#e0e0e0] text-[#222] rounded text-xs"
                   >
                     Email
                   </a>
                   <button
                     onClick={() => { setEditingNotes(user.id); setNotesValue(user.notes || ''); }}
-                    className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded text-xs"
+                    className="px-3 py-1.5 bg-[#f0f0f0] hover:bg-[#e0e0e0] text-[#222] rounded text-xs"
                   >
                     {user.notes ? 'Ver notas' : 'Agregar nota'}
                   </button>
@@ -533,13 +533,13 @@ function UsersCRM({ creatorToken }: { creatorToken: string }) {
                       value={notesValue}
                       onChange={(e) => setNotesValue(e.target.value)}
                       placeholder="Notas internas..."
-                      className="bg-white/5 border-white/20 text-white min-h-[80px]"
+                      className="bg-[#f7f7f7] border-[#ddd] text-[#222] min-h-[80px]"
                     />
                     <div className="flex gap-2">
                       <Button
                         size="sm"
                         onClick={() => updateNotesMutation.mutate({ id: user.id, notes: notesValue })}
-                        className="bg-black"
+                        className="bg-gradient-to-r from-[#059669] to-[#06b6d4]"
                       >
                         <Save className="w-3 h-3 mr-1" /> Guardar
                       </Button>
@@ -1047,7 +1047,7 @@ export default function CreatorDashboard() {
 
   if (!isUnlocked) {
     return (
-      <div className="min-h-screen bg-[#1a1a1a] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
         <div className="w-full max-w-sm">
           <div className="bg-white rounded-md p-8 border border-[#eee]">
             <div className="text-center mb-6">
@@ -1080,15 +1080,15 @@ export default function CreatorDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f]">
-      <header className="bg-[#1a1a1a] border-b border-white/10 sticky top-0 z-40">
+    <div className="min-h-screen bg-white">
+      <header className="bg-white border-b border-[#ebebeb] sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-3 sm:px-4">
           <div className="flex items-center justify-between h-12 sm:h-14">
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" onClick={() => setLocation('/')} className="text-white hover:bg-white/10 h-9 w-9">
+              <Button variant="ghost" size="icon" onClick={() => setLocation('/')} className="text-[#222] hover:bg-[#f0f0f0] h-9 w-9">
                 <ArrowLeft className="w-5 h-5" />
               </Button>
-              <h1 className="text-sm sm:text-base font-semibold text-white">Modo Creador</h1>
+              <h1 className="text-sm sm:text-base font-semibold text-[#222]">Modo Creador</h1>
             </div>
           </div>
           <div className="flex overflow-x-auto pb-3 -mx-3 px-3 gap-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
@@ -1106,7 +1106,7 @@ export default function CreatorDashboard() {
                 onClick={() => setActiveTab(id as any)}
                 className={cn(
                   "flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap flex-shrink-0",
-                  activeTab === id ? "bg-black text-white" : "bg-white/10 text-white/70 hover:bg-white/20"
+                  activeTab === id ? "bg-[#059669] text-white" : "bg-[#f0f0f0] text-[#555] hover:bg-[#e0e0e0]"
                 )}
               >
                 <Icon className="w-4 h-4" />
@@ -1125,48 +1125,48 @@ export default function CreatorDashboard() {
             {!isCreating ? (
               <>
                 <div className="flex items-center justify-between mb-4">
-                  <p className="text-sm text-white/50">{properties.length} propiedades</p>
-                  <Button onClick={() => setIsCreating(true)} size="sm" className="bg-black hover:bg-black/90">
+                  <p className="text-sm text-[#717171]">{properties.length} propiedades</p>
+                  <Button onClick={() => setIsCreating(true)} size="sm" className="bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:opacity-90">
                     <Plus className="w-4 h-4 mr-1" /> Nueva
                   </Button>
                 </div>
 
                 {loadingProperties ? (
                   <div className="flex justify-center py-20">
-                    <Loader2 className="w-8 h-8 animate-spin text-white/70" />
+                    <Loader2 className="w-8 h-8 animate-spin text-[#555]" />
                   </div>
                 ) : properties.length === 0 ? (
-                  <div className="bg-white/5 rounded-xl border border-white/10 border-dashed p-12 text-center">
-                    <Building className="w-12 h-12 mx-auto mb-4 text-white/30" />
-                    <p className="text-white/50">No hay propiedades</p>
-                    <Button onClick={() => setIsCreating(true)} className="mt-4 bg-black" size="sm">
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] border-dashed p-12 text-center">
+                    <Building className="w-12 h-12 mx-auto mb-4 text-[#bbb]" />
+                    <p className="text-[#717171]">No hay propiedades</p>
+                    <Button onClick={() => setIsCreating(true)} className="mt-4 bg-gradient-to-r from-[#059669] to-[#06b6d4]" size="sm">
                       <Plus className="w-4 h-4 mr-1" /> Crear
                     </Button>
                   </div>
                 ) : (
                   <div className="space-y-3">
                     {properties.map((property) => (
-                      <div key={property.id} className="bg-white/5 rounded-xl border border-white/10 p-3">
+                      <div key={property.id} className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-3">
                         <div className="flex gap-3">
-                          <div className="w-16 sm:w-20 h-14 sm:h-16 rounded-lg bg-white/10 overflow-hidden flex-shrink-0">
+                          <div className="w-16 sm:w-20 h-14 sm:h-16 rounded-lg bg-[#f0f0f0] overflow-hidden flex-shrink-0">
                             {property.images?.[0] ? (
                               <img src={property.images[0]} alt="" className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
-                                <Image className="w-5 h-5 text-white/30" />
+                                <Image className="w-5 h-5 text-[#bbb]" />
                               </div>
                             )}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-medium text-sm text-white truncate">{property.title}</h3>
-                            <p className="text-xs text-white/50 truncate">{property.location}</p>
-                            <p className="text-xs text-white/30 mt-1">{property.viewCount || 0} vistas</p>
+                            <h3 className="font-medium text-sm text-[#222] truncate">{property.title}</h3>
+                            <p className="text-xs text-[#717171] truncate">{property.location}</p>
+                            <p className="text-xs text-[#bbb] mt-1">{property.viewCount || 0} vistas</p>
                           </div>
                           <div className="flex gap-1">
-                            <Button variant="ghost" size="icon" className="h-9 w-9 text-white/70 hover:bg-white/10" onClick={() => handleEdit(property)}>
+                            <Button variant="ghost" size="icon" className="h-9 w-9 text-[#555] hover:bg-[#f0f0f0]" onClick={() => handleEdit(property)}>
                               <Edit className="w-4 h-4" />
                             </Button>
-                            <Button variant="ghost" size="icon" className="h-9 w-9 text-white/70 hover:bg-white/10" onClick={() => duplicateMutation.mutate(property.id)}>
+                            <Button variant="ghost" size="icon" className="h-9 w-9 text-[#555] hover:bg-[#f0f0f0]" onClick={() => duplicateMutation.mutate(property.id)}>
                               <Copy className="w-4 h-4" />
                             </Button>
                             <Button variant="ghost" size="icon" className="h-9 w-9 text-red-400 hover:bg-red-500/20" onClick={() => deleteMutation.mutate(property.id)}>
@@ -1182,116 +1182,116 @@ export default function CreatorDashboard() {
             ) : (
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-semibold text-white">{editingProperty ? 'Editar' : 'Nueva'} Propiedad</h2>
+                  <h2 className="font-semibold text-[#222]">{editingProperty ? 'Editar' : 'Nueva'} Propiedad</h2>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={() => setShowPreview(true)} className="border-white/20 text-white hover:bg-white/10">
+                    <Button variant="outline" size="sm" onClick={() => setShowPreview(true)} className="border-[#ddd] text-[#222] hover:bg-[#f0f0f0]">
                       <Eye className="w-4 h-4 mr-1" /> Vista
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={resetForm} className="text-white hover:bg-white/10">
+                    <Button variant="ghost" size="sm" onClick={resetForm} className="text-[#222] hover:bg-[#f0f0f0]">
                       <X className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <div className="bg-white/5 rounded-xl border border-white/10 p-4 space-y-3">
-                    <Input placeholder="Título (ej: ATTIK 01)" value={formData.title} onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
-                    <Input placeholder="Subtítulo (ej: Departamento de Lujo)" value={formData.subtitle} onChange={(e) => setFormData(prev => ({ ...prev, subtitle: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4 space-y-3">
+                    <Input placeholder="Título (ej: ATTIK 01)" value={formData.title} onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
+                    <Input placeholder="Subtítulo (ej: Departamento de Lujo)" value={formData.subtitle} onChange={(e) => setFormData(prev => ({ ...prev, subtitle: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
                     <div className="grid grid-cols-2 gap-2">
-                      <Input placeholder="Ubicación" value={formData.location} onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
-                      <Input placeholder="País" value={formData.country} onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                      <Input placeholder="Ubicación" value={formData.location} onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
+                      <Input placeholder="País" value={formData.country} onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
                     </div>
-                    <Textarea placeholder="Descripción completa de la propiedad..." value={formData.description} onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))} rows={4} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                    <Textarea placeholder="Descripción completa de la propiedad..." value={formData.description} onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))} rows={4} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
                     <div className="grid grid-cols-2 gap-2">
-                      <select value={formData.category} onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))} className="h-10 px-3 bg-white/10 border border-white/20 rounded-lg text-sm text-white">
-                        {allCategories.map(cat => <option key={cat} value={cat} className="bg-[#1a1a1a]">{cat}</option>)}
+                      <select value={formData.category} onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))} className="h-10 px-3 bg-[#f0f0f0] border border-[#ddd] rounded-lg text-sm text-[#222]">
+                        {allCategories.map(cat => <option key={cat} value={cat} className="bg-white">{cat}</option>)}
                       </select>
-                      <select value={formData.tag} onChange={(e) => setFormData(prev => ({ ...prev, tag: e.target.value }))} className="h-10 px-3 bg-white/10 border border-white/20 rounded-lg text-sm text-white">
-                        {PROPERTY_TAGS.map(tag => <option key={tag.value} value={tag.value} className="bg-[#1a1a1a]">{tag.label}</option>)}
+                      <select value={formData.tag} onChange={(e) => setFormData(prev => ({ ...prev, tag: e.target.value }))} className="h-10 px-3 bg-[#f0f0f0] border border-[#ddd] rounded-lg text-sm text-[#222]">
+                        {PROPERTY_TAGS.map(tag => <option key={tag.value} value={tag.value} className="bg-white">{tag.label}</option>)}
                       </select>
                     </div>
-                    <label className="flex items-center gap-2 text-sm text-white/70">
+                    <label className="flex items-center gap-2 text-sm text-[#555]">
                       <input type="checkbox" checked={formData.isFeatured} onChange={(e) => setFormData(prev => ({ ...prev, isFeatured: e.target.checked }))} className="w-4 h-4 rounded" />
                       Destacar propiedad
                     </label>
                   </div>
 
-                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-                    <h3 className="font-medium text-sm text-white mb-3">Precios y Fracciones</h3>
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
+                    <h3 className="font-medium text-sm text-[#222] mb-3">Precios y Fracciones</h3>
                     <div className="grid grid-cols-2 gap-3 mb-3">
                       <div>
-                        <label className="text-xs text-white/50">Precio Total</label>
-                        <Input type="number" placeholder="650000" value={formData.price} onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#717171]">Precio Total</label>
+                        <Input type="number" placeholder="650000" value={formData.price} onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                       <div>
-                        <label className="text-xs text-white/50">Moneda</label>
-                        <select value={formData.currency} onChange={(e) => setFormData(prev => ({ ...prev, currency: e.target.value }))} className="w-full h-10 px-3 bg-white/10 border border-white/20 rounded-lg text-sm text-white">
-                          <option value="MXN" className="bg-[#1a1a1a]">MXN</option>
-                          <option value="USD" className="bg-[#1a1a1a]">USD</option>
+                        <label className="text-xs text-[#717171]">Moneda</label>
+                        <select value={formData.currency} onChange={(e) => setFormData(prev => ({ ...prev, currency: e.target.value }))} className="w-full h-10 px-3 bg-[#f0f0f0] border border-[#ddd] rounded-lg text-sm text-[#222]">
+                          <option value="MXN" className="bg-white">MXN</option>
+                          <option value="USD" className="bg-white">USD</option>
                         </select>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3 mb-3">
                       <div>
-                        <label className="text-xs text-white/70">Enganche / Precio Fracción</label>
-                        <Input type="number" placeholder="65000" value={formData.fractionPrice} onChange={(e) => setFormData(prev => ({ ...prev, fractionPrice: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#555]">Enganche / Precio Fracción</label>
+                        <Input type="number" placeholder="65000" value={formData.fractionPrice} onChange={(e) => setFormData(prev => ({ ...prev, fractionPrice: Number(e.target.value) }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                       <div>
-                        <label className="text-xs text-white/50">Semanas por Fracción</label>
-                        <Input type="number" placeholder="3" value={formData.weeksPerFraction} onChange={(e) => setFormData(prev => ({ ...prev, weeksPerFraction: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#717171]">Semanas por Fracción</label>
+                        <Input type="number" placeholder="3" value={formData.weeksPerFraction} onChange={(e) => setFormData(prev => ({ ...prev, weeksPerFraction: Number(e.target.value) }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3 mb-3">
                       <div>
-                        <label className="text-xs text-white/50">Total Fracciones</label>
-                        <Input type="number" placeholder="14" value={formData.totalFractions} onChange={(e) => setFormData(prev => ({ ...prev, totalFractions: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#717171]">Total Fracciones</label>
+                        <Input type="number" placeholder="14" value={formData.totalFractions} onChange={(e) => setFormData(prev => ({ ...prev, totalFractions: Number(e.target.value) }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                       <div>
-                        <label className="text-xs text-white/50">Fracciones Disponibles</label>
-                        <Input type="number" placeholder="14" value={formData.availableFractions} onChange={(e) => setFormData(prev => ({ ...prev, availableFractions: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#717171]">Fracciones Disponibles</label>
+                        <Input type="number" placeholder="14" value={formData.availableFractions} onChange={(e) => setFormData(prev => ({ ...prev, availableFractions: Number(e.target.value) }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                     </div>
-                    <p className="text-xs text-white/30 mb-3">Precios por temporada (opcional)</p>
+                    <p className="text-xs text-[#bbb] mb-3">Precios por temporada (opcional)</p>
                     <div className="grid grid-cols-3 gap-2">
                       <div>
-                        <label className="text-xs text-white/70">Alta</label>
-                        <Input type="number" placeholder="0" value={formData.priceHighSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceHighSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#555]">Alta</label>
+                        <Input type="number" placeholder="0" value={formData.priceHighSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceHighSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                       <div>
-                        <label className="text-xs text-white/70">Media</label>
-                        <Input type="number" placeholder="0" value={formData.priceMidSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceMidSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#555]">Media</label>
+                        <Input type="number" placeholder="0" value={formData.priceMidSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceMidSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                       <div>
-                        <label className="text-xs text-white/70">Baja</label>
-                        <Input type="number" placeholder="0" value={formData.priceLowSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceLowSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#555]">Baja</label>
+                        <Input type="number" placeholder="0" value={formData.priceLowSeason || ''} onChange={(e) => setFormData(prev => ({ ...prev, priceLowSeason: e.target.value ? Number(e.target.value) : null }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-                    <h3 className="font-medium text-sm text-white mb-3">Detalles Propiedad</h3>
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
+                    <h3 className="font-medium text-sm text-[#222] mb-3">Detalles Propiedad</h3>
                     <div className="grid grid-cols-4 gap-2">
                       <div>
-                        <label className="text-xs text-white/50 flex items-center gap-1"><Bed className="w-3 h-3" /> Hab</label>
-                        <Input type="number" value={formData.bedrooms} onChange={(e) => setFormData(prev => ({ ...prev, bedrooms: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#717171] flex items-center gap-1"><Bed className="w-3 h-3" /> Hab</label>
+                        <Input type="number" value={formData.bedrooms} onChange={(e) => setFormData(prev => ({ ...prev, bedrooms: Number(e.target.value) }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                       <div>
-                        <label className="text-xs text-white/50 flex items-center gap-1"><Bath className="w-3 h-3" /> Baños</label>
-                        <Input type="number" value={formData.bathrooms} onChange={(e) => setFormData(prev => ({ ...prev, bathrooms: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#717171] flex items-center gap-1"><Bath className="w-3 h-3" /> Baños</label>
+                        <Input type="number" value={formData.bathrooms} onChange={(e) => setFormData(prev => ({ ...prev, bathrooms: Number(e.target.value) }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                       <div>
-                        <label className="text-xs text-white/50 flex items-center gap-1"><Users className="w-3 h-3" /> Huésp</label>
-                        <Input type="number" value={formData.maxGuests} onChange={(e) => setFormData(prev => ({ ...prev, maxGuests: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#717171] flex items-center gap-1"><Users className="w-3 h-3" /> Huésp</label>
+                        <Input type="number" value={formData.maxGuests} onChange={(e) => setFormData(prev => ({ ...prev, maxGuests: Number(e.target.value) }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                       <div>
-                        <label className="text-xs text-white/50">m²</label>
-                        <Input type="number" value={formData.sqMeters} onChange={(e) => setFormData(prev => ({ ...prev, sqMeters: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white" />
+                        <label className="text-xs text-[#717171]">m²</label>
+                        <Input type="number" value={formData.sqMeters} onChange={(e) => setFormData(prev => ({ ...prev, sqMeters: Number(e.target.value) }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222]" />
                       </div>
                     </div>
                   </div>
                   
-                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-                    <h3 className="font-medium text-sm text-white mb-3">Condiciones / Textos Adicionales</h3>
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
+                    <h3 className="font-medium text-sm text-[#222] mb-3">Condiciones / Textos Adicionales</h3>
                     <div className="flex gap-2 mb-3">
                       <Input 
                         placeholder="Ej: 30% enganche, 12 meses sin intereses..." 
@@ -1303,7 +1303,7 @@ export default function CreatorDashboard() {
                             setNewCondition('');
                           }
                         }}
-                        className="bg-white/10 border-white/20 text-white placeholder:text-white/40" 
+                        className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" 
                       />
                       <Button 
                         type="button" 
@@ -1314,7 +1314,7 @@ export default function CreatorDashboard() {
                             setNewCondition('');
                           }
                         }}
-                        className="bg-black hover:bg-black/90"
+                        className="bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:opacity-90"
                       >
                         <Plus className="w-4 h-4" />
                       </Button>
@@ -1322,8 +1322,8 @@ export default function CreatorDashboard() {
                     {formData.conditions.length > 0 && (
                       <div className="space-y-2">
                         {formData.conditions.map((cond, i) => (
-                          <div key={i} className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2">
-                            <span className="text-sm text-white/80 flex-1">{cond}</span>
+                          <div key={i} className="flex items-center gap-2 bg-[#f7f7f7] rounded-lg px-3 py-2">
+                            <span className="text-sm text-[#444] flex-1">{cond}</span>
                             <button onClick={() => setFormData(prev => ({ ...prev, conditions: prev.conditions.filter((_, idx) => idx !== i) }))} className="text-red-400 hover:text-red-300">
                               <X className="w-4 h-4" />
                             </button>
@@ -1333,25 +1333,25 @@ export default function CreatorDashboard() {
                     )}
                   </div>
 
-                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-                    <h3 className="font-medium text-sm text-white mb-3">Enlaces</h3>
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
+                    <h3 className="font-medium text-sm text-[#222] mb-3">Enlaces</h3>
                     <div className="space-y-2">
                       <div>
-                        <label className="text-xs text-white/50">URL Video (YouTube/Vimeo)</label>
-                        <Input placeholder="https://..." value={formData.videoUrl} onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                        <label className="text-xs text-[#717171]">URL Video (YouTube/Vimeo)</label>
+                        <Input placeholder="https://..." value={formData.videoUrl} onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
                       </div>
                       <div>
-                        <label className="text-xs text-white/50">URL Mapa (Google Maps)</label>
-                        <Input placeholder="https://..." value={formData.mapUrl} onChange={(e) => setFormData(prev => ({ ...prev, mapUrl: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                        <label className="text-xs text-[#717171]">URL Mapa (Google Maps)</label>
+                        <Input placeholder="https://..." value={formData.mapUrl} onChange={(e) => setFormData(prev => ({ ...prev, mapUrl: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-                    <h3 className="font-medium text-sm text-white mb-3">Imágenes</h3>
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
+                    <h3 className="font-medium text-sm text-[#222] mb-3">Imágenes</h3>
                     <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
-                    <button onClick={() => fileInputRef.current?.click()} disabled={uploadingImage} className="w-full border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:bg-white/5">
-                      {uploadingImage ? <Loader2 className="w-6 h-6 animate-spin mx-auto text-white/70" /> : <><Upload className="w-6 h-6 mx-auto mb-1 text-white/40" /><p className="text-xs text-white/50">Subir imágenes</p></>}
+                    <button onClick={() => fileInputRef.current?.click()} disabled={uploadingImage} className="w-full border-2 border-dashed border-[#ddd] rounded-lg p-6 text-center hover:bg-[#f7f7f7]">
+                      {uploadingImage ? <Loader2 className="w-6 h-6 animate-spin mx-auto text-[#555]" /> : <><Upload className="w-6 h-6 mx-auto mb-1 text-[#999]" /><p className="text-xs text-[#717171]">Subir imágenes</p></>}
                     </button>
                     {formData.images.length > 0 && (
                       <div className="grid grid-cols-4 gap-2 mt-3">
@@ -1367,11 +1367,11 @@ export default function CreatorDashboard() {
                     )}
                   </div>
 
-                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-                    <h3 className="font-medium text-sm text-white mb-3">Videos</h3>
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
+                    <h3 className="font-medium text-sm text-[#222] mb-3">Videos</h3>
                     <input ref={videoInputRef} type="file" accept="video/*" multiple onChange={handleVideoUpload} className="hidden" />
-                    <button onClick={() => videoInputRef.current?.click()} disabled={uploadingVideo} className="w-full border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:bg-white/5">
-                      {uploadingVideo ? <Loader2 className="w-5 h-5 animate-spin mx-auto text-white/70" /> : <><Video className="w-5 h-5 mx-auto mb-1 text-white/40" /><p className="text-xs text-white/50">Subir videos</p></>}
+                    <button onClick={() => videoInputRef.current?.click()} disabled={uploadingVideo} className="w-full border-2 border-dashed border-[#ddd] rounded-lg p-4 text-center hover:bg-[#f7f7f7]">
+                      {uploadingVideo ? <Loader2 className="w-5 h-5 animate-spin mx-auto text-[#555]" /> : <><Video className="w-5 h-5 mx-auto mb-1 text-[#999]" /><p className="text-xs text-[#717171]">Subir videos</p></>}
                     </button>
                     {formData.videos.length > 0 && (
                       <div className="grid grid-cols-2 gap-2 mt-3">
@@ -1387,34 +1387,34 @@ export default function CreatorDashboard() {
                     )}
                   </div>
 
-                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-medium text-sm text-white">Semanas Apartadas (Creador)</h3>
-                      <span className="text-xs text-white/70 bg-black/20 px-2 py-1 rounded-full">{formData.creatorBlockedWeeks.length} apartadas</span>
+                      <h3 className="font-medium text-sm text-[#222]">Semanas Apartadas (Creador)</h3>
+                      <span className="text-xs text-[#555] bg-[#059669]/10 px-2 py-1 rounded-full">{formData.creatorBlockedWeeks.length} apartadas</span>
                     </div>
-                    <p className="text-xs text-white/50 mb-3">Semanas reservadas internamente. Se muestran en morado.</p>
+                    <p className="text-xs text-[#717171] mb-3">Semanas reservadas internamente. Se muestran en morado.</p>
                     <div className="grid grid-cols-13 gap-1">
                       {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
-                        <button key={week} onClick={() => toggleCreatorBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.creatorBlockedWeeks.includes(week) ? "bg-black text-white" : formData.blockedWeeks.includes(week) ? "bg-[#888]/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
+                        <button key={week} onClick={() => toggleCreatorBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.creatorBlockedWeeks.includes(week) ? "bg-black text-white" : formData.blockedWeeks.includes(week) ? "bg-[#888]/50 text-[#717171] cursor-not-allowed" : "bg-[#f0f0f0] text-[#717171] hover:bg-[#e0e0e0]")}>
                           {week}
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-medium text-sm text-white">Bloquear Semanas (No disponibles)</h3>
-                      <Button variant="outline" size="sm" onClick={() => setShowWeekBlocker(!showWeekBlocker)} className="border-white/20 text-white hover:bg-white/10">
+                      <h3 className="font-medium text-sm text-[#222]">Bloquear Semanas (No disponibles)</h3>
+                      <Button variant="outline" size="sm" onClick={() => setShowWeekBlocker(!showWeekBlocker)} className="border-[#ddd] text-[#222] hover:bg-[#f0f0f0]">
                         <CalendarOff className="w-3.5 h-3.5 mr-1" /> {formData.blockedWeeks.length}
                       </Button>
                     </div>
                     {showWeekBlocker && (
                       <>
-                        <p className="text-xs text-white/50 mb-3">Semanas no disponibles para reserva. Se muestran en rojo.</p>
+                        <p className="text-xs text-[#717171] mb-3">Semanas no disponibles para reserva. Se muestran en rojo.</p>
                         <div className="grid grid-cols-13 gap-1">
                           {Array.from({ length: 52 }, (_, i) => i + 1).map(week => (
-                            <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-[#888] text-white" : formData.creatorBlockedWeeks.includes(week) ? "bg-black/50 text-white/50 cursor-not-allowed" : "bg-white/10 text-white/60 hover:bg-white/20")}>
+                            <button key={week} onClick={() => toggleBlockedWeek(week)} className={cn("w-6 h-6 rounded text-[10px] font-medium", formData.blockedWeeks.includes(week) ? "bg-[#888] text-white" : formData.creatorBlockedWeeks.includes(week) ? "bg-black/50 text-[#717171] cursor-not-allowed" : "bg-[#f0f0f0] text-[#717171] hover:bg-[#e0e0e0]")}>
                               {week}
                             </button>
                           ))}
@@ -1423,11 +1423,11 @@ export default function CreatorDashboard() {
                     )}
                   </div>
 
-                  <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-                    <h3 className="font-medium text-sm text-white mb-3">Amenidades</h3>
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
+                    <h3 className="font-medium text-sm text-[#222] mb-3">Amenidades</h3>
                     <div className="flex flex-wrap gap-2">
                       {AMENITIES_LIST.map((amenity) => (
-                        <button key={amenity} onClick={() => toggleAmenity(amenity)} className={cn("px-3 py-1.5 rounded-full text-xs font-medium border", formData.amenities.includes(amenity) ? "bg-black text-white border-white/20" : "bg-white/5 border-white/20 text-white/70")}>
+                        <button key={amenity} onClick={() => toggleAmenity(amenity)} className={cn("px-3 py-1.5 rounded-full text-xs font-medium border", formData.amenities.includes(amenity) ? "bg-[#059669] text-white border-[#059669]" : "bg-[#f7f7f7] border-[#ddd] text-[#555]")}>
                           {formData.amenities.includes(amenity) && <Check className="w-3 h-3 inline mr-1" />}{amenity}
                         </button>
                       ))}
@@ -1435,7 +1435,7 @@ export default function CreatorDashboard() {
                   </div>
 
                   <div className="pb-8">
-                    <Button onClick={handleSubmit} disabled={createMutation.isPending || updateMutation.isPending} className="w-full h-12 bg-black hover:bg-black/90">
+                    <Button onClick={handleSubmit} disabled={createMutation.isPending || updateMutation.isPending} className="w-full h-12 bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:opacity-90">
                       {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Save className="w-4 h-4 mr-2" />{editingProperty ? 'Guardar' : 'Publicar'}</>}
                     </Button>
                   </div>
@@ -1448,48 +1448,48 @@ export default function CreatorDashboard() {
         {/* NAVIGATION TAB */}
         {activeTab === 'navigation' && (
           <div className="space-y-4">
-            <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-              <h3 className="font-semibold text-white mb-4">Botones de Navegación</h3>
-              <p className="text-xs text-white/50 mb-4">Estos botones aparecen en la página de inicio</p>
+            <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
+              <h3 className="font-semibold text-[#222] mb-4">Botones de Navegación</h3>
+              <p className="text-xs text-[#717171] mb-4">Estos botones aparecen en la página de inicio</p>
               
               <div className="space-y-3 mb-4">
-                <Input placeholder="Nombre (ES)" value={navForm.name} onChange={(e) => setNavForm(prev => ({ ...prev, name: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
-                <Input placeholder="Nombre (EN)" value={navForm.nameEn} onChange={(e) => setNavForm(prev => ({ ...prev, nameEn: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
-                <Input placeholder="Link (ej: /last-minute-capital)" value={navForm.link} onChange={(e) => setNavForm(prev => ({ ...prev, link: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
-                <Input type="number" placeholder="Posición" value={navForm.position} onChange={(e) => setNavForm(prev => ({ ...prev, position: Number(e.target.value) }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                <Input placeholder="Nombre (ES)" value={navForm.name} onChange={(e) => setNavForm(prev => ({ ...prev, name: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
+                <Input placeholder="Nombre (EN)" value={navForm.nameEn} onChange={(e) => setNavForm(prev => ({ ...prev, nameEn: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
+                <Input placeholder="Link (ej: /last-minute-capital)" value={navForm.link} onChange={(e) => setNavForm(prev => ({ ...prev, link: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
+                <Input type="number" placeholder="Posición" value={navForm.position} onChange={(e) => setNavForm(prev => ({ ...prev, position: Number(e.target.value) }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
                 
                 <input ref={navImageRef} type="file" accept="image/*" onChange={handleNavImageUpload} className="hidden" />
-                <button onClick={() => navImageRef.current?.click()} disabled={uploadingNavImage} className="w-full border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:bg-white/5">
-                  {uploadingNavImage ? <Loader2 className="w-5 h-5 animate-spin mx-auto text-white/70" /> : navForm.image ? (
+                <button onClick={() => navImageRef.current?.click()} disabled={uploadingNavImage} className="w-full border-2 border-dashed border-[#ddd] rounded-lg p-4 text-center hover:bg-[#f7f7f7]">
+                  {uploadingNavImage ? <Loader2 className="w-5 h-5 animate-spin mx-auto text-[#555]" /> : navForm.image ? (
                     <img src={navForm.image} alt="" className="h-20 mx-auto object-cover rounded" />
                   ) : (
-                    <><Image className="w-5 h-5 mx-auto mb-1 text-white/40" /><p className="text-xs text-white/50">Subir imagen</p></>
+                    <><Image className="w-5 h-5 mx-auto mb-1 text-[#999]" /><p className="text-xs text-[#717171]">Subir imagen</p></>
                   )}
                 </button>
 
-                <Button onClick={() => saveNavMutation.mutate({ ...navForm, isActive: true })} disabled={!navForm.name || !navForm.link} className="w-full bg-black hover:bg-black/90">
+                <Button onClick={() => saveNavMutation.mutate({ ...navForm, isActive: true })} disabled={!navForm.name || !navForm.link} className="w-full bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:opacity-90">
                   <Plus className="w-4 h-4 mr-1" /> {editingNavButton ? 'Actualizar' : 'Agregar'}
                 </Button>
               </div>
             </div>
 
-            <div className="bg-white/5 rounded-xl border border-white/10 divide-y divide-white/10">
+            <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] divide-y divide-white/10">
               {navButtons.length === 0 ? (
                 <div className="p-8 text-center">
-                  <Navigation className="w-8 h-8 mx-auto mb-2 text-white/30" />
-                  <p className="text-sm text-white/50">No hay botones</p>
+                  <Navigation className="w-8 h-8 mx-auto mb-2 text-[#bbb]" />
+                  <p className="text-sm text-[#717171]">No hay botones</p>
                 </div>
               ) : (
                 navButtons.sort((a, b) => a.position - b.position).map(btn => (
                   <div key={btn.id} className="p-3 flex items-center gap-3">
-                    <div className="w-14 h-10 rounded bg-white/10 overflow-hidden flex-shrink-0">
-                      {btn.image ? <img src={btn.image} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-white/30"><Image className="w-4 h-4" /></div>}
+                    <div className="w-14 h-10 rounded bg-[#f0f0f0] overflow-hidden flex-shrink-0">
+                      {btn.image ? <img src={btn.image} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-[#bbb]"><Image className="w-4 h-4" /></div>}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm text-white truncate">{btn.name}</p>
-                      <p className="text-xs text-white/50 truncate">{btn.link}</p>
+                      <p className="font-medium text-sm text-[#222] truncate">{btn.name}</p>
+                      <p className="text-xs text-[#717171] truncate">{btn.link}</p>
                     </div>
-                    <Button variant="ghost" size="icon" className="h-9 w-9 text-white/70 hover:bg-white/10" onClick={() => { setEditingNavButton(btn); setNavForm({ name: btn.name, nameEn: btn.nameEn || '', link: btn.link, image: btn.image || '', position: btn.position }); }}>
+                    <Button variant="ghost" size="icon" className="h-9 w-9 text-[#555] hover:bg-[#f0f0f0]" onClick={() => { setEditingNavButton(btn); setNavForm({ name: btn.name, nameEn: btn.nameEn || '', link: btn.link, image: btn.image || '', position: btn.position }); }}>
                       <Edit className="w-4 h-4" />
                     </Button>
                     <Button variant="ghost" size="icon" className="h-9 w-9 text-red-400 hover:bg-red-500/20" onClick={() => deleteNavMutation.mutate(btn.id)}>
@@ -1505,22 +1505,22 @@ export default function CreatorDashboard() {
         {/* CONTENT TAB */}
         {activeTab === 'content' && (
           <div className="space-y-4">
-            <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-              <h3 className="font-semibold text-white mb-4">Textos del Sitio</h3>
-              <p className="text-xs text-white/50 mb-4">Edita todos los textos de la app</p>
+            <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
+              <h3 className="font-semibold text-[#222] mb-4">Textos del Sitio</h3>
+              <p className="text-xs text-[#717171] mb-4">Edita todos los textos de la app</p>
               
               <div className="space-y-4">
                 {DEFAULT_TEXTS.map(({ key, label, default: defaultVal }) => (
                   <div key={key}>
-                    <label className="text-xs text-white/50 mb-1 block">{label}</label>
+                    <label className="text-xs text-[#717171] mb-1 block">{label}</label>
                     <div className="flex gap-2">
                       <Input
                         value={textValues[key] ?? defaultVal}
                         onChange={(e) => setTextValues(prev => ({ ...prev, [key]: e.target.value }))}
                         placeholder={defaultVal}
-                        className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/40"
+                        className="flex-1 bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]"
                       />
-                      <Button size="sm" variant="outline" onClick={() => saveTextMutation.mutate({ key, value: textValues[key] ?? defaultVal })} className="border-white/20 text-white hover:bg-white/10">
+                      <Button size="sm" variant="outline" onClick={() => saveTextMutation.mutate({ key, value: textValues[key] ?? defaultVal })} className="border-[#ddd] text-[#222] hover:bg-[#f0f0f0]">
                         <Save className="w-3.5 h-3.5" />
                       </Button>
                     </div>
@@ -1534,12 +1534,12 @@ export default function CreatorDashboard() {
         {/* BOOKINGS TAB */}
         {activeTab === 'bookings' && (
           <div>
-            <p className="text-sm text-white/50 mb-4">{bookings.length} reservas</p>
+            <p className="text-sm text-[#717171] mb-4">{bookings.length} reservas</p>
             
             {bookings.length === 0 ? (
-              <div className="bg-white/5 rounded-xl border border-white/10 border-dashed p-12 text-center">
-                <Calendar className="w-12 h-12 mx-auto mb-4 text-white/30" />
-                <p className="text-white/50">Sin reservas</p>
+              <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] border-dashed p-12 text-center">
+                <Calendar className="w-12 h-12 mx-auto mb-4 text-[#bbb]" />
+                <p className="text-[#717171]">Sin reservas</p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -1549,24 +1549,24 @@ export default function CreatorDashboard() {
                   const isExpired = expiresAt < new Date();
                   
                   return (
-                    <div key={booking.id} className={cn("bg-white/5 rounded-xl border border-white/10 p-4", isExpired && "opacity-50")}>
+                    <div key={booking.id} className={cn("bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4", isExpired && "opacity-50")}>
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0 flex-1">
-                          <h3 className="font-medium text-sm text-white truncate">{property?.title || 'Propiedad'}</h3>
-                          <p className="text-xs text-white/50 truncate">{booking.email}</p>
-                          {booking.name && <p className="text-xs text-white/60">{booking.name}</p>}
+                          <h3 className="font-medium text-sm text-[#222] truncate">{property?.title || 'Propiedad'}</h3>
+                          <p className="text-xs text-[#717171] truncate">{booking.email}</p>
+                          {booking.name && <p className="text-xs text-[#717171]">{booking.name}</p>}
                           <div className="flex flex-wrap gap-1 mt-2">
                             {booking.selectedWeeks.map(w => (
-                              <span key={w} className="bg-white/10 text-white/70 px-2 py-0.5 rounded text-xs">Sem {w}</span>
+                              <span key={w} className="bg-[#f0f0f0] text-[#555] px-2 py-0.5 rounded text-xs">Sem {w}</span>
                             ))}
                           </div>
                         </div>
                         <div className="flex flex-col items-end gap-2 flex-shrink-0">
-                          <span className={cn("px-2 py-1 rounded-full text-xs font-medium", isExpired ? "bg-white/10 text-white/60" : "bg-black/20 text-white/70")}>
+                          <span className={cn("px-2 py-1 rounded-full text-xs font-medium", isExpired ? "bg-[#f0f0f0] text-[#717171]" : "bg-[#059669]/10 text-[#059669]")}>
                             {isExpired ? 'Expirada' : 'Activa'}
                           </span>
                           {!isExpired && (
-                            <Button size="sm" onClick={() => sendWhatsAppNotification(booking)} className="bg-black hover:bg-black text-xs h-8">
+                            <Button size="sm" onClick={() => sendWhatsAppNotification(booking)} className="bg-gradient-to-r from-[#059669] to-[#06b6d4] text-xs h-8">
                               <MessageCircle className="w-3.5 h-3.5 mr-1" /> WA
                             </Button>
                           )}
@@ -1584,64 +1584,64 @@ export default function CreatorDashboard() {
         {activeTab === 'stats' && (
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
+              <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-3 sm:p-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-black/5/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-[#059669]/10 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Building className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-lg sm:text-xl font-bold text-white">{properties.length}</p>
-                    <p className="text-[10px] sm:text-xs text-white/50">Propiedades</p>
+                    <p className="text-lg sm:text-xl font-bold text-[#222]">{properties.length}</p>
+                    <p className="text-[10px] sm:text-xs text-[#717171]">Propiedades</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
+              <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-3 sm:p-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-black/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-white/70" />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-[#059669]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-[#555]" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-lg sm:text-xl font-bold text-white">{bookings.filter(b => new Date(b.expiresAt) > new Date()).length}</p>
-                    <p className="text-[10px] sm:text-xs text-white/50">Reservas</p>
+                    <p className="text-lg sm:text-xl font-bold text-[#222]">{bookings.filter(b => new Date(b.expiresAt) > new Date()).length}</p>
+                    <p className="text-[10px] sm:text-xs text-[#717171]">Reservas</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
+              <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-3 sm:p-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-black/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-white/70" />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-[#059669]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-[#555]" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-lg sm:text-xl font-bold text-white">{totalViews.toLocaleString()}</p>
-                    <p className="text-[10px] sm:text-xs text-white/50">Vistas</p>
+                    <p className="text-lg sm:text-xl font-bold text-[#222]">{totalViews.toLocaleString()}</p>
+                    <p className="text-[10px] sm:text-xs text-[#717171]">Vistas</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-white/5 rounded-xl border border-white/10 p-3 sm:p-4">
+              <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-3 sm:p-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-white/70" />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-[#f0f0f0] rounded-lg flex items-center justify-center flex-shrink-0">
+                    <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-[#555]" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-lg sm:text-xl font-bold text-white">${(properties.reduce((sum, p) => sum + (p.price || 650000), 0) / 1000).toFixed(0)}K</p>
-                    <p className="text-[10px] sm:text-xs text-white/50">Valor</p>
+                    <p className="text-lg sm:text-xl font-bold text-[#222]">${(properties.reduce((sum, p) => sum + (p.price || 650000), 0) / 1000).toFixed(0)}K</p>
+                    <p className="text-[10px] sm:text-xs text-[#717171]">Valor</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-              <h3 className="font-semibold text-white mb-4">Vistas por Propiedad</h3>
+            <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
+              <h3 className="font-semibold text-[#222] mb-4">Vistas por Propiedad</h3>
               <div className="space-y-3">
                 {properties.sort((a, b) => (b.viewCount || 0) - (a.viewCount || 0)).map(property => (
                   <div key={property.id} className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded bg-white/10 overflow-hidden flex-shrink-0">
-                      {property.images?.[0] ? <img src={property.images[0]} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><Image className="w-4 h-4 text-white/30" /></div>}
+                    <div className="w-10 h-10 rounded bg-[#f0f0f0] overflow-hidden flex-shrink-0">
+                      {property.images?.[0] ? <img src={property.images[0]} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><Image className="w-4 h-4 text-[#bbb]" /></div>}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm text-white truncate">{property.title}</p>
+                      <p className="font-medium text-sm text-[#222] truncate">{property.title}</p>
                     </div>
-                    <p className="font-bold text-sm text-white/70">{(property.viewCount || 0).toLocaleString()}</p>
+                    <p className="font-bold text-sm text-[#555]">{(property.viewCount || 0).toLocaleString()}</p>
                   </div>
                 ))}
               </div>
@@ -1686,7 +1686,7 @@ export default function CreatorDashboard() {
                   <span className="flex items-center gap-1"><Bath className="w-4 h-4" /> {formData.bathrooms}</span>
                   <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {formData.maxGuests}</span>
                 </div>
-                <p className="text-2xl font-bold text-white/70 mb-4">${formData.price.toLocaleString()} USD</p>
+                <p className="text-2xl font-bold text-[#555] mb-4">${formData.price.toLocaleString()} USD</p>
                 <p className="text-[#666] whitespace-pre-wrap font-light">{formData.description}</p>
               </div>
             </div>

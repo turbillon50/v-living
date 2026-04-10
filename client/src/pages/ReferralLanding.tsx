@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useParams, useLocation, Link } from 'wouter';
+import { useEffect } from 'react';
+import { useParams, Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { useLanguage } from '@/lib/LanguageContext';
 import { Header } from '@/components/Header';
@@ -8,7 +8,6 @@ import { Users, ArrowRight, Shield, TrendingUp, Gift } from 'lucide-react';
 export default function ReferralLanding() {
   const { code } = useParams<{ code: string }>();
   const { language } = useLanguage();
-  const [, navigate] = useLocation();
 
   const { data: referrer, isLoading } = useQuery({
     queryKey: ['referral', code],
@@ -27,39 +26,39 @@ export default function ReferralLanding() {
   }, [code]);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-white">
       <Header />
 
       <main className="pb-32">
         <div className="max-w-lg mx-auto px-5 pt-8">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 mx-auto mb-5 bg-gradient-to-br from-white/10 to-white/5 border border-white/10 rounded-full flex items-center justify-center">
-              <Users className="w-7 h-7 text-white/70" />
+            <div className="w-16 h-16 mx-auto mb-5 bg-gradient-to-br from-[#059669]/10 to-[#06b6d4]/10 border border-[#059669]/15 rounded-full flex items-center justify-center">
+              <Users className="w-7 h-7 text-[#059669]" />
             </div>
             
             {isLoading ? (
-              <div className="h-6 w-48 bg-white/10 rounded mx-auto animate-pulse" />
+              <div className="h-6 w-48 bg-[#f7f7f7] rounded mx-auto animate-pulse" />
             ) : referrer ? (
               <>
-                <p className="text-xs text-white/50 uppercase tracking-[0.2em] mb-2">
+                <p className="text-xs text-[#999] uppercase tracking-[0.2em] mb-2">
                   {language === 'es' ? 'Invitación de' : 'Invitation from'}
                 </p>
-                <h1 className="text-2xl font-light tracking-tight" data-testid="text-referrer-name">
+                <h1 className="text-2xl font-light tracking-tight text-[#222]" data-testid="text-referrer-name">
                   {referrer.name}
                 </h1>
               </>
             ) : (
-              <h1 className="text-2xl font-light tracking-tight">
+              <h1 className="text-2xl font-light tracking-tight text-[#222]">
                 {language === 'es' ? 'Enlace de invitación' : 'Invitation link'}
               </h1>
             )}
           </div>
 
-          <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-6 mb-6">
-            <h2 className="text-base font-semibold mb-1 text-center">FRACTIONAL LIVING</h2>
-            <p className="text-[10px] text-white/30 uppercase tracking-[0.3em] text-center mb-5">All Global Holding LLC</p>
+          <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-6 mb-6">
+            <h2 className="text-base font-semibold mb-1 text-center text-[#222]">FRACTIONAL LIVING</h2>
+            <p className="text-[10px] text-[#999] uppercase tracking-[0.3em] text-center mb-5">All Global Holding LLC</p>
 
-            <p className="text-sm text-white/60 leading-relaxed text-center mb-6">
+            <p className="text-sm text-[#717171] leading-relaxed text-center mb-6">
               {language === 'es' 
                 ? 'Vive, invierte y construye patrimonio en el Caribe bajo un modelo fractional real, legal y heredable.'
                 : 'Live, invest and build wealth in the Caribbean under a real, legal and inheritable fractional model.'}
@@ -72,8 +71,8 @@ export default function ReferralLanding() {
                 { icon: <Gift className="w-4 h-4" />, es: 'Gana 4% en comisiones por tu red', en: 'Earn 4% commissions from your network' },
                 { icon: <Users className="w-4 h-4" />, es: 'Red de referidos a 5 niveles', en: '5-level referral network' },
               ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3 text-sm text-white/70">
-                  <div className="text-white/70">{item.icon}</div>
+                <div key={i} className="flex items-center gap-3 text-sm text-[#555]">
+                  <div className="text-[#059669]">{item.icon}</div>
                   <span>{language === 'es' ? item.es : item.en}</span>
                 </div>
               ))}
@@ -82,7 +81,7 @@ export default function ReferralLanding() {
 
           <Link href="/registro">
             <div 
-              className="w-full py-4 bg-white text-black rounded-xl text-sm font-medium text-center cursor-pointer hover:bg-white/90 transition-colors flex items-center justify-center gap-2"
+              className="w-full py-4 bg-gradient-to-r from-[#059669] to-[#06b6d4] text-white rounded-xl text-sm font-medium text-center cursor-pointer hover:from-[#047857] hover:to-[#0891b2] transition-colors flex items-center justify-center gap-2"
               data-testid="button-register-referral"
             >
               {language === 'es' ? 'Crear mi cuenta gratis' : 'Create my free account'}
@@ -90,7 +89,7 @@ export default function ReferralLanding() {
             </div>
           </Link>
 
-          <p className="text-center text-[10px] text-white/30 mt-4">
+          <p className="text-center text-[10px] text-[#bbb] mt-4">
             {language === 'es' 
               ? 'Al registrarte, recibirás tu propio código para compartir y ganar.' 
               : 'By registering, you\'ll receive your own code to share and earn.'}
