@@ -2,7 +2,7 @@ import { Link } from 'wouter';
 import { Header } from '@/components/Header';
 import { AGHFooter } from '@/components/AGHFooter';
 import { useLanguage } from '@/lib/LanguageContext';
-import { ChevronRight, ArrowRight } from 'lucide-react';
+import { ChevronRight, ArrowRight, Star, Clock } from 'lucide-react';
 
 const experienceCategories = [
   { 
@@ -84,6 +84,69 @@ const experienceCategories = [
     benefit: '30% OFF o GRATIS',
     image: '/exp-privadas.jpg',
     href: '/exp-privadas',
+  },
+];
+
+const featuredExperiences = [
+  {
+    id: 'exp-1',
+    title: 'Sunset Yacht Charter',
+    titleEs: 'Yate al Atardecer',
+    image: '/exp-yates.jpg',
+    price: '$2,500 MXN',
+    duration: '4h',
+    rating: 4.9,
+    reviews: 48,
+  },
+  {
+    id: 'exp-2',
+    title: 'Private Chef Dinner',
+    titleEs: 'Cena con Chef Privado',
+    image: '/exp-restaurantes.jpg',
+    price: '$3,800 MXN',
+    duration: '3h',
+    rating: 5.0,
+    reviews: 32,
+  },
+  {
+    id: 'exp-3',
+    title: 'Cenote Expedition',
+    titleEs: 'Expedición a Cenotes',
+    image: '/exp-privadas.jpg',
+    price: '$1,200 MXN',
+    duration: '6h',
+    rating: 4.8,
+    reviews: 76,
+  },
+  {
+    id: 'exp-4',
+    title: 'Luxury Car Day',
+    titleEs: 'Día en Auto de Lujo',
+    image: '/auto-super.jpg',
+    price: '$4,500 MXN',
+    duration: '8h',
+    rating: 4.9,
+    reviews: 21,
+  },
+  {
+    id: 'exp-5',
+    title: 'Tulum Ruins & Beach',
+    titleEs: 'Ruinas de Tulum y Playa',
+    image: '/exp-eventos.jpg',
+    price: '$1,800 MXN',
+    duration: '5h',
+    rating: 4.7,
+    reviews: 54,
+  },
+  {
+    id: 'exp-6',
+    title: 'VIP Nightlife Tour',
+    titleEs: 'Tour Nocturno VIP',
+    image: '/exp-concierge.jpg',
+    price: '$2,200 MXN',
+    duration: '5h',
+    rating: 4.8,
+    reviews: 39,
   },
 ];
 
@@ -176,6 +239,44 @@ export default function Experiences() {
                 </div>
               </div>
             </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="px-5 py-6 max-w-5xl mx-auto" data-testid="section-featured-experiences">
+        <h2 className="text-xl text-[#222] font-semibold mb-5" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }}>
+          {language === 'es' ? 'Experiencias Destacadas' : 'Featured Experiences'}
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {featuredExperiences.map(exp => (
+            <div key={exp.id} className="bg-white rounded-xl overflow-hidden border border-[#ebebeb] hover:shadow-lg transition-all group" data-testid={`card-featured-${exp.id}`}>
+              <div className="relative aspect-[16/10] overflow-hidden">
+                <img src={exp.image} alt={language === 'es' ? exp.titleEs : exp.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                <span className="absolute top-3 left-3 bg-white text-[#222] text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-sm">
+                  {language === 'es' ? 'MIEMBRO' : 'MEMBER'}
+                </span>
+              </div>
+              <div className="p-4">
+                <div className="flex items-start justify-between mb-1">
+                  <h3 className="text-[#222] font-semibold text-sm truncate flex-1">
+                    {language === 'es' ? exp.titleEs : exp.title}
+                  </h3>
+                  <div className="flex items-center gap-1 ml-2 flex-shrink-0">
+                    <Star className="w-3 h-3 fill-[#222] text-[#222]" />
+                    <span className="text-xs font-medium text-[#222]">{exp.rating}</span>
+                    <span className="text-[10px] text-[#717171]">({exp.reviews})</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 text-[#717171] text-xs mb-2">
+                  <Clock className="w-3 h-3" />
+                  <span>{exp.duration}</span>
+                </div>
+                <p className="text-[#222] font-semibold text-sm">
+                  {exp.price}
+                  <span className="text-[#717171] font-normal text-xs ml-1">/ {language === 'es' ? 'persona' : 'person'}</span>
+                </p>
+              </div>
+            </div>
           ))}
         </div>
       </section>
