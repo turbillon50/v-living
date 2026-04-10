@@ -33,15 +33,34 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<'perfil' | 'red' | 'comisiones' | 'compartir'>('perfil');
   const [copied, setCopied] = useState(false);
   const [expandedLevel, setExpandedLevel] = useState<number | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
 
   const storedUser = localStorage.getItem('fl_user') || localStorage.getItem('fractional_user');
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
 
   useEffect(() => {
-    if (!currentUser) {
-      navigate('/login');
+    if (currentUser) {
+      setAuthChecked(true);
+      return;
     }
-  }, [currentUser, navigate]);
+    let attempts = 0;
+    const maxAttempts = 10;
+    const interval = setInterval(() => {
+      attempts++;
+      const retryUser = localStorage.getItem('fl_user') || localStorage.getItem('fractional_user');
+      if (retryUser) {
+        clearInterval(interval);
+        setAuthChecked(true);
+        window.location.reload();
+        return;
+      }
+      if (attempts >= maxAttempts) {
+        clearInterval(interval);
+        navigate('/login');
+      }
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
 
   const { data: dashboardData, isLoading } = useQuery({
     queryKey: ['referral-dashboard', currentUser?.id],
@@ -81,6 +100,17 @@ export default function Dashboard() {
       copyLink();
     }
   };
+
+  if (!currentUser && !authChecked) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-10 h-10 border-2 border-[#059669] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm text-[#717171]">{language === 'es' ? 'Cargando...' : 'Loading...'}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!currentUser) return null;
 

@@ -72,14 +72,11 @@ export function Header() {
 
             <button
               onClick={() => setShowSearch(true)}
-              className="flex md:hidden items-center gap-3 flex-1 mx-4 bg-white border border-[#dddddd] rounded-full py-2.5 px-4 shadow-sm active:shadow-none transition-shadow"
+              className="flex md:hidden items-center gap-2 flex-1 mx-2 max-w-[200px] bg-white border border-[#dddddd] rounded-full py-2 px-3 shadow-sm active:shadow-none transition-shadow"
               data-testid="button-search-mobile"
             >
-              <Search className="w-4 h-4 text-[#222]" />
-              <div className="text-left">
-                <p className="text-xs font-semibold text-[#222]">{language === 'es' ? '¿A dónde vas?' : 'Where to?'}</p>
-                <p className="text-[10px] text-[#717171]">{language === 'es' ? 'Destino · Semana · Huéspedes' : 'Destination · Week · Guests'}</p>
-              </div>
+              <Search className="w-3.5 h-3.5 text-[#222] flex-shrink-0" />
+              <span className="text-xs font-semibold text-[#222] truncate">{language === 'es' ? '¿A dónde vas?' : 'Where to?'}</span>
             </button>
 
             <div className="flex items-center gap-1">
@@ -145,6 +142,16 @@ export function Header() {
                       {language === 'es' ? 'Experiencias' : 'Experiences'}
                     </DropdownMenuItem>
                   </Link>
+                  <Link href="/creator">
+                    <DropdownMenuItem className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]" data-testid="menu-admin">
+                      <Lock className="w-3.5 h-3.5 mr-2" />
+                      {language === 'es' ? 'Administración' : 'Admin'}
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuItem onClick={() => setLanguage(language === 'es' ? 'en' : 'es')} className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7] md:hidden">
+                    <Globe className="w-3.5 h-3.5 mr-2" />
+                    {language === 'es' ? 'English' : 'Español'}
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={openWhatsApp} className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]">
                     {language === 'es' ? 'Centro de Ayuda' : 'Help Center'}
                   </DropdownMenuItem>

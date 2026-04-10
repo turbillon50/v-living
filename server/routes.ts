@@ -1518,6 +1518,38 @@ NO HAGAS:
     }
   });
 
+  app.get("/api/geocode", verifyCreatorToken, async (req, res) => {
+    try {
+      const { address } = req.query;
+      if (!address) {
+        return res.status(400).json({ error: "address is required" });
+      }
+
+      const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+      if (!apiKey) {
+        return res.status(400).json({ error: "Google Maps API key not configured" });
+      }
+
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address as string)}&key=${apiKey}`;
+      const response = await fetch(url);
+      const data = await response.json() as { status: string; results: Array<{ geometry: { location: { lat: number; lng: number } }; formatted_address: string }> };
+
+      if (data.status !== 'OK' || !data.results?.length) {
+        return res.status(404).json({ error: "Address not found" });
+      }
+
+      const result = data.results[0];
+      res.json({
+        latitude: result.geometry.location.lat,
+        longitude: result.geometry.location.lng,
+        formattedAddress: result.formatted_address,
+      });
+    } catch (error) {
+      console.error("Geocoding error:", error);
+      res.status(500).json({ error: "Geocoding failed" });
+    }
+  });
+
   app.get("/api/nearby-places", async (req, res) => {
     try {
       const { lat, lng, category } = req.query;

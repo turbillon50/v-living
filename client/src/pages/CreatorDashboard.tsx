@@ -605,6 +605,7 @@ export default function CreatorDashboard() {
     priceMidSeason: null as number | null,
     priceLowSeason: null as number | null,
     videoUrl: '',
+    address: '',
     latitude: '',
     longitude: '',
     mapUrl: '',
@@ -615,6 +616,7 @@ export default function CreatorDashboard() {
     tag: '',
     isFeatured: false
   });
+  const [geocoding, setGeocoding] = useState(false);
   
   const [newCondition, setNewCondition] = useState('');
 
@@ -829,7 +831,7 @@ export default function CreatorDashboard() {
       images: [], videos: [], amenities: [], conditions: [], blockedWeeks: [], creatorBlockedWeeks: [],
       price: 650000, fractionPrice: 65000, totalFractions: 14, availableFractions: 14, weeksPerFraction: 3, currency: 'MXN',
       priceHighSeason: null, priceMidSeason: null, priceLowSeason: null,
-      videoUrl: '', latitude: '', longitude: '', mapUrl: '', bedrooms: 2, bathrooms: 2, maxGuests: 6, sqMeters: 150, tag: '', isFeatured: false
+      videoUrl: '', address: '', latitude: '', longitude: '', mapUrl: '', bedrooms: 2, bathrooms: 2, maxGuests: 6, sqMeters: 150, tag: '', isFeatured: false
     });
     setNewCondition('');
     setEditingProperty(null);
@@ -862,6 +864,7 @@ export default function CreatorDashboard() {
       priceMidSeason: property.priceMidSeason,
       priceLowSeason: property.priceLowSeason,
       videoUrl: property.videoUrl || '',
+      address: '',
       latitude: property.latitude || '',
       longitude: property.longitude || '',
       mapUrl: property.mapUrl || '',
@@ -1342,21 +1345,78 @@ export default function CreatorDashboard() {
                   </div>
 
                   <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
+                    <h3 className="font-medium text-sm text-[#222] mb-3">Ubicación en Mapa</h3>
+                    <div className="space-y-3">
+                      <div>
+                        <label className="text-xs text-[#717171] mb-1 block">Dirección completa</label>
+                        <div className="flex gap-2">
+                          <Input
+                            placeholder="Ej: Av. Coba 12, Tulum, Quintana Roo, México"
+                            value={formData.address}
+                            onChange={(e) => setFormData(prev => ({ ...prev, address: e.target.value }))}
+                            className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999] flex-1"
+                            data-testid="input-address"
+                          />
+                          <button
+                            type="button"
+                            disabled={!formData.address || geocoding}
+                            onClick={async () => {
+                              setGeocoding(true);
+                              try {
+                                const res = await fetch(`/api/geocode?address=${encodeURIComponent(formData.address)}`, {
+                                  headers: { 'X-Creator-Token': creatorToken },
+                                });
+                                if (res.ok) {
+                                  const data = await res.json();
+                                  setFormData(prev => ({
+                                    ...prev,
+                                    latitude: String(data.latitude),
+                                    longitude: String(data.longitude),
+                                  }));
+                                  toast({ title: `Ubicación encontrada: ${data.formattedAddress}` });
+                                } else {
+                                  toast({ title: 'Dirección no encontrada', variant: 'destructive' });
+                                }
+                              } catch {
+                                toast({ title: 'Error al buscar dirección', variant: 'destructive' });
+                              }
+                              setGeocoding(false);
+                            }}
+                            className="px-3 py-2 bg-gradient-to-r from-[#059669] to-[#06b6d4] text-white rounded-lg text-xs font-medium hover:opacity-90 disabled:opacity-40 flex items-center gap-1.5 whitespace-nowrap"
+                            data-testid="button-geocode"
+                          >
+                            {geocoding ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <MapPin className="w-3.5 h-3.5" />}
+                            Ubicar
+                          </button>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="text-xs text-[#717171]">Latitud</label>
+                          <Input type="number" step="any" placeholder="20.2114" value={formData.latitude} onChange={(e) => setFormData(prev => ({ ...prev, latitude: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" data-testid="input-latitude" />
+                        </div>
+                        <div>
+                          <label className="text-xs text-[#717171]">Longitud</label>
+                          <Input type="number" step="any" placeholder="-87.4654" value={formData.longitude} onChange={(e) => setFormData(prev => ({ ...prev, longitude: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" data-testid="input-longitude" />
+                        </div>
+                      </div>
+                      {formData.latitude && formData.longitude && (
+                        <div className="bg-white rounded-lg border border-[#ebebeb] p-3 flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center flex-shrink-0">
+                            <MapPin className="w-4 h-4 text-white" />
+                          </div>
+                          <p className="text-xs text-[#059669] font-medium">Coordenadas: {Number(formData.latitude).toFixed(4)}, {Number(formData.longitude).toFixed(4)}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="bg-[#f7f7f7] rounded-xl border border-[#ebebeb] p-4">
                     <h3 className="font-medium text-sm text-[#222] mb-3">Enlaces</h3>
                     <div className="space-y-2">
                       <div>
                         <label className="text-xs text-[#717171]">URL Video (YouTube/Vimeo)</label>
                         <Input placeholder="https://..." value={formData.videoUrl} onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                          <label className="text-xs text-white/50">Latitud</label>
-                          <Input type="number" step="any" placeholder="20.2114" value={formData.latitude} onChange={(e) => setFormData(prev => ({ ...prev, latitude: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" data-testid="input-latitude" />
-                        </div>
-                        <div>
-                          <label className="text-xs text-white/50">Longitud</label>
-                          <Input type="number" step="any" placeholder="-87.4654" value={formData.longitude} onChange={(e) => setFormData(prev => ({ ...prev, longitude: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" data-testid="input-longitude" />
-                        </div>
                       </div>
                       <div>
                         <label className="text-xs text-[#717171]">URL Mapa (fallback)</label>

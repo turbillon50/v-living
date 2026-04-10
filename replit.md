@@ -64,9 +64,16 @@ Features:
 - **Pre-Bookings**: Creation and retrieval of 5-day hold reservations.
 - **Real Estate & Banking**: CRUD for traditional property listings, credit application submission and status updates.
 - **Duffel Travel**: Flight search, hotel search, offer details with 8% markup.
+- **Geocoding**: `/api/geocode?address=...` — converts addresses to lat/lng coordinates via Google Maps Geocoding API (creator-auth required).
 - **Clerk Webhook**: Handles `user.created`, `user.updated`, `user.deleted` events for user synchronization.
 - **ALIX 2.4 Integration**: Provides CRUD for ALIX AI's internal data (properties, leads, bookings, announcements, subscribers) via API key management.
 - **Ecosystem API v1**: Manages cross-platform integration (ALIX AI, Broker Network, Vanddi, Hub) with platform authentication, scoped API keys, webhook system, and bulk data sync capabilities.
+
+### Authentication Flow
+- **Clerk (production)**: Works on `allliving.org` domain with `pk_live_` key. Syncs user to DB via `/api/clerk/sync-user`.
+- **Direct auth (dev)**: Fallback registration/login forms for dev domains (`replit.dev`, `replit.app`, `localhost`).
+- **Auth bridge**: Both systems write to `fl_user` AND `fractional_user` localStorage keys. Dashboard polls localStorage up to 5 seconds before redirecting to login (prevents race condition loop).
+- **Creator auth**: Password-based (`CREATOR_PASSWORD` env var, default: `lumamijuvisado`). Returns session token used for all admin API calls.
 
 ## External Dependencies
 

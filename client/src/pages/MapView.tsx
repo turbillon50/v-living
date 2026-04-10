@@ -41,11 +41,20 @@ function formatPrice(price: number): string {
   return `$${(price / 1000).toFixed(0)}K`;
 }
 
-function createPriceElement(price: number, active = false): HTMLElement {
-  const el = document.createElement('div');
-  el.style.cssText = `display:flex;align-items:center;justify-content:center;min-width:50px;height:30px;padding:0 10px;border-radius:20px;background:${active ? '#0891b2' : '#0a1628'};color:white;font-size:11px;font-weight:600;font-family:Inter,sans-serif;box-shadow:${active ? '0 4px 12px rgba(8,145,178,0.35)' : '0 2px 8px rgba(0,0,0,0.2)'};cursor:pointer;white-space:nowrap;transition:all 0.2s;${active ? 'transform:scale(1.1);' : ''}`;
-  el.textContent = formatPrice(price);
-  return el;
+function createPinElement(price: number, active = false): HTMLElement {
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = `display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:all 0.2s;${active ? 'transform:scale(1.15);' : ''}`;
+
+  const pill = document.createElement('div');
+  pill.style.cssText = `display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;background:${active ? 'linear-gradient(135deg,#059669,#06b6d4)' : '#059669'};color:white;font-size:11px;font-weight:600;font-family:Inter,sans-serif;box-shadow:${active ? '0 4px 14px rgba(5,150,105,0.4)' : '0 2px 8px rgba(5,150,105,0.25)'};white-space:nowrap;`;
+  pill.textContent = formatPrice(price);
+  wrapper.appendChild(pill);
+
+  const pin = document.createElement('div');
+  pin.style.cssText = `width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid ${active ? '#06b6d4' : '#059669'};margin-top:-1px;`;
+  wrapper.appendChild(pin);
+
+  return wrapper;
 }
 
 export default function MapView() {
@@ -100,7 +109,7 @@ export default function MapView() {
           const lng = Number(prop.longitude);
           if (isNaN(lat) || isNaN(lng)) return;
 
-          const content = createPriceElement(prop.fractionPrice || 0);
+          const content = createPinElement(prop.fractionPrice || 0);
 
           const marker = new google.maps.marker.AdvancedMarkerElement({
             map,
@@ -113,10 +122,10 @@ export default function MapView() {
             markersRef.current.forEach((m, id) => {
               const p = properties.find(pr => pr.id === id);
               if (p) {
-                m.content = createPriceElement(p.fractionPrice || 0);
+                m.content = createPinElement(p.fractionPrice || 0);
               }
             });
-            marker.content = createPriceElement(prop.fractionPrice || 0, true);
+            marker.content = createPinElement(prop.fractionPrice || 0, true);
           });
 
           markers.push(marker);
@@ -129,7 +138,7 @@ export default function MapView() {
           renderer: {
             render: ({ count, position }) => {
               const el = document.createElement('div');
-              el.style.cssText = 'display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:#0a1628;color:white;font-size:13px;font-weight:600;font-family:Inter,sans-serif;box-shadow:0 2px 10px rgba(0,0,0,0.25);border:3px solid white;';
+              el.style.cssText = 'display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#059669,#06b6d4);color:white;font-size:13px;font-weight:600;font-family:Inter,sans-serif;box-shadow:0 2px 10px rgba(5,150,105,0.3);border:3px solid white;';
               el.textContent = String(count);
               return new google.maps.marker.AdvancedMarkerElement({
                 position,
@@ -171,7 +180,7 @@ export default function MapView() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#fafcfd]">
-        <Loader2 className="w-8 h-8 animate-spin text-[#0891b2]" />
+        <Loader2 className="w-8 h-8 animate-spin text-[#059669]" />
       </div>
     );
   }
@@ -207,7 +216,7 @@ export default function MapView() {
             <h2 className="text-lg font-medium text-[#333] mb-2">No hay propiedades en el mapa</h2>
             <p className="text-sm text-[#888] font-light max-w-md">Las propiedades necesitan coordenadas para aparecer en el mapa. Agrega latitud y longitud desde el panel de creador.</p>
             <Link href="/fractional">
-              <button className="mt-6 px-6 py-3 bg-[#0a1628] text-white text-sm rounded-xl hover:bg-[#111d33] transition-colors" data-testid="back-to-listings-empty">
+              <button className="mt-6 px-6 py-3 bg-gradient-to-r from-[#059669] to-[#06b6d4] text-white text-sm rounded-xl hover:opacity-90 transition-opacity" data-testid="back-to-listings-empty">
                 Ver propiedades
               </button>
             </Link>
@@ -231,7 +240,7 @@ export default function MapView() {
                     markersRef.current.forEach((m, id) => {
                       const p = properties.find(pr => pr.id === id);
                       if (p) {
-                        m.content = createPriceElement(p.fractionPrice || 0);
+                        m.content = createPinElement(p.fractionPrice || 0);
                       }
                     });
                   }}
