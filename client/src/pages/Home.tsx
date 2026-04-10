@@ -5,7 +5,7 @@ import { AGHFooter } from '@/components/AGHFooter';
 import { PropertyCardCarousel } from '@/components/PropertyCardCarousel';
 import { useLanguage } from '@/lib/LanguageContext';
 import { Property } from '@shared/schema';
-import { ChevronRight, ChevronDown, ArrowRight, X } from 'lucide-react';
+import { ChevronRight, ChevronDown, ArrowRight } from 'lucide-react';
 import { useState, useRef } from 'react';
 
 const CATEGORY_TABS = [
@@ -34,7 +34,7 @@ export default function Home() {
     ? properties
     : properties.filter(p => p.category === activeTab);
 
-  const displayProperties = filteredProperties.length > 0 ? filteredProperties : properties;
+  const displayProperties = filteredProperties;
 
   return (
     <div className="min-h-screen bg-white pb-24">
@@ -101,19 +101,19 @@ export default function Home() {
         </div>
       </section>
 
-      {displayProperties.length > 0 && (
-        <section className="pb-8">
-          <div className="px-5 mb-4 flex items-end justify-between max-w-7xl mx-auto">
-            <h2 className="text-xl text-[#222] font-semibold" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }}>
-              {language === 'es' ? 'Propiedades Disponibles' : 'Available Properties'}
-            </h2>
-            <Link href="/fractional">
-              <span className="text-xs text-[#717171] flex items-center gap-1 hover:text-[#222] transition-colors font-medium">
-                {language === 'es' ? 'Ver todo' : 'View all'} <ChevronRight className="w-3 h-3" />
-              </span>
-            </Link>
-          </div>
-          
+      <section className="pb-8">
+        <div className="px-5 mb-4 flex items-end justify-between max-w-7xl mx-auto">
+          <h2 className="text-xl text-[#222] font-semibold" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }}>
+            {language === 'es' ? 'Propiedades Disponibles' : 'Available Properties'}
+          </h2>
+          <Link href="/fractional">
+            <span className="text-xs text-[#717171] flex items-center gap-1 hover:text-[#222] transition-colors font-medium">
+              {language === 'es' ? 'Ver todo' : 'View all'} <ChevronRight className="w-3 h-3" />
+            </span>
+          </Link>
+        </div>
+        
+        {displayProperties.length > 0 ? (
           <div className="overflow-x-auto no-scrollbar" ref={scrollRef}>
             <div className="flex gap-4 px-5 pb-4" style={{ width: 'max-content' }}>
               {displayProperties.slice(0, 8).map((property) => (
@@ -123,19 +123,22 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </section>
-      )}
-
-      {properties.length === 0 && (
-        <section className="px-5 pb-8 max-w-2xl mx-auto">
-          <div className="relative rounded-2xl overflow-hidden aspect-[16/9]">
-            <img src="/hero-ocean.jpg" alt="" className="w-full h-full object-cover opacity-30" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-[#717171] text-sm">{language === 'es' ? 'No hay propiedades aún' : 'No properties yet'}</p>
+        ) : (
+          <div className="px-5 max-w-2xl mx-auto">
+            <div className="relative rounded-2xl overflow-hidden aspect-[16/9]" data-testid="empty-category">
+              <img src="/hero-ocean.jpg" alt="Vista del Caribe" className="w-full h-full object-cover opacity-20" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+                <p className="text-[#717171] text-sm mb-1">
+                  {language === 'es' ? 'No hay propiedades en esta categoría' : 'No properties in this category'}
+                </p>
+                <button onClick={() => setActiveTab('all')} className="text-[#059669] text-sm font-medium mt-2" data-testid="button-show-all">
+                  {language === 'es' ? 'Ver todas' : 'Show all'}
+                </button>
+              </div>
             </div>
           </div>
-        </section>
-      )}
+        )}
+      </section>
 
       <section className="px-5 pb-8 max-w-3xl mx-auto">
         <h3 className="text-xl text-[#222] mb-4 font-semibold" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }}>

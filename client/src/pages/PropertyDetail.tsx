@@ -1,10 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { useParams, Link } from 'wouter';
 import { 
-  ChevronLeft, Share, Check, Loader2, Calculator, Lock, Settings,
+  ChevronLeft, Share, Check, Loader2, Lock, Settings,
   Wifi, Waves, Utensils, Wind, Car, Dumbbell, Mountain, Home,
   Flame, WashingMachine, Tv, Sparkles, Shield, UmbrellaOff, Phone,
-  Bed, Bath, Users, MapPin, Play, X, ChevronRight, Grid3X3, Heart, Star, Gift
+  Bed, Bath, Users, Play, X, ChevronRight, Grid3X3, Heart, Star, Gift
 } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
@@ -14,7 +14,6 @@ import { getPropertyById, getBookedWeeks, createPreBooking } from '@/lib/api';
 import { FinancialCalculator } from '@/components/FinancialCalculator';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import { useLanguage } from '@/lib/LanguageContext';
 import { useAuth } from '@/lib/AuthContext';
 
 const CREATOR_PASSWORD = 'lumamijuvisado';
@@ -50,7 +49,6 @@ export default function PropertyDetail() {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { formatPrice } = useLanguage();
   const { isAuthenticated, setShowAuthModal, setAuthModalMode } = useAuth();
   
   const handleContactClick = (whatsappUrl: string) => {
@@ -75,6 +73,9 @@ export default function PropertyDetail() {
   const [showVideo, setShowVideo] = useState(false);
   const [liked, setLiked] = useState(false);
   const [showBeneficios, setShowBeneficios] = useState(false);
+  const [showConditions, setShowConditions] = useState(false);
+  const [mobileGalleryIdx, setMobileGalleryIdx] = useState(0);
+  const touchStartXDetail = useRef<number | null>(null);
 
   const { data: property, isLoading } = useQuery({
     queryKey: ['property', id],
@@ -189,7 +190,6 @@ export default function PropertyDetail() {
   const amenities = property.amenities || [];
   const videoUrl = property.videoUrl;
   const mapUrl = property.mapUrl;
-  const price = property.price || 650000;
 
   const getYoutubeEmbedUrl = (url: string) => {
     const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
@@ -229,33 +229,74 @@ export default function PropertyDetail() {
         </div>
       </header>
 
-      <main className="max-w-[2520px] mx-auto px-6 sm:px-8 md:px-10 lg:px-20 py-6">
-        <div 
-          className="grid grid-cols-4 gap-2 rounded-md overflow-hidden cursor-pointer mb-8"
-          onClick={() => setShowGallery(true)}
+      <main className="max-w-[2520px] mx-auto">
+        <div className="md:hidden relative overflow-hidden" data-testid="mobile-gallery"
+          onTouchStart={(e) => { touchStartXDetail.current = e.touches[0].clientX; }}
+          onTouchEnd={(e) => {
+            if (touchStartXDetail.current === null) return;
+            const diff = touchStartXDetail.current - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 40) {
+              if (diff > 0 && mobileGalleryIdx < images.length - 1) setMobileGalleryIdx(mobileGalleryIdx + 1);
+              if (diff < 0 && mobileGalleryIdx > 0) setMobileGalleryIdx(mobileGalleryIdx - 1);
+            }
+            touchStartXDetail.current = null;
+          }}
         >
-          <div className="col-span-4 md:col-span-2 md:row-span-2 relative aspect-square md:aspect-auto">
-            <img src={images[0]} alt="" className="w-full h-full object-cover hover:opacity-95 transition-opacity" />
+          <div className="relative aspect-[4/3]">
+            {images.map((img, idx) => (
+              <img
+                key={idx}
+                src={img}
+                alt={`${property.title} ${idx + 1}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${idx === mobileGalleryIdx ? 'opacity-100' : 'opacity-0'}`}
+                loading={idx === 0 ? 'eager' : 'lazy'}
+                onClick={() => { setGalleryIndex(idx); setShowGallery(true); }}
+              />
+            ))}
           </div>
-          {images.slice(1, 5).map((img, i) => (
-            <div key={i} className="hidden md:block relative aspect-square">
-              <img src={img} alt="" className="w-full h-full object-cover hover:opacity-95 transition-opacity" />
-              {i === 3 && images.length > 5 && (
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <span className="text-white font-medium">+{images.length - 5}</span>
-                </div>
-              )}
+          {images.length > 1 && (
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+              {images.slice(0, Math.min(images.length, 7)).map((_, idx) => (
+                <span key={idx} className={`w-1.5 h-1.5 rounded-full transition-all ${idx === mobileGalleryIdx ? 'bg-white w-2.5' : 'bg-white/50'}`} />
+              ))}
+              {images.length > 7 && <span className="w-1.5 h-1.5 rounded-full bg-white/30" />}
             </div>
-          ))}
-          <button 
-            onClick={(e) => { e.stopPropagation(); setShowGallery(true); }}
-            className="absolute bottom-4 right-4 bg-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#fafafa] border border-[#eee] flex items-center gap-2"
-            data-testid="show-all-photos"
-          >
-            <Grid3X3 className="w-4 h-4" />
-            Mostrar fotos
-          </button>
+          )}
+          <div className="absolute bottom-3 right-3 bg-black/50 text-white text-[10px] px-2 py-1 rounded-md font-medium">
+            {mobileGalleryIdx + 1}/{images.length}
+          </div>
         </div>
+
+        <div className="hidden md:block px-6 sm:px-8 md:px-10 lg:px-20 py-6">
+          <div 
+            className="grid grid-cols-4 gap-2 rounded-xl overflow-hidden cursor-pointer mb-8 relative"
+            onClick={() => setShowGallery(true)}
+          >
+            <div className="col-span-2 row-span-2 relative">
+              <img src={images[0]} alt={property.title} className="w-full h-full object-cover hover:opacity-95 transition-opacity" />
+            </div>
+            {images.slice(1, 5).map((img, i) => (
+              <div key={i} className="relative aspect-square">
+                <img src={img} alt={`${property.title} ${i + 2}`} className="w-full h-full object-cover hover:opacity-95 transition-opacity" />
+                {i === 3 && images.length > 5 && (
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <span className="text-white font-medium">+{images.length - 5}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+            <button 
+              onClick={(e) => { e.stopPropagation(); setShowGallery(true); }}
+              className="absolute bottom-4 right-4 bg-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#fafafa] border border-[#ebebeb] flex items-center gap-2"
+              data-testid="show-all-photos"
+            >
+              <Grid3X3 className="w-4 h-4" />
+              Mostrar fotos
+            </button>
+          </div>
+        </div>
+
+        <div className="px-5 sm:px-8 md:px-10 lg:px-20 py-6">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2">
@@ -317,6 +358,31 @@ export default function PropertyDetail() {
               </button>
             </div>
 
+            {property.conditions && property.conditions.length > 0 && (
+              <div className="py-6 border-b" data-testid="section-conditions">
+                <button
+                  onClick={() => setShowConditions(!showConditions)}
+                  className="w-full flex items-center justify-between text-left"
+                  data-testid="button-toggle-conditions"
+                  aria-expanded={showConditions}
+                  aria-controls="conditions-list"
+                >
+                  <h2 className="text-lg text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Condiciones y Términos</h2>
+                  <ChevronRight className={`w-5 h-5 text-[#717171] transition-transform duration-200 ${showConditions ? 'rotate-90' : ''}`} />
+                </button>
+                {showConditions && (
+                  <ul id="conditions-list" className="mt-4 space-y-3">
+                    {property.conditions.map((condition: string, i: number) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-[#555] font-light">
+                        <Check className="w-4 h-4 text-[#059669] mt-0.5 flex-shrink-0" />
+                        <span>{condition}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+
             {amenities.length > 0 && (
               <div className="py-6 border-b">
                 <h2 className="text-lg mb-4 text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Lo que ofrece este lugar</h2>
@@ -356,7 +422,7 @@ export default function PropertyDetail() {
               <div className="py-6 border-b">
                 <h2 className="text-lg mb-4 text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Dónde vas a estar</h2>
                 <div className="aspect-[16/9] rounded-md overflow-hidden">
-                  <iframe src={mapUrl} className="w-full h-full border-0" allowFullScreen loading="lazy" />
+                  <iframe src={mapUrl} className="w-full h-full border-0" allowFullScreen loading="lazy" title="Ubicación de la propiedad" />
                 </div>
               </div>
             )}
@@ -534,6 +600,7 @@ export default function PropertyDetail() {
             </div>
           </div>
         </div>
+        </div>
       </main>
 
       <Dialog open={showGallery} onOpenChange={setShowGallery}>
@@ -545,6 +612,7 @@ export default function PropertyDetail() {
             <button 
               onClick={() => setShowGallery(false)} 
               className="absolute top-4 left-4 bg-white hover:bg-[#f5f5f5] rounded-full p-2"
+              aria-label="Cerrar galería"
             >
               <X className="w-5 h-5" />
             </button>
@@ -553,12 +621,14 @@ export default function PropertyDetail() {
                 <button 
                   onClick={() => setGalleryIndex((galleryIndex - 1 + images.length) % images.length)} 
                   className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-[#f5f5f5] rounded-full p-3"
+                  aria-label="Imagen anterior"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button 
                   onClick={() => setGalleryIndex((galleryIndex + 1) % images.length)} 
                   className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-[#f5f5f5] rounded-full p-3"
+                  aria-label="Imagen siguiente"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
@@ -575,7 +645,7 @@ export default function PropertyDetail() {
         <DialogContent className="max-w-4xl p-0">
           {videoUrl && (
             <div className="aspect-video">
-              <iframe src={getYoutubeEmbedUrl(videoUrl)} className="w-full h-full" allowFullScreen />
+              <iframe src={getYoutubeEmbedUrl(videoUrl)} className="w-full h-full" allowFullScreen title="Video de la propiedad" />
             </div>
           )}
         </DialogContent>

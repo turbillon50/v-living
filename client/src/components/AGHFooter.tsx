@@ -1,9 +1,10 @@
 import { AGHLogoHorizontal } from '@/components/AGHLogo';
 import { useLanguage } from '@/lib/LanguageContext';
 import { Link } from 'wouter';
+import { Globe } from 'lucide-react';
 
 export function AGHFooter() {
-  const { language } = useLanguage();
+  const { language, setLanguage } = useLanguage();
 
   return (
     <footer className="bg-[#f7f7f7] border-t border-[#ebebeb] pb-24 md:pb-8">
@@ -105,7 +106,7 @@ export function AGHFooter() {
         </div>
 
         <div className="border-t border-[#dddddd] pt-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
             <div className="flex flex-col sm:flex-row items-center gap-3 text-[#717171] text-xs">
               <span>
                 {language === 'es' ? 'Parte del ecosistema' : 'Part of the ecosystem'}{' '}
@@ -121,10 +122,33 @@ export function AGHFooter() {
                 </a>
               </span>
             </div>
-            <p className="text-[#717171] text-xs">
-              All Global Holding LLC — Delaware, USA — 2025
-            </p>
+            <button
+              onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
+              className="flex items-center gap-1.5 text-[#717171] text-xs hover:text-[#222] transition-colors"
+              data-testid="footer-language-toggle"
+            >
+              <Globe className="w-3.5 h-3.5" />
+              {language === 'es' ? 'English' : 'Español'} · USD
+            </button>
           </div>
+          <div className="flex flex-wrap items-center justify-center gap-4 text-[10px] text-[#999] mb-3">
+            <a href="https://allglobalholding.com/privacy" target="_blank" rel="noopener noreferrer" className="hover:text-[#717171] transition-colors" data-testid="footer-privacy">
+              {language === 'es' ? 'Privacidad' : 'Privacy'}
+            </a>
+            <span>·</span>
+            <a href="https://allglobalholding.com/terms" target="_blank" rel="noopener noreferrer" className="hover:text-[#717171] transition-colors" data-testid="footer-terms">
+              {language === 'es' ? 'Términos' : 'Terms'}
+            </a>
+            <span>·</span>
+            <a href="https://allglobalholding.com/legal" target="_blank" rel="noopener noreferrer" className="hover:text-[#717171] transition-colors" data-testid="footer-legal">
+              {language === 'es' ? 'Aviso Legal' : 'Legal Notice'}
+            </a>
+            <span>·</span>
+            <span>{language === 'es' ? 'Mapa del sitio' : 'Sitemap'}</span>
+          </div>
+          <p className="text-[#999] text-[10px] text-center">
+            All Global Holding LLC — Delaware, USA — 2025
+          </p>
         </div>
       </div>
     </footer>
