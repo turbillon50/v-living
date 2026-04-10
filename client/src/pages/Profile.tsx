@@ -162,7 +162,7 @@ export default function Profile() {
     <div className="min-h-screen bg-[#fafcfd] pb-24">
       <Header />
       
-      <div className="px-4 max-w-lg mx-auto pb-60 pt-24 md:pt-28">
+      <div className="px-4 max-w-lg mx-auto pb-60 safe-area-top-offset-lg">
         <div className="fl-gradient-sunset rounded-3xl p-6 mb-6 text-white">
           <div className="flex items-start justify-between mb-4">
             <div>

@@ -19,7 +19,7 @@ export default function AutosLujo() {
     <div className="min-h-screen bg-white pb-60">
       <Header />
 
-      <section className="px-4 pt-20 md:pt-24 pb-6">
+      <section className="px-4 safe-area-top-offset pb-6">
         <div className="bg-gradient-to-r from-[#059669] to-[#06b6d4] rounded-md p-5 text-center mb-6">
           <div className="flex items-center justify-center gap-2 mb-2">
             <Sparkles className="w-5 h-5 text-white/70" />

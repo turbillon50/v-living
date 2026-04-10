@@ -30,7 +30,7 @@ export default function AIAssistant() {
     <div className="min-h-screen bg-background pb-60 flex flex-col">
       <Header />
 
-      <main className="flex-1 max-w-3xl mx-auto w-full px-6 md:px-10 pt-20 md:pt-24 flex flex-col">
+      <main className="flex-1 max-w-3xl mx-auto w-full px-6 md:px-10 safe-area-top-offset flex flex-col">
         <div className="mb-6 text-center">
           <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
             <Bot className="w-8 h-8 text-primary" />

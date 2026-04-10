@@ -327,6 +327,7 @@
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding-top: env(safe-area-inset-top, 0px);
   }
 
   .fl-gradient-turquoise {
@@ -347,6 +348,14 @@
 
   .safe-area-bottom {
     padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .safe-area-top-offset {
+    padding-top: calc(5rem + env(safe-area-inset-top, 0px));
+  }
+
+  .safe-area-top-offset-lg {
+    padding-top: calc(6rem + env(safe-area-inset-top, 0px));
   }
 }
 

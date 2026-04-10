@@ -1092,7 +1092,7 @@ export default function CreatorDashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-      <header className="bg-white border-b border-[#ebebeb] sticky top-0 z-40">
+      <header className="bg-white border-b border-[#ebebeb] sticky top-0 z-40" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
         <div className="max-w-7xl mx-auto px-3 sm:px-4">
           <div className="flex items-center justify-between h-12 sm:h-14">
             <div className="flex items-center gap-2">

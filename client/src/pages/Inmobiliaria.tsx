@@ -50,7 +50,7 @@ export default function Inmobiliaria() {
     return (
       <div className="min-h-screen bg-[#fafcfd] pb-24">
         <Header />
-        <div className="max-w-4xl mx-auto px-4 py-6 pt-20 md:pt-24">
+        <div className="max-w-4xl mx-auto px-4 py-6 safe-area-top-offset">
           <button onClick={() => setSelectedListing(null)} className="flex items-center gap-2 text-[#059669] mb-6 hover:underline" data-testid="button-back-listings">
             <ArrowLeft className="w-4 h-4" />
             {language === 'es' ? 'Volver al listado' : 'Back to listings'}
