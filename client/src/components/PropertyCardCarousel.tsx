@@ -146,7 +146,7 @@ export function PropertyCardCarousel({ property, featured }: PropertyCardCarouse
             </p>
             <span className="flex items-center gap-1 text-[#059669] text-xs font-semibold" data-testid={`yield-${property.id}`}>
               <TrendingUp className="w-3 h-3" />
-              {property.appreciationRate || 12}% yield
+              {(property as any).appreciationRate || 12}% yield
             </span>
           </div>
         </div>
