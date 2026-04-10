@@ -72,18 +72,18 @@ export function Header() {
 
             <button
               onClick={() => setShowSearch(true)}
-              className="flex md:hidden items-center gap-2 flex-1 mx-2 max-w-[200px] bg-white border border-[#dddddd] rounded-full py-2 px-3 shadow-sm active:shadow-none transition-shadow"
+              className="hidden md:flex items-center gap-2 flex-1 mx-2 max-w-[200px] bg-white border border-[#dddddd] rounded-full py-2 px-3 shadow-sm active:shadow-none transition-shadow"
               data-testid="button-search-mobile"
             >
               <Search className="w-3.5 h-3.5 text-[#222] flex-shrink-0" />
               <span className="text-xs font-semibold text-[#222] truncate">{language === 'es' ? '¿A dónde vas?' : 'Where to?'}</span>
             </button>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <Link href="/creator">
-                <Button variant="ghost" size="icon" className="w-9 h-9 rounded-full text-[#717171] hover:text-[#222] hover:bg-[#f7f7f7]" title="Admin">
-                  <Lock className="w-4 h-4" />
-                </Button>
+                <button className="w-10 h-10 rounded-full flex items-center justify-center text-[#717171] hover:text-[#222] hover:bg-[#f7f7f7] transition-colors" title="Admin" data-testid="button-admin-lock">
+                  <Lock className="w-[18px] h-[18px]" />
+                </button>
               </Link>
 
               <button

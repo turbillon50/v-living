@@ -125,7 +125,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-white text-[#222]">
       <Header />
 
-      <main className="pb-32 max-w-4xl mx-auto pt-16 md:pt-20">
+      <main className="pb-32 max-w-4xl mx-auto pt-20 md:pt-24">
         <div className="px-4 pt-4 pb-2 flex items-center gap-3">
           <Link href="/home">
             <span className="p-2 hover:bg-[#f7f7f7] rounded-full transition-colors cursor-pointer" data-testid="button-back-dashboard">
