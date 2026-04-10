@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'wouter';
 import { SignUp, useUser } from '@clerk/clerk-react';
 import { useLanguage } from '@/lib/LanguageContext';
-import { Download, Smartphone, Share, Plus, ChevronDown, ChevronUp } from 'lucide-react';
+import { useAuth } from '@/lib/AuthContext';
+import { Download, Smartphone, Share, Plus, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 
 const CLERK_ENABLED = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -16,9 +17,14 @@ function ClerkRegistro() {
   const referralCode = localStorage.getItem('fl_referral_code') || '';
 
   useEffect(() => {
+    const isDevDomain = window.location.hostname.includes('replit.dev') || window.location.hostname.includes('replit.app') || window.location.hostname === 'localhost';
+    if (isDevDomain) {
+      setClerkTimedOut(true);
+      return;
+    }
     const timer = setTimeout(() => {
       if (!isLoaded) setClerkTimedOut(true);
-    }, 5000);
+    }, 4000);
     return () => clearTimeout(timer);
   }, [isLoaded]);
 
@@ -48,6 +54,7 @@ function ClerkRegistro() {
       if (res.ok) {
         const userData = await res.json();
         localStorage.setItem('fl_user', JSON.stringify(userData));
+        localStorage.setItem('fractional_user', JSON.stringify(userData));
       }
     } catch (error) {
       console.error('Error syncing user:', error);
@@ -61,21 +68,7 @@ function ClerkRegistro() {
   if (clerkTimedOut && !isLoaded) {
     return (
       <RegistroLayout language={language} referralCode={referralCode} showPwa={showPwa} setShowPwa={setShowPwa}>
-        <div className="p-6 text-center space-y-4">
-          <p className="text-[#1a1a1a] text-sm font-medium">
-            {language === 'es' ? 'No se pudo conectar al servicio de registro' : 'Could not connect to registration service'}
-          </p>
-          <p className="text-[#1a1a1a]/50 text-xs">
-            {language === 'es' ? 'Por favor visita allliving.org directamente o contáctanos por WhatsApp' : 'Please visit allliving.org directly or contact us via WhatsApp'}
-          </p>
-          <a href="https://wa.me/529984292748?text=Hola%2C%20quiero%20registrarme%20en%20Fractional%20Living"
-            target="_blank" rel="noopener noreferrer"
-            className="inline-block bg-[#25D366] text-white px-6 py-2.5 rounded-lg text-sm font-medium"
-            data-testid="button-whatsapp-register"
-          >
-            {language === 'es' ? 'Registrarme por WhatsApp' : 'Register via WhatsApp'}
-          </a>
-        </div>
+        <DirectRegistroForm language={language} referralCode={referralCode} />
       </RegistroLayout>
     );
   }
@@ -126,19 +119,132 @@ function ClerkRegistro() {
   );
 }
 
+function DirectRegistroForm({ language, referralCode }: { language: string; referralCode: string }) {
+  const { register } = useAuth();
+  const [, navigate] = useLocation();
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.password) {
+      setError(language === 'es' ? 'Completa todos los campos requeridos' : 'Fill in all required fields');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      const result = await register({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        country: 'México',
+        password: formData.password,
+      });
+      if (result.success) {
+        setLoading(false);
+        window.location.href = '/dashboard';
+        return;
+      } else {
+        setError(result.error || (language === 'es' ? 'Error al registrarse' : 'Registration error'));
+      }
+    } catch {
+      setError(language === 'es' ? 'Error de conexión' : 'Connection error');
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="p-5">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="text-[#717171] text-[12px] block mb-1">
+            {language === 'es' ? 'Nombre completo *' : 'Full name *'}
+          </label>
+          <input
+            type="text"
+            value={formData.name}
+            onChange={(e) => setFormData({...formData, name: e.target.value})}
+            className="w-full border border-[#e5e5e5] focus:border-[#059669] focus:ring-0 rounded-lg h-10 text-[13px] text-[#222] bg-white px-3 outline-none transition-colors"
+            data-testid="input-register-name"
+          />
+        </div>
+        <div>
+          <label className="text-[#717171] text-[12px] block mb-1">
+            {language === 'es' ? 'Email *' : 'Email *'}
+          </label>
+          <input
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
+            className="w-full border border-[#e5e5e5] focus:border-[#059669] focus:ring-0 rounded-lg h-10 text-[13px] text-[#222] bg-white px-3 outline-none transition-colors"
+            data-testid="input-register-email"
+          />
+        </div>
+        <div>
+          <label className="text-[#717171] text-[12px] block mb-1">
+            {language === 'es' ? 'Teléfono (opcional)' : 'Phone (optional)'}
+          </label>
+          <input
+            type="tel"
+            value={formData.phone}
+            onChange={(e) => setFormData({...formData, phone: e.target.value})}
+            className="w-full border border-[#e5e5e5] focus:border-[#059669] focus:ring-0 rounded-lg h-10 text-[13px] text-[#222] bg-white px-3 outline-none transition-colors"
+            data-testid="input-register-phone"
+          />
+        </div>
+        <div>
+          <label className="text-[#717171] text-[12px] block mb-1">
+            {language === 'es' ? 'Contraseña *' : 'Password *'}
+          </label>
+          <input
+            type="password"
+            value={formData.password}
+            onChange={(e) => setFormData({...formData, password: e.target.value})}
+            className="w-full border border-[#e5e5e5] focus:border-[#059669] focus:ring-0 rounded-lg h-10 text-[13px] text-[#222] bg-white px-3 outline-none transition-colors"
+            data-testid="input-register-password"
+          />
+        </div>
+        {error && (
+          <p className="text-red-500 text-xs text-center" data-testid="text-register-error">{error}</p>
+        )}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:from-[#047857] hover:to-[#0891b2] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+          data-testid="button-register-submit"
+        >
+          {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+          {language === 'es' ? 'Crear cuenta' : 'Create account'}
+        </button>
+        <p className="text-center text-[12px] text-[#999]">
+          {language === 'es' ? '¿Ya tienes cuenta? ' : 'Already have an account? '}
+          <Link href="/login" className="text-[#059669] hover:text-[#047857]">
+            {language === 'es' ? 'Iniciar sesión' : 'Sign in'}
+          </Link>
+        </p>
+      </form>
+      <div className="mt-4 pt-4 border-t border-[#ebebeb]">
+        <a href="https://wa.me/529984292748?text=Hola%2C%20quiero%20registrarme%20en%20Fractional%20Living"
+          target="_blank" rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white px-6 py-2.5 rounded-lg text-sm font-medium"
+          data-testid="button-whatsapp-register"
+        >
+          {language === 'es' ? 'O regístrate por WhatsApp' : 'Or register via WhatsApp'}
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function FallbackRegistro() {
   const { language } = useLanguage();
   const [showPwa, setShowPwa] = useState(false);
 
   return (
     <RegistroLayout language={language} referralCode="" showPwa={showPwa} setShowPwa={setShowPwa}>
-      <div className="p-8 text-center">
-        <p className="text-[#717171] text-sm font-light">
-          {language === 'es'
-            ? 'El sistema de registro está siendo configurado.'
-            : 'Registration system is being configured.'}
-        </p>
-      </div>
+      <DirectRegistroForm language={language} referralCode="" />
     </RegistroLayout>
   );
 }

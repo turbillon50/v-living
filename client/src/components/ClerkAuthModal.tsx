@@ -43,10 +43,11 @@ export function ClerkAuthModal({ isOpen, onClose, mode }: ClerkAuthModalProps) {
         <div className="p-6 pt-8">
           <div className="text-center mb-6">
             <div className="flex justify-center mb-2">
-              <AGHLogo size={28} color="#000000" />
+              <AGHLogo size={28} color="#059669" />
             </div>
-            <h1 className="text-2xl font-bold text-black tracking-tight">FRACTIONAL LIVING</h1>
-            <p className="text-[10px] text-black/40 uppercase tracking-[0.3em] mt-1">All Global Holding LLC</p>
+            <h1 className="text-2xl font-light tracking-[0.2em] text-[#222]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>FRACTIONAL LIVING</h1>
+            <div className="w-8 h-[0.5px] bg-gradient-to-r from-[#059669] to-[#06b6d4] mx-auto mt-2 mb-1" />
+            <p className="text-[8px] text-[#999] uppercase tracking-[0.4em]">All Global Holding LLC</p>
           </div>
 
           {currentMode === 'sign-up' ? (
@@ -57,15 +58,16 @@ export function ClerkAuthModal({ isOpen, onClose, mode }: ClerkAuthModalProps) {
                   card: "shadow-none p-0 bg-transparent",
                   headerTitle: "hidden",
                   headerSubtitle: "hidden",
-                  socialButtonsBlockButton: "border-black/20 hover:bg-black/5",
-                  formButtonPrimary: "bg-black hover:bg-black/90",
-                  footerActionLink: "text-black hover:text-black/70",
-                  formFieldInput: "border-black/20 focus:border-black",
+                  socialButtonsBlockButton: "border-[#ebebeb] hover:bg-[#f7f7f7]",
+                  formButtonPrimary: "bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:from-[#047857] hover:to-[#0891b2] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all",
+                  footerActionLink: "text-[#059669] hover:text-[#047857] text-[13px]",
+                  formFieldInput: "border-[#e5e5e5] focus:border-[#059669] focus:ring-0 rounded-lg h-10 text-[13px] text-[#222] bg-white",
+                  formFieldLabel: "text-[#717171] text-[12px]",
                 }
               }}
               routing="hash"
               signInUrl="#sign-in"
-              afterSignUpUrl="/"
+              afterSignUpUrl="/dashboard"
             />
           ) : (
             <SignIn 
@@ -75,15 +77,16 @@ export function ClerkAuthModal({ isOpen, onClose, mode }: ClerkAuthModalProps) {
                   card: "shadow-none p-0 bg-transparent",
                   headerTitle: "hidden",
                   headerSubtitle: "hidden",
-                  socialButtonsBlockButton: "border-black/20 hover:bg-black/5",
-                  formButtonPrimary: "bg-black hover:bg-black/90",
-                  footerActionLink: "text-black hover:text-black/70",
-                  formFieldInput: "border-black/20 focus:border-black",
+                  socialButtonsBlockButton: "border-[#ebebeb] hover:bg-[#f7f7f7]",
+                  formButtonPrimary: "bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:from-[#047857] hover:to-[#0891b2] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all",
+                  footerActionLink: "text-[#059669] hover:text-[#047857] text-[13px]",
+                  formFieldInput: "border-[#e5e5e5] focus:border-[#059669] focus:ring-0 rounded-lg h-10 text-[13px] text-[#222] bg-white",
+                  formFieldLabel: "text-[#717171] text-[12px]",
                 }
               }}
               routing="hash"
               signUpUrl="#sign-up"
-              afterSignInUrl="/"
+              afterSignInUrl="/dashboard"
             />
           )}
         </div>

@@ -34,7 +34,7 @@ export default function Dashboard() {
   const [copied, setCopied] = useState(false);
   const [expandedLevel, setExpandedLevel] = useState<number | null>(null);
 
-  const storedUser = localStorage.getItem('fl_user');
+  const storedUser = localStorage.getItem('fl_user') || localStorage.getItem('fractional_user');
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
 
   useEffect(() => {
@@ -261,6 +261,51 @@ function ProfileTab({ user, stats, language, isLoading }: any) {
       </div>
 
       <div className="bg-[#f7f7f7] border border-[#ebebeb] rounded-2xl p-5">
+        <h3 className="text-sm font-semibold mb-3 text-[#444]">
+          {language === 'es' ? 'Acceso Exclusivo' : 'Exclusive Access'}
+        </h3>
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          <Link href="/fractional">
+            <div className="relative overflow-hidden rounded-xl h-24 cursor-pointer group" data-testid="link-quick-fractions">
+              <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&h=200&fit=crop" alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute bottom-2 left-3 right-3">
+                <p className="text-white text-xs font-medium">{language === 'es' ? 'Fracciones' : 'Fractions'}</p>
+                <p className="text-white/70 text-[10px]">{language === 'es' ? 'Apartá tu propiedad' : 'Reserve your property'}</p>
+              </div>
+            </div>
+          </Link>
+          <Link href="/experiences">
+            <div className="relative overflow-hidden rounded-xl h-24 cursor-pointer group" data-testid="link-quick-experiences">
+              <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=200&fit=crop" alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute bottom-2 left-3 right-3">
+                <p className="text-white text-xs font-medium">{language === 'es' ? 'Experiencias' : 'Experiences'}</p>
+                <p className="text-white/70 text-[10px]">{language === 'es' ? 'Yates, chefs, tours' : 'Yachts, chefs, tours'}</p>
+              </div>
+            </div>
+          </Link>
+          <Link href="/favoritos">
+            <div className="relative overflow-hidden rounded-xl h-24 cursor-pointer group" data-testid="link-quick-favorites">
+              <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=400&h=200&fit=crop" alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute bottom-2 left-3 right-3">
+                <p className="text-white text-xs font-medium">{language === 'es' ? 'Favoritos' : 'Favorites'}</p>
+                <p className="text-white/70 text-[10px]">{language === 'es' ? 'Tus propiedades guardadas' : 'Your saved properties'}</p>
+              </div>
+            </div>
+          </Link>
+          <Link href="/vuelos">
+            <div className="relative overflow-hidden rounded-xl h-24 cursor-pointer group" data-testid="link-quick-flights">
+              <img src="https://images.unsplash.com/photo-1436491865332-7a61a109db56?w=400&h=200&fit=crop" alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute bottom-2 left-3 right-3">
+                <p className="text-white text-xs font-medium">{language === 'es' ? 'Vuelos' : 'Flights'}</p>
+                <p className="text-white/70 text-[10px]">{language === 'es' ? 'Reserva tu viaje' : 'Book your trip'}</p>
+              </div>
+            </div>
+          </Link>
+        </div>
         <h3 className="text-sm font-semibold mb-3 text-[#444]">
           {language === 'es' ? 'Mis Intereses' : 'My Interests'}
         </h3>

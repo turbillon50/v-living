@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'wouter';
 import { SignIn, useUser } from '@clerk/clerk-react';
 import { useLanguage } from '@/lib/LanguageContext';
+import { useAuth } from '@/lib/AuthContext';
+import { Loader2 } from 'lucide-react';
 
 const CLERK_ENABLED = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -12,9 +14,14 @@ function ClerkLogin() {
   const { isSignedIn, isLoaded, user } = useUser();
 
   useEffect(() => {
+    const isDevDomain = window.location.hostname.includes('replit.dev') || window.location.hostname.includes('replit.app') || window.location.hostname === 'localhost';
+    if (isDevDomain) {
+      setClerkTimedOut(true);
+      return;
+    }
     const timer = setTimeout(() => {
       if (!isLoaded) setClerkTimedOut(true);
-    }, 5000);
+    }, 4000);
     return () => clearTimeout(timer);
   }, [isLoaded]);
 
@@ -41,6 +48,7 @@ function ClerkLogin() {
       if (res.ok) {
         const userData = await res.json();
         localStorage.setItem('fl_user', JSON.stringify(userData));
+        localStorage.setItem('fractional_user', JSON.stringify(userData));
       }
     } catch (error) {
       console.error('Error syncing user:', error);
@@ -55,21 +63,7 @@ function ClerkLogin() {
   if (clerkTimedOut && !isLoaded) {
     return (
       <LoginLayout language={language}>
-        <div className="p-6 text-center space-y-4">
-          <p className="text-[#1a1a1a] text-sm font-medium">
-            {language === 'es' ? 'No se pudo conectar al servicio de login' : 'Could not connect to login service'}
-          </p>
-          <p className="text-[#1a1a1a]/50 text-xs">
-            {language === 'es' ? 'Por favor visita allliving.org directamente o contáctanos por WhatsApp' : 'Please visit allliving.org directly or contact us via WhatsApp'}
-          </p>
-          <a href="https://wa.me/529984292748?text=Hola%2C%20necesito%20ayuda%20con%20mi%20cuenta%20en%20Fractional%20Living"
-            target="_blank" rel="noopener noreferrer"
-            className="inline-block bg-[#25D366] text-white px-6 py-2.5 rounded-lg text-sm font-medium"
-            data-testid="button-whatsapp-login"
-          >
-            {language === 'es' ? 'Contactar por WhatsApp' : 'Contact via WhatsApp'}
-          </a>
-        </div>
+        <DirectLoginForm language={language} />
       </LoginLayout>
     );
   }
@@ -118,17 +112,89 @@ function ClerkLogin() {
   );
 }
 
+function DirectLoginForm({ language }: { language: string }) {
+  const { login } = useAuth();
+  const [, navigate] = useLocation();
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.email || !formData.password) {
+      setError(language === 'es' ? 'Completa todos los campos' : 'Fill in all fields');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      const result = await login(formData.email, formData.password);
+      if (result.success) {
+        setLoading(false);
+        window.location.href = '/dashboard';
+        return;
+      } else {
+        setError(result.error || (language === 'es' ? 'Error al iniciar sesión' : 'Login error'));
+      }
+    } catch {
+      setError(language === 'es' ? 'Error de conexión' : 'Connection error');
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="p-5">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="text-[#717171] text-[12px] block mb-1">Email</label>
+          <input
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
+            className="w-full border border-[#e5e5e5] focus:border-[#059669] focus:ring-0 rounded-lg h-10 text-[13px] text-[#222] bg-white px-3 outline-none transition-colors"
+            data-testid="input-login-email"
+          />
+        </div>
+        <div>
+          <label className="text-[#717171] text-[12px] block mb-1">
+            {language === 'es' ? 'Contraseña' : 'Password'}
+          </label>
+          <input
+            type="password"
+            value={formData.password}
+            onChange={(e) => setFormData({...formData, password: e.target.value})}
+            className="w-full border border-[#e5e5e5] focus:border-[#059669] focus:ring-0 rounded-lg h-10 text-[13px] text-[#222] bg-white px-3 outline-none transition-colors"
+            data-testid="input-login-password"
+          />
+        </div>
+        {error && (
+          <p className="text-red-500 text-xs text-center" data-testid="text-login-error">{error}</p>
+        )}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-gradient-to-r from-[#059669] to-[#06b6d4] hover:from-[#047857] hover:to-[#0891b2] text-white rounded-lg h-10 text-[13px] font-medium shadow-none transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+          data-testid="button-login-submit"
+        >
+          {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+          {language === 'es' ? 'Iniciar sesión' : 'Sign in'}
+        </button>
+        <p className="text-center text-[12px] text-[#999]">
+          {language === 'es' ? '¿No tienes cuenta? ' : "Don't have an account? "}
+          <Link href="/registro" className="text-[#059669] hover:text-[#047857]">
+            {language === 'es' ? 'Regístrate' : 'Sign up'}
+          </Link>
+        </p>
+      </form>
+    </div>
+  );
+}
+
 function FallbackLogin() {
   const { language } = useLanguage();
   return (
     <LoginLayout language={language}>
-      <div className="p-8 text-center">
-        <p className="text-[#717171] text-sm font-light">
-          {language === 'es'
-            ? 'El sistema de login está siendo configurado.'
-            : 'Login system is being configured.'}
-        </p>
-      </div>
+      <DirectLoginForm language={language} />
     </LoginLayout>
   );
 }

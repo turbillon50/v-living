@@ -27,11 +27,20 @@ export function ClerkAuthProvider({ children }: { children: ReactNode }) {
     }
   }, [isSignedIn, showAuthModal]);
 
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
+      const hasLocal = localStorage.getItem('fractional_user');
+      if (!hasLocal) {
+        syncUserToDatabase();
+      }
+    }
+  }, [isLoaded, isSignedIn, user]);
+
   const syncUserToDatabase = async () => {
     if (!user) return;
     
     try {
-      await fetch('/api/clerk/sync-user', {
+      const res = await fetch('/api/clerk/sync-user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -42,12 +51,19 @@ export function ClerkAuthProvider({ children }: { children: ReactNode }) {
           profileImage: user.imageUrl,
         }),
       });
+      if (res.ok) {
+        const userData = await res.json();
+        localStorage.setItem('fl_user', JSON.stringify(userData));
+        localStorage.setItem('fractional_user', JSON.stringify(userData));
+      }
     } catch (error) {
       console.error('Error syncing user:', error);
     }
   };
 
   const logout = () => {
+    localStorage.removeItem('fl_user');
+    localStorage.removeItem('fractional_user');
     signOut();
   };
 

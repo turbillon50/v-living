@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/lib/LanguageContext";
 import { FavoritesProvider } from "@/lib/FavoritesContext";
-import { AuthProvider } from "@/lib/AuthContext";
+import { AuthProvider, useAuth } from "@/lib/AuthContext";
 import { ClerkAuthProvider } from "@/lib/ClerkAuthContext";
 import { AuthModal } from "@/components/AuthModal";
 import { ClerkAuthModal } from "@/components/ClerkAuthModal";
@@ -94,14 +94,33 @@ function Router() {
 
 const CLERK_ENABLED = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
+function ClerkAuthBridge() {
+  const legacyAuth = useAuth();
+  const clerkAuth = useClerkAuth();
+
+  useEffect(() => {
+    if (legacyAuth.showAuthModal) {
+      const mode = legacyAuth.authModalMode === 'register' ? 'sign-up' : 'sign-in';
+      clerkAuth.setAuthModalMode(mode);
+      clerkAuth.setShowAuthModal(true);
+      legacyAuth.setShowAuthModal(false);
+    }
+  }, [legacyAuth.showAuthModal]);
+
+  return null;
+}
+
 function ClerkAuthModalWrapper() {
   const { showAuthModal, setShowAuthModal, authModalMode } = useClerkAuth();
   return (
-    <ClerkAuthModal 
-      isOpen={showAuthModal} 
-      onClose={() => setShowAuthModal(false)} 
-      mode={authModalMode}
-    />
+    <>
+      <ClerkAuthBridge />
+      <ClerkAuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+        mode={authModalMode}
+      />
+    </>
   );
 }
 

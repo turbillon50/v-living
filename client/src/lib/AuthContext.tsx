@@ -36,16 +36,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [authModalMode, setAuthModalMode] = useState<'login' | 'register'>('register');
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('fractional_user');
+    const savedUser = localStorage.getItem('fractional_user') || localStorage.getItem('fl_user');
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
+        const parsed = JSON.parse(savedUser);
+        setUser(parsed);
+        localStorage.setItem('fractional_user', JSON.stringify(parsed));
       } catch (e) {
         localStorage.removeItem('fractional_user');
+        localStorage.removeItem('fl_user');
       }
     }
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    const handleStorage = () => {
+      const flUser = localStorage.getItem('fl_user');
+      if (flUser && !user) {
+        try {
+          const parsed = JSON.parse(flUser);
+          setUser(parsed);
+          localStorage.setItem('fractional_user', JSON.stringify(parsed));
+        } catch (e) {}
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+    const interval = setInterval(() => {
+      const flUser = localStorage.getItem('fl_user');
+      if (flUser && !user) {
+        try {
+          const parsed = JSON.parse(flUser);
+          setUser(parsed);
+          localStorage.setItem('fractional_user', JSON.stringify(parsed));
+        } catch (e) {}
+      }
+    }, 1000);
+    return () => {
+      window.removeEventListener('storage', handleStorage);
+      clearInterval(interval);
+    };
+  }, [user]);
 
   const login = async (email: string, password: string) => {
     try {
@@ -117,6 +148,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('fractional_user');
+    localStorage.removeItem('fl_user');
   };
 
   const updateUser = (updatedUser: User) => {
