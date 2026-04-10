@@ -142,6 +142,14 @@ export function Header() {
                       {language === 'es' ? 'Experiencias' : 'Experiences'}
                     </DropdownMenuItem>
                   </Link>
+                  <Link href="/alix">
+                    <DropdownMenuItem className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]" data-testid="menu-alix">
+                      <div className="w-4 h-4 rounded-full fl-gradient-brand flex items-center justify-center mr-2 flex-shrink-0">
+                        <span className="text-white font-bold text-[5px]">AI</span>
+                      </div>
+                      ALIX
+                    </DropdownMenuItem>
+                  </Link>
                   <Link href="/creator">
                     <DropdownMenuItem className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]" data-testid="menu-admin">
                       <Lock className="w-3.5 h-3.5 mr-2" />

@@ -28,7 +28,8 @@ The project employs a modern web architecture with distinct frontend and backend
 - **State Management**: TanStack React Query
 - **Styling**: Tailwind CSS v4 with shadcn/ui (New York style)
 - **Build Tool**: Vite
-- **Design System**: Cinematic Apple TV-inspired theme with white backgrounds, dark text, brand gradients (emerald to aqua), and specific fonts (Cormorant Garamond, Inter). Features full-bleed cinematic image cards for navigation, `PropertyCardCarousel` component, mobile-first PWA design, and a 5-tab BottomNav.
+- **Design System**: Cinematic Apple TV-inspired theme with white backgrounds, dark text, brand gradients (emerald to aqua), and specific fonts (Cormorant Garamond, Inter). Features full-bleed cinematic image cards for navigation, `PropertyCardCarousel` component, mobile-first PWA design, and a 5-tab BottomNav (Explorar, Fracciones, Mapa [center prominent], Favoritos, Perfil). ALIX AI accessible via user dropdown menu.
+- **Google Maps**: Uses `@googlemaps/js-api-loader` v2 functional API (`setOptions`/`importLibrary`). MapView has POI search (restaurants, beaches, hospitals, etc.) with Google Places photos, ratings, and reviews in InfoWindows. Property markers use green institutional (#059669) pin style with property name labels.
 
 ### Backend Architecture
 - **Runtime**: Node.js with Express

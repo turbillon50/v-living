@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { Minus, Plus, Navigation } from 'lucide-react';
-import { Loader } from '@googlemaps/js-api-loader';
+import { setOptions, importLibrary } from '@googlemaps/js-api-loader';
 
 interface InteractiveMapProps {
   latitude: number;
@@ -15,14 +15,17 @@ interface InteractiveMapProps {
 
 const MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY || '';
 
-let loaderPromise: Promise<typeof google> | null = null;
+let mapsInitialized = false;
 
-function getGoogleMaps(): Promise<typeof google> {
-  if (!loaderPromise) {
-    const loader = new Loader({ apiKey: MAPS_KEY, version: 'weekly', libraries: ['places', 'marker'] });
-    loaderPromise = loader.load();
+async function getGoogleMaps(): Promise<typeof google> {
+  if (!mapsInitialized) {
+    setOptions({ apiKey: MAPS_KEY, version: 'weekly' });
+    mapsInitialized = true;
   }
-  return loaderPromise;
+  await importLibrary('maps');
+  await importLibrary('marker');
+  await importLibrary('places');
+  return google;
 }
 
 export default function InteractiveMap({

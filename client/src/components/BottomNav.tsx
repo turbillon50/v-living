@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter';
-import { Search, Building2, Heart, User } from 'lucide-react';
+import { Search, Building2, Heart, User, MapPin } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 export function BottomNav({ onOpenAlix }: { onOpenAlix?: () => void }) {
@@ -12,6 +12,8 @@ export function BottomNav({ onOpenAlix }: { onOpenAlix?: () => void }) {
     { href: '/favoritos', icon: Heart, labelEs: 'Favoritos', labelEn: 'Favorites', match: (l: string) => l === '/favoritos' },
     { href: '/perfil', icon: User, labelEs: 'Perfil', labelEn: 'Profile', match: (l: string) => l === '/perfil' || l === '/profile' },
   ];
+
+  const isMapActive = location === '/mapa';
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#ebebeb] safe-area-bottom md:hidden">
@@ -33,16 +35,23 @@ export function BottomNav({ onOpenAlix }: { onOpenAlix?: () => void }) {
           );
         })}
 
-        <button
-          onClick={onOpenAlix}
-          className="flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1.5 text-[#717171] active:text-[#059669] transition-colors"
-          data-testid="nav-alix"
-        >
-          <div className="w-[22px] h-[22px] rounded-full fl-gradient-brand flex items-center justify-center">
-            <span className="text-white font-bold text-[7px] tracking-wide">AI</span>
-          </div>
-          <span className="text-[10px] tracking-tight font-medium text-[#059669]">ALIX</span>
-        </button>
+        <Link href="/mapa">
+          <button
+            className="flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1.5 transition-colors"
+            data-testid="nav-mapa"
+          >
+            <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${
+              isMapActive 
+                ? 'bg-[#059669] shadow-lg shadow-emerald-500/30 scale-110' 
+                : 'fl-gradient-brand shadow-md shadow-emerald-500/20'
+            }`}>
+              <MapPin className="w-[18px] h-[18px] text-white stroke-[2.5]" />
+            </div>
+            <span className={`text-[10px] tracking-tight mt-0.5 ${isMapActive ? 'font-bold text-[#059669]' : 'font-medium text-[#059669]'}`}>
+              {language === 'es' ? 'Mapa' : 'Map'}
+            </span>
+          </button>
+        </Link>
 
         {tabs.slice(2).map((item) => {
           const Icon = item.icon;
