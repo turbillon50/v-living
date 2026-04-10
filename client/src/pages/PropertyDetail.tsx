@@ -171,16 +171,16 @@ export default function PropertyDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fafcfd]">
-        <Loader2 className="w-8 h-8 animate-spin text-[#0891b2]" />
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <Loader2 className="w-8 h-8 animate-spin text-[#059669]" />
       </div>
     );
   }
 
   if (!property) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fafcfd]">
-        <p className="text-[#94a3b8] font-light">Propiedad no encontrada</p>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <p className="text-[#717171]">Propiedad no encontrada</p>
       </div>
     );
   }
@@ -197,22 +197,22 @@ export default function PropertyDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafcfd]">
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-[#e2e8f0]/60">
+    <div className="min-h-screen bg-white">
+      <header className="sticky top-0 z-40 fl-glass-header">
         <div className="max-w-[2520px] mx-auto px-6 sm:px-8 md:px-10 lg:px-20">
           <div className="h-16 flex items-center justify-between">
             <Link href="/fractional">
-              <button className="flex items-center gap-2 text-sm font-light hover:bg-[#f0fdfa] px-3 py-2 rounded-xl transition-colors duration-200 text-[#64748b]" data-testid="back-button">
+              <button className="flex items-center gap-2 text-sm hover:bg-[#f7f7f7] px-3 py-2 rounded-full transition-colors text-[#222]" data-testid="back-button">
                 <ChevronLeft className="w-4 h-4" />
-                <span className="hidden sm:inline tracking-wide">Volver</span>
+                <span className="hidden sm:inline">Volver</span>
               </button>
             </Link>
             <div className="flex items-center gap-2">
-              <button className="p-2.5 hover:bg-[#f0fdfa] rounded-xl transition-colors duration-200" data-testid="share-button">
-                <Share className="w-4 h-4 text-[#64748b]" />
+              <button className="p-2.5 hover:bg-[#f7f7f7] rounded-full transition-colors" data-testid="share-button" aria-label="Compartir">
+                <Share className="w-4 h-4 text-[#222]" />
               </button>
-              <button onClick={() => setLiked(!liked)} className="p-2.5 hover:bg-[#f0fdfa] rounded-xl transition-colors duration-200" data-testid="like-button">
-                <Heart className={cn("w-4 h-4 text-[#64748b]", liked && "fill-[#0891b2] text-[#0891b2]")} />
+              <button onClick={() => setLiked(!liked)} className="p-2.5 hover:bg-[#f7f7f7] rounded-full transition-colors" data-testid="like-button" aria-label="Guardar favorito">
+                <Heart className={cn("w-4 h-4 text-[#222]", liked && "fill-[#059669] text-[#059669]")} />
               </button>
             </div>
           </div>
@@ -365,26 +365,26 @@ export default function PropertyDetail() {
             <div className="sticky top-24 fl-card p-6">
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-2xl font-medium text-[#0a1628]">
+                  <span className="text-2xl font-semibold text-[#222]">
                     ${((property.fractionPrice || 250000) / 1000).toFixed(0)}K
                   </span>
-                  <span className="text-[#94a3b8] font-light">MXN / semana</span>
+                  <span className="text-[#717171]">MXN / semana</span>
                 </div>
-                <p className="text-[#94a3b8] text-sm font-light">Preventa · Máxima plusvalía</p>
+                <p className="text-[#717171] text-sm">Preventa · Máxima plusvalía</p>
               </div>
 
               <div className="space-y-3 mb-6">
-                <div className="flex items-center gap-3 p-3 fl-gradient-turquoise rounded-xl">
+                <div className="flex items-center gap-3 p-3 fl-gradient-brand rounded-xl">
                   <Check className="w-5 h-5 text-white" />
-                  <span className="text-white text-sm font-light">30% enganche</span>
+                  <span className="text-white text-sm">30% enganche</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-[#f0fdfa] rounded-xl">
-                  <Check className="w-5 h-5 text-[#0891b2]" />
-                  <span className="text-[#0e7490] text-sm font-light">12 meses sin intereses</span>
+                <div className="flex items-center gap-3 p-3 bg-[#f0fdf4] rounded-xl border border-[#059669]/10">
+                  <Check className="w-5 h-5 text-[#059669]" />
+                  <span className="text-[#059669] text-sm">12 meses sin intereses</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 fl-gradient-sunset rounded-xl">
-                  <Check className="w-5 h-5 text-white" />
-                  <span className="text-white text-sm font-light">Propiedad heredable</span>
+                <div className="flex items-center gap-3 p-3 bg-[#f7f7f7] rounded-xl border border-[#ebebeb]">
+                  <Check className="w-5 h-5 text-[#222]" />
+                  <span className="text-[#222] text-sm">Propiedad heredable</span>
                 </div>
               </div>
 
@@ -406,7 +406,7 @@ export default function PropertyDetail() {
                 </button>
               )}
 
-              <p className="text-center text-[#94a3b8] text-xs mt-4 font-light">Te contactamos en menos de 24 horas</p>
+              <p className="text-center text-[#717171] text-xs mt-4">Te contactamos en menos de 24 horas</p>
             </div>
           </div>
         </div>
@@ -490,17 +490,17 @@ export default function PropertyDetail() {
       </Dialog>
 
       {showBeneficios && (
-        <div className="fixed inset-0 bg-[#0a1628]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowBeneficios(false)}>
-          <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <div className="sticky top-0 bg-white/95 backdrop-blur-sm p-5 border-b border-[#e2e8f0] flex items-center justify-between z-10 rounded-t-2xl">
-              <h2 className="text-lg text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Beneficios Fractional Living</h2>
-              <button onClick={() => setShowBeneficios(false)} className="p-2 hover:bg-[#f0fdfa] rounded-xl transition-colors duration-200">
-                <X className="w-5 h-5 text-[#94a3b8]" />
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center" onClick={() => setShowBeneficios(false)}>
+          <div className="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-md max-h-[85vh] overflow-y-auto shadow-2xl" onClick={e => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white/95 backdrop-blur-sm p-5 border-b border-[#ebebeb] flex items-center justify-between z-10 rounded-t-3xl sm:rounded-t-3xl">
+              <h2 className="text-lg text-[#222] font-semibold">Beneficios Fractional Living</h2>
+              <button onClick={() => setShowBeneficios(false)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#f7f7f7] transition-colors">
+                <X className="w-5 h-5 text-[#717171]" />
               </button>
             </div>
-            <div className="p-5 text-sm text-[#64748b] space-y-6 font-light leading-relaxed">
+            <div className="p-5 text-sm text-[#717171] space-y-6 leading-relaxed">
               
-              <div className="fl-gradient-sunset p-4 rounded-xl">
+              <div className="fl-gradient-brand p-4 rounded-xl">
                 <p className="text-center text-white font-medium text-base">
                   En Fractional Living la experiencia, plusvalía y seguridad son un mismo concepto
                 </p>

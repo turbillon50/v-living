@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { Globe, Menu, User, Lock, ArrowLeft } from 'lucide-react';
+import { Globe, Menu, User, Lock, Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -15,6 +16,7 @@ export function Header() {
   const [location] = useLocation();
   const { language, setLanguage } = useLanguage();
   const { user, setShowAuthModal, setAuthModalMode } = useAuth();
+  const [showSearch, setShowSearch] = useState(false);
 
   const openWhatsApp = () => {
     window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living', '_blank');
@@ -31,117 +33,172 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 fl-glass-header">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between h-14">
-          <div className="flex items-center gap-3">
-            {(location.startsWith('/property') || location === '/registro' || location === '/creator') && (
-              <Link href="/fractional">
-                <button className="p-2 -ml-2 hover:bg-white/5 rounded-lg transition-colors duration-200" data-testid="button-back">
-                  <ArrowLeft className="w-4 h-4 text-[#94a3b8]" />
-                </button>
-              </Link>
-            )}
+    <>
+      <header className="fixed top-0 left-0 right-0 z-50 fl-glass-header">
+        <div className="max-w-[2520px] mx-auto px-4 sm:px-6 md:px-10 lg:px-20">
+          <div className="flex items-center justify-between h-16 md:h-20">
             <Link href="/" data-testid="link-home">
-              <span className="flex items-center gap-2 cursor-pointer group">
-                <div className="w-7 h-7 rounded-md fl-gradient-turquoise flex items-center justify-center">
-                  <svg className="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <span className="flex items-center gap-2.5 cursor-pointer group">
+                <div className="w-8 h-8 rounded-lg fl-gradient-brand flex items-center justify-center">
+                  <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                     <polyline points="9 22 9 12 15 12 15 22" />
                   </svg>
                 </div>
-                <span className="text-[15px] tracking-[0.04em] text-white/90 font-light hidden sm:inline" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
-                  Fractional Living
+                <span className="text-lg font-bold text-[#059669] tracking-tight hidden sm:inline">
+                  fractional
                 </span>
               </span>
             </Link>
-          </div>
-
-          <nav className="hidden md:flex items-center gap-7">
-            {[
-              { href: '/fractional', labelEs: 'Propiedades', labelEn: 'Properties', match: (l: string) => l.startsWith('/fractional') || l.startsWith('/property') },
-              { href: '/experiences', labelEs: 'Experiencias', labelEn: 'Experiences', match: (l: string) => l === '/experiences' },
-              { href: '/inmobiliaria', labelEs: 'Inmobiliaria', labelEn: 'Real Estate', match: (l: string) => l === '/inmobiliaria' },
-              { href: '/creditos', labelEs: 'Créditos', labelEn: 'Credits', match: (l: string) => l === '/creditos' },
-            ].map((item) => (
-              <Link key={item.href} href={item.href} data-testid={`link-${item.href.slice(1)}`}>
-                <span className={`text-[11px] uppercase tracking-[0.12em] cursor-pointer transition-colors duration-200 font-medium ${item.match(location) ? 'text-[#22d3ee]' : 'text-[#64748b] hover:text-[#94a3b8]'}`}>
-                  {language === 'es' ? item.labelEs : item.labelEn}
-                </span>
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-2">
-            <Link href="/creator">
-              <Button variant="ghost" size="icon" className="w-7 h-7 text-[#475569] hover:text-[#22d3ee] hover:bg-white/5" title="Admin">
-                <Lock className="w-3.5 h-3.5" />
-              </Button>
-            </Link>
 
             <button
-              className="flex items-center gap-1 text-[11px] text-[#64748b] hover:text-[#22d3ee] transition-colors duration-200 px-2 py-1 tracking-wider uppercase font-medium"
-              data-testid="button-language"
-              onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
+              onClick={() => setShowSearch(true)}
+              className="hidden md:flex items-center gap-4 border border-[#dddddd] rounded-full py-2 px-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              data-testid="button-search-header"
             >
-              <Globe className="w-3 h-3" />
-              {language.toUpperCase()}
+              <span className="text-sm font-semibold px-2 border-r border-[#dddddd]">
+                {language === 'es' ? 'Destino' : 'Destination'}
+              </span>
+              <span className="text-sm font-semibold px-2 border-r border-[#dddddd]">
+                {language === 'es' ? 'Semana' : 'Week'}
+              </span>
+              <span className="text-sm text-[#717171] px-2">
+                {language === 'es' ? '¿Cuántos?' : 'How many?'}
+              </span>
+              <div className="w-8 h-8 rounded-full fl-gradient-brand flex items-center justify-center">
+                <Search className="w-3.5 h-3.5 text-white" />
+              </div>
             </button>
 
-            <Link href="/invest">
-              <button
-                className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg fl-btn-primary text-[11px] uppercase tracking-[0.1em] font-medium"
-                data-testid="button-invest-now"
-              >
-                {language === 'es' ? 'Invertir Ahora' : 'Invest Now'}
-              </button>
-            </Link>
+            <button
+              onClick={() => setShowSearch(true)}
+              className="flex md:hidden items-center gap-3 flex-1 mx-4 bg-white border border-[#dddddd] rounded-full py-2.5 px-4 shadow-sm active:shadow-none transition-shadow"
+              data-testid="button-search-mobile"
+            >
+              <Search className="w-4 h-4 text-[#222]" />
+              <div className="text-left">
+                <p className="text-xs font-semibold text-[#222]">{language === 'es' ? '¿A dónde vas?' : 'Where to?'}</p>
+                <p className="text-[10px] text-[#717171]">{language === 'es' ? 'Destino · Semana · Huéspedes' : 'Destination · Week · Guests'}</p>
+              </div>
+            </button>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button
-                  className="flex items-center gap-1.5 border border-[rgba(6,182,212,0.12)] rounded-lg px-2 py-1.5 hover:border-[rgba(6,182,212,0.25)] transition-all duration-200"
-                  data-testid="button-user-menu"
-                >
-                  <Menu className="w-3.5 h-3.5 text-[#64748b]" />
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center ${user ? 'fl-gradient-turquoise' : 'bg-[#1e293b]'}`}>
-                    <User className="w-3 h-3 text-white/80" />
-                  </div>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-52 rounded-xl bg-[#0a1628] border-[rgba(6,182,212,0.1)] text-[#e2e8f0]">
-                {user ? (
-                  <>
-                    <div className="px-3 py-2">
-                      <p className="font-medium text-white text-sm">{user.name}</p>
-                      <p className="text-xs text-[#64748b]">{user.email}</p>
+            <div className="flex items-center gap-1">
+              <Link href="/creator">
+                <Button variant="ghost" size="icon" className="w-9 h-9 rounded-full text-[#717171] hover:text-[#222] hover:bg-[#f7f7f7]" title="Admin">
+                  <Lock className="w-4 h-4" />
+                </Button>
+              </Link>
+
+              <button
+                className="hidden md:flex items-center gap-1.5 text-sm text-[#222] font-semibold hover:bg-[#f7f7f7] px-3 py-2 rounded-full transition-colors"
+                data-testid="button-language"
+                onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
+              >
+                <Globe className="w-4 h-4" />
+                {language.toUpperCase()}
+              </button>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className="flex items-center gap-2 border border-[#dddddd] rounded-full px-2 py-1.5 hover:shadow-md transition-shadow ml-1"
+                    data-testid="button-user-menu"
+                  >
+                    <Menu className="w-4 h-4 text-[#717171]" />
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center ${user ? 'fl-gradient-brand' : 'bg-[#717171]'}`}>
+                      <User className="w-3.5 h-3.5 text-white" />
                     </div>
-                    <DropdownMenuSeparator className="bg-[rgba(6,182,212,0.08)]" />
-                    <Link href="/perfil">
-                      <DropdownMenuItem className="cursor-pointer rounded-lg text-[#94a3b8] focus:text-white focus:bg-white/5">
-                        {language === 'es' ? 'Mi Perfil' : 'My Profile'}
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 rounded-xl bg-white border border-[#dddddd] shadow-lg">
+                  {user ? (
+                    <>
+                      <div className="px-4 py-3">
+                        <p className="font-semibold text-sm text-[#222]">{user.name}</p>
+                        <p className="text-xs text-[#717171]">{user.email}</p>
+                      </div>
+                      <DropdownMenuSeparator className="bg-[#ebebeb]" />
+                      <Link href="/perfil">
+                        <DropdownMenuItem className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7] font-medium">
+                          {language === 'es' ? 'Mi Perfil' : 'My Profile'}
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link href="/dashboard">
+                        <DropdownMenuItem className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]">
+                          {language === 'es' ? 'Mis Reservas' : 'My Bookings'}
+                        </DropdownMenuItem>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <DropdownMenuItem onClick={handleRegister} className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]">
+                        <span className="font-semibold">{language === 'es' ? 'Registrarse' : 'Sign up'}</span>
                       </DropdownMenuItem>
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <DropdownMenuItem onClick={handleRegister} className="cursor-pointer rounded-lg text-[#94a3b8] focus:text-white focus:bg-white/5">
-                      <span className="font-medium">{language === 'es' ? 'Registrarse' : 'Sign up'}</span>
+                      <DropdownMenuItem onClick={handleLogin} className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]">
+                        {language === 'es' ? 'Iniciar Sesión' : 'Log in'}
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                  <DropdownMenuSeparator className="bg-[#ebebeb]" />
+                  <Link href="/experiences">
+                    <DropdownMenuItem className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]">
+                      {language === 'es' ? 'Experiencias' : 'Experiences'}
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleLogin} className="cursor-pointer rounded-lg text-[#94a3b8] focus:text-white focus:bg-white/5">
-                      {language === 'es' ? 'Iniciar Sesión' : 'Log in'}
-                    </DropdownMenuItem>
-                  </>
-                )}
-                <DropdownMenuSeparator className="bg-[rgba(6,182,212,0.08)]" />
-                <DropdownMenuItem onClick={openWhatsApp} className="cursor-pointer rounded-lg text-[#64748b] focus:text-[#22d3ee] focus:bg-white/5">
-                  {language === 'es' ? 'Centro de Ayuda' : 'Help Center'}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  </Link>
+                  <DropdownMenuItem onClick={openWhatsApp} className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]">
+                    {language === 'es' ? 'Centro de Ayuda' : 'Help Center'}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {showSearch && (
+        <div className="fixed inset-0 z-[100] bg-white md:bg-black/40" onClick={() => setShowSearch(false)}>
+          <div className="w-full max-w-2xl mx-auto md:mt-20 bg-white md:rounded-3xl shadow-2xl" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-4 border-b border-[#ebebeb]">
+              <button onClick={() => setShowSearch(false)} className="w-8 h-8 flex items-center justify-center rounded-full border border-[#dddddd] hover:shadow-md transition-shadow" data-testid="button-close-search">
+                <X className="w-4 h-4" />
+              </button>
+              <div className="flex gap-4">
+                <button className="text-sm font-semibold text-[#222] border-b-2 border-[#222] pb-1">
+                  {language === 'es' ? 'Fracciones' : 'Fractions'}
+                </button>
+                <button className="text-sm text-[#717171] pb-1">
+                  {language === 'es' ? 'Experiencias' : 'Experiences'}
+                </button>
+              </div>
+              <div className="w-8" />
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="rounded-2xl border border-[#dddddd] p-4 hover:shadow-md transition-shadow cursor-pointer">
+                <p className="text-xs font-bold text-[#222] mb-1">{language === 'es' ? 'Destino' : 'Destination'}</p>
+                <p className="text-sm text-[#717171]">{language === 'es' ? 'Riviera Maya, Tulum, Cancún...' : 'Riviera Maya, Tulum, Cancún...'}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Link href="/fractional" onClick={() => setShowSearch(false)}>
+                  <div className="rounded-2xl border border-[#dddddd] p-4 hover:shadow-md transition-shadow cursor-pointer">
+                    <p className="text-xs font-bold text-[#222] mb-1">{language === 'es' ? 'Semana' : 'Week'}</p>
+                    <p className="text-sm text-[#717171]">{language === 'es' ? 'Elige semanas' : 'Choose weeks'}</p>
+                  </div>
+                </Link>
+                <div className="rounded-2xl border border-[#dddddd] p-4 hover:shadow-md transition-shadow cursor-pointer">
+                  <p className="text-xs font-bold text-[#222] mb-1">{language === 'es' ? '¿Cuántos?' : 'How many?'}</p>
+                  <p className="text-sm text-[#717171]">{language === 'es' ? 'Agregar huéspedes' : 'Add guests'}</p>
+                </div>
+              </div>
+              <Link href="/fractional" onClick={() => setShowSearch(false)}>
+                <button className="w-full py-3.5 fl-btn-primary text-base flex items-center justify-center gap-2" data-testid="button-search-go">
+                  <Search className="w-4 h-4" />
+                  {language === 'es' ? 'Buscar' : 'Search'}
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

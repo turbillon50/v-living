@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter';
-import { Building2, Home as HomeIcon, Share2, User, MessageCircle } from 'lucide-react';
+import { Search, Building2, Heart, User, Share2, MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 const WHATSAPP_NUMBER = '529984292748';
@@ -33,26 +33,24 @@ export function BottomNav({ onOpenAlix }: { onOpenAlix?: () => void }) {
     }
   };
 
-  const navItems = [
-    { href: '/', labelEs: 'Inicio', labelEn: 'Home', icon: HomeIcon, action: 'link' as const },
-    { href: '/fractional', labelEs: 'Invertir', labelEn: 'Invest', icon: Building2, action: 'link' as const },
+  const tabs = [
+    { href: '/', icon: Search, labelEs: 'Explorar', labelEn: 'Explore', match: (l: string) => l === '/' || l === '/home' },
+    { href: '/fractional', icon: Building2, labelEs: 'Fracciones', labelEn: 'Fractions', match: (l: string) => l.startsWith('/fractional') || l.startsWith('/property') },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 fl-glass-header safe-area-bottom md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#ebebeb] safe-area-bottom md:hidden">
       <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-1">
-        {navItems.map((item) => {
+        {tabs.map((item) => {
           const Icon = item.icon;
-          const isActive = location === item.href ||
-            (item.href === '/fractional' && (location.startsWith('/fractional') || location.startsWith('/property')));
-
+          const isActive = item.match(location);
           return (
             <Link key={item.href} href={item.href}>
-              <button className={`flex flex-col items-center justify-center gap-0.5 min-w-[48px] py-1.5 transition-all duration-200 ${
-                isActive ? 'text-[#22d3ee]' : 'text-[#475569]'
-              }`} data-testid={`nav-${item.href.slice(1) || 'home'}`}>
-                <Icon className={`w-[18px] h-[18px] transition-all duration-200 ${isActive ? 'stroke-[2]' : 'stroke-[1.5]'}`} />
-                <span className={`text-[9px] tracking-[0.04em] uppercase transition-all duration-200 ${isActive ? 'font-semibold' : 'font-normal'}`}>
+              <button className={`flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1.5 transition-colors ${
+                isActive ? 'text-[#059669]' : 'text-[#717171]'
+              }`} data-testid={`nav-${item.href.slice(1) || 'explore'}`}>
+                <Icon className={`w-[22px] h-[22px] ${isActive ? 'stroke-[2.5]' : 'stroke-[1.5]'}`} />
+                <span className={`text-[10px] tracking-tight ${isActive ? 'font-bold' : 'font-normal'}`}>
                   {language === 'es' ? item.labelEs : item.labelEn}
                 </span>
               </button>
@@ -62,33 +60,33 @@ export function BottomNav({ onOpenAlix }: { onOpenAlix?: () => void }) {
 
         <button
           onClick={onOpenAlix}
-          className="flex flex-col items-center justify-center gap-0.5 min-w-[48px] py-1.5 transition-all duration-200 text-[#475569] active:text-white"
+          className="flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1.5 text-[#717171] active:text-[#059669] transition-colors"
           data-testid="nav-alix"
         >
-          <div className="w-[22px] h-[22px] rounded-full flex items-center justify-center border border-[rgba(6,182,212,0.3)] bg-[rgba(6,182,212,0.08)]">
-            <span className="text-[#22d3ee] font-bold text-[7px] tracking-[0.1em] leading-none">AI</span>
+          <div className="w-[22px] h-[22px] rounded-full fl-gradient-brand flex items-center justify-center">
+            <span className="text-white font-bold text-[7px] tracking-wide">AI</span>
           </div>
-          <span className="text-[9px] tracking-[0.04em] uppercase font-normal text-[#22d3ee]">ALIX</span>
+          <span className="text-[10px] tracking-tight font-medium text-[#059669]">ALIX</span>
         </button>
 
         <button
           onClick={handleShare}
-          className="flex flex-col items-center justify-center gap-0.5 min-w-[48px] py-1.5 transition-all duration-200 text-[#475569] active:text-white"
+          className="flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1.5 text-[#717171] active:text-[#222] transition-colors"
           data-testid="nav-share"
         >
-          <Share2 className="w-[18px] h-[18px] stroke-[1.5]" />
-          <span className="text-[9px] tracking-[0.04em] uppercase font-normal">
+          <Share2 className="w-[22px] h-[22px] stroke-[1.5]" />
+          <span className="text-[10px] tracking-tight">
             {language === 'es' ? 'Compartir' : 'Share'}
           </span>
         </button>
 
         <button
           onClick={openWhatsApp}
-          className="flex flex-col items-center justify-center gap-0.5 min-w-[48px] py-1.5 transition-all duration-200 text-[#25D366] active:text-[#20BD5A]"
+          className="flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1.5 text-[#25D366] active:text-[#20BD5A] transition-colors"
           data-testid="nav-whatsapp"
         >
-          <MessageCircle className="w-[18px] h-[18px] stroke-[1.5] fill-[#25D366]/20" />
-          <span className="text-[9px] tracking-[0.04em] uppercase font-normal">WhatsApp</span>
+          <MessageCircle className="w-[22px] h-[22px] stroke-[1.5] fill-[#25D366]/20" />
+          <span className="text-[10px] tracking-tight font-medium">WhatsApp</span>
         </button>
       </div>
     </nav>
