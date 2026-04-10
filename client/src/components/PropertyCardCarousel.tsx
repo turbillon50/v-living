@@ -1,7 +1,8 @@
 import { useState, useRef, useCallback } from 'react';
-import { Heart, Star, MapPin, ChevronLeft, ChevronRight, Waves } from 'lucide-react';
+import { Heart, Star, MapPin, ChevronLeft, ChevronRight, Waves, TrendingUp } from 'lucide-react';
 import { Link } from 'wouter';
 import { Property } from '@shared/schema';
+import { useFavorites } from '@/lib/FavoritesContext';
 
 interface PropertyCardCarouselProps {
   property: Property;
@@ -10,7 +11,8 @@ interface PropertyCardCarouselProps {
 
 export function PropertyCardCarousel({ property, featured }: PropertyCardCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [liked, setLiked] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const liked = isFavorite(property.id);
   const touchStartX = useRef<number | null>(null);
 
   const images = property.images?.length > 0 ? property.images : [];
@@ -62,7 +64,7 @@ export function PropertyCardCarousel({ property, featured }: PropertyCardCarouse
         )}
 
         <button
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); }}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleFavorite(property.id); }}
           className="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-sm z-10"
           aria-label="Guardar favorito"
           data-testid={`fav-${property.id}`}
@@ -137,10 +139,16 @@ export function PropertyCardCarousel({ property, featured }: PropertyCardCarouse
             {property.bathrooms && <span>{property.bathrooms} baño</span>}
           </div>
 
-          <p className="text-[#222] font-semibold">
-            ${((property.fractionPrice || property.price || 250000) / 1000).toFixed(0)}K
-            <span className="text-[#717171] font-normal text-xs ml-1">{property.currency || 'MXN'} / fracción</span>
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-[#222] font-semibold">
+              ${((property.fractionPrice || property.price || 250000) / 1000).toFixed(0)}K
+              <span className="text-[#717171] font-normal text-xs ml-1">{property.currency || 'MXN'} / fracción</span>
+            </p>
+            <span className="flex items-center gap-1 text-[#059669] text-xs font-semibold" data-testid={`yield-${property.id}`}>
+              <TrendingUp className="w-3 h-3" />
+              {property.appreciationRate || 12}% yield
+            </span>
+          </div>
         </div>
       </Link>
     </div>

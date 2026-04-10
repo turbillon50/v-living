@@ -23,7 +23,6 @@ export default function Home() {
   const { language } = useLanguage();
   const [activeTab, setActiveTab] = useState('all');
   const [showLegal, setShowLegal] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
   
   const { data: properties = [] } = useQuery<Property[]>({
@@ -114,12 +113,10 @@ export default function Home() {
         </div>
         
         {displayProperties.length > 0 ? (
-          <div className="overflow-x-auto no-scrollbar" ref={scrollRef}>
-            <div className="flex gap-4 px-5 pb-4" style={{ width: 'max-content' }}>
-              {displayProperties.slice(0, 8).map((property) => (
-                <div key={property.id} className="w-[300px] flex-shrink-0">
-                  <PropertyCardCarousel property={property} />
-                </div>
+          <div className="px-5 max-w-7xl mx-auto" data-testid="property-grid">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {displayProperties.slice(0, 12).map((property) => (
+                <PropertyCardCarousel key={property.id} property={property} />
               ))}
             </div>
           </div>
