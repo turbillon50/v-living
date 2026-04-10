@@ -51,7 +51,7 @@ export default function Inmobiliaria() {
       <div className="min-h-screen bg-[#fafcfd] pb-24">
         <Header />
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <button onClick={() => setSelectedListing(null)} className="flex items-center gap-2 text-[#0891b2] mb-6 hover:underline" data-testid="button-back-listings">
+          <button onClick={() => setSelectedListing(null)} className="flex items-center gap-2 text-[#059669] mb-6 hover:underline" data-testid="button-back-listings">
             <ArrowLeft className="w-4 h-4" />
             {language === 'es' ? 'Volver al listado' : 'Back to listings'}
           </button>
@@ -72,9 +72,9 @@ export default function Inmobiliaria() {
               </div>
             </div>
           ) : (
-            <div className="rounded-2xl bg-gradient-to-br from-[#0a1628]/5 via-[#0891b2]/10 to-[#22d3ee]/5 h-[300px] flex items-center justify-center mb-6">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#0891b2]/20 to-[#22d3ee]/20 flex items-center justify-center">
-                <Building2 className="w-10 h-10 text-[#0891b2]/40" />
+            <div className="rounded-2xl bg-gradient-to-br from-[#f0fdf4] via-[#059669]/10 to-[#06b6d4]/5 h-[300px] flex items-center justify-center mb-6">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#059669]/20 to-[#06b6d4]/20 flex items-center justify-center">
+                <Building2 className="w-10 h-10 text-[#059669]/40" />
               </div>
             </div>
           )}
@@ -82,23 +82,23 @@ export default function Inmobiliaria() {
           {(selectedListing.images as string[])?.length > 1 && (
             <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
               {(selectedListing.images as string[]).map((img, i) => (
-                <img key={i} src={img} alt="" className="w-20 h-20 rounded-lg object-cover flex-shrink-0 border-2 border-transparent hover:border-[#0891b2] cursor-pointer transition-all" />
+                <img key={i} src={img} alt="" className="w-20 h-20 rounded-lg object-cover flex-shrink-0 border-2 border-transparent hover:border-[#059669]/50 cursor-pointer transition-all" />
               ))}
             </div>
           )}
 
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h1 className="text-2xl md:text-3xl text-[#0a1628] mb-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }} data-testid="text-listing-title">
+              <h1 className="text-2xl md:text-3xl text-[#222] mb-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }} data-testid="text-listing-title">
                 {selectedListing.title}
               </h1>
               <p className="flex items-center gap-1.5 text-[#64748b] text-sm">
-                <MapPin className="w-4 h-4 text-[#0891b2]" />
+                <MapPin className="w-4 h-4 text-[#059669]" />
                 {selectedListing.location}, {selectedListing.country}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold text-[#0891b2]" data-testid="text-listing-price">
+              <p className="text-2xl font-bold text-[#059669]" data-testid="text-listing-price">
                 {formatPrice(selectedListing.price, selectedListing.currency || 'USD')}
               </p>
               <p className="text-xs text-[#94a3b8] uppercase tracking-wider">{selectedListing.currency}</p>
@@ -108,32 +108,32 @@ export default function Inmobiliaria() {
           <div className="flex flex-wrap gap-4 mb-6 py-4 border-y border-[#e2e8f0]">
             {selectedListing.bedrooms && (
               <div className="flex items-center gap-2 text-[#64748b]">
-                <Bed className="w-4 h-4 text-[#0891b2]" />
+                <Bed className="w-4 h-4 text-[#059669]" />
                 <span className="text-sm">{selectedListing.bedrooms} {language === 'es' ? 'Recámaras' : 'Bedrooms'}</span>
               </div>
             )}
             {selectedListing.bathrooms && (
               <div className="flex items-center gap-2 text-[#64748b]">
-                <Bath className="w-4 h-4 text-[#0891b2]" />
+                <Bath className="w-4 h-4 text-[#059669]" />
                 <span className="text-sm">{selectedListing.bathrooms} {language === 'es' ? 'Baños' : 'Bathrooms'}</span>
               </div>
             )}
             {selectedListing.sqMeters && (
               <div className="flex items-center gap-2 text-[#64748b]">
-                <Maximize className="w-4 h-4 text-[#0891b2]" />
+                <Maximize className="w-4 h-4 text-[#059669]" />
                 <span className="text-sm">{selectedListing.sqMeters} m²</span>
               </div>
             )}
             {selectedListing.yearBuilt && (
               <div className="flex items-center gap-2 text-[#64748b]">
-                <Building2 className="w-4 h-4 text-[#0891b2]" />
+                <Building2 className="w-4 h-4 text-[#059669]" />
                 <span className="text-sm">{language === 'es' ? 'Año' : 'Year'} {selectedListing.yearBuilt}</span>
               </div>
             )}
           </div>
 
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-[#0a1628] mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+            <h3 className="text-lg font-semibold text-[#222] mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? 'Descripción' : 'Description'}
             </h3>
             <p className="text-[#64748b] leading-relaxed whitespace-pre-line">{selectedListing.description}</p>
@@ -141,12 +141,12 @@ export default function Inmobiliaria() {
 
           {(selectedListing.features as string[])?.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-[#0a1628] mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+              <h3 className="text-lg font-semibold text-[#222] mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
                 {language === 'es' ? 'Características' : 'Features'}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {(selectedListing.features as string[]).map((f, i) => (
-                  <span key={i} className="px-3 py-1.5 bg-[#0891b2]/5 text-[#0891b2] rounded-full text-sm border border-[#0891b2]/10">
+                  <span key={i} className="px-3 py-1.5 bg-[#059669]/5 text-[#059669] rounded-full text-sm border border-[#059669]/10">
                     {f}
                   </span>
                 ))}
@@ -156,13 +156,13 @@ export default function Inmobiliaria() {
 
           {(selectedListing.amenities as string[])?.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-[#0a1628] mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+              <h3 className="text-lg font-semibold text-[#222] mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
                 {language === 'es' ? 'Amenidades' : 'Amenities'}
               </h3>
               <div className="grid grid-cols-2 gap-2">
                 {(selectedListing.amenities as string[]).map((a, i) => (
                   <div key={i} className="flex items-center gap-2 text-[#64748b] text-sm">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#22d3ee]" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#059669]" />
                     {a}
                   </div>
                 ))}
@@ -170,8 +170,8 @@ export default function Inmobiliaria() {
             </div>
           )}
 
-          <div className="bg-gradient-to-br from-[#0891b2]/5 to-[#22d3ee]/5 rounded-2xl p-6 border border-[#0891b2]/10">
-            <h3 className="text-lg font-semibold text-[#0a1628] mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+          <div className="bg-gradient-to-br from-[#059669]/5 to-[#06b6d4]/5 rounded-2xl p-6 border border-[#059669]/10">
+            <h3 className="text-lg font-semibold text-[#222] mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? '¿Te interesa esta propiedad?' : 'Interested in this property?'}
             </h3>
             
@@ -182,7 +182,7 @@ export default function Inmobiliaria() {
               </a>
             )}
             {selectedListing.contactEmail && (
-              <a href={`mailto:${selectedListing.contactEmail}?subject=${encodeURIComponent(`Interés en: ${selectedListing.title}`)}`} className="w-full py-3 border border-[#0891b2] text-[#0891b2] rounded-xl text-sm flex items-center justify-center gap-2 hover:bg-[#0891b2]/5 transition-colors" data-testid="button-email-listing">
+              <a href={`mailto:${selectedListing.contactEmail}?subject=${encodeURIComponent(`Interés en: ${selectedListing.title}`)}`} className="w-full py-3 border border-[#059669] text-[#059669] rounded-xl text-sm flex items-center justify-center gap-2 hover:bg-[#059669]/5 transition-colors" data-testid="button-email-listing">
                 <Mail className="w-4 h-4" />
                 {language === 'es' ? 'Enviar correo' : 'Send email'}
               </a>
@@ -212,10 +212,10 @@ export default function Inmobiliaria() {
       
       <section className="relative overflow-hidden">
         <div className="relative h-[320px] md:h-[380px]">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0a1628]/95 to-[#0891b2]/30" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#059669]/90 via-[#059669]/70 to-[#06b6d4]/60" />
           <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-          <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full bg-[#0891b2]/8 blur-[100px] -translate-y-1/3 -translate-x-1/4" />
-          <div className="absolute bottom-0 right-0 w-[350px] h-[350px] rounded-full bg-[#22d3ee]/6 blur-[80px] translate-y-1/3 translate-x-1/4" />
+          <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full bg-[#059669]/8 blur-[100px] -translate-y-1/3 -translate-x-1/4" />
+          <div className="absolute bottom-0 right-0 w-[350px] h-[350px] rounded-full bg-[#059669]/6 blur-[80px] translate-y-1/3 translate-x-1/4" />
           
           <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
             <div className="fl-fade-in">
@@ -244,7 +244,7 @@ export default function Inmobiliaria() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={language === 'es' ? 'Buscar por nombre o ubicación...' : 'Search by name or location...'}
-                className="w-full pl-10 pr-4 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#0891b2] focus:ring-1 focus:ring-[#0891b2]/20"
+                className="w-full pl-10 pr-4 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#059669] focus:ring-1 focus:ring-[#059669]/20"
                 data-testid="input-search-realestate"
               />
             </div>
@@ -257,8 +257,8 @@ export default function Inmobiliaria() {
                 onClick={() => setSelectedType(type.value)}
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                   selectedType === type.value
-                    ? 'bg-[#0891b2] text-white shadow-md shadow-[#0891b2]/20'
-                    : 'bg-[#f1f5f9] text-[#64748b] hover:bg-[#0891b2]/10 hover:text-[#0891b2]'
+                    ? 'bg-[#059669] text-white shadow-md shadow-[#059669]/20'
+                    : 'bg-[#f1f5f9] text-[#64748b] hover:bg-[#059669]/10 hover:text-[#059669]'
                 }`}
                 data-testid={`button-filter-${type.value}`}
               >
@@ -284,10 +284,10 @@ export default function Inmobiliaria() {
           </div>
         ) : filteredListings.length === 0 ? (
           <div className="text-center py-20">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#0891b2]/10 to-[#22d3ee]/10 flex items-center justify-center mx-auto mb-4">
-              <Building2 className="w-10 h-10 text-[#0891b2]/30" />
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#059669]/10 to-[#06b6d4]/10 flex items-center justify-center mx-auto mb-4">
+              <Building2 className="w-10 h-10 text-[#059669]/30" />
             </div>
-            <h3 className="text-xl text-[#0a1628] mb-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+            <h3 className="text-xl text-[#222] mb-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? 'No hay propiedades disponibles' : 'No properties available'}
             </h3>
             <p className="text-[#94a3b8] text-sm max-w-md mx-auto">
@@ -306,16 +306,16 @@ export default function Inmobiliaria() {
               <div
                 key={listing.id}
                 onClick={() => setSelectedListing(listing)}
-                className="bg-white rounded-2xl overflow-hidden border border-[#e2e8f0]/60 hover:shadow-xl hover:shadow-[#0891b2]/5 transition-all duration-300 cursor-pointer group"
+                className="bg-white rounded-2xl overflow-hidden border border-[#e2e8f0]/60 hover:shadow-xl hover:shadow-[#059669]/5 transition-all duration-300 cursor-pointer group"
                 data-testid={`card-listing-${listing.id}`}
               >
                 <div className="relative h-48 overflow-hidden">
                   {(listing.images as string[])?.length > 0 ? (
                     <img src={(listing.images as string[])[0]} alt={listing.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-[#0a1628]/5 via-[#0891b2]/10 to-[#22d3ee]/5 flex items-center justify-center">
-                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#0891b2]/15 to-[#22d3ee]/15 flex items-center justify-center">
-                        <Building2 className="w-7 h-7 text-[#0891b2]/30" />
+                    <div className="w-full h-full bg-gradient-to-br from-[#f0fdf4] via-[#059669]/10 to-[#06b6d4]/5 flex items-center justify-center">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#059669]/15 to-[#06b6d4]/15 flex items-center justify-center">
+                        <Building2 className="w-7 h-7 text-[#059669]/30" />
                       </div>
                     </div>
                   )}
@@ -332,7 +332,7 @@ export default function Inmobiliaria() {
                   </div>
                   {listing.isFeatured && (
                     <div className="absolute top-3 right-3">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-medium bg-[#0891b2] text-white">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-medium bg-[#059669] text-white">
                         {language === 'es' ? 'Destacada' : 'Featured'}
                       </span>
                     </div>
@@ -344,7 +344,7 @@ export default function Inmobiliaria() {
                     <MapPin className="w-3 h-3" />
                     {listing.location}
                   </div>
-                  <h3 className="text-[#0a1628] font-medium mb-2 line-clamp-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.1rem' }}>
+                  <h3 className="text-[#222] font-medium mb-2 line-clamp-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.1rem' }}>
                     {listing.title}
                   </h3>
                   <div className="flex items-center gap-3 text-[#94a3b8] text-xs mb-3">
@@ -353,10 +353,10 @@ export default function Inmobiliaria() {
                     {listing.sqMeters && <span className="flex items-center gap-1"><Maximize className="w-3.5 h-3.5" /> {listing.sqMeters}m²</span>}
                   </div>
                   <div className="flex items-center justify-between">
-                    <p className="text-lg font-bold text-[#0891b2]">
+                    <p className="text-lg font-bold text-[#059669]">
                       {formatPrice(listing.price, listing.currency || 'USD')}
                     </p>
-                    <ChevronRight className="w-4 h-4 text-[#cbd5e1] group-hover:text-[#0891b2] transition-colors" />
+                    <ChevronRight className="w-4 h-4 text-[#cbd5e1] group-hover:text-[#059669] transition-colors" />
                   </div>
                 </div>
               </div>
@@ -364,7 +364,7 @@ export default function Inmobiliaria() {
           </div>
         )}
 
-        <div className="mt-12 bg-gradient-to-br from-[#0a1628] to-[#0891b2]/90 rounded-2xl p-8 text-center">
+        <div className="mt-12 bg-gradient-to-br from-[#059669] to-[#06b6d4] rounded-2xl p-8 text-center">
           <h2 className="text-2xl text-white mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
             {language === 'es' ? '¿Necesitas financiamiento?' : 'Need financing?'}
           </h2>
@@ -374,7 +374,7 @@ export default function Inmobiliaria() {
               : 'Simulate your mortgage and get pre-approval in minutes'}
           </p>
           <Link href="/creditos">
-            <button className="px-8 py-3 bg-white text-[#0891b2] rounded-xl text-sm font-medium hover:bg-white/90 transition-colors inline-flex items-center gap-2" data-testid="button-go-credits">
+            <button className="px-8 py-3 bg-white text-[#059669] rounded-xl text-sm font-medium hover:bg-white/90 transition-colors inline-flex items-center gap-2" data-testid="button-go-credits">
               {language === 'es' ? 'Simulador de Crédito' : 'Credit Simulator'}
               <ChevronRight className="w-4 h-4" />
             </button>

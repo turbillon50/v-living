@@ -83,10 +83,10 @@ export default function Creditos() {
       
       <section className="relative overflow-hidden">
         <div className="relative h-[320px] md:h-[380px]">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0a1628]/95 to-[#0891b2]/40" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#059669]/90 via-[#059669]/70 to-[#06b6d4]/60" />
           <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[#0891b2]/8 blur-[100px] -translate-y-1/2 translate-x-1/4" />
-          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full bg-[#22d3ee]/6 blur-[80px] translate-y-1/2 -translate-x-1/4" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[#059669]/8 blur-[100px] -translate-y-1/2 translate-x-1/4" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full bg-[#06b6d4]/6 blur-[80px] translate-y-1/2 -translate-x-1/4" />
           
           <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
             <div className="fl-fade-in">
@@ -112,7 +112,7 @@ export default function Creditos() {
               <Calculator className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-xl text-[#0a1628]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }}>
+              <h2 className="text-xl text-[#222]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }}>
                 {language === 'es' ? 'Simulador de Crédito' : 'Credit Simulator'}
               </h2>
               <p className="text-xs text-[#94a3b8]">{language === 'es' ? 'Calcula tu crédito hipotecario' : 'Calculate your mortgage'}</p>
@@ -122,10 +122,10 @@ export default function Creditos() {
           <div className="space-y-6">
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-[#0a1628]">
+                <label className="text-sm font-medium text-[#222]">
                   {language === 'es' ? 'Valor de la propiedad' : 'Property value'}
                 </label>
-                <span className="text-lg font-bold text-[#0891b2]">{formatCurrency(propertyValue)}</span>
+                <span className="text-lg font-bold text-[#059669]">{formatCurrency(propertyValue)}</span>
               </div>
               <input
                 type="range"
@@ -134,7 +134,7 @@ export default function Creditos() {
                 step={10000}
                 value={propertyValue}
                 onChange={(e) => setPropertyValue(Number(e.target.value))}
-                className="w-full h-2 bg-[#e2e8f0] rounded-lg appearance-none cursor-pointer accent-[#0891b2]"
+                className="w-full h-2 bg-[#e2e8f0] rounded-lg appearance-none cursor-pointer accent-[#059669]"
                 data-testid="slider-property-value"
               />
               <div className="flex justify-between text-[10px] text-[#94a3b8] mt-1">
@@ -145,10 +145,10 @@ export default function Creditos() {
 
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-[#0a1628]">
+                <label className="text-sm font-medium text-[#222]">
                   {language === 'es' ? 'Enganche' : 'Down payment'} ({downPaymentPercent}%)
                 </label>
-                <span className="text-lg font-bold text-[#0891b2]">{formatCurrency(downPayment)}</span>
+                <span className="text-lg font-bold text-[#059669]">{formatCurrency(downPayment)}</span>
               </div>
               <input
                 type="range"
@@ -157,7 +157,7 @@ export default function Creditos() {
                 step={5}
                 value={downPaymentPercent}
                 onChange={(e) => setDownPaymentPercent(Number(e.target.value))}
-                className="w-full h-2 bg-[#e2e8f0] rounded-lg appearance-none cursor-pointer accent-[#0891b2]"
+                className="w-full h-2 bg-[#e2e8f0] rounded-lg appearance-none cursor-pointer accent-[#059669]"
                 data-testid="slider-down-payment"
               />
               <div className="flex justify-between text-[10px] text-[#94a3b8] mt-1">
@@ -169,10 +169,10 @@ export default function Creditos() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-[#0a1628]">
+                  <label className="text-sm font-medium text-[#222]">
                     {language === 'es' ? 'Plazo' : 'Term'}
                   </label>
-                  <span className="text-sm font-bold text-[#0891b2]">{termYears} {language === 'es' ? 'años' : 'years'}</span>
+                  <span className="text-sm font-bold text-[#059669]">{termYears} {language === 'es' ? 'años' : 'years'}</span>
                 </div>
                 <input
                   type="range"
@@ -181,7 +181,7 @@ export default function Creditos() {
                   step={5}
                   value={termYears}
                   onChange={(e) => setTermYears(Number(e.target.value))}
-                  className="w-full h-2 bg-[#e2e8f0] rounded-lg appearance-none cursor-pointer accent-[#0891b2]"
+                  className="w-full h-2 bg-[#e2e8f0] rounded-lg appearance-none cursor-pointer accent-[#059669]"
                   data-testid="slider-term"
                 />
                 <div className="flex justify-between text-[10px] text-[#94a3b8] mt-1">
@@ -192,10 +192,10 @@ export default function Creditos() {
 
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-[#0a1628]">
+                  <label className="text-sm font-medium text-[#222]">
                     {language === 'es' ? 'Tasa anual' : 'Annual rate'}
                   </label>
-                  <span className="text-sm font-bold text-[#0891b2]">{interestRate}%</span>
+                  <span className="text-sm font-bold text-[#059669]">{interestRate}%</span>
                 </div>
                 <input
                   type="range"
@@ -204,7 +204,7 @@ export default function Creditos() {
                   step={0.5}
                   value={interestRate}
                   onChange={(e) => setInterestRate(Number(e.target.value))}
-                  className="w-full h-2 bg-[#e2e8f0] rounded-lg appearance-none cursor-pointer accent-[#0891b2]"
+                  className="w-full h-2 bg-[#e2e8f0] rounded-lg appearance-none cursor-pointer accent-[#059669]"
                   data-testid="slider-rate"
                 />
                 <div className="flex justify-between text-[10px] text-[#94a3b8] mt-1">
@@ -215,37 +215,37 @@ export default function Creditos() {
             </div>
           </div>
 
-          <div className="mt-8 p-6 bg-gradient-to-br from-[#0891b2]/5 to-[#22d3ee]/5 rounded-2xl border border-[#0891b2]/10">
-            <h3 className="text-lg font-semibold text-[#0a1628] mb-4 text-center" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+          <div className="mt-8 p-6 bg-gradient-to-br from-[#059669]/5 to-[#06b6d4]/5 rounded-2xl border border-[#059669]/10">
+            <h3 className="text-lg font-semibold text-[#222] mb-4 text-center" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? 'Resultado de tu Simulación' : 'Your Simulation Result'}
             </h3>
             
             <div className="text-center mb-6">
               <p className="text-xs text-[#94a3b8] uppercase tracking-wider mb-1">{language === 'es' ? 'Pago Mensual Estimado' : 'Estimated Monthly Payment'}</p>
-              <p className="text-4xl font-bold text-[#0891b2]" data-testid="text-monthly-payment">{formatCurrency(monthlyPayment)}</p>
+              <p className="text-4xl font-bold text-[#059669]" data-testid="text-monthly-payment">{formatCurrency(monthlyPayment)}</p>
               <p className="text-xs text-[#94a3b8] mt-1">USD / {language === 'es' ? 'mes' : 'month'}</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-white rounded-xl p-3 text-center">
-                <DollarSign className="w-5 h-5 text-[#0891b2] mx-auto mb-1" />
+                <DollarSign className="w-5 h-5 text-[#059669] mx-auto mb-1" />
                 <p className="text-xs text-[#94a3b8]">{language === 'es' ? 'Monto crédito' : 'Loan amount'}</p>
-                <p className="text-sm font-bold text-[#0a1628]">{formatCurrency(loanAmount)}</p>
+                <p className="text-sm font-bold text-[#222]">{formatCurrency(loanAmount)}</p>
               </div>
               <div className="bg-white rounded-xl p-3 text-center">
-                <Clock className="w-5 h-5 text-[#0891b2] mx-auto mb-1" />
+                <Clock className="w-5 h-5 text-[#059669] mx-auto mb-1" />
                 <p className="text-xs text-[#94a3b8]">{language === 'es' ? 'Pagos totales' : 'Total payments'}</p>
-                <p className="text-sm font-bold text-[#0a1628]">{totalPayments}</p>
+                <p className="text-sm font-bold text-[#222]">{totalPayments}</p>
               </div>
               <div className="bg-white rounded-xl p-3 text-center">
-                <Percent className="w-5 h-5 text-[#0891b2] mx-auto mb-1" />
+                <Percent className="w-5 h-5 text-[#059669] mx-auto mb-1" />
                 <p className="text-xs text-[#94a3b8]">{language === 'es' ? 'Interés total' : 'Total interest'}</p>
-                <p className="text-sm font-bold text-[#0a1628]">{formatCurrency(totalInterest)}</p>
+                <p className="text-sm font-bold text-[#222]">{formatCurrency(totalInterest)}</p>
               </div>
               <div className="bg-white rounded-xl p-3 text-center">
-                <FileText className="w-5 h-5 text-[#0891b2] mx-auto mb-1" />
+                <FileText className="w-5 h-5 text-[#059669] mx-auto mb-1" />
                 <p className="text-xs text-[#94a3b8]">{language === 'es' ? 'Pago total' : 'Total paid'}</p>
-                <p className="text-sm font-bold text-[#0a1628]">{formatCurrency(totalPaid)}</p>
+                <p className="text-sm font-bold text-[#222]">{formatCurrency(totalPaid)}</p>
               </div>
             </div>
           </div>
@@ -262,7 +262,7 @@ export default function Creditos() {
           ) : submitted ? (
             <div className="mt-6 p-8 bg-emerald-50 rounded-2xl border border-emerald-200 text-center">
               <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
-              <h3 className="text-xl text-[#0a1628] mb-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+              <h3 className="text-xl text-[#222] mb-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
                 {language === 'es' ? '¡Solicitud Enviada!' : 'Application Sent!'}
               </h3>
               <p className="text-[#64748b] text-sm mb-4">
@@ -278,8 +278,8 @@ export default function Creditos() {
           ) : (
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               <div className="p-4 bg-[#f8fafc] rounded-xl border border-[#e2e8f0]">
-                <h4 className="text-sm font-medium text-[#0a1628] mb-4 flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-[#0891b2]" />
+                <h4 className="text-sm font-medium text-[#222] mb-4 flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-[#059669]" />
                   {language === 'es' ? 'Datos para Pre-Aprobación' : 'Pre-Approval Information'}
                 </h4>
                 
@@ -291,7 +291,7 @@ export default function Creditos() {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#0891b2]"
+                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#059669]"
                       data-testid="input-credit-name"
                     />
                   </div>
@@ -302,7 +302,7 @@ export default function Creditos() {
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#0891b2]"
+                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#059669]"
                       data-testid="input-credit-email"
                     />
                   </div>
@@ -313,7 +313,7 @@ export default function Creditos() {
                       required
                       value={formData.phone}
                       onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#0891b2]"
+                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#059669]"
                       data-testid="input-credit-phone"
                     />
                   </div>
@@ -323,7 +323,7 @@ export default function Creditos() {
                       type="number"
                       value={formData.monthlyIncome}
                       onChange={(e) => setFormData({...formData, monthlyIncome: e.target.value})}
-                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#0891b2]"
+                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#059669]"
                       data-testid="input-credit-income"
                     />
                   </div>
@@ -332,7 +332,7 @@ export default function Creditos() {
                     <select
                       value={formData.employmentType}
                       onChange={(e) => setFormData({...formData, employmentType: e.target.value})}
-                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#0891b2]"
+                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#059669]"
                       data-testid="select-employment-type"
                     >
                       <option value="empleado">{language === 'es' ? 'Empleado' : 'Employee'}</option>
@@ -346,7 +346,7 @@ export default function Creditos() {
                     <select
                       value={formData.propertyType}
                       onChange={(e) => setFormData({...formData, propertyType: e.target.value})}
-                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#0891b2]"
+                      className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#059669]"
                       data-testid="select-property-type"
                     >
                       <option value="casa">{language === 'es' ? 'Casa' : 'House'}</option>
@@ -364,7 +364,7 @@ export default function Creditos() {
                     value={formData.notes}
                     onChange={(e) => setFormData({...formData, notes: e.target.value})}
                     rows={3}
-                    className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#0891b2] resize-none"
+                    className="w-full px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#059669] resize-none"
                     data-testid="textarea-credit-notes"
                   />
                 </div>
@@ -399,10 +399,10 @@ export default function Creditos() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-white rounded-2xl p-6 border border-[#e2e8f0]/60 text-center">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#06b6d4] flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#0891b2]/15">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#059669]/15">
               <Clock className="w-6 h-6 text-white" />
             </div>
-            <h3 className="font-medium text-[#0a1628] mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+            <h3 className="font-medium text-[#222] mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? 'Respuesta Rápida' : 'Quick Response'}
             </h3>
             <p className="text-xs text-[#94a3b8]">
@@ -410,10 +410,10 @@ export default function Creditos() {
             </p>
           </div>
           <div className="bg-white rounded-2xl p-6 border border-[#e2e8f0]/60 text-center">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0a1628] to-[#0891b2] flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#0891b2]/15">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#059669] to-[#047857] flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#059669]/15">
               <Shield className="w-6 h-6 text-white" />
             </div>
-            <h3 className="font-medium text-[#0a1628] mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+            <h3 className="font-medium text-[#222] mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? '100% Confidencial' : '100% Confidential'}
             </h3>
             <p className="text-xs text-[#94a3b8]">
@@ -424,7 +424,7 @@ export default function Creditos() {
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#059669] to-[#06b6d4] flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#059669]/15">
               <TrendingUp className="w-6 h-6 text-white" />
             </div>
-            <h3 className="font-medium text-[#0a1628] mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+            <h3 className="font-medium text-[#222] mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               {language === 'es' ? 'Múltiples Opciones' : 'Multiple Options'}
             </h3>
             <p className="text-xs text-[#94a3b8]">
@@ -433,7 +433,7 @@ export default function Creditos() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-[#0a1628] to-[#0891b2]/90 rounded-2xl p-8 text-center">
+        <div className="bg-gradient-to-br from-[#059669] to-[#06b6d4] rounded-2xl p-8 text-center">
           <h2 className="text-2xl text-white mb-3" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300 }}>
             {language === 'es' ? '¿Buscas propiedades?' : 'Looking for properties?'}
           </h2>
@@ -441,7 +441,7 @@ export default function Creditos() {
             {language === 'es' ? 'Explora nuestro catálogo de propiedades premium en venta' : 'Explore our premium property catalog for sale'}
           </p>
           <Link href="/inmobiliaria">
-            <button className="px-8 py-3 bg-white text-[#0891b2] rounded-xl text-sm font-medium hover:bg-white/90 transition-colors inline-flex items-center gap-2" data-testid="button-go-realestate">
+            <button className="px-8 py-3 bg-white text-[#059669] rounded-xl text-sm font-medium hover:bg-white/90 transition-colors inline-flex items-center gap-2" data-testid="button-go-realestate">
               {language === 'es' ? 'Ver Propiedades' : 'View Properties'}
               <ChevronRight className="w-4 h-4" />
             </button>
