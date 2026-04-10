@@ -1518,5 +1518,99 @@ NO HAGAS:
     }
   });
 
+  app.get("/api/nearby-places", async (req, res) => {
+    try {
+      const { lat, lng, category } = req.query;
+      if (!lat || !lng || !category) {
+        return res.status(400).json({ error: "lat, lng, and category are required" });
+      }
+
+      const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+      if (!apiKey) {
+        return res.json([]);
+      }
+
+      const latitude = parseFloat(lat as string);
+      const longitude = parseFloat(lng as string);
+      if (isNaN(latitude) || isNaN(longitude)) {
+        return res.status(400).json({ error: "Invalid coordinates" });
+      }
+
+      const radius = 3000;
+
+      const categoryTypeMap: Record<string, string> = {
+        restaurant: 'restaurant',
+        beach: 'natural_feature',
+        hospital: 'hospital',
+        supermarket: 'supermarket',
+        school: 'school',
+        entertainment: 'movie_theater',
+        transport: 'transit_station',
+      };
+
+      const placeType = categoryTypeMap[category as string] || 'restaurant';
+
+      const url = new URL('https://maps.googleapis.com/maps/api/place/nearbysearch/json');
+      url.searchParams.set('location', `${latitude},${longitude}`);
+      url.searchParams.set('radius', String(radius));
+      url.searchParams.set('type', placeType);
+      url.searchParams.set('key', apiKey);
+      url.searchParams.set('language', 'es');
+
+      const response = await fetch(url.toString());
+      if (!response.ok) {
+        console.error("Google Places API error:", response.status);
+        return res.json([]);
+      }
+
+      const data = await response.json();
+
+      if (data.status !== 'OK' && data.status !== 'ZERO_RESULTS') {
+        console.error("Google Places API status:", data.status, data.error_message);
+        return res.json([]);
+      }
+
+      const haversine = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+        const R = 6371000;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat / 2) ** 2 +
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLon / 2) ** 2;
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      };
+
+      interface PlaceResult {
+        name?: string;
+        geometry?: { location?: { lat: number; lng: number } };
+        rating?: number;
+        vicinity?: string;
+      }
+
+      const places = (data.results as PlaceResult[] || [])
+        .filter((place: PlaceResult) => place.name && place.geometry?.location)
+        .map((place: PlaceResult) => {
+          const placeLat = place.geometry!.location!.lat;
+          const placeLng = place.geometry!.location!.lng;
+          return {
+            name: place.name!,
+            category: category as string,
+            distance: Math.round(haversine(latitude, longitude, placeLat, placeLng)),
+            rating: place.rating || null,
+            lat: placeLat,
+            lon: placeLng,
+          };
+        })
+        .sort((a: { distance: number }, b: { distance: number }) => a.distance - b.distance)
+        .slice(0, 15);
+
+      res.set('Cache-Control', 'public, max-age=3600');
+      res.json(places);
+    } catch (error) {
+      console.error("Error fetching nearby places:", error);
+      res.json([]);
+    }
+  });
+
   return httpServer;
 }

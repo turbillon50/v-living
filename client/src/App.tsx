@@ -45,6 +45,7 @@ import Hotels from "@/pages/Hotels";
 import Inmobiliaria from "@/pages/Inmobiliaria";
 import Creditos from "@/pages/Creditos";
 import Favoritos from "@/pages/Favoritos";
+import MapView from "@/pages/MapView";
 import NotFound from "@/pages/not-found";
 import { BottomNav } from "@/components/BottomNav";
 import { FloatingAI } from "@/components/FloatingAI";
@@ -87,6 +88,7 @@ function Router() {
       <Route path="/inmobiliaria" component={Inmobiliaria} />
       <Route path="/creditos" component={Creditos} />
       <Route path="/favoritos" component={Favoritos} />
+      <Route path="/mapa" component={MapView} />
       <Route component={NotFound} />
     </Switch>
   );

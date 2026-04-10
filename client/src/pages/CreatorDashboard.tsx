@@ -36,6 +36,8 @@ interface Property {
   priceMidSeason: number | null;
   priceLowSeason: number | null;
   videoUrl: string | null;
+  latitude: string | null;
+  longitude: string | null;
   mapUrl: string | null;
   bedrooms: number;
   bathrooms: number;
@@ -603,6 +605,8 @@ export default function CreatorDashboard() {
     priceMidSeason: null as number | null,
     priceLowSeason: null as number | null,
     videoUrl: '',
+    latitude: '',
+    longitude: '',
     mapUrl: '',
     bedrooms: 2,
     bathrooms: 2,
@@ -825,7 +829,7 @@ export default function CreatorDashboard() {
       images: [], videos: [], amenities: [], conditions: [], blockedWeeks: [], creatorBlockedWeeks: [],
       price: 650000, fractionPrice: 65000, totalFractions: 14, availableFractions: 14, weeksPerFraction: 3, currency: 'MXN',
       priceHighSeason: null, priceMidSeason: null, priceLowSeason: null,
-      videoUrl: '', mapUrl: '', bedrooms: 2, bathrooms: 2, maxGuests: 6, sqMeters: 150, tag: '', isFeatured: false
+      videoUrl: '', latitude: '', longitude: '', mapUrl: '', bedrooms: 2, bathrooms: 2, maxGuests: 6, sqMeters: 150, tag: '', isFeatured: false
     });
     setNewCondition('');
     setEditingProperty(null);
@@ -858,6 +862,8 @@ export default function CreatorDashboard() {
       priceMidSeason: property.priceMidSeason,
       priceLowSeason: property.priceLowSeason,
       videoUrl: property.videoUrl || '',
+      latitude: property.latitude || '',
+      longitude: property.longitude || '',
       mapUrl: property.mapUrl || '',
       bedrooms: property.bedrooms || 2,
       bathrooms: property.bathrooms || 2,
@@ -1016,6 +1022,8 @@ export default function CreatorDashboard() {
 
     const payload = {
       ...formData,
+      latitude: formData.latitude ? String(formData.latitude) : null,
+      longitude: formData.longitude ? String(formData.longitude) : null,
       priceHighSeason: formData.priceHighSeason || undefined,
       priceMidSeason: formData.priceMidSeason || undefined,
       priceLowSeason: formData.priceLowSeason || undefined,
@@ -1340,8 +1348,18 @@ export default function CreatorDashboard() {
                         <label className="text-xs text-[#717171]">URL Video (YouTube/Vimeo)</label>
                         <Input placeholder="https://..." value={formData.videoUrl} onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
                       </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="text-xs text-white/50">Latitud</label>
+                          <Input type="number" step="any" placeholder="20.2114" value={formData.latitude} onChange={(e) => setFormData(prev => ({ ...prev, latitude: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" data-testid="input-latitude" />
+                        </div>
+                        <div>
+                          <label className="text-xs text-white/50">Longitud</label>
+                          <Input type="number" step="any" placeholder="-87.4654" value={formData.longitude} onChange={(e) => setFormData(prev => ({ ...prev, longitude: e.target.value }))} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" data-testid="input-longitude" />
+                        </div>
+                      </div>
                       <div>
-                        <label className="text-xs text-[#717171]">URL Mapa (Google Maps)</label>
+                        <label className="text-xs text-[#717171]">URL Mapa (fallback)</label>
                         <Input placeholder="https://..." value={formData.mapUrl} onChange={(e) => setFormData(prev => ({ ...prev, mapUrl: e.target.value }))} className="bg-[#f0f0f0] border-[#ddd] text-[#222] placeholder:text-[#999]" />
                       </div>
                     </div>

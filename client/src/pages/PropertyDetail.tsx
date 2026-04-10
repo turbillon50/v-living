@@ -12,6 +12,8 @@ import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { getPropertyById, getBookedWeeks, createPreBooking } from '@/lib/api';
 import { FinancialCalculator } from '@/components/FinancialCalculator';
+import InteractiveMap from '@/components/InteractiveMap';
+import NearbyPlaces from '@/components/NearbyPlaces';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/lib/AuthContext';
@@ -190,6 +192,8 @@ export default function PropertyDetail() {
   const amenities = property.amenities || [];
   const videoUrl = property.videoUrl;
   const mapUrl = property.mapUrl;
+  const hasCoordinates = property.latitude && property.longitude;
+  const price = property.price || 650000;
 
   const getYoutubeEmbedUrl = (url: string) => {
     const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
@@ -418,12 +422,38 @@ export default function PropertyDetail() {
               </div>
             )}
 
-            {mapUrl && (
+            {hasCoordinates ? (
+              <div className="py-6 border-b">
+                <h2 className="text-lg mb-4 text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Dónde vas a estar</h2>
+                <InteractiveMap
+                  latitude={Number(property.latitude)}
+                  longitude={Number(property.longitude)}
+                  title={property.title}
+                  location={property.location}
+                  height="400px"
+                  className="mb-2"
+                />
+                <p className="text-sm text-[#888] font-light flex items-center gap-1.5 mt-3">
+                  <MapPin className="w-4 h-4" />
+                  {property.location}{property.country ? `, ${property.country}` : ''}
+                </p>
+              </div>
+            ) : mapUrl ? (
               <div className="py-6 border-b">
                 <h2 className="text-lg mb-4 text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>Dónde vas a estar</h2>
                 <div className="aspect-[16/9] rounded-md overflow-hidden">
                   <iframe src={mapUrl} className="w-full h-full border-0" allowFullScreen loading="lazy" title="Ubicación de la propiedad" />
                 </div>
+              </div>
+            ) : null}
+
+            {hasCoordinates && (
+              <div className="py-6 border-b">
+                <NearbyPlaces
+                  latitude={Number(property.latitude)}
+                  longitude={Number(property.longitude)}
+                  propertyTitle={property.title}
+                />
               </div>
             )}
 

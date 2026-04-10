@@ -43,6 +43,22 @@ The project employs a modern web architecture with distinct frontend and backend
 - **Migrations**: Drizzle Kit with push-based migrations
 - **Key Tables**: `properties`, `pre_bookings`, `real_estate_listings`, `credit_applications`, `api_keys`, `platforms`, `platform_api_keys`, `webhooks`, `ecosystem_events`.
 
+### Interactive Maps & Nearby Places
+
+The platform includes interactive map integration using Google Maps JavaScript API + Places API:
+
+Key components:
+- InteractiveMap.tsx - Google Maps with AdvancedMarkerElement, zoom controls, and InfoWindow popups
+- NearbyPlaces.tsx - Nearby places search by category (restaurants, beaches, hospitals, supermarkets, schools, entertainment, transport)
+- MapView.tsx - Full-page map view with price pill markers and MarkerClusterer
+
+Features:
+- Property detail shows interactive Google Map when lat/lng are set
+- Nearby places via backend proxy to Google Places API
+- Map overview at /mapa with Airbnb-style price markers, clustering, and property cards
+- Properties table has latitude and longitude columns
+- Requires VITE_GOOGLE_MAPS_KEY (browser, domain-restricted) and GOOGLE_MAPS_API_KEY (server-only for Places API)
+
 ### API Endpoints Overview
 - **Properties**: CRUD operations, filtering by category, booking week management.
 - **Pre-Bookings**: Creation and retrieval of 5-day hold reservations.

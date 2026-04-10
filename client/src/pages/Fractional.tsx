@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'wouter';
-import { ArrowRight, ChevronRight } from 'lucide-react';
+import { ArrowRight, ChevronRight, Map } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { AGHFooter } from '@/components/AGHFooter';
 import { PropertyCardCarousel } from '@/components/PropertyCardCarousel';
@@ -162,6 +162,16 @@ export default function Fractional() {
           WhatsApp Directo
         </a>
       </section>
+
+      <Link href="/mapa">
+        <button
+          className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 px-5 py-3 bg-[#0a1628] text-white text-sm font-medium rounded-full shadow-xl shadow-black/20 hover:bg-[#111d33] transition-all duration-200 hover:scale-105"
+          data-testid="button-show-map"
+        >
+          <Map className="w-4 h-4" />
+          {language === 'es' ? 'Mostrar mapa' : 'Show map'}
+        </button>
+      </Link>
 
       <AGHFooter />
     </div>

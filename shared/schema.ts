@@ -47,6 +47,8 @@ export const properties = pgTable("properties", {
   availableFractions: integer("available_fractions").default(8),
   weeksPerFraction: integer("weeks_per_fraction").default(3),
   videoUrl: text("video_url"),
+  latitude: decimal("latitude", { precision: 10, scale: 7 }),
+  longitude: decimal("longitude", { precision: 10, scale: 7 }),
   mapUrl: text("map_url"),
   virtualTourUrl: text("virtual_tour_url"),
   bedrooms: integer("bedrooms").default(3),
