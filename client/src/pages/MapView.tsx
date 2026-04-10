@@ -4,7 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getProperties } from '@/lib/api';
 import {
   MapPin, Bed, Bath, Users, Star, Loader2, X, List, Layers,
-  UtensilsCrossed, Waves, Hospital, ShoppingCart, GraduationCap, Plane, Music
+  UtensilsCrossed, Waves, Hospital, ShoppingCart, GraduationCap, Plane, Music,
+  ChevronRight, Clock, DollarSign
 } from 'lucide-react';
 import { setOptions, importLibrary } from '@googlemaps/js-api-loader';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
@@ -53,50 +54,116 @@ const POI_CATEGORIES = [
   { key: 'night_club', labelEs: 'Vida Nocturna', labelEn: 'Nightlife', icon: Music, color: '#ec4899' },
 ];
 
-function createPropertyPin(title: string, active = false): HTMLElement {
+function createFLMarker(active = false): HTMLElement {
   const wrapper = document.createElement('div');
-  wrapper.style.cssText = `display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:all 0.25s cubic-bezier(0.4,0,0.2,1);${active ? 'transform:scale(1.2);filter:drop-shadow(0 6px 12px rgba(5,150,105,0.4));' : 'filter:drop-shadow(0 2px 6px rgba(5,150,105,0.25));'}`;
+  wrapper.style.cssText = `display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);${active ? 'transform:scale(1.25);' : ''}`;
 
-  const bubble = document.createElement('div');
-  bubble.style.cssText = `display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:24px;background:${active ? 'linear-gradient(135deg,#047857,#059669,#06b6d4)' : '#059669'};color:white;font-size:11px;font-weight:600;font-family:Inter,sans-serif;white-space:nowrap;border:2px solid white;`;
+  const pin = document.createElement('div');
+  pin.style.cssText = `
+    width:${active ? '52px' : '44px'};
+    height:${active ? '52px' : '44px'};
+    border-radius:50% 50% 50% 0;
+    transform:rotate(-45deg);
+    background:linear-gradient(135deg,#047857 0%,#059669 40%,#0d9488 70%,#06b6d4 100%);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:${active ? '0 8px 24px rgba(5,150,105,0.5),0 0 0 4px rgba(5,150,105,0.15)' : '0 4px 12px rgba(5,150,105,0.35),0 0 0 3px rgba(255,255,255,0.9)'};
+    border:2.5px solid white;
+    position:relative;
+  `;
 
-  const pinIcon = document.createElement('div');
-  pinIcon.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M12 0C7.31 0 3.5 3.81 3.5 8.5C3.5 14.88 12 24 12 24S20.5 14.88 20.5 8.5C20.5 3.81 16.69 0 12 0ZM12 11.5C10.34 11.5 9 10.16 9 8.5S10.34 5.5 12 5.5S15 6.84 15 8.5S13.66 11.5 12 11.5Z"/></svg>`;
-  bubble.appendChild(pinIcon);
+  const inner = document.createElement('div');
+  inner.style.cssText = `
+    transform:rotate(45deg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:white;font-family:'Cormorant Garamond',Georgia,serif;
+    line-height:1;
+  `;
+  inner.innerHTML = `<span style="font-size:${active ? '18px' : '15px'};font-weight:700;letter-spacing:1px;">FL</span>`;
+  pin.appendChild(inner);
+  wrapper.appendChild(pin);
 
-  const label = document.createElement('span');
-  label.textContent = title.length > 18 ? title.substring(0, 16) + '…' : title;
-  bubble.appendChild(label);
-  wrapper.appendChild(bubble);
-
-  const arrow = document.createElement('div');
-  arrow.style.cssText = `width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid ${active ? '#06b6d4' : '#059669'};margin-top:-2px;`;
-  wrapper.appendChild(arrow);
+  if (active) {
+    const pulse = document.createElement('div');
+    pulse.style.cssText = `
+      position:absolute;top:50%;left:50%;
+      width:70px;height:70px;
+      margin-top:-35px;margin-left:-35px;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(5,150,105,0.15) 0%,transparent 70%);
+      animation:flPulse 2s ease-out infinite;
+      pointer-events:none;z-index:-1;
+    `;
+    wrapper.style.position = 'relative';
+    wrapper.insertBefore(pulse, pin);
+  }
 
   return wrapper;
 }
 
-function createPOIPin(color: string, emoji: string): HTMLElement {
+function createFLCluster(count: number): HTMLElement {
   const wrapper = document.createElement('div');
-  wrapper.style.cssText = `display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.2));`;
+  wrapper.style.cssText = `
+    width:54px;height:54px;border-radius:50%;
+    background:linear-gradient(135deg,#047857,#059669 50%,#06b6d4);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    border:3px solid white;
+    box-shadow:0 4px 16px rgba(5,150,105,0.4);
+    cursor:pointer;
+    font-family:Inter,sans-serif;
+  `;
+  wrapper.innerHTML = `
+    <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.7);letter-spacing:1px;font-family:'Cormorant Garamond',Georgia,serif;line-height:1;">FL</span>
+    <span style="font-size:16px;font-weight:700;color:white;line-height:1;margin-top:1px;">${count}</span>
+  `;
+  return wrapper;
+}
+
+function createPOIMarker(color: string, emoji: string): HTMLElement {
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = `display:flex;flex-direction:column;align-items:center;cursor:pointer;`;
 
   const dot = document.createElement('div');
-  dot.style.cssText = `width:28px;height:28px;border-radius:50%;background:${color};border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:13px;`;
+  dot.style.cssText = `
+    width:32px;height:32px;border-radius:50%;
+    background:${color};border:2.5px solid white;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.2);
+    transition:transform 0.2s;
+  `;
   dot.textContent = emoji;
+  dot.onmouseenter = () => { dot.style.transform = 'scale(1.15)'; };
+  dot.onmouseleave = () => { dot.style.transform = 'scale(1)'; };
   wrapper.appendChild(dot);
 
   return wrapper;
 }
 
 const POI_EMOJI: Record<string, string> = {
-  restaurant: '🍽',
-  beach: '🏖',
+  restaurant: '🍽️',
+  beach: '🏖️',
   hospital: '🏥',
   supermarket: '🛒',
   school: '🎓',
   airport: '✈️',
   night_club: '🎵',
 };
+
+const MAP_STYLES = [
+  { featureType: 'water', elementType: 'geometry.fill', stylers: [{ color: '#b8dce8' }] },
+  { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#6b9daf' }] },
+  { featureType: 'landscape.natural', elementType: 'geometry.fill', stylers: [{ color: '#eef5ee' }] },
+  { featureType: 'landscape.man_made', elementType: 'geometry.fill', stylers: [{ color: '#f5f5f5' }] },
+  { featureType: 'poi.park', elementType: 'geometry.fill', stylers: [{ color: '#d4edda' }] },
+  { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+  { featureType: 'road.highway', elementType: 'geometry.fill', stylers: [{ color: '#ffffff' }] },
+  { featureType: 'road.highway', elementType: 'geometry.stroke', stylers: [{ color: '#e0e0e0' }] },
+  { featureType: 'road.arterial', elementType: 'geometry.fill', stylers: [{ color: '#ffffff' }] },
+  { featureType: 'road.local', elementType: 'geometry.fill', stylers: [{ color: '#fafafa' }] },
+  { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#999999' }] },
+  { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+  { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#c8d6c8' }] },
+];
 
 export default function MapView() {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -155,7 +222,7 @@ export default function MapView() {
 
           results.slice(0, 15).forEach(place => {
             if (!place.geometry?.location) return;
-            const content = createPOIPin(color, emoji);
+            const content = createPOIMarker(color, emoji);
 
             const marker = new google.maps.marker.AdvancedMarkerElement({
               map: mapInstanceRef.current!,
@@ -165,34 +232,35 @@ export default function MapView() {
             });
 
             marker.addListener('click', () => {
-              const ratingStars = place.rating
+              const stars = place.rating
                 ? Array.from({ length: 5 }, (_, i) =>
-                    `<span style="color:${i < Math.round(place.rating!) ? '#059669' : '#ddd'};">★</span>`
+                    `<span style="color:${i < Math.round(place.rating!) ? '#059669' : '#e0e0e0'};font-size:13px;">★</span>`
                   ).join('')
                 : '';
-              const reviewCount = place.user_ratings_total ? `(${place.user_ratings_total})` : '';
-              const openNow = place.opening_hours?.isOpen?.()
-                ? '<span style="color:#059669;font-weight:600;">Abierto</span>'
-                : place.opening_hours
-                  ? '<span style="color:#ef4444;font-weight:600;">Cerrado</span>'
-                  : '';
-              const priceLevel = place.price_level !== undefined
-                ? '&nbsp;&nbsp;' + '💲'.repeat(place.price_level || 1)
+              const reviews = place.user_ratings_total ? `<span style="color:#717171;font-size:11px;margin-left:4px;">(${place.user_ratings_total})</span>` : '';
+              const isOpen = place.opening_hours?.isOpen?.();
+              const openLabel = isOpen !== undefined
+                ? `<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;color:${isOpen ? '#059669' : '#ef4444'};background:${isOpen ? '#f0fdf4' : '#fef2f2'};padding:2px 8px;border-radius:10px;margin-top:6px;">${isOpen ? '● Abierto' : '● Cerrado'}</span>`
                 : '';
+              const price = place.price_level !== undefined && place.price_level > 0
+                ? `<span style="font-size:10px;color:#717171;margin-left:6px;">${'$'.repeat(place.price_level)}</span>`
+                : '';
+              const photo = place.photos?.[0]?.getUrl({ maxWidth: 280, maxHeight: 140 });
 
-              const photoUrl = place.photos?.[0]?.getUrl({ maxWidth: 200, maxHeight: 120 });
+              const infoContent = `
+                <div style="font-family:Inter,sans-serif;margin:0;padding:0;max-width:260px;overflow:hidden;">
+                  ${photo ? `<div style="width:100%;height:120px;overflow:hidden;border-radius:10px 10px 0 0;"><img src="${photo}" style="width:100%;height:100%;object-fit:cover;" /></div>` : ''}
+                  <div style="padding:10px 12px 12px;">
+                    <p style="font-weight:700;font-size:14px;margin:0 0 4px;color:#222;line-height:1.3;">${place.name}</p>
+                    ${stars ? `<div style="margin:0 0 4px;line-height:1;">${stars}<span style="font-size:12px;font-weight:600;color:#222;margin-left:4px;">${place.rating}</span>${reviews}</div>` : ''}
+                    <p style="font-size:11px;color:#717171;margin:0;line-height:1.4;">${place.vicinity || ''}</p>
+                    <div style="display:flex;align-items:center;gap:4px;margin-top:4px;">${openLabel}${price}</div>
+                  </div>
+                </div>`;
 
               const infoWindow = new google.maps.InfoWindow({
-                content: `<div style="font-family:Inter,sans-serif;padding:0;max-width:220px;">
-                  ${photoUrl ? `<img src="${photoUrl}" style="width:100%;height:100px;object-fit:cover;border-radius:8px 8px 0 0;margin-bottom:8px;" />` : ''}
-                  <div style="padding:${photoUrl ? '0 8px 8px' : '8px'};">
-                    <p style="font-weight:700;font-size:13px;margin:0 0 4px;color:#222;">${place.name}</p>
-                    ${ratingStars ? `<p style="font-size:12px;margin:0 0 3px;letter-spacing:1px;">${ratingStars} <span style="font-size:11px;color:#717171;font-weight:500;">${place.rating} ${reviewCount}</span></p>` : ''}
-                    <p style="font-size:11px;color:#717171;margin:0 0 3px;">${place.vicinity || ''}</p>
-                    ${openNow || priceLevel ? `<p style="font-size:11px;margin:4px 0 0;">${openNow}${priceLevel}</p>` : ''}
-                  </div>
-                </div>`,
-                maxWidth: 240,
+                content: infoContent,
+                maxWidth: 280,
               });
               infoWindow.open(mapInstanceRef.current!, marker);
             });
@@ -228,20 +296,18 @@ export default function MapView() {
 
         const map = new google.maps.Map(mapRef.current, {
           center,
-          zoom: 13,
+          zoom: 14,
           disableDefaultUI: true,
           zoomControl: true,
           zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_CENTER },
           gestureHandling: 'greedy',
           mapId: 'fractional-living-overview',
-          styles: [
-            { featureType: 'water', elementType: 'geometry.fill', stylers: [{ color: '#c8e6f0' }] },
-            { featureType: 'landscape.natural', elementType: 'geometry.fill', stylers: [{ color: '#f0f7f0' }] },
-            { featureType: 'poi.park', elementType: 'geometry.fill', stylers: [{ color: '#d4edda' }] },
-            { featureType: 'road', elementType: 'geometry', stylers: [{ lightness: 50 }] },
-            { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
-          ],
+          styles: MAP_STYLES,
         });
+
+        const style = document.createElement('style');
+        style.textContent = `@keyframes flPulse{0%{transform:scale(0.8);opacity:0.6}50%{transform:scale(1.2);opacity:0.3}100%{transform:scale(1.6);opacity:0}}`;
+        document.head.appendChild(style);
 
         const markers: google.maps.marker.AdvancedMarkerElement[] = [];
 
@@ -250,23 +316,22 @@ export default function MapView() {
           const lng = Number(prop.longitude);
           if (isNaN(lat) || isNaN(lng)) return;
 
-          const content = createPropertyPin(prop.title);
+          const content = createFLMarker();
 
           const marker = new google.maps.marker.AdvancedMarkerElement({
             map,
             position: { lat, lng },
             content,
+            title: prop.title,
           });
 
           marker.addListener('click', () => {
             setSelectedProperty(prop);
             markersRef.current.forEach((m, id) => {
               const p = properties.find(pr => pr.id === id);
-              if (p) {
-                m.content = createPropertyPin(p.title);
-              }
+              if (p) m.content = createFLMarker(false);
             });
-            marker.content = createPropertyPin(prop.title, true);
+            marker.content = createFLMarker(true);
           });
 
           markers.push(marker);
@@ -278,12 +343,9 @@ export default function MapView() {
           markers,
           renderer: {
             render: ({ count, position }) => {
-              const el = document.createElement('div');
-              el.style.cssText = 'display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#059669,#06b6d4);color:white;font-size:14px;font-weight:700;font-family:Inter,sans-serif;box-shadow:0 4px 14px rgba(5,150,105,0.35);border:3px solid white;';
-              el.textContent = String(count);
               return new google.maps.marker.AdvancedMarkerElement({
                 position,
-                content: el,
+                content: createFLCluster(count),
               });
             },
           },
@@ -355,7 +417,7 @@ export default function MapView() {
           <div className="h-full overflow-y-auto p-4 pb-24 space-y-3">
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-sm font-semibold text-[#222]">
-                {properties.length} {language === 'es' ? 'propiedades' : 'properties'}
+                {properties.length} {language === 'es' ? 'fracciones' : 'fractions'}
               </h2>
               <button
                 onClick={() => setShowList(false)}
@@ -384,11 +446,11 @@ export default function MapView() {
                       key={cat.key}
                       onClick={() => searchNearby(cat.key)}
                       disabled={loadingPOI && activePOI !== cat.key}
-                      className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+                      className={`flex items-center gap-1.5 px-3.5 py-2.5 rounded-full text-xs font-medium whitespace-nowrap transition-all backdrop-blur-lg ${
                         isActive
-                          ? 'bg-[#059669] text-white shadow-md'
-                          : 'bg-white/95 text-[#222] border border-[#ddd] shadow-sm hover:shadow-md'
-                      } ${loadingPOI && activePOI !== cat.key ? 'opacity-50' : ''}`}
+                          ? 'bg-[#059669] text-white shadow-lg shadow-emerald-500/20'
+                          : 'bg-white/90 text-[#222] border border-[#e0e0e0] shadow-sm hover:shadow-md hover:bg-white'
+                      } ${loadingPOI && activePOI !== cat.key ? 'opacity-40' : ''}`}
                       data-testid={`poi-${cat.key}`}
                     >
                       <Icon className="w-3.5 h-3.5" />
@@ -402,7 +464,7 @@ export default function MapView() {
 
             <button
               onClick={() => setShowList(true)}
-              className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 px-5 py-3 bg-[#222] text-white rounded-full text-sm font-medium shadow-xl hover:bg-[#333] transition-colors"
+              className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 px-6 py-3 bg-[#222] text-white rounded-full text-sm font-semibold shadow-2xl hover:bg-[#333] transition-all active:scale-95"
               data-testid="toggle-list-view"
             >
               <List className="w-4 h-4" />
@@ -410,7 +472,7 @@ export default function MapView() {
             </button>
 
             {selectedProperty && (
-              <div className="absolute bottom-24 left-4 right-4 sm:left-auto sm:right-6 sm:w-[380px] z-[1000]">
+              <div className="absolute bottom-24 left-3 right-3 sm:left-auto sm:right-6 sm:w-[400px] z-[1000]">
                 <PropertyCard
                   property={selectedProperty}
                   language={language}
@@ -418,9 +480,7 @@ export default function MapView() {
                     setSelectedProperty(null);
                     markersRef.current.forEach((m, id) => {
                       const p = properties.find(pr => pr.id === id);
-                      if (p) {
-                        m.content = createPropertyPin(p.title);
-                      }
+                      if (p) m.content = createFLMarker(false);
                     });
                   }}
                 />
@@ -434,51 +494,92 @@ export default function MapView() {
 }
 
 function PropertyCard({ property, language, onClose }: { property: PropertyForMap; language: string; onClose: () => void }) {
-  const image = property.images?.[0] || 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400';
+  const images = property.images?.length ? property.images : ['https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400'];
   const price = property.fractionPrice || 0;
   const currency = property.currency || 'MXN';
+  const [imgIdx, setImgIdx] = useState(0);
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-[#e2e8f0]/60 animate-in slide-in-from-bottom-4 duration-300" data-testid={`map-property-card-${property.id}`}>
-      <button
-        onClick={onClose}
-        className="absolute top-3 right-3 z-10 w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm hover:bg-white transition-colors"
-        data-testid="close-property-card"
-      >
-        <X className="w-4 h-4 text-[#333]" />
-      </button>
-      <Link href={`/fractional/${property.id}`}>
-        <div className="flex cursor-pointer">
-          <div className="w-[140px] h-[140px] flex-shrink-0">
-            <img src={image} alt={property.title} className="w-full h-full object-cover" />
+    <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-[#e8e8e8] animate-in slide-in-from-bottom-4 duration-300" data-testid={`map-property-card-${property.id}`}>
+      <div className="relative">
+        <img
+          src={images[imgIdx]}
+          alt={property.title}
+          className="w-full h-[180px] object-cover"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 z-10 w-8 h-8 bg-white/90 backdrop-blur-lg rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors"
+          data-testid="close-property-card"
+        >
+          <X className="w-4 h-4 text-[#333]" />
+        </button>
+
+        <div className="absolute top-3 left-3 z-10 px-3 py-1.5 bg-gradient-to-r from-[#059669] to-[#06b6d4] rounded-full shadow-lg">
+          <span className="text-white text-[10px] font-bold tracking-wider" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+            FRACTIONAL LIVING
+          </span>
+        </div>
+
+        {images.length > 1 && (
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+            {images.slice(0, 5).map((_, i) => (
+              <button
+                key={i}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setImgIdx(i); }}
+                className={`w-1.5 h-1.5 rounded-full transition-all ${i === imgIdx ? 'bg-white w-4' : 'bg-white/60'}`}
+              />
+            ))}
           </div>
-          <div className="flex-1 p-4 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-1 mb-1">
-                <Star className="w-3.5 h-3.5 fill-[#059669] text-[#059669]" />
-                <span className="text-xs font-medium text-[#222]">5.0</span>
-              </div>
-              <h3 className="text-sm font-medium text-[#222] line-clamp-2 leading-tight">{property.title}</h3>
-              <p className="text-xs text-[#717171] mt-1 flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-[#059669]" />
-                {property.location}
+        )}
+
+        <div className="absolute bottom-3 right-3">
+          <div className="bg-white/95 backdrop-blur-lg rounded-xl px-3 py-2 shadow-lg">
+            <p className="text-[10px] text-[#717171] font-medium leading-none mb-0.5">
+              {language === 'es' ? 'Desde' : 'From'}
+            </p>
+            <p className="text-sm font-bold text-[#059669] leading-none">
+              ${(price / 1000).toFixed(0)}K <span className="text-[10px] font-normal text-[#717171]">{currency}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <Link href={`/fractional/${property.id}`}>
+        <div className="px-4 py-3 cursor-pointer">
+          <div className="flex items-start justify-between">
+            <div className="flex-1 min-w-0">
+              <h3 className="text-[15px] font-semibold text-[#222] truncate">{property.title}</h3>
+              <p className="text-xs text-[#717171] mt-0.5 flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-[#059669] flex-shrink-0" />
+                <span className="truncate">{property.location}</span>
               </p>
             </div>
-            <div className="flex items-center gap-3 mt-2">
-              <div className="flex items-center gap-1 text-xs text-[#717171]">
-                <Bed className="w-3.5 h-3.5" /> {property.bedrooms}
-              </div>
-              <div className="flex items-center gap-1 text-xs text-[#717171]">
-                <Bath className="w-3.5 h-3.5" /> {property.bathrooms}
-              </div>
-              <div className="flex items-center gap-1 text-xs text-[#717171]">
-                <Users className="w-3.5 h-3.5" /> {property.maxGuests}
-              </div>
+            <div className="flex items-center gap-1 ml-2 flex-shrink-0">
+              <Star className="w-3.5 h-3.5 fill-[#059669] text-[#059669]" />
+              <span className="text-xs font-semibold text-[#222]">5.0</span>
             </div>
-            <p className="text-sm mt-2">
-              <span className="font-semibold text-[#059669]">${(price / 1000).toFixed(0)}K</span>
-              <span className="text-[#717171] text-xs ml-1">{currency} / {language === 'es' ? 'fracción' : 'fraction'}</span>
-            </p>
+          </div>
+
+          <div className="flex items-center gap-4 mt-3 pt-3 border-t border-[#f0f0f0]">
+            <div className="flex items-center gap-1.5 text-xs text-[#555]">
+              <Bed className="w-3.5 h-3.5 text-[#059669]" />
+              <span>{property.bedrooms} {language === 'es' ? 'hab' : 'bed'}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-[#555]">
+              <Bath className="w-3.5 h-3.5 text-[#059669]" />
+              <span>{property.bathrooms} {language === 'es' ? 'baños' : 'bath'}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-[#555]">
+              <Users className="w-3.5 h-3.5 text-[#059669]" />
+              <span>{property.maxGuests}</span>
+            </div>
+            <div className="ml-auto">
+              <ChevronRight className="w-4 h-4 text-[#059669]" />
+            </div>
           </div>
         </div>
       </Link>
@@ -493,29 +594,42 @@ function PropertyListCard({ property, language }: { property: PropertyForMap; la
 
   return (
     <Link href={`/fractional/${property.id}`}>
-      <div className="bg-white rounded-2xl shadow-sm overflow-hidden border border-[#ebebeb] hover:shadow-md transition-shadow cursor-pointer flex" data-testid={`list-property-${property.id}`}>
-        <div className="w-[120px] h-[120px] flex-shrink-0">
-          <img src={image} alt={property.title} className="w-full h-full object-cover" />
-        </div>
-        <div className="flex-1 p-4 flex flex-col justify-between">
-          <div>
-            <h3 className="text-sm font-medium text-[#222] line-clamp-1">{property.title}</h3>
-            <p className="text-xs text-[#717171] mt-0.5 flex items-center gap-1">
-              <MapPin className="w-3 h-3 text-[#059669]" /> {property.location}
-            </p>
+      <div className="bg-white rounded-2xl shadow-sm overflow-hidden border border-[#ebebeb] hover:shadow-md transition-shadow cursor-pointer" data-testid={`list-property-${property.id}`}>
+        <div className="relative">
+          <img src={image} alt={property.title} className="w-full h-[160px] object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+          <div className="absolute top-3 left-3 px-2.5 py-1 bg-gradient-to-r from-[#059669] to-[#06b6d4] rounded-full">
+            <span className="text-white text-[9px] font-bold tracking-wider" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>FL</span>
           </div>
-          <div className="flex items-center gap-3 mt-2">
+          <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur rounded-lg px-2.5 py-1.5 shadow">
+            <span className="text-sm font-bold text-[#059669]">${(price / 1000).toFixed(0)}K</span>
+            <span className="text-[10px] text-[#717171] ml-1">{currency}</span>
+          </div>
+        </div>
+        <div className="p-3.5">
+          <div className="flex items-start justify-between">
+            <div>
+              <h3 className="text-sm font-semibold text-[#222]">{property.title}</h3>
+              <p className="text-xs text-[#717171] mt-0.5 flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-[#059669]" /> {property.location}
+              </p>
+            </div>
+            <div className="flex items-center gap-1">
+              <Star className="w-3 h-3 fill-[#059669] text-[#059669]" />
+              <span className="text-xs font-semibold text-[#222]">5.0</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 mt-2.5 pt-2.5 border-t border-[#f5f5f5]">
             <div className="flex items-center gap-1 text-xs text-[#717171]">
               <Bed className="w-3.5 h-3.5" /> {property.bedrooms}
             </div>
             <div className="flex items-center gap-1 text-xs text-[#717171]">
               <Bath className="w-3.5 h-3.5" /> {property.bathrooms}
             </div>
+            <div className="flex items-center gap-1 text-xs text-[#717171]">
+              <Users className="w-3.5 h-3.5" /> {property.maxGuests}
+            </div>
           </div>
-          <p className="text-sm mt-1">
-            <span className="font-semibold text-[#059669]">${(price / 1000).toFixed(0)}K</span>
-            <span className="text-[#717171] text-xs ml-1">{currency}</span>
-          </p>
         </div>
       </div>
     </Link>
