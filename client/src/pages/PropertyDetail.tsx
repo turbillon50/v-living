@@ -208,7 +208,17 @@ export default function PropertyDetail() {
               </button>
             </Link>
             <div className="flex items-center gap-2">
-              <button className="p-2.5 hover:bg-[#f7f7f7] rounded-full transition-colors" data-testid="share-button" aria-label="Compartir">
+              <button 
+                onClick={() => {
+                  const url = window.location.href;
+                  const text = `${property?.title} — Fractional Living`;
+                  if (navigator.share) {
+                    navigator.share({ title: text, url }).catch(() => {});
+                  } else {
+                    window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
+                  }
+                }}
+                className="p-2.5 hover:bg-[#f7f7f7] rounded-full transition-colors" data-testid="share-button" aria-label="Compartir">
                 <Share className="w-4 h-4 text-[#222]" />
               </button>
               <button onClick={() => setLiked(!liked)} className="p-2.5 hover:bg-[#f7f7f7] rounded-full transition-colors" data-testid="like-button" aria-label="Guardar favorito">
@@ -358,6 +368,120 @@ export default function PropertyDetail() {
                 prices2weeks={Math.round((property.fractionPrice || 250000) * 2 * 0.93)}
                 prices3weeks={Math.round((property.fractionPrice || 250000) * 3 * 0.86)}
               />
+            </div>
+
+            <div className="py-6 border-t" data-testid="section-week-calendar">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg text-[#111]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>
+                  {bookingType === 'fraction' ? 'Selecciona 3 Semanas' : 'Selecciona tus Semanas'}
+                </h2>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleCreatorAccess}
+                    className="p-2 hover:bg-[#f7f7f7] rounded-full transition-colors"
+                    data-testid="button-creator-access"
+                    aria-label="Modo creador"
+                  >
+                    {isCreatorMode ? <Lock className="w-4 h-4 text-[#059669]" /> : <Settings className="w-4 h-4 text-[#717171]" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex gap-2 mb-4">
+                <button
+                  onClick={() => { setBookingType('fraction'); setSelectedWeeks([]); }}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${bookingType === 'fraction' ? 'bg-[#222] text-white' : 'bg-[#f7f7f7] text-[#717171]'}`}
+                  data-testid="tab-fraction"
+                >
+                  Fracción (3 sem)
+                </button>
+                <button
+                  onClick={() => { setBookingType('vacation'); setSelectedWeeks([]); }}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${bookingType === 'vacation' ? 'bg-[#222] text-white' : 'bg-[#f7f7f7] text-[#717171]'}`}
+                  data-testid="tab-vacation"
+                >
+                  Vacaciones
+                </button>
+              </div>
+
+              {selectedWeeks.length > 0 && (
+                <div className="mb-4 p-3 bg-[#f0fdf4] rounded-xl border border-[#059669]/10">
+                  <p className="text-[#059669] text-sm font-medium">
+                    {selectedWeeks.length} semana{selectedWeeks.length > 1 ? 's' : ''} seleccionada{selectedWeeks.length > 1 ? 's' : ''}
+                    {bookingType === 'fraction' && ` de 3`}
+                    : {selectedWeeks.sort((a, b) => a - b).join(', ')}
+                  </p>
+                </div>
+              )}
+
+              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-1.5 mb-6" data-testid="week-grid">
+                {weeks.map((week) => {
+                  const isSelected = selectedWeeks.includes(week.weekNumber);
+                  const isDisabled = !week.available && !isCreatorMode;
+                  const maxReached = bookingType === 'fraction' && selectedWeeks.length >= 3 && !isSelected;
+
+                  return (
+                    <button
+                      key={week.weekNumber}
+                      onClick={() => {
+                        if (isCreatorMode) {
+                          toggleBlockWeek(week.weekNumber);
+                        } else if (week.available && !maxReached) {
+                          toggleWeek(week.weekNumber);
+                        }
+                      }}
+                      disabled={!isCreatorMode && (isDisabled || maxReached)}
+                      className={cn(
+                        'relative p-2 rounded-lg text-center transition-all text-xs',
+                        isSelected && 'bg-[#059669] text-white ring-2 ring-[#059669] ring-offset-1',
+                        !isSelected && week.available && !maxReached && 'bg-white border border-[#ebebeb] hover:border-[#059669] text-[#222]',
+                        !isSelected && week.available && maxReached && 'bg-white border border-[#ebebeb] text-[#ccc] cursor-not-allowed',
+                        week.isBooked && 'bg-[#fee2e2] text-[#991b1b] border border-[#fca5a5] cursor-not-allowed',
+                        week.isBlocked && 'bg-[#fef3c7] text-[#92400e] border border-[#fcd34d]',
+                        week.isCreatorBlocked && 'bg-[#e5e7eb] text-[#6b7280] border border-[#d1d5db] cursor-not-allowed',
+                        isCreatorMode && 'cursor-pointer hover:ring-2 hover:ring-[#059669]/30'
+                      )}
+                      data-testid={`week-${week.weekNumber}`}
+                    >
+                      <span className="font-semibold block">S{week.weekNumber}</span>
+                      <span className="text-[8px] opacity-70 block">{week.start}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="flex flex-wrap gap-3 text-[10px] text-[#717171] mb-6">
+                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-white border border-[#ebebeb]" /> Disponible</span>
+                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-[#059669]" /> Seleccionada</span>
+                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-[#fee2e2] border border-[#fca5a5]" /> Reservada</span>
+                {isCreatorMode && <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-[#fef3c7] border border-[#fcd34d]" /> Bloqueada</span>}
+              </div>
+
+              <div className="space-y-3">
+                <Input
+                  type="email"
+                  placeholder="Tu email para pre-reservar"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="h-12 rounded-xl border-[#ebebeb]"
+                  data-testid="input-booking-email"
+                />
+                <button
+                  onClick={handleSubmit}
+                  disabled={bookingMutation.isPending || (bookingType === 'fraction' ? selectedWeeks.length !== 3 : selectedWeeks.length === 0) || !email}
+                  className="w-full py-4 fl-btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  data-testid="button-submit-booking"
+                >
+                  {bookingMutation.isPending ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <>
+                      {bookingType === 'fraction' ? 'Pre-Reservar Fracción' : 'Pre-Reservar Vacaciones'}
+                      {selectedWeeks.length > 0 && ` (${selectedWeeks.length} sem)`}
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 

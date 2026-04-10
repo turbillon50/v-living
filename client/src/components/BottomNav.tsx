@@ -7,7 +7,7 @@ export function BottomNav({ onOpenAlix }: { onOpenAlix?: () => void }) {
   const { language } = useLanguage();
 
   const tabs = [
-    { href: '/', icon: Search, labelEs: 'Explorar', labelEn: 'Explore', match: (l: string) => l === '/' || l === '/home' },
+    { href: '/home', icon: Search, labelEs: 'Explorar', labelEn: 'Explore', match: (l: string) => l === '/' || l === '/home' },
     { href: '/fractional', icon: Building2, labelEs: 'Fracciones', labelEn: 'Fractions', match: (l: string) => l.startsWith('/fractional') || l.startsWith('/property') },
     { href: '/favoritos', icon: Heart, labelEs: 'Favoritos', labelEn: 'Favorites', match: (l: string) => l === '/favoritos' },
     { href: '/perfil', icon: User, labelEs: 'Perfil', labelEn: 'Profile', match: (l: string) => l === '/perfil' || l === '/profile' },
