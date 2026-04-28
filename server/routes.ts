@@ -54,9 +54,15 @@ export async function registerRoutes(
     app.use(clerkMiddleware());
   }
   
-  // Setup Replit Auth (must be before other routes)
-  await setupAuth(app);
-  registerAuthRoutes(app);
+  // Setup Replit Auth only when required Replit env vars exist.
+  const hasReplitAuthEnv =
+    Boolean(process.env.REPL_ID) &&
+    Boolean(process.env.SESSION_SECRET) &&
+    Boolean(process.env.DATABASE_URL);
+  if (hasReplitAuthEnv) {
+    await setupAuth(app);
+    registerAuthRoutes(app);
+  }
   
   // Register object storage routes for file uploads
   registerObjectStorageRoutes(app);
@@ -248,7 +254,7 @@ export async function registerRoutes(
   app.post("/api/seed-attik", async (req, res) => {
     try {
       const { password } = req.body;
-      if (password !== 'lumamijuvisado') {
+      if (password !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "Unauthorized" });
       }
 
@@ -301,7 +307,7 @@ export async function registerRoutes(
   app.post("/api/seed-almyria", async (req, res) => {
     try {
       const { password } = req.body;
-      if (password !== 'lumamijuvisado') {
+      if (password !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "Unauthorized" });
       }
 
@@ -356,7 +362,7 @@ export async function registerRoutes(
   app.post("/api/seed-hermitage", async (req, res) => {
     try {
       const { password } = req.body;
-      if (password !== 'lumamijuvisado') {
+      if (password !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "Unauthorized" });
       }
 
@@ -1159,7 +1165,7 @@ NO HAGAS:
   app.get("/api/users", async (req, res) => {
     try {
       const authHeader = req.headers.authorization;
-      if (!authHeader || authHeader !== 'lumamijuvisado') {
+      if (!authHeader || authHeader !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "No autorizado" });
       }
 
@@ -1180,7 +1186,7 @@ NO HAGAS:
   app.put("/api/users/:id/status", async (req, res) => {
     try {
       const authHeader = req.headers.authorization;
-      if (!authHeader || authHeader !== 'lumamijuvisado') {
+      if (!authHeader || authHeader !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "No autorizado" });
       }
 
@@ -1230,7 +1236,7 @@ NO HAGAS:
   app.put("/api/users/:id/notes", async (req, res) => {
     try {
       const authHeader = req.headers.authorization;
-      if (!authHeader || authHeader !== 'lumamijuvisado') {
+      if (!authHeader || authHeader !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "No autorizado" });
       }
 
@@ -1252,7 +1258,7 @@ NO HAGAS:
   app.get("/api/users/interest/:interest", async (req, res) => {
     try {
       const authHeader = req.headers.authorization;
-      if (!authHeader || authHeader !== 'lumamijuvisado') {
+      if (!authHeader || authHeader !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "No autorizado" });
       }
 
@@ -1272,7 +1278,7 @@ NO HAGAS:
   app.post("/api/campaigns/send", async (req, res) => {
     try {
       const authHeader = req.headers.authorization;
-      if (!authHeader || authHeader !== 'lumamijuvisado') {
+      if (!authHeader || authHeader !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "No autorizado" });
       }
 
@@ -1438,7 +1444,7 @@ NO HAGAS:
   app.post("/api/real-estate", async (req, res) => {
     try {
       const authHeader = req.headers['x-creator-password'] as string;
-      if (!authHeader || authHeader !== 'lumamijuvisado') {
+      if (!authHeader || authHeader !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "No autorizado" });
       }
       const parsed = insertRealEstateListingSchema.parse(req.body);
@@ -1453,7 +1459,7 @@ NO HAGAS:
   app.put("/api/real-estate/:id", async (req, res) => {
     try {
       const authHeader = req.headers['x-creator-password'] as string;
-      if (!authHeader || authHeader !== 'lumamijuvisado') {
+      if (!authHeader || authHeader !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "No autorizado" });
       }
       const listing = await storage.updateRealEstateListing(req.params.id, req.body);
@@ -1467,7 +1473,7 @@ NO HAGAS:
   app.delete("/api/real-estate/:id", async (req, res) => {
     try {
       const authHeader = req.headers['x-creator-password'] as string;
-      if (!authHeader || authHeader !== 'lumamijuvisado') {
+      if (!authHeader || authHeader !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "No autorizado" });
       }
       await storage.deleteRealEstateListing(req.params.id);
@@ -1481,7 +1487,7 @@ NO HAGAS:
   app.get("/api/credit-applications", async (req, res) => {
     try {
       const authHeader = req.headers['x-creator-password'] as string;
-      if (!authHeader || authHeader !== 'lumamijuvisado') {
+      if (!authHeader || authHeader !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "No autorizado" });
       }
       const applications = await storage.getCreditApplications();
@@ -1505,7 +1511,7 @@ NO HAGAS:
   app.put("/api/credit-applications/:id/status", async (req, res) => {
     try {
       const authHeader = req.headers['x-creator-password'] as string;
-      if (!authHeader || authHeader !== 'lumamijuvisado') {
+      if (!authHeader || authHeader !== CREATOR_PASSWORD) {
         return res.status(401).json({ error: "No autorizado" });
       }
       const { status } = req.body;
