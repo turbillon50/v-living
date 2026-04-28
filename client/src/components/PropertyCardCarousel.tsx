@@ -37,7 +37,7 @@ export function PropertyCardCarousel({ property, featured }: PropertyCardCarouse
   };
 
   return (
-    <div className={`bg-white rounded-xl overflow-hidden border border-[#ebebeb] hover:shadow-lg transition-all group ${featured ? 'sm:col-span-2' : ''}`} data-testid={`property-card-${property.id}`}>
+    <div className={`bg-[#050505] rounded-2xl overflow-hidden border border-white/10 hover:border-cyan-300/30 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all group ${featured ? 'sm:col-span-2' : ''}`} data-testid={`property-card-${property.id}`}>
       <div className={`relative overflow-hidden ${featured ? 'aspect-[16/10]' : 'aspect-[4/3]'}`}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -57,23 +57,24 @@ export function PropertyCardCarousel({ property, featured }: PropertyCardCarouse
           </div>
         ) : (
           <Link href={`/property/${property.id}`}>
-            <div className="w-full h-full bg-[#f7f7f7] flex items-center justify-center cursor-pointer">
-              <Waves className="w-8 h-8 text-[#059669]/20" />
+            <div className="w-full h-full bg-white/5 flex items-center justify-center cursor-pointer">
+              <Waves className="w-8 h-8 text-cyan-300/25" />
             </div>
           </Link>
         )}
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/55 via-transparent to-black/10" />
 
         <button
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleFavorite(property.id); }}
-          className="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-sm z-10"
+          className="absolute top-3 right-3 w-8 h-8 bg-black/45 backdrop-blur-md border border-white/15 rounded-full flex items-center justify-center hover:bg-black/70 transition-colors shadow-sm z-10"
           aria-label="Guardar favorito"
           data-testid={`fav-${property.id}`}
         >
-          <Heart className={`w-4 h-4 ${liked ? 'fill-[#059669] text-[#059669]' : 'text-[#222]'}`} />
+          <Heart className={`w-4 h-4 ${liked ? 'fill-cyan-300 text-cyan-300' : 'text-white'}`} />
         </button>
 
         {property.tag && (
-          <span className="absolute top-3 left-3 bg-white text-[#222] text-[10px] font-semibold px-2.5 py-1 rounded-lg shadow-sm z-10">
+          <span className="absolute top-3 left-3 bg-black/55 backdrop-blur-md border border-cyan-300/25 text-white text-[10px] font-semibold px-2.5 py-1 rounded-lg shadow-sm z-10">
             {property.tag}
           </span>
         )}
@@ -82,17 +83,17 @@ export function PropertyCardCarousel({ property, featured }: PropertyCardCarouse
           <>
             <button
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); goTo(currentIndex - 1); }}
-              className={`absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-opacity z-10 ${currentIndex === 0 ? 'hidden' : ''}`}
+              className={`absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 bg-black/60 border border-white/15 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-opacity z-10 ${currentIndex === 0 ? 'hidden' : ''}`}
               aria-label="Imagen anterior"
             >
-              <ChevronLeft className="w-4 h-4 text-[#222]" />
+              <ChevronLeft className="w-4 h-4 text-white" />
             </button>
             <button
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); goTo(currentIndex + 1); }}
-              className={`absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-opacity z-10 ${currentIndex === totalImages - 1 ? 'hidden' : ''}`}
+              className={`absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 bg-black/60 border border-white/15 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-opacity z-10 ${currentIndex === totalImages - 1 ? 'hidden' : ''}`}
               aria-label="Imagen siguiente"
             >
-              <ChevronRight className="w-4 h-4 text-[#222]" />
+              <ChevronRight className="w-4 h-4 text-white" />
             </button>
 
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
@@ -100,12 +101,12 @@ export function PropertyCardCarousel({ property, featured }: PropertyCardCarouse
                 <button
                   key={idx}
                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); goTo(idx); }}
-                  className={`w-1.5 h-1.5 rounded-full transition-all ${idx === currentIndex ? 'bg-white w-2' : 'bg-white/60'}`}
+                  className={`w-1.5 h-1.5 rounded-full transition-all ${idx === currentIndex ? 'bg-cyan-300 w-2' : 'bg-white/50'}`}
                   aria-label={`Ver imagen ${idx + 1}`}
                 />
               ))}
               {totalImages > 5 && (
-                <span className="w-1.5 h-1.5 rounded-full bg-white/40" />
+                <span className="w-1.5 h-1.5 rounded-full bg-white/25" />
               )}
             </div>
           </>
@@ -115,23 +116,23 @@ export function PropertyCardCarousel({ property, featured }: PropertyCardCarouse
       <Link href={`/property/${property.id}`}>
         <div className="p-4 cursor-pointer">
           <div className="flex items-start justify-between mb-1">
-            <h3 className="text-[#222] font-semibold text-sm truncate flex-1">
+            <h3 className="text-white font-semibold text-sm truncate flex-1">
               {property.title}
             </h3>
             <div className="flex items-center gap-1 ml-2 flex-shrink-0">
-              <Star className="w-3 h-3 fill-[#222] text-[#222]" />
-              <span className="text-xs font-medium text-[#222]">{property.rating || '5.0'}</span>
+              <Star className="w-3 h-3 fill-cyan-300 text-cyan-300" />
+              <span className="text-xs font-medium text-white">{property.rating || '5.0'}</span>
             </div>
           </div>
 
           {property.location && (
-            <p className="text-[#717171] text-xs flex items-center gap-1 mb-1">
-              <MapPin className="w-2.5 h-2.5 text-[#059669]" />
+            <p className="text-white/50 text-xs flex items-center gap-1 mb-1">
+              <MapPin className="w-2.5 h-2.5 text-cyan-300" />
               {property.location}
             </p>
           )}
 
-          <div className="flex items-center gap-2 text-[11px] text-[#717171] mb-2">
+          <div className="flex items-center gap-2 text-[11px] text-white/45 mb-2">
             {property.sqMeters && <span>{property.sqMeters}m²</span>}
             {property.sqMeters && property.bedrooms && <span>·</span>}
             {property.bedrooms && <span>{property.bedrooms} rec</span>}
@@ -139,14 +140,14 @@ export function PropertyCardCarousel({ property, featured }: PropertyCardCarouse
             {property.bathrooms && <span>{property.bathrooms} baño</span>}
           </div>
 
-          <div className="flex items-center justify-between">
-            <p className="text-[#222] font-semibold">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-white font-semibold">
               ${((property.fractionPrice || property.price || 250000) / 1000).toFixed(0)}K
-              <span className="text-[#717171] font-normal text-xs ml-1">{property.currency || 'MXN'} / fracción</span>
+              <span className="text-white/45 font-normal text-xs ml-1">{property.currency || 'MXN'} / fracción</span>
             </p>
-            <span className="flex items-center gap-1 text-[#059669] text-xs font-semibold" data-testid={`yield-${property.id}`}>
+            <span className="flex items-center gap-1 text-cyan-300 text-xs font-semibold" data-testid={`yield-${property.id}`}>
               <TrendingUp className="w-3 h-3" />
-              {(property as any).appreciationRate || 12}% yield
+              {(property as any).appreciationRate || 12}%
             </span>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Globe, Menu, User, Lock, Search, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +18,7 @@ export function Header() {
   const [showSearch, setShowSearch] = useState(false);
 
   const openWhatsApp = () => {
-    window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20Fractional%20Living', '_blank');
+    window.open('https://wa.me/529984292748?text=Hola,%20me%20interesa%20V-Living%20de%20All%20Global%20Holding', '_blank');
   };
 
   const handleLogin = () => {
@@ -34,60 +33,58 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 fl-glass-header">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-[2520px] mx-auto px-4 sm:px-6 md:px-10 lg:px-20">
           <div className="flex items-center justify-between h-16 md:h-20">
             <Link href="/" data-testid="link-home">
-              <span className="flex items-center gap-2.5 cursor-pointer group">
-                <div className="w-8 h-8 rounded-lg fl-gradient-brand flex items-center justify-center">
-                  <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    <polyline points="9 22 9 12 15 12 15 22" />
-                  </svg>
+              <span className="flex items-center gap-3 cursor-pointer group">
+                <div className="w-9 h-9 rounded-xl bg-white/10 border border-cyan-300/25 flex items-center justify-center shadow-lg shadow-cyan-500/5">
+                  <span className="text-white font-serif text-lg leading-none">V</span>
                 </div>
-                <span className="text-lg font-bold text-[#059669] tracking-tight hidden sm:inline">
-                  fractional
+                <span className="hidden sm:inline">
+                  <span className="block text-lg font-semibold text-white tracking-tight">V-Living</span>
+                  <span className="block text-[9px] text-cyan-200/60 tracking-[0.24em] uppercase">All Global Holding LLC</span>
                 </span>
               </span>
             </Link>
 
             <button
               onClick={() => setShowSearch(true)}
-              className="hidden md:flex items-center gap-4 border border-[#dddddd] rounded-full py-2 px-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              className="hidden md:flex items-center gap-4 border border-white/10 bg-white/5 rounded-full py-2 px-4 shadow-sm hover:bg-white/10 transition-colors cursor-pointer"
               data-testid="button-search-header"
             >
-              <span className="text-sm font-semibold px-2 border-r border-[#dddddd]">
+              <span className="text-sm font-semibold px-2 border-r border-white/10 text-white">
                 {language === 'es' ? 'Destino' : 'Destination'}
               </span>
-              <span className="text-sm font-semibold px-2 border-r border-[#dddddd]">
+              <span className="text-sm font-semibold px-2 border-r border-white/10 text-white">
                 {language === 'es' ? 'Semana' : 'Week'}
               </span>
-              <span className="text-sm text-[#717171] px-2">
-                {language === 'es' ? '¿Cuántos?' : 'How many?'}
+              <span className="text-sm text-white/50 px-2">
+                {language === 'es' ? 'Fracciones' : 'Fractions'}
               </span>
-              <div className="w-8 h-8 rounded-full fl-gradient-brand flex items-center justify-center">
-                <Search className="w-3.5 h-3.5 text-white" />
+              <div className="w-8 h-8 rounded-full bg-cyan-300/20 border border-cyan-300/30 flex items-center justify-center">
+                <Search className="w-3.5 h-3.5 text-cyan-200" />
               </div>
             </button>
 
             <button
               onClick={() => setShowSearch(true)}
-              className="hidden md:flex items-center gap-2 flex-1 mx-2 max-w-[200px] bg-white border border-[#dddddd] rounded-full py-2 px-3 shadow-sm active:shadow-none transition-shadow"
+              className="hidden md:flex items-center gap-2 flex-1 mx-2 max-w-[200px] bg-white/5 border border-white/10 rounded-full py-2 px-3 active:shadow-none transition-colors"
               data-testid="button-search-mobile"
             >
-              <Search className="w-3.5 h-3.5 text-[#222] flex-shrink-0" />
-              <span className="text-xs font-semibold text-[#222] truncate">{language === 'es' ? '¿A dónde vas?' : 'Where to?'}</span>
+              <Search className="w-3.5 h-3.5 text-cyan-200 flex-shrink-0" />
+              <span className="text-xs font-semibold text-white truncate">{language === 'es' ? 'Buscar acceso' : 'Search access'}</span>
             </button>
 
             <div className="flex items-center gap-2">
               <Link href="/creator">
-                <button className="w-10 h-10 rounded-full flex items-center justify-center text-[#717171] hover:text-[#222] hover:bg-[#f7f7f7] transition-colors" title="Admin" data-testid="button-admin-lock">
+                <button className="w-10 h-10 rounded-full flex items-center justify-center text-white/45 hover:text-white hover:bg-white/10 transition-colors" title="Admin" data-testid="button-admin-lock">
                   <Lock className="w-[18px] h-[18px]" />
                 </button>
               </Link>
 
               <button
-                className="hidden md:flex items-center gap-1.5 text-sm text-[#222] font-semibold hover:bg-[#f7f7f7] px-3 py-2 rounded-full transition-colors"
+                className="hidden md:flex items-center gap-1.5 text-sm text-white/70 font-semibold hover:bg-white/10 px-3 py-2 rounded-full transition-colors"
                 data-testid="button-language"
                 onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
               >
@@ -98,69 +95,69 @@ export function Header() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button
-                    className="flex items-center gap-2 border border-[#dddddd] rounded-full px-2 py-1.5 hover:shadow-md transition-shadow ml-1"
+                    className="flex items-center gap-2 border border-white/10 bg-white/5 rounded-full px-2 py-1.5 hover:bg-white/10 transition-colors ml-1"
                     data-testid="button-user-menu"
                   >
-                    <Menu className="w-4 h-4 text-[#717171]" />
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center ${user ? 'fl-gradient-brand' : 'bg-[#717171]'}`}>
+                    <Menu className="w-4 h-4 text-white/55" />
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center ${user ? 'bg-cyan-300/20 border border-cyan-300/30' : 'bg-white/15'}`}>
                       <User className="w-3.5 h-3.5 text-white" />
                     </div>
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56 rounded-xl bg-white border border-[#dddddd] shadow-lg">
+                <DropdownMenuContent align="end" className="w-56 rounded-xl bg-[#050505] border border-white/10 shadow-2xl text-white">
                   {user ? (
                     <>
                       <div className="px-4 py-3">
-                        <p className="font-semibold text-sm text-[#222]">{user.name}</p>
-                        <p className="text-xs text-[#717171]">{user.email}</p>
+                        <p className="font-semibold text-sm text-white">{user.name}</p>
+                        <p className="text-xs text-white/45">{user.email}</p>
                       </div>
-                      <DropdownMenuSeparator className="bg-[#ebebeb]" />
+                      <DropdownMenuSeparator className="bg-white/10" />
                       <Link href="/perfil">
-                        <DropdownMenuItem className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7] font-medium">
+                        <DropdownMenuItem className="cursor-pointer rounded-lg text-white focus:bg-white/10 font-medium">
                           {language === 'es' ? 'Mi Perfil' : 'My Profile'}
                         </DropdownMenuItem>
                       </Link>
                       <Link href="/dashboard">
-                        <DropdownMenuItem className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]">
+                        <DropdownMenuItem className="cursor-pointer rounded-lg text-white/70 focus:bg-white/10">
                           {language === 'es' ? 'Mis Reservas' : 'My Bookings'}
                         </DropdownMenuItem>
                       </Link>
                     </>
                   ) : (
                     <>
-                      <DropdownMenuItem onClick={handleRegister} className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]">
-                        <span className="font-semibold">{language === 'es' ? 'Registrarse' : 'Sign up'}</span>
+                      <DropdownMenuItem onClick={handleRegister} className="cursor-pointer rounded-lg text-white focus:bg-white/10">
+                        <span className="font-semibold">{language === 'es' ? 'Solicitar acceso' : 'Request access'}</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={handleLogin} className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]">
+                      <DropdownMenuItem onClick={handleLogin} className="cursor-pointer rounded-lg text-white/70 focus:bg-white/10">
                         {language === 'es' ? 'Iniciar Sesión' : 'Log in'}
                       </DropdownMenuItem>
                     </>
                   )}
-                  <DropdownMenuSeparator className="bg-[#ebebeb]" />
+                  <DropdownMenuSeparator className="bg-white/10" />
                   <Link href="/experiences">
-                    <DropdownMenuItem className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]">
+                    <DropdownMenuItem className="cursor-pointer rounded-lg text-white/70 focus:bg-white/10">
                       {language === 'es' ? 'Experiencias' : 'Experiences'}
                     </DropdownMenuItem>
                   </Link>
-                  <Link href="/alix">
-                    <DropdownMenuItem className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]" data-testid="menu-alix">
-                      <div className="w-4 h-4 rounded-full fl-gradient-brand flex items-center justify-center mr-2 flex-shrink-0">
-                        <span className="text-white font-bold text-[5px]">AI</span>
+                  <Link href="/ai">
+                    <DropdownMenuItem className="cursor-pointer rounded-lg text-white/70 focus:bg-white/10" data-testid="menu-alix">
+                      <div className="w-4 h-4 rounded-full bg-cyan-300/20 border border-cyan-300/30 flex items-center justify-center mr-2 flex-shrink-0">
+                        <span className="text-cyan-100 font-bold text-[5px]">AI</span>
                       </div>
                       ALIX
                     </DropdownMenuItem>
                   </Link>
                   <Link href="/creator">
-                    <DropdownMenuItem className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]" data-testid="menu-admin">
+                    <DropdownMenuItem className="cursor-pointer rounded-lg text-white/70 focus:bg-white/10" data-testid="menu-admin">
                       <Lock className="w-3.5 h-3.5 mr-2" />
                       {language === 'es' ? 'Administración' : 'Admin'}
                     </DropdownMenuItem>
                   </Link>
-                  <DropdownMenuItem onClick={() => setLanguage(language === 'es' ? 'en' : 'es')} className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7] md:hidden">
+                  <DropdownMenuItem onClick={() => setLanguage(language === 'es' ? 'en' : 'es')} className="cursor-pointer rounded-lg text-white/70 focus:bg-white/10 md:hidden">
                     <Globe className="w-3.5 h-3.5 mr-2" />
                     {language === 'es' ? 'English' : 'Español'}
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={openWhatsApp} className="cursor-pointer rounded-lg text-[#222] focus:bg-[#f7f7f7]">
+                  <DropdownMenuItem onClick={openWhatsApp} className="cursor-pointer rounded-lg text-white/70 focus:bg-white/10">
                     {language === 'es' ? 'Centro de Ayuda' : 'Help Center'}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -171,41 +168,41 @@ export function Header() {
       </header>
 
       {showSearch && (
-        <div className="fixed inset-0 z-[100] bg-white md:bg-black/40" onClick={() => setShowSearch(false)}>
-          <div className="w-full max-w-2xl mx-auto md:mt-20 bg-white md:rounded-3xl shadow-2xl" onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between p-4 border-b border-[#ebebeb]">
-              <button onClick={() => setShowSearch(false)} className="w-8 h-8 flex items-center justify-center rounded-full border border-[#dddddd] hover:shadow-md transition-shadow" data-testid="button-close-search">
-                <X className="w-4 h-4" />
+        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm" onClick={() => setShowSearch(false)}>
+          <div className="w-full max-w-2xl mx-auto md:mt-20 bg-[#050505] md:rounded-3xl shadow-2xl border border-white/10" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-4 border-b border-white/10">
+              <button onClick={() => setShowSearch(false)} className="w-8 h-8 flex items-center justify-center rounded-full border border-white/10 hover:bg-white/10 transition-colors" data-testid="button-close-search">
+                <X className="w-4 h-4 text-white" />
               </button>
               <div className="flex gap-4">
-                <button className="text-sm font-semibold text-[#222] border-b-2 border-[#222] pb-1">
+                <button className="text-sm font-semibold text-white border-b-2 border-cyan-300 pb-1">
                   {language === 'es' ? 'Fracciones' : 'Fractions'}
                 </button>
-                <button className="text-sm text-[#717171] pb-1">
+                <button className="text-sm text-white/45 pb-1">
                   {language === 'es' ? 'Experiencias' : 'Experiences'}
                 </button>
               </div>
               <div className="w-8" />
             </div>
             <div className="p-6 space-y-4">
-              <div className="rounded-2xl border border-[#dddddd] p-4 hover:shadow-md transition-shadow cursor-pointer">
-                <p className="text-xs font-bold text-[#222] mb-1">{language === 'es' ? 'Destino' : 'Destination'}</p>
-                <p className="text-sm text-[#717171]">{language === 'es' ? 'Riviera Maya, Tulum, Cancún...' : 'Riviera Maya, Tulum, Cancún...'}</p>
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 transition-colors cursor-pointer">
+                <p className="text-xs font-bold text-white mb-1">{language === 'es' ? 'Destino' : 'Destination'}</p>
+                <p className="text-sm text-white/45">{language === 'es' ? 'Riviera Maya, Tulum, Cancún...' : 'Riviera Maya, Tulum, Cancún...'}</p>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <Link href="/fractional" onClick={() => setShowSearch(false)}>
-                  <div className="rounded-2xl border border-[#dddddd] p-4 hover:shadow-md transition-shadow cursor-pointer">
-                    <p className="text-xs font-bold text-[#222] mb-1">{language === 'es' ? 'Semana' : 'Week'}</p>
-                    <p className="text-sm text-[#717171]">{language === 'es' ? 'Elige semanas' : 'Choose weeks'}</p>
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 transition-colors cursor-pointer">
+                    <p className="text-xs font-bold text-white mb-1">{language === 'es' ? 'Semana' : 'Week'}</p>
+                    <p className="text-sm text-white/45">{language === 'es' ? 'Elige semanas' : 'Choose weeks'}</p>
                   </div>
                 </Link>
-                <div className="rounded-2xl border border-[#dddddd] p-4 hover:shadow-md transition-shadow cursor-pointer">
-                  <p className="text-xs font-bold text-[#222] mb-1">{language === 'es' ? '¿Cuántos?' : 'How many?'}</p>
-                  <p className="text-sm text-[#717171]">{language === 'es' ? 'Agregar huéspedes' : 'Add guests'}</p>
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 transition-colors cursor-pointer">
+                  <p className="text-xs font-bold text-white mb-1">{language === 'es' ? 'Fracciones' : 'Fractions'}</p>
+                  <p className="text-sm text-white/45">{language === 'es' ? 'Elige acceso' : 'Choose access'}</p>
                 </div>
               </div>
               <Link href="/fractional" onClick={() => setShowSearch(false)}>
-                <button className="w-full py-3.5 fl-btn-primary text-base flex items-center justify-center gap-2" data-testid="button-search-go">
+                <button className="w-full py-3.5 bg-white text-black rounded-xl text-base font-semibold flex items-center justify-center gap-2" data-testid="button-search-go">
                   <Search className="w-4 h-4" />
                   {language === 'es' ? 'Buscar' : 'Search'}
                 </button>
