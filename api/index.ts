@@ -1,6 +1,6 @@
 import { createApp } from "../server/index";
 
-let appPromise: Promise<ReturnType<typeof createApp>> | null = null;
+let appPromise: ReturnType<typeof createApp> | null = null;
 
 async function getApp() {
   if (!appPromise) {
