@@ -48,6 +48,28 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  const demoMode = !process.env.DATABASE_URL;
+  if (demoMode) {
+    // Fast-access mode: allow opening the app before real infrastructure is configured.
+    app.get("/api/version", (_req, res) => {
+      res.set("Cache-Control", "no-store, no-cache, must-revalidate");
+      res.json({ version: "2.1.0-demo", timestamp: Date.now(), demoMode: true });
+    });
+
+    app.get("/api/properties", (_req, res) => res.json([]));
+    app.get("/api/categories", (_req, res) => res.json([]));
+    app.get("/api/announcements", (_req, res) => res.json([]));
+    app.get("/api/nav-buttons", (_req, res) => res.json([]));
+    app.get("/api/site-settings", (_req, res) => res.json([]));
+
+    app.all("/api/*", (_req, res) => {
+      res.status(503).json({
+        error: "Demo mode active. Configure DATABASE_URL and other env vars to enable full API.",
+      });
+    });
+
+    return httpServer;
+  }
   
   // Setup Clerk middleware (if keys are available)
   if (process.env.CLERK_SECRET_KEY) {
