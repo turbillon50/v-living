@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+import { Label } from '@/components/ui/label';
 
 interface InquiryFormProps {
   isOpen: boolean;
@@ -16,11 +17,13 @@ export function InquiryForm({ isOpen, onClose, propertyTitle, propertyLocation }
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const whatsappText = encodeURIComponent(
       `Hola, soy ${name}.\n` +
       `Email: ${email}\n` +
@@ -31,6 +34,7 @@ export function InquiryForm({ isOpen, onClose, propertyTitle, propertyLocation }
     );
     window.open(`https://wa.me/529984292748?text=${whatsappText}`, '_blank');
     setSubmitted(true);
+    setIsSubmitting(false);
     setTimeout(() => {
       setSubmitted(false);
       setName('');
@@ -53,6 +57,7 @@ export function InquiryForm({ isOpen, onClose, propertyTitle, propertyLocation }
           onClick={onClose}
           className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#f7f7f7] transition-colors"
           data-testid="button-close-inquiry"
+          aria-label={language === 'es' ? 'Cerrar' : 'Close'}
         >
           <X className="w-5 h-5 text-[#717171]" />
         </button>
@@ -82,47 +87,79 @@ export function InquiryForm({ isOpen, onClose, propertyTitle, propertyLocation }
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              placeholder={language === 'es' ? 'Nombre completo' : 'Full name'}
-              className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-4 py-3 text-sm text-[#222] placeholder:text-[#b0b0b0] focus:outline-none focus:border-[#222] focus:ring-1 focus:ring-[#222] transition-all"
-              data-testid="input-inquiry-name"
-            />
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder={language === 'es' ? 'Email' : 'Email'}
-              className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-4 py-3 text-sm text-[#222] placeholder:text-[#b0b0b0] focus:outline-none focus:border-[#222] focus:ring-1 focus:ring-[#222] transition-all"
-              data-testid="input-inquiry-email"
-            />
-            <input
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder={language === 'es' ? 'Teléfono (opcional)' : 'Phone (optional)'}
-              className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-4 py-3 text-sm text-[#222] placeholder:text-[#b0b0b0] focus:outline-none focus:border-[#222] focus:ring-1 focus:ring-[#222] transition-all"
-              data-testid="input-inquiry-phone"
-            />
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder={language === 'es' ? 'Mensaje (opcional)' : 'Message (optional)'}
-              rows={3}
-              className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-4 py-3 text-sm text-[#222] placeholder:text-[#b0b0b0] focus:outline-none focus:border-[#222] focus:ring-1 focus:ring-[#222] transition-all resize-none"
-              data-testid="input-inquiry-message"
-            />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="inquiry-name" className="text-xs font-semibold text-[#222] ml-1">
+                {language === 'es' ? 'Nombre completo' : 'Full name'} <span className="text-red-500">*</span>
+              </Label>
+              <input
+                id="inquiry-name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                placeholder={language === 'es' ? 'Ej. Juan Pérez' : 'e.g. John Doe'}
+                className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-4 py-3 text-sm text-[#222] placeholder:text-[#b0b0b0] focus:outline-none focus:border-[#222] focus:ring-1 focus:ring-[#222] transition-all"
+                data-testid="input-inquiry-name"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="inquiry-email" className="text-xs font-semibold text-[#222] ml-1">
+                {language === 'es' ? 'Correo electrónico' : 'Email address'} <span className="text-red-500">*</span>
+              </Label>
+              <input
+                id="inquiry-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder={language === 'es' ? 'email@ejemplo.com' : 'email@example.com'}
+                className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-4 py-3 text-sm text-[#222] placeholder:text-[#b0b0b0] focus:outline-none focus:border-[#222] focus:ring-1 focus:ring-[#222] transition-all"
+                data-testid="input-inquiry-email"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="inquiry-phone" className="text-xs font-semibold text-[#222] ml-1">
+                {language === 'es' ? 'Teléfono' : 'Phone number'}
+              </Label>
+              <input
+                id="inquiry-phone"
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder={language === 'es' ? 'Opcional' : 'Optional'}
+                className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-4 py-3 text-sm text-[#222] placeholder:text-[#b0b0b0] focus:outline-none focus:border-[#222] focus:ring-1 focus:ring-[#222] transition-all"
+                data-testid="input-inquiry-phone"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="inquiry-message" className="text-xs font-semibold text-[#222] ml-1">
+                {language === 'es' ? 'Mensaje' : 'Message'}
+              </Label>
+              <textarea
+                id="inquiry-message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder={language === 'es' ? '¿En qué podemos ayudarte?' : 'How can we help you?'}
+                rows={3}
+                className="w-full bg-[#f7f7f7] border border-[#ebebeb] rounded-xl px-4 py-3 text-sm text-[#222] placeholder:text-[#b0b0b0] focus:outline-none focus:border-[#222] focus:ring-1 focus:ring-[#222] transition-all resize-none"
+                data-testid="input-inquiry-message"
+              />
+            </div>
+
             <button
               type="submit"
-              className="w-full py-3.5 fl-btn-primary text-sm"
+              disabled={isSubmitting}
+              className="w-full py-3.5 fl-btn-primary text-sm flex items-center justify-center gap-2 disabled:opacity-70"
               data-testid="button-submit-inquiry"
             >
-              {language === 'es' ? 'Enviar consulta' : 'Send inquiry'}
+              {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isSubmitting
+                ? (language === 'es' ? 'Enviando...' : 'Sending...')
+                : (language === 'es' ? 'Enviar consulta' : 'Send inquiry')}
             </button>
             <p className="text-[#717171] text-[10px] text-center">
               {language === 'es'
